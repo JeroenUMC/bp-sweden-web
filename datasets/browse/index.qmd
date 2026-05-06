@@ -1,5 +1,0 @@
----
-title: Browse
----
-
-Landing pages website root

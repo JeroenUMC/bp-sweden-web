@@ -1,0 +1,9 @@
+---
+title: Testing
+---
+
+Test coverage:
+
+- [Unit tests](unit-tests.qmd)
+- [E2E tests](e2e-tests.qmd)
+- [Staging test](staging.qmd)

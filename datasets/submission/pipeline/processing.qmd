@@ -1,0 +1,12 @@
+---
+title: Processing
+---
+
+Processing steps for final upload. Take both the metadata and the images.
+For mounting images see: [network shares](../best-practices/network-shares.qmd)
+
+- Encryption (pseudonymization/anonymization)
+- XLSX mapper (cell values)
+- Slidetap frontend
+
+See [configuration](../configuration/index.qmd) for setup.

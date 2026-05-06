@@ -1,35 +1,35 @@
 ---
-title: Submission overview
+title: Data submission tools and instructions
 ---
 
-Welcome to the general guide for BigPicture submission. 
+Submit your datasets to BigPicture. Follow the workflow below, or jump to a specific resource.
 
-You can find everything you need for submission and more in the [internal guideline document](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp3/Public%20documents/Data%20Submission%20Guidance%20documents/Data%20Contribution/Guideline%20Data%20Contribution%20of%20anonymous,%20clinical%20data%20for%20implementation%20of%20the%20action%20by%20Bigpicture%20beneficiaries_v1.3.docx?d=w54e831a5940d47328eacb27d8d9793e8&csf=1&web=1&e=2H6ixs).(Bigpicture internal, requires password)
+## Quick start
 
+**New to submission?**
+Start with [installation](installation/index.qmd), then follow the [pipeline](pipeline/index.qmd).
 
-Alternatively, you can find below the practical guide created by NBIS DevOps.
+**Need help?** See [FAQ](faq/index.qmd), [community resources](community/index.qmd), or [technical support](support.qmd).
 
-- The [preparation guide](preparation-guide.qmd), before you create a submission. 
-- The [submission guide](submission-guide.qmd), when you are ready.
+## Main entry points
 
-## Required tools and versions
+- [Installation guide](installation/index.qmd) — install required tools
+- [Configuration setup](configuration/index.qmd) — config files needed
+- [Pipeline steps](pipeline/index.qmd) — data extraction through upload
+- [Validation rules](validation/index.qmd) — pre-submission checks
 
-The following tools are required for submission. Please make sure you are using **at least the minimal required versions** listed below. Links point to their official release pages.
+## Additional resources
 
-- **[sda-cli v0.2.1](https://github.com/NBISweden/sda-cli/releases/tag/v0.2.1)**
-- **[s3cmd v2.2.0](https://github.com/s3tools/s3cmd/releases/tag/v2.2.0)**
-- **[bigpicture-metadata-interface v2.0.2](https://github.com/imi-bigpicture/bigpicture-metadata-interface/releases/tag/v2.0.2)**
-  *(available only in a private Git repository)*
+- [Testing guide](testing/index.qmd)
+- [Best practices](best-practices/index.qmd)
+- [FAQ](faq/index.qmd)
+- [Community](community/index.qmd)
 
-## Support
+## Legacy
 
-For any questions regarding data submission, please [email us](mailto:{{< var email.helpdesk >}}).
+**Internal guidelines** [(archived reference)](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp3/Public%20documents/Data%20Submission%20Guidance%20documents/Data%20Contribution/Guideline%20Data%20Contribution%20of%20anonymous,%20clinical%20data%20for%20implementation%20of%20the%20action%20by%20Bigpicture%20beneficiaries_v1.3.docx?d=w54e831a5940d47328eacb27d8d9793e8&csf=1&web=1&e=2H6ixs) — being phased out. Use this site for current instructions.
 
+## Need help?
 
-## Instructions for clinical uploads
-
-::: {.callout-warning}
-These instructions are preliminary and may be updated as the clinical upload process evolves.
-:::
-
-Some extra instructions for clinical partners can be found in the [BigPicture clinical upload guide](https://imi-bigpicture.github.io/bigpicture-upload/).
+- **Data submission:** [bp-ops](mailto:{{< var email.helpdesk >}})
+- **Support:** [servicedesk](mailto:{{< var email.servicedesk >}})

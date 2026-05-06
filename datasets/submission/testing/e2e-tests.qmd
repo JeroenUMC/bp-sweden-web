@@ -1,0 +1,7 @@
+---
+title: End-to-end tests
+---
+
+Full pipeline tests.
+
+Run when needed, good to run after initial setup to see if everything wires correctly.

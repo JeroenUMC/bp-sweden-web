@@ -74,8 +74,47 @@ website:
       align: left
       contents:
         - datasets/submission/index.qmd
-        - datasets/submission/preparation-guide.qmd
-        - datasets/submission/submission-guide.qmd
+        - text: Installation
+          file: datasets/submission/installation/index.qmd
+          contents:
+            - datasets/submission/installation/dependencies.qmd
+            - datasets/submission/installation/faq.qmd
+        - text: Pipeline
+          file: datasets/submission/pipeline/index.qmd
+          contents:
+            - datasets/submission/pipeline/data-extraction.qmd
+            - datasets/submission/pipeline/preprocessing.qmd
+            - datasets/submission/pipeline/processing.qmd
+            - datasets/submission/pipeline/uploading.qmd
+        - text: Configuration
+          file: datasets/submission/configuration/index.qmd
+          contents:
+            - datasets/submission/configuration/bp-config.qmd
+            - datasets/submission/configuration/environment.qmd
+            - datasets/submission/configuration/slidetap-config.qmd
+            - datasets/submission/configuration/ssl.qmd
+        - text: Validation
+          file: datasets/submission/validation/index.qmd
+        - text: Testing
+          file: datasets/submission/testing/index.qmd
+          contents:
+            - datasets/submission/testing/unit-tests.qmd
+            - datasets/submission/testing/e2e-tests.qmd
+            - datasets/submission/testing/staging.qmd
+        - text: Best Practices
+          file: datasets/submission/best-practices/index.qmd
+          contents:
+            - datasets/submission/best-practices/large-datasets.qmd
+            - datasets/submission/best-practices/network-shares.qmd
+            - datasets/submission/best-practices/examples.qmd
+        - text: FAQ
+          file: datasets/submission/faq/index.qmd
+          contents:
+            - datasets/submission/faq/installation.qmd
+            - datasets/submission/faq/usage.qmd
+        - text: Community
+          file: datasets/submission/community/index.qmd
+        - datasets/submission/support.qmd
     
     - id: access
       title: Access

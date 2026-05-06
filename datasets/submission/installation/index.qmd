@@ -1,0 +1,18 @@
+---
+title: Installation guide
+---
+
+Install sda-cli + prerequisites for submission.
+
+## Required tools and versions
+
+**Minimum versions required:**
+
+- **[sda-cli v0.2.1](https://github.com/NBISweden/sda-cli/releases/tag/v0.2.1)**
+- **[s3cmd v2.2.0](https://github.com/s3tools/s3cmd/releases/tag/v2.2.0)**
+- **[bigpicture-metadata-interface v2.0.2](https://github.com/imi-bigpicture/bigpicture-metadata-interface/releases/tag/v2.0.2)** *(private repo)*
+
+## More information
+
+- [Dependencies](dependencies.qmd)
+- [Installation FAQ](faq.qmd)

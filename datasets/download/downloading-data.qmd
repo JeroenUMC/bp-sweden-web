@@ -18,7 +18,7 @@ Before downloading the data, the user needs to download the configuration file b
 Follow the dialogue to get authenticated and then click on `Download credentials to access the Archive` to download the configuration file named `s3cmd-download.conf`.
 
 ### Install the sda-cli tool
-Follow the guidelines [here](../submission/submission-guide.qmd#install-the-sda-cli-tool) to install the latest version of sda-cli tool.
+Follow the guidelines [here](../submission/installation/index.qmd) to install the latest version of sda-cli tool.
 The following examples are tested in **`SDA-CLI v0.3.3`**.
 
 ### Generate the public and secret key 

@@ -1,0 +1,10 @@
+---
+title: Network shares & mounts
+---
+
+Access data w/o local copy:
+
+- Mount network drives
+- Access patterns
+- Permission setup
+

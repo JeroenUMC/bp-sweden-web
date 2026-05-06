@@ -1,0 +1,11 @@
+---
+title: Large datasets
+---
+
+Best practices for big uploads:
+
+- Offline server per step → logout/retry cycles
+- Chunking strategies
+- Resumable upload patterns
+
+See [pipeline](../pipeline/index.qmd) for workflow.

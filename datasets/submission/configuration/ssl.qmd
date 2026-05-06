@@ -1,0 +1,7 @@
+---
+title: SSL certificate
+---
+
+SSL cert for Slidetap.
+
+Path set in config.yaml.

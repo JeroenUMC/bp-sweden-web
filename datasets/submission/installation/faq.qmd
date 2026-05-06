@@ -1,0 +1,7 @@
+---
+title: Installation FAQ
+---
+
+Common install questions.
+
+See main [FAQ](../faq/installation.qmd) section.

@@ -1,0 +1,10 @@
+---
+title: Community
+---
+
+Share experiences, find help:
+
+- XLSX mappings: community contributions
+- Slack channel (WP2): upload verification
+- Github issues: bugs + features
+- [Support](../support.qmd): direct help

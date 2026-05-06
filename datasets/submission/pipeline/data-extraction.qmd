@@ -1,0 +1,5 @@
+---
+title: Data extraction
+---
+
+Extract metadata and images from local systems.

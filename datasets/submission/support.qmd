@@ -1,0 +1,18 @@
+---
+title: Technical support
+---
+
+Need help?
+
+Contact: [email support](mailto:{{< var email.helpdesk >}})
+
+Scope:
+- Installation issues
+- Configuration help
+- Submission problems
+
+Outside scope:
+- Custom data transformations
+- Infrastructure setup
+
+See [FAQ](faq/index.qmd) + [community](community/index.qmd) first.

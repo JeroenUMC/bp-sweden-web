@@ -1,0 +1,9 @@
+---
+title: Installation FAQ
+---
+
+Q: Tool versions?
+A: See main [submission overview](../index.qmd).
+
+Q: Dependencies?
+A: See [installation guide](../installation/index.qmd).

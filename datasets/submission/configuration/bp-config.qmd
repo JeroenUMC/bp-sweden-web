@@ -1,0 +1,10 @@
+---
+title: BP config files
+---
+
+Two config files needed:
+
+1. sda-cli.conf
+2. s3cmd-inbox.conf
+
+See [uploading](../pipeline/uploading.qmd) for usage.

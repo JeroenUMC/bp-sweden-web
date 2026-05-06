@@ -1,0 +1,9 @@
+---
+title: Dependencies
+---
+
+Required tools before install:
+
+- IDE
+- Python
+- Docker (optional)

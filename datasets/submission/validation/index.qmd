@@ -1,0 +1,11 @@
+---
+title: Validation
+---
+
+Pre-upload checks:
+
+- xmllint: XML format validation
+- Data format rules: BigPicture specs
+- What to check: common issues
+
+Do this before [uploading data](../pipeline/uploading.qmd).

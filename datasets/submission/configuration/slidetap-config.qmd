@@ -1,0 +1,11 @@
+---
+title: Slidetap configuration
+---
+
+config.yaml for Slidetap:
+
+- Database title
+- Dataset metadata
+- SSL certificate path
+
+See [SSL certificate](ssl.qmd).

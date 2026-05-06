@@ -1,0 +1,9 @@
+---
+title: Usage FAQ
+---
+
+Q: How start submission?
+A: See [installation](../installation/index.qmd) then [pipeline](../pipeline/index.qmd).
+
+Q: Issues during upload?
+A: See [pipeline uploading](../pipeline/uploading.qmd) + [support](../support.qmd).

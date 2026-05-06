@@ -29,7 +29,7 @@ This webpage links relevant entry points of interest for different usage.
 
 [Download - Data download request service](datasets/download/downloading-data.html)
 
-[Submit - Data submission instructions and entry points ](datasets/submission/)
+[Submit - Data submission tools and instructions](datasets/submission/)
 
 ### Algorithms (upcoming)
 Browse - AI algorithm register / download service

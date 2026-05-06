@@ -1,0 +1,9 @@
+---
+title: Staging test
+---
+
+Do a test submission w/ example dataset of the image format you use.
+
+TODO: list of image formats and example sets to be used for staging.
+
+Do before production upload. See best practices [example datasets](../best-practices/examples.qmd).

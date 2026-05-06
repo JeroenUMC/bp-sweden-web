@@ -1,0 +1,9 @@
+---
+title: Best practices
+---
+
+Good tips for submission success:
+
+- [Large datasets](large-datasets.qmd)
+- [Network shares](network-shares.qmd)
+- [Example datasets](examples.qmd)

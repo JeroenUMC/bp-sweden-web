@@ -1,0 +1,9 @@
+---
+title: Configuration files
+---
+
+Config needed for final upload:
+
+- [BP config files](bp-config.qmd) - sda-cli.conf, s3cmd-inbox.conf
+- [Environment vars](environment.qmd) - file paths, server ports
+- [Slidetap config](slidetap-config.qmd) - database title, metadata

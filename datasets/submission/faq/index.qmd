@@ -1,0 +1,10 @@
+---
+title: FAQ - Submission & support
+---
+
+Common questions:
+
+- [Installation FAQ](installation.qmd)
+- [Usage FAQ](usage.qmd)
+- [Community resources](../community/index.qmd) 
+- [Technical support](../support.qmd)

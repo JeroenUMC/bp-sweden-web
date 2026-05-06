@@ -1,0 +1,10 @@
+---
+title: Submission pipeline
+---
+
+Four main steps:
+
+1. [Data extraction](data-extraction.qmd)
+2. [Preprocessing](preprocessing.qmd)
+3. [Processing](processing.qmd)
+4. [Uploading](uploading.qmd)

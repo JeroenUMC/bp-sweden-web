@@ -1,0 +1,7 @@
+---
+title: Uploading
+---
+
+Upload processed data to the BigPicture repository.
+
+Uses bp-submitter tool. See [configuration](../configuration/index.qmd) for setup.

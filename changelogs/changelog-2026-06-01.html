@@ -269,6 +269,10 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="sync">Sync</h2>
 <ul>
 <li>Multiple storage backends support. By <span class="citation" data-cites="KarlG-nbis">@KarlG-nbis</span> in https://github.com/neicnordic/sensitive-data-archive/pull/2244</li>
+<li>Temporarily disable syncing files to CSC as the sda-stack is no longer compatible with the older CEPH version running on the CSC side, and instead back up files to a second location on the NBIS side
+<ul>
+<li>Once CSC confirms they have updated the CEPH version running on their side, we will plan on enabling syncing to CSC again, including backporting the syncing of all files backed up to the second location on the NBIS side since this release</li>
+</ul></li>
 </ul>
 </section>
 <section id="verify" class="level2">

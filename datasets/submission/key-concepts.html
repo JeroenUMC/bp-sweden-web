@@ -330,7 +330,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model.json" id="toc-model.json" class="nav-link active" data-scroll-target="#model.json">model.json</a></li>
+  <li><a href="#mapper-workbook-mappers.xlsx" id="toc-mapper-workbook-mappers.xlsx" class="nav-link" data-scroll-target="#mapper-workbook-mappers.xlsx">Mapper workbook (<code>mappers.xlsx</code>)</a></li>
+  <li><a href="#metadata-workbook" id="toc-metadata-workbook" class="nav-link" data-scroll-target="#metadata-workbook">Metadata workbook</a></li>
+  <li><a href="#project" id="toc-project" class="nav-link" data-scroll-target="#project">Project</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#batch" id="toc-batch" class="nav-link" data-scroll-target="#batch">Batch</a></li>
+  <li><a href="#slidetap-outbox" id="toc-slidetap-outbox" class="nav-link" data-scroll-target="#slidetap-outbox">SlideTap outbox</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -354,22 +366,44 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>A handful of words appear throughout this manual: <strong>model</strong>, <strong>mappers</strong>, <strong>metadata</strong>, and <strong>bundle</strong>. This page will explain each in plain language so the later steps make sense.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Coming soon
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/4">issue #4</a>.</p>
-</div>
-</div>
+<p>A handful of words appear throughout this manual. This page defines each one in plain language, in the order you meet it, so the steps make sense when you reach them.</p>
+<section id="model.json" class="level2">
+<h2 class="anchored" data-anchor-id="model.json">model.json</h2>
+<p>A file that describes the structure of a BigPicture-compatible dataset: what types of data it can contain (specimens, observations, images) and how they relate to each other. For most sites the provided default works unchanged.</p>
+<p>→ You supply this file at <a href="../../datasets/submission/reference-data.html"><strong>E. Reference data</strong></a>.</p>
+</section>
+<section id="mapper-workbook-mappers.xlsx" class="level2">
+<h2 class="anchored" data-anchor-id="mapper-workbook-mappers.xlsx">Mapper workbook (<code>mappers.xlsx</code>)</h2>
+<p>A spreadsheet you fill in for your site that translates your institution’s labels, codes, and field names into the vocabulary BigPicture expects. Each site has its own mapper workbook.</p>
+<p>→ You prepare and provide this at <a href="../../datasets/submission/reference-data.html"><strong>E. Reference data</strong></a>.</p>
+</section>
+<section id="metadata-workbook" class="level2">
+<h2 class="anchored" data-anchor-id="metadata-workbook">Metadata workbook</h2>
+<p>The Excel file you create for each submission. It contains the contextual metadata for your dataset: specimens, observations, whole-slide images, and their relationships. This is your data — the pipeline ingests it and uses it to build the submission.</p>
+<p>→ You upload this in <a href="../../datasets/submission/run-submission.html"><strong>H. Run a submission</strong></a>.</p>
+</section>
+<section id="project" class="level2">
+<h2 class="anchored" data-anchor-id="project">Project</h2>
+<p>A container you create in the SlideTap UI that holds everything for one upload attempt — its dataset definition and one or more batches. Think of a project as “one dataset going through the pipeline.”</p>
+<p>→ You create a project in <a href="../../datasets/submission/run-submission.html"><strong>H. Run a submission</strong></a>.</p>
+</section>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p>The named entity within your project that becomes the dataset record in BigPicture. This is where you define secondary information: the policy, the metadata standard version, the type of dataset, and so on. The dataset’s identifier (short name) becomes the folder name of your SlideTap outbox.</p>
+<p>→ You configure the dataset in <a href="../../datasets/submission/run-submission.html"><strong>H. Run a submission</strong></a>.</p>
+</section>
+<section id="batch" class="level2">
+<h2 class="anchored" data-anchor-id="batch">Batch</h2>
+<p>A processing run within a project where you ingest your metadata workbook and curate the records through SlideTap. A project can contain multiple batches — for example if your metadata arrives in parts — though a single batch is usually enough.</p>
+<p>→ You create and complete a batch in <a href="../../datasets/submission/run-submission.html"><strong>H. Run a submission</strong></a>.</p>
+</section>
+<section id="slidetap-outbox" class="level2">
+<h2 class="anchored" data-anchor-id="slidetap-outbox">SlideTap outbox</h2>
+<p>The folder SlideTap writes when a batch finishes its export, named <code>DATASET_&lt;your dataset identifier&gt;</code>. This folder is the direct output of the pipeline: you validate it, fix any errors, and then upload it to BigPicture.</p>
+<p>→ You validate the outbox at <a href="../../datasets/submission/validate.html"><strong>I. Validate</strong></a> and upload it at <a href="../../datasets/submission/upload.html"><strong>J. Upload to BigPicture</strong></a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -18,7 +18,7 @@
     "href": "datasets/download/downloading-data.html#preparation-for-downloading-data",
     "title": "Download guide",
     "section": "Preparation for downloading data",
-    "text": "Preparation for downloading data\n\nDownload configuration file\nBefore downloading the data, the user needs to download the configuration file by logging in here. Follow the dialogue to get authenticated and then click on Download credentials to access the Archive to download the configuration file named s3cmd-download.conf.\n\n\nInstall the sda-cli tool\nFollow the guidelines here to install the latest version of sda-cli tool. The following examples are tested in SDA-CLI v0.3.3.\n\n\nGenerate the public and secret key\nThe initial step involves creating a Crypt4GH key pair using the sda-cli tool:\n./sda-cli createKey &lt;keypair_name&gt;\nwhere &lt;keypair_name&gt; is the base name of the key files. The above command will create two key files named keypair_name.pub.pem and keypair_name.sec.pem. The public key (pub) will be used alongside with sda-cli and will be used by the system for encryption of the files before downloading, while the private one (sec) will be used by the requester for decrypting the files after downloading."
+    "text": "Preparation for downloading data\n\nDownload configuration file\nBefore downloading the data, the user needs to download the configuration file by logging in here. Follow the dialogue to get authenticated and then click on Download credentials to access the Archive to download the configuration file named s3cmd-download.conf.\n\n\nInstall the sda-cli tool\nFollow the guidelines in the sda-cli repository to install the latest version of the sda-cli tool. The following examples are tested in SDA-CLI v0.3.3.\n\n\nGenerate the public and secret key\nThe initial step involves creating a Crypt4GH key pair using the sda-cli tool:\n./sda-cli createKey &lt;keypair_name&gt;\nwhere &lt;keypair_name&gt; is the base name of the key files. The above command will create two key files named keypair_name.pub.pem and keypair_name.sec.pem. The public key (pub) will be used alongside with sda-cli and will be used by the system for encryption of the files before downloading, while the private one (sec) will be used by the requester for decrypting the files after downloading."
   },
   {
     "objectID": "datasets/download/downloading-data.html#check-access",
@@ -56,153 +56,113 @@
     "text": "Landing pages website root"
   },
   {
-    "objectID": "datasets/submission/community/index.html",
-    "href": "datasets/submission/community/index.html",
-    "title": "Community",
+    "objectID": "datasets/submission/run-submission.html",
+    "href": "datasets/submission/run-submission.html",
+    "title": "H. Run a submission",
     "section": "",
-    "text": "Share experiences, find help:\n\nXLSX mappings: community contributions\nSlack channel (WP2): upload verification\nGithub issues: bugs + features\nSupport: direct help",
+    "text": "Work through a submission in the UI (text-first): log in, create a project and batch, upload your workbook, curate the records, and export.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #13.",
     "crumbs": [
-      "Community"
+      "Implementation",
+      "H. Run a submission"
     ]
   },
   {
-    "objectID": "datasets/submission/testing/staging.html",
-    "href": "datasets/submission/testing/staging.html",
-    "title": "Staging test",
+    "objectID": "datasets/submission/get-the-code.html",
+    "href": "datasets/submission/get-the-code.html",
+    "title": "C. Get the code",
     "section": "",
-    "text": "Do a test submission w/ example dataset of the image format you use.\nTODO: list of image formats and example sets to be used for staging.\nDo before production upload. See best practices example datasets.",
+    "text": "Clone the submission pipeline repository with its submodules, create your .env, and pull the container images with make pull.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #7.",
     "crumbs": [
-      "Testing",
-      "Staging test"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/testing/e2e-tests.html",
-    "href": "datasets/submission/testing/e2e-tests.html",
-    "title": "End-to-end tests",
-    "section": "",
-    "text": "Full pipeline tests.\nRun when needed, good to run after initial setup to see if everything wires correctly.",
-    "crumbs": [
-      "Testing",
-      "End-to-end tests"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/pipeline/data-extraction.html",
-    "href": "datasets/submission/pipeline/data-extraction.html",
-    "title": "Data extraction",
-    "section": "",
-    "text": "Extract metadata and images from local systems.",
-    "crumbs": [
-      "Pipeline",
-      "Data extraction"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/pipeline/processing.html",
-    "href": "datasets/submission/pipeline/processing.html",
-    "title": "Processing",
-    "section": "",
-    "text": "Processing steps for final upload. Take both the metadata and the images. For mounting images see: network shares\n\nEncryption (pseudonymization/anonymization)\nXLSX mapper (cell values)\nSlidetap frontend\n\nSee configuration for setup.",
-    "crumbs": [
-      "Pipeline",
-      "Processing"
+      "Implementation",
+      "C. Get the code"
     ]
   },
   {
     "objectID": "datasets/submission/support.html",
     "href": "datasets/submission/support.html",
-    "title": "Technical support",
+    "title": "Support",
     "section": "",
-    "text": "Need help?\nContact: email support\nScope: - Installation issues - Configuration help - Submission problems\nOutside scope: - Custom data transformations - Infrastructure setup\nSee FAQ + community first.",
+    "text": "If you get stuck while following the manual, here is where to turn.",
     "crumbs": [
-      "Technical support"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/faq/index.html",
-    "href": "datasets/submission/faq/index.html",
-    "title": "FAQ - Submission & support",
-    "section": "",
-    "text": "Common questions:\n\nInstallation FAQ\nUsage FAQ\nCommunity resources\nTechnical support",
+    "objectID": "datasets/submission/support.html#get-help",
+    "href": "datasets/submission/support.html#get-help",
+    "title": "Support",
+    "section": "Get help",
+    "text": "Get help\n\nSubmission pipeline, server, or data-archive issues: bp-ops — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.\nGeneral and technical support: servicedesk.",
     "crumbs": [
-      "FAQ"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/validation/index.html",
-    "href": "datasets/submission/validation/index.html",
-    "title": "Validation",
-    "section": "",
-    "text": "Pre-upload checks:\n\nxmllint: XML format validation\nData format rules: BigPicture specs\nWhat to check: common issues\n\nDo this before uploading data.",
+    "objectID": "datasets/submission/support.html#when-you-ask-include",
+    "href": "datasets/submission/support.html#when-you-ask-include",
+    "title": "Support",
+    "section": "When you ask, include",
+    "text": "When you ask, include\nTo get a useful answer quickly, tell us:\n\nWhich manual step you were on — the letter and name, e.g. F. TLS + credentials — and the exact command you ran.\nThe output you got versus what the Verify box said to expect.\nYour operating system (Windows / macOS / Linux).",
     "crumbs": [
-      "Validation"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/installation/dependencies.html",
-    "href": "datasets/submission/installation/dependencies.html",
-    "title": "Dependencies",
-    "section": "",
-    "text": "Required tools before install:\n\nIDE\nPython\nDocker (optional)",
+    "objectID": "datasets/submission/support.html#out-of-scope",
+    "href": "datasets/submission/support.html#out-of-scope",
+    "title": "Support",
+    "section": "Out of scope",
+    "text": "Out of scope\nSupport covers the submission pipeline itself. Custom data transformations and your own infrastructure setup are outside what the helpdesk can troubleshoot.",
     "crumbs": [
-      "Installation",
-      "Dependencies"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/best-practices/large-datasets.html",
-    "href": "datasets/submission/best-practices/large-datasets.html",
-    "title": "Large datasets",
+    "objectID": "datasets/submission/configure.html",
+    "href": "datasets/submission/configure.html",
+    "title": "D. Configure",
     "section": "",
-    "text": "Best practices for big uploads:\n\nOffline server per step → logout/retry cycles\nChunking strategies\nResumable upload patterns\n\nSee pipeline for workflow.",
+    "text": "Set up your .env, mount your data directory with make mount, and set the config.yaml salt.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #8.",
     "crumbs": [
-      "Best Practices",
-      "Large datasets"
+      "Implementation",
+      "D. Configure"
     ]
   },
   {
-    "objectID": "datasets/submission/best-practices/examples.html",
-    "href": "datasets/submission/best-practices/examples.html",
-    "title": "Example datasets",
+    "objectID": "datasets/submission/github-access.html",
+    "href": "datasets/submission/github-access.html",
+    "title": "B. GitHub access",
     "section": "",
-    "text": "Simple 1-image datasets by type.\nTest your data type before production. Use for staging test.",
+    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #6.",
     "crumbs": [
-      "Best Practices",
-      "Example datasets"
+      "Implementation",
+      "B. GitHub access"
     ]
   },
   {
-    "objectID": "datasets/submission/configuration/slidetap-config.html",
-    "href": "datasets/submission/configuration/slidetap-config.html",
-    "title": "Slidetap configuration",
+    "objectID": "datasets/submission/reference-data.html",
+    "href": "datasets/submission/reference-data.html",
+    "title": "E. Reference data",
     "section": "",
-    "text": "config.yaml for Slidetap:\n\nDatabase title\nDataset metadata\nSSL certificate path\n\nSee SSL certificate.",
+    "text": "Provide the two reference files the pipeline needs for your site: the model.json (use the provided default for now) and the mappers.xlsx (start from the template and fill it in for your site).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #9 (model.json) and issue #10 (mappers.xlsx).",
     "crumbs": [
-      "Configuration",
-      "Slidetap configuration"
+      "Implementation",
+      "E. Reference data"
     ]
   },
   {
-    "objectID": "datasets/submission/configuration/bp-config.html",
-    "href": "datasets/submission/configuration/bp-config.html",
-    "title": "BP config files",
+    "objectID": "datasets/submission/key-concepts.html",
+    "href": "datasets/submission/key-concepts.html",
+    "title": "Key concepts",
     "section": "",
-    "text": "Two config files needed:\n\nsda-cli.conf\ns3cmd-inbox.conf\n\nSee uploading for usage.",
+    "text": "A handful of words appear throughout this manual: model, mappers, metadata, and bundle. This page will explain each in plain language so the later steps make sense.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #4.",
     "crumbs": [
-      "Configuration",
-      "BP config files"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configuration/ssl.html",
-    "href": "datasets/submission/configuration/ssl.html",
-    "title": "SSL certificate",
-    "section": "",
-    "text": "SSL cert for Slidetap.\nPath set in config.yaml.",
-    "crumbs": [
-      "Configuration",
-      "SSL certificate"
+      "Start here",
+      "Key concepts"
     ]
   },
   {
@@ -563,221 +523,168 @@
     "text": "Request Services for on-platform data use such as Cytomine"
   },
   {
-    "objectID": "datasets/submission/configuration/environment.html",
-    "href": "datasets/submission/configuration/environment.html",
-    "title": "Environment variables (.env)",
+    "objectID": "datasets/submission/validate.html",
+    "href": "datasets/submission/validate.html",
+    "title": "I. Validate the bundle",
     "section": "",
-    "text": "Set env vars for paths + server ports.\nExample: LOCAL_DATA_PATH, SLIDETAP_PORT.\nSee config files docs.",
+    "text": "Validate the exported bundle with make validate-upload, and learn how to read and act on the errors it reports.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #14.",
     "crumbs": [
-      "Configuration",
-      "Environment variables (.env)"
+      "Implementation",
+      "I. Validate the bundle"
     ]
   },
   {
-    "objectID": "datasets/submission/configuration/index.html",
-    "href": "datasets/submission/configuration/index.html",
-    "title": "Configuration files",
+    "objectID": "datasets/submission/contributing/page-template.html",
+    "href": "datasets/submission/contributing/page-template.html",
+    "title": "Page template & conventions",
     "section": "",
-    "text": "Config needed for final upload:\n\nBP config files - sda-cli.conf, s3cmd-inbox.conf\nEnvironment vars - file paths, server ports\nSlidetap config - database title, metadata",
+    "text": "Every page in this manual is fill-in-the-blanks. This page documents the two conventions that make that possible — the OS tabset and the verify step — and shows them rendered so you can copy the source.",
     "crumbs": [
-      "Configuration"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/best-practices/network-shares.html",
-    "href": "datasets/submission/best-practices/network-shares.html",
-    "title": "Network shares & mounts",
+    "objectID": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "href": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "title": "Page template & conventions",
+    "section": "1. The OS tabset",
+    "text": "1. The OS tabset\nWhere a command or instruction differs by operating system, wrap it in a panel-tabset with Windows / macOS / Linux tabs, in that order. The reader picks their tab once and ignores the rest.\nSource:\n::: {.panel-tabset}\n## Windows\nOpen **PowerShell** and run:\n```powershell\nwinget install --id Git.Git -e\n```\n## macOS\nIn **Terminal**, run:\n```bash\nbrew install git\n```\n## Linux\n```bash\nsudo apt-get install -y git\n```\n:::\nRenders as:\n\nWindowsmacOSLinux\n\n\nOpen PowerShell and run:\nwinget install --id Git.Git -e\n\n\nIn Terminal, run:\nbrew install git\n\n\nsudo apt-get install -y git\n\n\n\nRules\n\nAlways include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.\nKeep commands copy-pasteable: one tool per code block, no shell prompts ($, &gt;) inside the block.\nLinux is the reference path. Write and validate the Linux tab first; the others mirror its shape.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "href": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "title": "Page template & conventions",
+    "section": "2. The verify step",
+    "text": "2. The verify step\nAfter an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a callout-tip titled “Verify” with the paste-this / expect-this pattern.\nSource:\n::: {.callout-tip}\n## Verify\n\nPaste this:\n\n```bash\ngit --version\n```\n\nExpected output (your version may differ):\n\n```\ngit version 2.40.0\n```\n:::\nRenders as:\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ngit --version\nExpected output (your version may differ):\ngit version 2.40.0\n\n\nRules\n\nShow the exact command to paste and a representative expected output.\nIf the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.\nOne verify step per meaningful action; don’t make the reader run five things before they can check anything.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "href": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "title": "Page template & conventions",
+    "section": "3. Page skeleton",
+    "text": "3. Page skeleton\nStart every operator page from this shape:\n---\ntitle: &lt;Step letter&gt;. &lt;Short imperative title&gt;\n---\n\nOne or two sentences: what this step accomplishes and why.\n\n## Do it\n\n&lt;OS tabset with the commands&gt;\n\n::: {.callout-tip}\n## Verify\n&lt;paste-this / expect-this&gt;\n:::\n\n## If something goes wrong\n\n&lt;the one or two most common failures and their fixes&gt;\nThe « Prev / Next » navigation is automatic — it comes from the sidebar order in _quarto.yml, so you never hand-write next-step links.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html",
+    "href": "datasets/submission/upload.html",
+    "title": "J. Upload to BigPicture",
     "section": "",
-    "text": "Access data w/o local copy:\n\nMount network drives\nAccess patterns\nPermission setup",
+    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
     "crumbs": [
-      "Best Practices",
-      "Network shares & mounts"
+      "Implementation",
+      "J. Upload to BigPicture"
     ]
   },
   {
-    "objectID": "datasets/submission/best-practices/index.html",
-    "href": "datasets/submission/best-practices/index.html",
-    "title": "Best practices",
+    "objectID": "datasets/submission/tls-credentials.html",
+    "href": "datasets/submission/tls-credentials.html",
+    "title": "F. TLS + credentials",
     "section": "",
-    "text": "Good tips for submission success:\n\nLarge datasets\nNetwork shares\nExample datasets",
+    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
     "crumbs": [
-      "Best Practices"
+      "Implementation",
+      "F. TLS + credentials"
     ]
   },
   {
-    "objectID": "datasets/submission/installation/faq.html",
-    "href": "datasets/submission/installation/faq.html",
-    "title": "Installation FAQ",
+    "objectID": "datasets/submission/prerequisites.html",
+    "href": "datasets/submission/prerequisites.html",
+    "title": "A. Prerequisites",
     "section": "",
-    "text": "Common install questions.\nSee main FAQ section.",
+    "text": "Before you can run the submission pipeline, your machine needs a small set of tools: Docker, Git, the GitHub CLI (gh), make, OpenSSL, and Python. This page shows the pattern with Docker; the full per-tool walkthrough is being written in issue #5.",
     "crumbs": [
-      "Installation",
-      "Installation FAQ"
+      "Implementation",
+      "A. Prerequisites"
     ]
   },
   {
-    "objectID": "datasets/submission/installation/index.html",
-    "href": "datasets/submission/installation/index.html",
-    "title": "Installation guide",
+    "objectID": "datasets/submission/prerequisites.html#install-docker",
+    "href": "datasets/submission/prerequisites.html#install-docker",
+    "title": "A. Prerequisites",
+    "section": "Install Docker",
+    "text": "Install Docker\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine from the official convenience script:\ncurl -fsSL https://get.docker.com | sh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ndocker --version\nExpected output (your version may differ):\nDocker version 27.3.1, build ce12230",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#the-rest-of-the-toolbelt",
+    "href": "datasets/submission/prerequisites.html#the-rest-of-the-toolbelt",
+    "title": "A. Prerequisites",
+    "section": "The rest of the toolbelt",
+    "text": "The rest of the toolbelt\nYou will also need the tools below. Detailed, verified per-OS steps for each are tracked in issue #5; they all follow the same install → verify pattern shown above.\n\nGit — clone the pipeline repository.\nGitHub CLI (gh) — authenticate to the private repos and images (step B).\nmake — run the pipeline’s make targets.\nOpenSSL — generate TLS certificates (step F).\nPython — required by some pipeline tooling.\n\nOnce every tool reports a version, continue to B. GitHub access.",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html",
+    "href": "datasets/submission/boot.html",
+    "title": "G. Preflight + boot",
     "section": "",
-    "text": "Install sda-cli + prerequisites for submission.",
+    "text": "Run the preflight check with make doctor, start the stack with make up, and open the submission UI in your browser.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #12.",
     "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/installation/index.html#required-tools-and-versions",
-    "href": "datasets/submission/installation/index.html#required-tools-and-versions",
-    "title": "Installation guide",
-    "section": "Required tools and versions",
-    "text": "Required tools and versions\nMinimum versions required:\n\nsda-cli v0.2.1\ns3cmd v2.2.0\nbigpicture-metadata-interface v2.0.2 (private repo)",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/installation/index.html#more-information",
-    "href": "datasets/submission/installation/index.html#more-information",
-    "title": "Installation guide",
-    "section": "More information",
-    "text": "More information\n\nDependencies\nInstallation FAQ",
-    "crumbs": [
-      "Installation"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/faq/usage.html",
-    "href": "datasets/submission/faq/usage.html",
-    "title": "Usage FAQ",
-    "section": "",
-    "text": "Q: How start submission? A: See installation then pipeline.\nQ: Issues during upload? A: See pipeline uploading + support.",
-    "crumbs": [
-      "FAQ",
-      "Usage FAQ"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/faq/installation.html",
-    "href": "datasets/submission/faq/installation.html",
-    "title": "Installation FAQ",
-    "section": "",
-    "text": "Q: Tool versions? A: See main submission overview.\nQ: Dependencies? A: See installation guide.",
-    "crumbs": [
-      "FAQ",
-      "Installation FAQ"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/pipeline/uploading.html",
-    "href": "datasets/submission/pipeline/uploading.html",
-    "title": "Uploading",
-    "section": "",
-    "text": "Upload processed data to the BigPicture repository.\nUses bp-submitter tool. See configuration for setup.",
-    "crumbs": [
-      "Pipeline",
-      "Uploading"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/pipeline/preprocessing.html",
-    "href": "datasets/submission/pipeline/preprocessing.html",
-    "title": "Preprocessing",
-    "section": "",
-    "text": "Transform extracted metadata to the expected input format for the processing step.\nIncludes reformatting, validation prep.",
-    "crumbs": [
-      "Pipeline",
-      "Preprocessing"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/pipeline/index.html",
-    "href": "datasets/submission/pipeline/index.html",
-    "title": "Submission pipeline",
-    "section": "",
-    "text": "Four main steps:\n\nData extraction\nPreprocessing\nProcessing\nUploading",
-    "crumbs": [
-      "Pipeline"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/testing/unit-tests.html",
-    "href": "datasets/submission/testing/unit-tests.html",
-    "title": "Unit tests",
-    "section": "",
-    "text": "Component-level tests w/ pytest.\nRun when needed.",
-    "crumbs": [
-      "Testing",
-      "Unit tests"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/testing/index.html",
-    "href": "datasets/submission/testing/index.html",
-    "title": "Testing",
-    "section": "",
-    "text": "Test coverage:\n\nUnit tests\nE2E tests\nStaging test",
-    "crumbs": [
-      "Testing"
+      "Implementation",
+      "G. Preflight + boot"
     ]
   },
   {
     "objectID": "datasets/submission/index.html",
     "href": "datasets/submission/index.html",
-    "title": "Data submission tools and instructions",
+    "title": "Submit data to BigPicture",
     "section": "",
-    "text": "Submit your datasets to BigPicture. Follow the workflow below, or jump to a specific resource.",
+    "text": "This is a step-by-step manual for submitting a dataset to BigPicture. It is written for a technically proficient user who is not a software developer: someone comfortable installing software and running commands in a terminal, but who is not expected to know Python, Docker internals, or the command line in depth.\nFollow it top to bottom. Every step tells you exactly what to paste and what you should see back, and the « Prev / Next » buttons at the bottom of each page walk you through the ten submission steps (A–J), in order, from a bare machine to a validated upload. You never have to guess what to do next.",
     "crumbs": [
-      "Data submission tools and instructions"
+      "Start here",
+      "Overview"
     ]
   },
   {
-    "objectID": "datasets/submission/index.html#quick-start",
-    "href": "datasets/submission/index.html#quick-start",
-    "title": "Data submission tools and instructions",
-    "section": "Quick start",
-    "text": "Quick start\nNew to submission? Start with installation, then follow the pipeline.\nNeed help? See FAQ, community resources, or technical support.",
+    "objectID": "datasets/submission/index.html#the-journey-at-a-glance",
+    "href": "datasets/submission/index.html#the-journey-at-a-glance",
+    "title": "Submit data to BigPicture",
+    "section": "The journey at a glance",
+    "text": "The journey at a glance\nYou will move through ten steps, A to J. Each builds on the one before, so do them in order the first time.\n\n\n\n\nStep\nWhat you’ll do\n\n\n\n\n\nKey concepts\nThe handful of words you need: model, mappers, metadata, bundle.\n\n\nA\nPrerequisites\nInstall the tools (Docker, Git, gh, make, OpenSSL, Python) and verify each.\n\n\nB\nGitHub access\nSign in with gh so you can reach the private repos and images.\n\n\nC\nGet the code\nClone the pipeline (with submodules) and pull the images.\n\n\nD\nConfigure\nSet up .env, mount your data, and set the config salt.\n\n\nE\nReference data\nProvide the model.json and mappers.xlsx for your site.\n\n\nF\nTLS + credentials\nGenerate certificates and login credentials.\n\n\nG\nPreflight + boot\nRun the doctor check, start the stack, open the UI.\n\n\nH\nRun a submission\nLog in, create a project/batch, upload your workbook, curate, export.\n\n\nI\nValidate the bundle\nCheck the export and learn how to read the errors.\n\n\nJ\nUpload to BigPicture\nPush the validated bundle with bp-submitter.",
     "crumbs": [
-      "Data submission tools and instructions"
+      "Start here",
+      "Overview"
     ]
   },
   {
-    "objectID": "datasets/submission/index.html#main-entry-points",
-    "href": "datasets/submission/index.html#main-entry-points",
-    "title": "Data submission tools and instructions",
-    "section": "Main entry points",
-    "text": "Main entry points\n\nInstallation guide — install required tools\nConfiguration setup — config files needed\nPipeline steps — data extraction through upload\nValidation rules — pre-submission checks",
+    "objectID": "datasets/submission/index.html#how-to-read-this-manual",
+    "href": "datasets/submission/index.html#how-to-read-this-manual",
+    "title": "Submit data to BigPicture",
+    "section": "How to read this manual",
+    "text": "How to read this manual\n\nThree operating systems, one manual. Where a command differs, you’ll see Windows / macOS / Linux tabs — pick your tab and ignore the rest. See the page template for the conventions.\nVerify as you go. Most steps end with a Verify box: paste the command, compare against the expected output, and only move on once it matches.\nLinux is the reference path. Every command-bearing step is validated on a clean Linux machine; Windows and macOS tabs follow the same shape.",
     "crumbs": [
-      "Data submission tools and instructions"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/index.html#additional-resources",
-    "href": "datasets/submission/index.html#additional-resources",
-    "title": "Data submission tools and instructions",
-    "section": "Additional resources",
-    "text": "Additional resources\n\nTesting guide\nBest practices\nFAQ\nCommunity",
-    "crumbs": [
-      "Data submission tools and instructions"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/index.html#legacy",
-    "href": "datasets/submission/index.html#legacy",
-    "title": "Data submission tools and instructions",
-    "section": "Legacy",
-    "text": "Legacy\nInternal guidelines (archived reference) — being phased out. Use this site for current instructions.",
-    "crumbs": [
-      "Data submission tools and instructions"
+      "Start here",
+      "Overview"
     ]
   },
   {
     "objectID": "datasets/submission/index.html#need-help",
     "href": "datasets/submission/index.html#need-help",
-    "title": "Data submission tools and instructions",
+    "title": "Submit data to BigPicture",
     "section": "Need help?",
     "text": "Need help?\n\nData submission: bp-ops\nSupport: servicedesk",
     "crumbs": [
-      "Data submission tools and instructions"
+      "Start here",
+      "Overview"
     ]
   },
   {

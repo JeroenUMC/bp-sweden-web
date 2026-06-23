@@ -35,7 +35,7 @@ so do them in order the first time.
 | | [**Key concepts**](key-concepts.qmd) | The handful of words you need: *model*, *mappers*, *metadata*, *bundle*. |
 | **A** | [Prerequisites](prerequisites.qmd) | Install the tools (Docker, Git, `gh`, `make`, OpenSSL, Python) and verify each. |
 | **B** | [GitHub access](github-access.qmd) | Sign in with `gh` so you can reach the private repos and images. |
-| **C** | [Get the code](get-the-code.qmd) | Clone the pipeline (with submodules) and pull the images. |
+| **C** | [install package](install-package.qmd) | Clone the pipeline (with submodules) and pull the images. |
 | **D** | [Configure](configure.qmd) | Set up `.env`, mount your data, and set the config salt. |
 | **E** | [Reference data](reference-data.qmd) | Provide the `model.json` and `mappers.xlsx` for your site. |
 | **F** | [TLS + credentials](tls-credentials.qmd) | Generate certificates and login credentials. |

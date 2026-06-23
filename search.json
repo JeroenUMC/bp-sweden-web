@@ -137,7 +137,29 @@
     "href": "datasets/submission/github-access.html",
     "title": "B. GitHub access",
     "section": "",
-    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #6.",
+    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).",
+    "crumbs": [
+      "Implementation",
+      "B. GitHub access"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/github-access.html#steps",
+    "href": "datasets/submission/github-access.html#steps",
+    "title": "B. GitHub access",
+    "section": "Steps",
+    "text": "Steps\nRun the three commands below in order:\n1. Sign in to GitHub\ngh auth login\nYou will be asked three questions — answer as shown:\n? What account do you want to log into? **GitHub.com**\n? What is your preferred protocol for Git operations on this host? **HTTPS**\n? Authenticate Git with your GitHub credentials? (Y/n) **Y**\n? How would you like to authenticate GitHub CLI? **Login with a web browser**\nA browser window then opens. Follow the prompts to complete the sign-in.\n2. Wire gh into Git\ngh auth setup-git\nConfigures Git to use gh as its credential helper, so git clone and git pull authenticate automatically without a password prompt.\n3. Add the package-read scope\ngh auth refresh -s read:packages\nExtends your token with the read:packages scope so Docker can pull private container images from GitHub Container Registry (GHCR).\n\n\n\n\n\n\nVerify\n\n\n\ngh auth status\nExpected output:\ngithub.com\n  ✓ Logged in to github.com as &lt;your-username&gt;\n  ...",
+    "crumbs": [
+      "Implementation",
+      "B. GitHub access"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "href": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "title": "B. GitHub access",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nBrowser does not open during gh auth login\nA one-time code and a URL are printed in the terminal. Open https://github.com/login/device manually, enter the code, and complete the sign-in there.",
     "crumbs": [
       "Implementation",
       "B. GitHub access"
@@ -692,7 +714,7 @@
     "href": "datasets/submission/prerequisites.html#docker-compose-v2",
     "title": "A. Prerequisites",
     "section": "Docker + Compose v2",
-    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nPaste these:\ndocker --version\ndocker compose version",
+    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ndocker --version\ndocker compose version",
     "crumbs": [
       "Implementation",
       "A. Prerequisites"

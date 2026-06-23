@@ -2,8 +2,8 @@
 title: C. install package
 ---
 
-Clone the submission pipeline repository, create your local environment file, and
-pull the prebuilt container images from GitHub Container Registry.
+Clone the submission pipeline repository and pull the prebuilt container images
+from GitHub Container Registry.
 
 ::: {.callout-important}
 ## Requires: GitHub access (step B)
@@ -47,18 +47,7 @@ All commands from here through step J are run from this directory. If you open
 a new terminal, run `cd bp-submission-pipeline` before continuing.
 :::
 
-## 2. Copy the environment file
-
-```bash
-cp .env.example .env
-```
-
-::: {.callout-note}
-Leave `.env` untouched for now — you will fill in the values in
-[D. Configure](configure.qmd).
-:::
-
-## 3. Pull the container images
+## 2. Pull the container images
 
 ```bash
 make pull

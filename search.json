@@ -67,113 +67,157 @@
     ]
   },
   {
-    "objectID": "datasets/submission/get-the-code.html",
-    "href": "datasets/submission/get-the-code.html",
-    "title": "C. Get the code",
+    "objectID": "datasets/submission/prerequisites.html",
+    "href": "datasets/submission/prerequisites.html",
+    "title": "A. Prerequisites",
     "section": "",
-    "text": "Clone the submission pipeline repository with its submodules, create your .env, and pull the container images with make pull.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #7.",
+    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
     "crumbs": [
       "Implementation",
-      "C. Get the code"
+      "A. Prerequisites"
     ]
   },
   {
-    "objectID": "datasets/submission/support.html",
-    "href": "datasets/submission/support.html",
-    "title": "Support",
+    "objectID": "datasets/submission/prerequisites.html#docker-compose-v2",
+    "href": "datasets/submission/prerequisites.html#docker-compose-v2",
+    "title": "A. Prerequisites",
+    "section": "Docker + Compose v2",
+    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ndocker --version\ndocker compose version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#git",
+    "href": "datasets/submission/prerequisites.html#git",
+    "title": "A. Prerequisites",
+    "section": "Git",
+    "text": "Git\n\nWindowsmacOSLinux\n\n\nwinget install --id Git.Git -e\nRestart any open terminals after installing.\n\n\nbrew install git\n\n\napt install -y git\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngit --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#github-cli-gh",
+    "href": "datasets/submission/prerequisites.html#github-cli-gh",
+    "title": "A. Prerequisites",
+    "section": "GitHub CLI (gh)",
+    "text": "GitHub CLI (gh)\n\nWindowsmacOSLinux\n\n\nwinget install --id GitHub.cli -e\n\n\nbrew install gh\n\n\napt install gh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngh --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#make",
+    "href": "datasets/submission/prerequisites.html#make",
+    "title": "A. Prerequisites",
+    "section": "make",
+    "text": "make\nOn Windows, make is bundled with Git for Windows — no separate install. You only need to add Git’s tool folder to your system PATH once.\n\nWindowsmacOSLinux\n\n\nGit for Windows ships make in C:\\Program Files\\Git\\usr\\bin. Add that folder to your system PATH:\n\nPress the Windows key, type environment variables, and open “Edit the system environment variables”.\nClick Environment Variables…\nUnder System variables, select Path and click Edit…\nClick New and paste:\nC:\\Program Files\\Git\\usr\\bin\nClick OK three times, then restart any open terminals.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you installed Git to a custom location, replace C:\\Program Files\\Git with your actual install path. The openssl command in the next section lives in the same folder, so this one PATH change covers both.\n\n\n\n\nInstall GNU make via Homebrew and make it the default make:\nbrew install make\necho 'export PATH=\"$(brew --prefix)/opt/make/libexec/gnubin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y make\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nmake --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#openssl",
+    "href": "datasets/submission/prerequisites.html#openssl",
+    "title": "A. Prerequisites",
+    "section": "OpenSSL",
+    "text": "OpenSSL\nOn Windows, OpenSSL ships in the same Git folder you already added to PATH in the make step — no extra install needed.\nOn macOS, the system openssl command is actually LibreSSL. The pipeline needs real OpenSSL, so we install it via Homebrew.\n\nWindowsmacOSLinux\n\n\nNo additional install needed. Open a new terminal and confirm it is available:\nopenssl version\n\n\nbrew install openssl\necho 'export PATH=\"$(brew --prefix)/opt/openssl@3/bin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y openssl\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nopenssl version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#python",
+    "href": "datasets/submission/prerequisites.html#python",
+    "title": "A. Prerequisites",
+    "section": "Python",
+    "text": "Python\nThe pipeline requires Python 3.12 or later.\n\nWindowsmacOSLinux\n\n\nwinget install --id Python.Python.3.12 -e\nRestart any open terminals after installing.\n\n\nbrew install python@3.12\n\n\nOn Ubuntu 24.04 and later, Python 3.12 is in the default repositories:\napt install -y python3.12\nOn Ubuntu 22.04, install it via the deadsnakes PPA:\nadd-apt-repository ppa:deadsnakes/ppa\napt update\napt install -y python3.12\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\npython3.12 --version\nOn Windows, use python --version instead.\n\n\nOnce every tool reports a version, continue to B. GitHub access.",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/tls-credentials.html",
+    "href": "datasets/submission/tls-credentials.html",
+    "title": "F. TLS + credentials",
     "section": "",
-    "text": "If you get stuck while following the manual, here is where to turn.",
+    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
     "crumbs": [
-      "Help",
-      "Support"
+      "Implementation",
+      "F. TLS + credentials"
     ]
   },
   {
-    "objectID": "datasets/submission/support.html#get-help",
-    "href": "datasets/submission/support.html#get-help",
-    "title": "Support",
-    "section": "Get help",
-    "text": "Get help\n\nSubmission pipeline, server, or data-archive issues: bp-ops — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.\nGeneral and technical support: servicedesk.",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html#when-you-ask-include",
-    "href": "datasets/submission/support.html#when-you-ask-include",
-    "title": "Support",
-    "section": "When you ask, include",
-    "text": "When you ask, include\nTo get a useful answer quickly, tell us:\n\nWhich manual step you were on — the letter and name, e.g. F. TLS + credentials — and the exact command you ran.\nThe output you got versus what the Verify box said to expect.\nYour operating system (Windows / macOS / Linux).",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html#out-of-scope",
-    "href": "datasets/submission/support.html#out-of-scope",
-    "title": "Support",
-    "section": "Out of scope",
-    "text": "Out of scope\nSupport covers the submission pipeline itself. Custom data transformations and your own infrastructure setup are outside what the helpdesk can troubleshoot.",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html",
-    "href": "datasets/submission/configure.html",
-    "title": "D. Configure",
+    "objectID": "datasets/submission/upload.html",
+    "href": "datasets/submission/upload.html",
+    "title": "J. Upload to BigPicture",
     "section": "",
-    "text": "Set up your .env, mount your data directory with make mount, and set the config.yaml salt.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #8.",
+    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
     "crumbs": [
       "Implementation",
-      "D. Configure"
+      "J. Upload to BigPicture"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html",
-    "href": "datasets/submission/github-access.html",
-    "title": "B. GitHub access",
+    "objectID": "datasets/submission/contributing/page-template.html",
+    "href": "datasets/submission/contributing/page-template.html",
+    "title": "Page template & conventions",
     "section": "",
-    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).",
+    "text": "Every page in this manual is fill-in-the-blanks. This page documents the two conventions that make that possible — the OS tabset and the verify step — and shows them rendered so you can copy the source.",
     "crumbs": [
-      "Implementation",
-      "B. GitHub access"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html#steps",
-    "href": "datasets/submission/github-access.html#steps",
-    "title": "B. GitHub access",
-    "section": "Steps",
-    "text": "Steps\nRun the three commands below in order:\n1. Sign in to GitHub\ngh auth login\nYou will be asked three questions — answer as shown:\n? What account do you want to log into? **GitHub.com**\n? What is your preferred protocol for Git operations on this host? **HTTPS**\n? Authenticate Git with your GitHub credentials? (Y/n) **Y**\n? How would you like to authenticate GitHub CLI? **Login with a web browser**\nA browser window then opens. Follow the prompts to complete the sign-in.\n2. Wire gh into Git\ngh auth setup-git\nConfigures Git to use gh as its credential helper, so git clone and git pull authenticate automatically without a password prompt.\n3. Add the package-read scope\ngh auth refresh -s read:packages\nExtends your token with the read:packages scope so Docker can pull private container images from GitHub Container Registry (GHCR).\n\n\n\n\n\n\nVerify\n\n\n\ngh auth status\nExpected output:\ngithub.com\n  ✓ Logged in to github.com as &lt;your-username&gt;\n  ...",
+    "objectID": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "href": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "title": "Page template & conventions",
+    "section": "1. The OS tabset",
+    "text": "1. The OS tabset\nWhere a command or instruction differs by operating system, wrap it in a panel-tabset with Windows / macOS / Linux tabs, in that order. The reader picks their tab once and ignores the rest.\nSource:\n::: {.panel-tabset}\n## Windows\nOpen **PowerShell** and run:\n```powershell\nwinget install --id Git.Git -e\n```\n## macOS\nIn **Terminal**, run:\n```bash\nbrew install git\n```\n## Linux\n```bash\nsudo apt-get install -y git\n```\n:::\nRenders as:\n\nWindowsmacOSLinux\n\n\nOpen PowerShell and run:\nwinget install --id Git.Git -e\n\n\nIn Terminal, run:\nbrew install git\n\n\nsudo apt-get install -y git\n\n\n\nRules\n\nAlways include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.\nKeep commands copy-pasteable: one tool per code block, no shell prompts ($, &gt;) inside the block.\nLinux is the reference path. Write and validate the Linux tab first; the others mirror its shape.",
     "crumbs": [
-      "Implementation",
-      "B. GitHub access"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html#if-something-goes-wrong",
-    "href": "datasets/submission/github-access.html#if-something-goes-wrong",
-    "title": "B. GitHub access",
-    "section": "If something goes wrong",
-    "text": "If something goes wrong\nBrowser does not open during gh auth login\nA one-time code and a URL are printed in the terminal. Open https://github.com/login/device manually, enter the code, and complete the sign-in there.",
+    "objectID": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "href": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "title": "Page template & conventions",
+    "section": "2. The verify step",
+    "text": "2. The verify step\nAfter an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a callout-tip titled “Verify” with the paste-this / expect-this pattern.\nSource:\n::: {.callout-tip}\n## Verify\n\nPaste this:\n\n```bash\ngit --version\n```\n\nExpected output (your version may differ):\n\n```\ngit version 2.40.0\n```\n:::\nRenders as:\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ngit --version\nExpected output (your version may differ):\ngit version 2.40.0\n\n\nRules\n\nShow the exact command to paste and a representative expected output.\nIf the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.\nOne verify step per meaningful action; don’t make the reader run five things before they can check anything.",
     "crumbs": [
-      "Implementation",
-      "B. GitHub access"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/reference-data.html",
-    "href": "datasets/submission/reference-data.html",
-    "title": "E. Reference data",
+    "objectID": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "href": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "title": "Page template & conventions",
+    "section": "3. Page skeleton",
+    "text": "3. Page skeleton\nStart every operator page from this shape:\n---\ntitle: &lt;Step letter&gt;. &lt;Short imperative title&gt;\n---\n\nOne or two sentences: what this step accomplishes and why.\n\n## Do it\n\n&lt;OS tabset with the commands&gt;\n\n::: {.callout-tip}\n## Verify\n&lt;paste-this / expect-this&gt;\n:::\n\n## If something goes wrong\n\n&lt;the one or two most common failures and their fixes&gt;\nThe « Prev / Next » navigation is automatic — it comes from the sidebar order in _quarto.yml, so you never hand-write next-step links.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html",
+    "href": "datasets/submission/validate.html",
+    "title": "I. Validate the bundle",
     "section": "",
-    "text": "Provide the two reference files the pipeline needs for your site: the model.json (use the provided default for now) and the mappers.xlsx (start from the template and fill it in for your site).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #9 (model.json) and issue #10 (mappers.xlsx).",
+    "text": "Validate the exported bundle with make validate-upload, and learn how to read and act on the errors it reports.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #14.",
     "crumbs": [
       "Implementation",
-      "E. Reference data"
+      "I. Validate the bundle"
     ]
   },
   {
@@ -622,157 +666,157 @@
     "text": "Request Services for on-platform data use such as Cytomine"
   },
   {
-    "objectID": "datasets/submission/validate.html",
-    "href": "datasets/submission/validate.html",
-    "title": "I. Validate the bundle",
+    "objectID": "datasets/submission/install-package.html",
+    "href": "datasets/submission/install-package.html",
+    "title": "C. install package",
     "section": "",
-    "text": "Validate the exported bundle with make validate-upload, and learn how to read and act on the errors it reports.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #14.",
+    "text": "Clone the submission pipeline repository, create your local environment file, and pull the prebuilt container images from GitHub Container Registry.",
     "crumbs": [
       "Implementation",
-      "I. Validate the bundle"
+      "C. install package"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html",
-    "href": "datasets/submission/contributing/page-template.html",
-    "title": "Page template & conventions",
+    "objectID": "datasets/submission/install-package.html#clone-the-repository",
+    "href": "datasets/submission/install-package.html#clone-the-repository",
+    "title": "C. install package",
+    "section": "1. Clone the repository",
+    "text": "1. Clone the repository\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nOpen Git Bash (installed with Git for Windows in step A). All make commands in this manual must be run in Git Bash, not PowerShell.\n\n\ngit clone --recurse-submodules https://github.com/imi-bigpicture/bp-submission-pipeline.git\ncd bp-submission-pipeline\n\n\n\n\n\n\nWhat are submodules?\n\n\n\nThe pipeline bundles several companion components (web app, data model, and submission CLI) as Git submodules — without --recurse-submodules those folders arrive empty and the pipeline will not start.\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls bigpicture-metadata-interface\nYou should see files listed inside the folder, not an empty directory.\n\n\n\n\n\n\n\n\nYou are now inside bp-submission-pipeline/\n\n\n\nAll commands from here through step J are run from this directory. If you open a new terminal, run cd bp-submission-pipeline before continuing.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#copy-the-environment-file",
+    "href": "datasets/submission/install-package.html#copy-the-environment-file",
+    "title": "C. install package",
+    "section": "2. Copy the environment file",
+    "text": "2. Copy the environment file\ncp .env.example .env\n\n\n\n\n\n\nNote\n\n\n\nLeave .env untouched for now — you will fill in the values in D. Configure.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#pull-the-container-images",
+    "href": "datasets/submission/install-package.html#pull-the-container-images",
+    "title": "C. install package",
+    "section": "3. Pull the container images",
+    "text": "3. Pull the container images\nmake pull\n\n\n\n\n\n\nVerify\n\n\n\ndocker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline\nExpected: one or more ghcr.io/imi-bigpicture/bp-submission-pipeline/... images listed.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#if-something-goes-wrong",
+    "href": "datasets/submission/install-package.html#if-something-goes-wrong",
+    "title": "C. install package",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nmake pull fails with “lacks the read:packages scope”\nReturn to B. GitHub access and run gh auth refresh -s read:packages, then try again.\nClone fails with “repository not found” or “access denied”\nYour GitHub account has not been granted access to the private repository. Request access via the servicedesk.\nmake pull fails with “no such file or directory” on /var/run/docker.sock\nThe Docker daemon is not running. Start it and retry:\n\nWindows / macOSLinux\n\n\nLaunch Docker Desktop and wait until the whale icon in the taskbar/menu bar shows “Docker Desktop is running”, then run make pull again.\n\n\nsystemctl start docker\nOn older systems without systemd, use service docker start instead. Then run make pull again.\n\n\n\nSubmodule folders are empty after cloning\nYou cloned without --recurse-submodules. Delete the cloned folder and re-run the full clone command above.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data.html",
+    "href": "datasets/submission/reference-data.html",
+    "title": "E. Reference data",
     "section": "",
-    "text": "Every page in this manual is fill-in-the-blanks. This page documents the two conventions that make that possible — the OS tabset and the verify step — and shows them rendered so you can copy the source.",
+    "text": "Provide the two reference files the pipeline needs for your site: the model.json (use the provided default for now) and the mappers.xlsx (start from the template and fill it in for your site).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #9 (model.json) and issue #10 (mappers.xlsx).",
     "crumbs": [
-      "For contributors",
-      "Page template & conventions"
+      "Implementation",
+      "E. Reference data"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html#the-os-tabset",
-    "href": "datasets/submission/contributing/page-template.html#the-os-tabset",
-    "title": "Page template & conventions",
-    "section": "1. The OS tabset",
-    "text": "1. The OS tabset\nWhere a command or instruction differs by operating system, wrap it in a panel-tabset with Windows / macOS / Linux tabs, in that order. The reader picks their tab once and ignores the rest.\nSource:\n::: {.panel-tabset}\n## Windows\nOpen **PowerShell** and run:\n```powershell\nwinget install --id Git.Git -e\n```\n## macOS\nIn **Terminal**, run:\n```bash\nbrew install git\n```\n## Linux\n```bash\nsudo apt-get install -y git\n```\n:::\nRenders as:\n\nWindowsmacOSLinux\n\n\nOpen PowerShell and run:\nwinget install --id Git.Git -e\n\n\nIn Terminal, run:\nbrew install git\n\n\nsudo apt-get install -y git\n\n\n\nRules\n\nAlways include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.\nKeep commands copy-pasteable: one tool per code block, no shell prompts ($, &gt;) inside the block.\nLinux is the reference path. Write and validate the Linux tab first; the others mirror its shape.",
-    "crumbs": [
-      "For contributors",
-      "Page template & conventions"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/contributing/page-template.html#the-verify-step",
-    "href": "datasets/submission/contributing/page-template.html#the-verify-step",
-    "title": "Page template & conventions",
-    "section": "2. The verify step",
-    "text": "2. The verify step\nAfter an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a callout-tip titled “Verify” with the paste-this / expect-this pattern.\nSource:\n::: {.callout-tip}\n## Verify\n\nPaste this:\n\n```bash\ngit --version\n```\n\nExpected output (your version may differ):\n\n```\ngit version 2.40.0\n```\n:::\nRenders as:\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ngit --version\nExpected output (your version may differ):\ngit version 2.40.0\n\n\nRules\n\nShow the exact command to paste and a representative expected output.\nIf the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.\nOne verify step per meaningful action; don’t make the reader run five things before they can check anything.",
-    "crumbs": [
-      "For contributors",
-      "Page template & conventions"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/contributing/page-template.html#page-skeleton",
-    "href": "datasets/submission/contributing/page-template.html#page-skeleton",
-    "title": "Page template & conventions",
-    "section": "3. Page skeleton",
-    "text": "3. Page skeleton\nStart every operator page from this shape:\n---\ntitle: &lt;Step letter&gt;. &lt;Short imperative title&gt;\n---\n\nOne or two sentences: what this step accomplishes and why.\n\n## Do it\n\n&lt;OS tabset with the commands&gt;\n\n::: {.callout-tip}\n## Verify\n&lt;paste-this / expect-this&gt;\n:::\n\n## If something goes wrong\n\n&lt;the one or two most common failures and their fixes&gt;\nThe « Prev / Next » navigation is automatic — it comes from the sidebar order in _quarto.yml, so you never hand-write next-step links.",
-    "crumbs": [
-      "For contributors",
-      "Page template & conventions"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/upload.html",
-    "href": "datasets/submission/upload.html",
-    "title": "J. Upload to BigPicture",
+    "objectID": "datasets/submission/github-access.html",
+    "href": "datasets/submission/github-access.html",
+    "title": "B. GitHub access",
     "section": "",
-    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
+    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).",
     "crumbs": [
       "Implementation",
-      "J. Upload to BigPicture"
+      "B. GitHub access"
     ]
   },
   {
-    "objectID": "datasets/submission/tls-credentials.html",
-    "href": "datasets/submission/tls-credentials.html",
-    "title": "F. TLS + credentials",
+    "objectID": "datasets/submission/github-access.html#steps",
+    "href": "datasets/submission/github-access.html#steps",
+    "title": "B. GitHub access",
+    "section": "Steps",
+    "text": "Steps\nRun the three commands below in order:\n1. Sign in to GitHub\ngh auth login\nYou will be asked three questions — answer as shown:\n? What account do you want to log into? **GitHub.com**\n? What is your preferred protocol for Git operations on this host? **HTTPS**\n? Authenticate Git with your GitHub credentials? (Y/n) **Y**\n? How would you like to authenticate GitHub CLI? **Login with a web browser**\nA browser window then opens. Follow the prompts to complete the sign-in.\n2. Wire gh into Git\ngh auth setup-git\nConfigures Git to use gh as its credential helper, so git clone and git pull authenticate automatically without a password prompt.\n3. Add the package-read scope\ngh auth refresh -s read:packages\nExtends your token with the read:packages scope so Docker can pull private container images from GitHub Container Registry (GHCR).\n\n\n\n\n\n\nVerify\n\n\n\ngh auth status\nExpected output:\ngithub.com\n  ✓ Logged in to github.com as &lt;your-username&gt;\n  ...",
+    "crumbs": [
+      "Implementation",
+      "B. GitHub access"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "href": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "title": "B. GitHub access",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nBrowser does not open during gh auth login\nA one-time code and a URL are printed in the terminal. Open https://github.com/login/device manually, enter the code, and complete the sign-in there.",
+    "crumbs": [
+      "Implementation",
+      "B. GitHub access"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html",
+    "href": "datasets/submission/configure.html",
+    "title": "D. Configure",
     "section": "",
-    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
+    "text": "Set up your .env, mount your data directory with make mount, and set the config.yaml salt.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #8.",
     "crumbs": [
       "Implementation",
-      "F. TLS + credentials"
+      "D. Configure"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html",
-    "href": "datasets/submission/prerequisites.html",
-    "title": "A. Prerequisites",
+    "objectID": "datasets/submission/support.html",
+    "href": "datasets/submission/support.html",
+    "title": "Support",
     "section": "",
-    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
+    "text": "If you get stuck while following the manual, here is where to turn.",
     "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#docker-compose-v2",
-    "href": "datasets/submission/prerequisites.html#docker-compose-v2",
-    "title": "A. Prerequisites",
-    "section": "Docker + Compose v2",
-    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ndocker --version\ndocker compose version",
+    "objectID": "datasets/submission/support.html#get-help",
+    "href": "datasets/submission/support.html#get-help",
+    "title": "Support",
+    "section": "Get help",
+    "text": "Get help\n\nSubmission pipeline, server, or data-archive issues: bp-ops — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.\nGeneral and technical support: servicedesk.",
     "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#git",
-    "href": "datasets/submission/prerequisites.html#git",
-    "title": "A. Prerequisites",
-    "section": "Git",
-    "text": "Git\n\nWindowsmacOSLinux\n\n\nwinget install --id Git.Git -e\nRestart any open terminals after installing.\n\n\nbrew install git\n\n\napt install -y git\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngit --version",
+    "objectID": "datasets/submission/support.html#when-you-ask-include",
+    "href": "datasets/submission/support.html#when-you-ask-include",
+    "title": "Support",
+    "section": "When you ask, include",
+    "text": "When you ask, include\nTo get a useful answer quickly, tell us:\n\nWhich manual step you were on — the letter and name, e.g. F. TLS + credentials — and the exact command you ran.\nThe output you got versus what the Verify box said to expect.\nYour operating system (Windows / macOS / Linux).",
     "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
+      "Help",
+      "Support"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#github-cli-gh",
-    "href": "datasets/submission/prerequisites.html#github-cli-gh",
-    "title": "A. Prerequisites",
-    "section": "GitHub CLI (gh)",
-    "text": "GitHub CLI (gh)\n\nWindowsmacOSLinux\n\n\nwinget install --id GitHub.cli -e\n\n\nbrew install gh\n\n\napt install gh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngh --version",
+    "objectID": "datasets/submission/support.html#out-of-scope",
+    "href": "datasets/submission/support.html#out-of-scope",
+    "title": "Support",
+    "section": "Out of scope",
+    "text": "Out of scope\nSupport covers the submission pipeline itself. Custom data transformations and your own infrastructure setup are outside what the helpdesk can troubleshoot.",
     "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#make",
-    "href": "datasets/submission/prerequisites.html#make",
-    "title": "A. Prerequisites",
-    "section": "make",
-    "text": "make\nOn Windows, make is bundled with Git for Windows — no separate install. You only need to add Git’s tool folder to your system PATH once.\n\nWindowsmacOSLinux\n\n\nGit for Windows ships make in C:\\Program Files\\Git\\usr\\bin. Add that folder to your system PATH:\n\nPress the Windows key, type environment variables, and open “Edit the system environment variables”.\nClick Environment Variables…\nUnder System variables, select Path and click Edit…\nClick New and paste:\nC:\\Program Files\\Git\\usr\\bin\nClick OK three times, then restart any open terminals.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you installed Git to a custom location, replace C:\\Program Files\\Git with your actual install path. The openssl command in the next section lives in the same folder, so this one PATH change covers both.\n\n\n\n\nInstall GNU make via Homebrew and make it the default make:\nbrew install make\necho 'export PATH=\"$(brew --prefix)/opt/make/libexec/gnubin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y make\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nmake --version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#openssl",
-    "href": "datasets/submission/prerequisites.html#openssl",
-    "title": "A. Prerequisites",
-    "section": "OpenSSL",
-    "text": "OpenSSL\nOn Windows, OpenSSL ships in the same Git folder you already added to PATH in the make step — no extra install needed.\nOn macOS, the system openssl command is actually LibreSSL. The pipeline needs real OpenSSL, so we install it via Homebrew.\n\nWindowsmacOSLinux\n\n\nNo additional install needed. Open a new terminal and confirm it is available:\nopenssl version\n\n\nbrew install openssl\necho 'export PATH=\"$(brew --prefix)/opt/openssl@3/bin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y openssl\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nopenssl version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#python",
-    "href": "datasets/submission/prerequisites.html#python",
-    "title": "A. Prerequisites",
-    "section": "Python",
-    "text": "Python\nThe pipeline requires Python 3.12 or later.\n\nWindowsmacOSLinux\n\n\nwinget install --id Python.Python.3.12 -e\nRestart any open terminals after installing.\n\n\nbrew install python@3.12\n\n\nOn Ubuntu 24.04 and later, Python 3.12 is in the default repositories:\napt install -y python3.12\nOn Ubuntu 22.04, install it via the deadsnakes PPA:\nadd-apt-repository ppa:deadsnakes/ppa\napt update\napt install -y python3.12\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\npython3.12 --version\nOn Windows, use python --version instead.\n\n\nOnce every tool reports a version, continue to B. GitHub access.",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
+      "Help",
+      "Support"
     ]
   },
   {
@@ -802,7 +846,7 @@
     "href": "datasets/submission/index.html#the-journey-at-a-glance",
     "title": "Submit data to BigPicture",
     "section": "The journey at a glance",
-    "text": "The journey at a glance\nYou will move through ten steps, A to J. Each builds on the one before, so do them in order the first time.\n\n\n\n\nStep\nWhat you’ll do\n\n\n\n\n\nKey concepts\nThe handful of words you need: model, mappers, metadata, bundle.\n\n\nA\nPrerequisites\nInstall the tools (Docker, Git, gh, make, OpenSSL, Python) and verify each.\n\n\nB\nGitHub access\nSign in with gh so you can reach the private repos and images.\n\n\nC\nGet the code\nClone the pipeline (with submodules) and pull the images.\n\n\nD\nConfigure\nSet up .env, mount your data, and set the config salt.\n\n\nE\nReference data\nProvide the model.json and mappers.xlsx for your site.\n\n\nF\nTLS + credentials\nGenerate certificates and login credentials.\n\n\nG\nPreflight + boot\nRun the doctor check, start the stack, open the UI.\n\n\nH\nRun a submission\nLog in, create a project/batch, upload your workbook, curate, export.\n\n\nI\nValidate the bundle\nCheck the export and learn how to read the errors.\n\n\nJ\nUpload to BigPicture\nPush the validated bundle with bp-submitter.",
+    "text": "The journey at a glance\nYou will move through ten steps, A to J. Each builds on the one before, so do them in order the first time.\n\n\n\n\nStep\nWhat you’ll do\n\n\n\n\n\nKey concepts\nThe handful of words you need: model, mappers, metadata, bundle.\n\n\nA\nPrerequisites\nInstall the tools (Docker, Git, gh, make, OpenSSL, Python) and verify each.\n\n\nB\nGitHub access\nSign in with gh so you can reach the private repos and images.\n\n\nC\ninstall package\nClone the pipeline (with submodules) and pull the images.\n\n\nD\nConfigure\nSet up .env, mount your data, and set the config salt.\n\n\nE\nReference data\nProvide the model.json and mappers.xlsx for your site.\n\n\nF\nTLS + credentials\nGenerate certificates and login credentials.\n\n\nG\nPreflight + boot\nRun the doctor check, start the stack, open the UI.\n\n\nH\nRun a submission\nLog in, create a project/batch, upload your workbook, curate, export.\n\n\nI\nValidate the bundle\nCheck the export and learn how to read the errors.\n\n\nJ\nUpload to BigPicture\nPush the validated bundle with bp-submitter.",
     "crumbs": [
       "Start here",
       "Overview"

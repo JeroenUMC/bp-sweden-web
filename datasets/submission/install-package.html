@@ -369,8 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#clone-the-repository" id="toc-clone-the-repository" class="nav-link active" data-scroll-target="#clone-the-repository">1. Clone the repository</a></li>
-  <li><a href="#copy-the-environment-file" id="toc-copy-the-environment-file" class="nav-link" data-scroll-target="#copy-the-environment-file">2. Copy the environment file</a></li>
-  <li><a href="#pull-the-container-images" id="toc-pull-the-container-images" class="nav-link" data-scroll-target="#pull-the-container-images">3. Pull the container images</a></li>
+  <li><a href="#pull-the-container-images" id="toc-pull-the-container-images" class="nav-link" data-scroll-target="#pull-the-container-images">2. Pull the container images</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -397,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Clone the submission pipeline repository, create your local environment file, and pull the prebuilt container images from GitHub Container Registry.</p>
+<p>Clone the submission pipeline repository and pull the prebuilt container images from GitHub Container Registry.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -469,26 +468,9 @@ You are now inside <code>bp-submission-pipeline/</code>
 </div>
 </div>
 </section>
-<section id="copy-the-environment-file" class="level2">
-<h2 class="anchored" data-anchor-id="copy-the-environment-file">2. Copy the environment file</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Leave <code>.env</code> untouched for now — you will fill in the values in <a href="../../datasets/submission/configure.html">D. Configure</a>.</p>
-</div>
-</div>
-</section>
 <section id="pull-the-container-images" class="level2">
-<h2 class="anchored" data-anchor-id="pull-the-container-images">3. Pull the container images</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h2 class="anchored" data-anchor-id="pull-the-container-images">2. Pull the container images</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -499,7 +481,7 @@ Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> image ls <span class="kw">|</span> <span class="fu">grep</span> ghcr.io/imi-bigpicture/bp-submission-pipeline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> image ls <span class="kw">|</span> <span class="fu">grep</span> ghcr.io/imi-bigpicture/bp-submission-pipeline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Expected: one or more <code>ghcr.io/imi-bigpicture/bp-submission-pipeline/...</code> images listed.</p>
 </div>
 </div>
@@ -519,7 +501,7 @@ Verify
 <p>Launch <strong>Docker Desktop</strong> and wait until the whale icon in the taskbar/menu bar shows “Docker Desktop is running”, then run <code>make pull</code> again.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> start docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> start docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>On older systems without systemd, use <code>service docker start</code> instead. Then run <code>make pull</code> again.</p>
 </div>
 </div>

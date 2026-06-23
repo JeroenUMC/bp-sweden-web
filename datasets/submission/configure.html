@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -330,7 +364,25 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#copy-the-environment-file" id="toc-copy-the-environment-file" class="nav-link active" data-scroll-target="#copy-the-environment-file">1. Copy the environment file</a></li>
+  <li><a href="#lay-out-the-data-directories" id="toc-lay-out-the-data-directories" class="nav-link" data-scroll-target="#lay-out-the-data-directories">2. Lay out the data directories</a></li>
+  <li><a href="#fill-in-.env" id="toc-fill-in-.env" class="nav-link" data-scroll-target="#fill-in-.env">3. Fill in <code>.env</code></a>
+  <ul class="collapse">
+  <li><a href="#must-set" id="toc-must-set" class="nav-link" data-scroll-target="#must-set">Must set</a></li>
+  <li><a href="#may-change" id="toc-may-change" class="nav-link" data-scroll-target="#may-change">May change</a></li>
+  <li><a href="#leave-as-is" id="toc-leave-as-is" class="nav-link" data-scroll-target="#leave-as-is">Leave as-is</a></li>
+  </ul></li>
+  <li><a href="#set-up-config.yaml" id="toc-set-up-config.yaml" class="nav-link" data-scroll-target="#set-up-config.yaml">4. Set up <code>config.yaml</code></a>
+  <ul class="collapse">
+  <li><a href="#other-settings-optional" id="toc-other-settings-optional" class="nav-link" data-scroll-target="#other-settings-optional">Other settings (optional)</a></li>
+  </ul></li>
+  <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -354,22 +406,324 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Set up your <code>.env</code>, mount your data directory with <code>make mount</code>, and set the <code>config.yaml</code> salt.</p>
+<p>Set up your environment file, lay out the data directories, and rotate the <code>config.yaml</code> salt before you start the pipeline for the first time.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Requires: Install package (step C)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Step C clones the repository and pulls the container images. Complete <a href="../../datasets/submission/install-package.html">C. Install package</a> before continuing here.</p>
+</div>
+</div>
+<section id="copy-the-environment-file" class="level2">
+<h2 class="anchored" data-anchor-id="copy-the-environment-file">1. Copy the environment file</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="lay-out-the-data-directories" class="level2">
+<h2 class="anchored" data-anchor-id="lay-out-the-data-directories">2. Lay out the data directories</h2>
+<p><code>make mount ROOT=&lt;path&gt;</code> creates the six host directories the pipeline bind-mounts into its containers, then prints ready-to-paste <code>.env</code> lines so you do not have to type the paths by hand.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Coming soon
+Windows: use Git Bash
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/8">issue #8</a>.</p>
+<p>All <code>make</code> commands must be run in <strong>Git Bash</strong>, not PowerShell or cmd.exe.</p>
 </div>
 </div>
+<p>Replace <code>./data</code> with the path where you want pipeline data to live:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> mount ROOT=./data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The command prints something like:</p>
+<pre><code># Paste into .env (paths under ./data):
+PIPELINE_STORAGE=./data/storage
+PIPELINE_OUTBOX_DIR=./data/storage/storage
+PIPELINE_REFDATA_DIR=./data/refdata
+PIPELINE_IMAGE_ROOT=./data/images
+PIPELINE_SUBMITTER_CREDS_DIR=./data/certs
+PIPELINE_SUBMITTER_STATE=./data/submitter-state
+PIPELINE_SSL_DIR=./data/certs</code></pre>
+<p>It does <strong>not</strong> write to <code>.env</code> — copy and paste the output yourself.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ./data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected: <code>certs  images  refdata  storage  submitter-state</code> listed under <code>./data</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Skipping <code>make mount</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your directories already exist (NAS share, previous install, custom layout), skip this step and set the path variables in <code>.env</code> manually in the next section.</p>
+</div>
+</div>
+</section>
+<section id="fill-in-.env" class="level2">
+<h2 class="anchored" data-anchor-id="fill-in-.env">3. Fill in <code>.env</code></h2>
+<p>Open <code>.env</code> in any text editor.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Windows: save with LF line endings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Docker reads <code>.env</code> inside a Linux container. Save with <strong>LF</strong> (Unix) line endings, not CRLF. VS Code does this automatically; other editors may need a setting change.</p>
+</div>
+</div>
+<section id="must-set" class="level3">
+<h3 class="anchored" data-anchor-id="must-set">Must set</h3>
+<p>These variables have no working defaults — the pipeline will not start without them:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>What to set</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SLIDETAP_SECRET_KEY</code></td>
+<td>Random string, ≥ 32 characters</td>
+<td>Run <code>openssl rand -hex 32</code> and paste the output</td>
+</tr>
+<tr class="even">
+<td><code>XLSX_MAPPER_GROUP_NAME</code></td>
+<td>Your institution’s short name</td>
+<td>e.g.&nbsp;<code>karolinska</code> — used as the mapper group label</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_STORAGE</code></td>
+<td>Host path for pipeline storage</td>
+<td>From <code>make mount</code> output, or set manually</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_OUTBOX_DIR</code></td>
+<td>Must be <code>&lt;PIPELINE_STORAGE&gt;/storage</code></td>
+<td>From <code>make mount</code> output, or append <code>/storage</code> to your storage path</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_REFDATA_DIR</code></td>
+<td>Host path for reference data</td>
+<td>From <code>make mount</code> output, or set manually</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_IMAGE_ROOT</code></td>
+<td>Host path for whole-slide images</td>
+<td>From <code>make mount</code> output, or set manually</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SUBMITTER_STATE</code></td>
+<td>Host path for submitter state</td>
+<td>From <code>make mount</code> output, or set manually</td>
+</tr>
+</tbody>
+</table>
+<p>To generate a value for <code>SLIDETAP_SECRET_KEY</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">openssl</span> rand <span class="at">-hex</span> 32</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Paste the printed string as the value in <code>.env</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Windows: forward-slash paths only
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Docker’s bind-mount parser does not accept Windows backslashes. Write <code>./data/storage</code>, not <code>.\data\storage</code> or <code>C:\data\storage</code>. If you need an absolute path, use <code>C:/data/storage</code> (forward slashes).</p>
+</div>
+</div>
+</section>
+<section id="may-change" class="level3">
+<h3 class="anchored" data-anchor-id="may-change">May change</h3>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Default</th>
+<th>When to change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PIPELINE_SERVERNAME</code></td>
+<td><code>localhost</code></td>
+<td>Set to your host’s DNS name or IP if other machines need to reach it</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_PORT</code></td>
+<td><code>443</code></td>
+<td>Change if port 443 is already in use on the host</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SSL_DIR</code></td>
+<td><code>./certs</code></td>
+<td>Where your TLS certificate and key live</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_SSL_CERT</code></td>
+<td><code>server.crt</code></td>
+<td>TLS certificate filename (inside <code>PIPELINE_SSL_DIR</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SSL_KEY</code></td>
+<td><code>server.key</code></td>
+<td>TLS private key filename (inside <code>PIPELINE_SSL_DIR</code>)</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_CREDENTIALS_FILE</code></td>
+<td><code>./credentials.json</code></td>
+<td>Path to the hashed credentials file (generated in step E)</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
+<td><code>./certs</code></td>
+<td>Directory holding BigPicture-issued S3 and Crypt4GH keys</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_CONFIG_FILE</code></td>
+<td><code>./config.yaml</code></td>
+<td>Path to the app config file — set up in the next step</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="leave-as-is" class="level3">
+<h3 class="anchored" data-anchor-id="leave-as-is">Leave as-is</h3>
+<p>Everything in the <strong>Dev / advanced</strong> section of <code>.env</code> (<code>PIPELINE_DB_*</code>, <code>XLSX_MAPPER_GROUP_UID</code>, <code>SLIDETAP_APP_CREATOR</code>, <code>PIPELINE_IMAGE_PREFIX</code>, etc.) has working defaults. Do not change these unless you have a specific reason.</p>
+</section>
+</section>
+<section id="set-up-config.yaml" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-config.yaml">4. Set up <code>config.yaml</code></h2>
+<p>Copy the example file:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> config.yaml.example config.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open <code>config.yaml</code> and replace the <code>salt</code> value with a unique secret of <strong>at least 32 characters</strong>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">json_file_auth</span><span class="kw">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">credentials_file</span><span class="kw">:</span><span class="at"> /credentials.json</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">salt</span><span class="kw">:</span><span class="at"> </span><span class="st">"replace-this-with-your-own-secret-at-least-32-characters"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Set the salt once — never change it afterwards
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The salt is mixed into every hashed password. Changing it after you run <code>make gen-credentials</code> (step E) invalidates all existing passwords and locks everyone out.</p>
+</div>
+</div>
+<section id="other-settings-optional" class="level3">
+<h3 class="anchored" data-anchor-id="other-settings-optional">Other settings (optional)</h3>
+<p>The rest of <code>config.yaml</code> controls application behaviour and DICOM conversion. The defaults are fine for most deployments; adjust only if you have a specific need.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Default</th>
+<th>When to change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>restore_projects</code></td>
+<td><code>false</code></td>
+<td>Set to <code>true</code> to let operators resume in-progress submissions after a container restart</td>
+</tr>
+<tr class="even">
+<td><code>dicomization.threads</code></td>
+<td><code>1</code></td>
+<td>Increase for faster conversion on multi-core hosts (no effect on <code>.vms</code> slides)</td>
+</tr>
+<tr class="odd">
+<td><code>dicomization.levels</code></td>
+<td><code>all</code></td>
+<td>Restrict (e.g.&nbsp;<code>[0, 1, 2]</code>) for smaller output; fewer levels reduce zoom range in viewers</td>
+</tr>
+<tr class="even">
+<td><code>dicomization.include_labels</code></td>
+<td><code>false</code></td>
+<td>Set to <code>true</code> to include the barcode/cassette label image</td>
+</tr>
+<tr class="odd">
+<td><code>dicomization.include_overviews</code></td>
+<td><code>false</code></td>
+<td>Set to <code>true</code> to include the macro overview thumbnail</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Confirm the salt has been changed:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> salt config.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output should show your string, not <code>change-this-salt-to-something-secret-in-production!!</code>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="if-something-goes-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
+<p><strong><code>make doctor</code> reports a missing or placeholder variable</strong></p>
+<p>Run <code>make doctor</code> to see exactly which variable failed — it names the variable and describes the problem. Return to the relevant section above, set the value, and run <code>make doctor</code> again.</p>
+<p><strong><code>make doctor</code> reports “PIPELINE_CONFIG_FILE still matches config.yaml.example”</strong></p>
+<p>You copied <code>config.yaml.example</code> to <code>config.yaml</code> but did not change the salt. Open <code>config.yaml</code>, replace the <code>salt:</code> value with your own 32+ character string, save the file, and run <code>make doctor</code> again.</p>
+<p><strong>Container bind-mount fails after <code>docker compose up</code> (Windows)</strong></p>
+<p>You have backslash paths in <code>.env</code>. Docker’s bind-mount parser requires forward slashes on Windows. Open <code>.env</code>, replace all <code>\</code> with <code>/</code>, save with LF line endings, and restart.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

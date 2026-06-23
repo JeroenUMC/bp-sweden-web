@@ -670,7 +670,7 @@
     "href": "datasets/submission/install-package.html",
     "title": "C. install package",
     "section": "",
-    "text": "Clone the submission pipeline repository, create your local environment file, and pull the prebuilt container images from GitHub Container Registry.",
+    "text": "Clone the submission pipeline repository and pull the prebuilt container images from GitHub Container Registry.",
     "crumbs": [
       "Implementation",
       "C. install package"
@@ -688,22 +688,11 @@
     ]
   },
   {
-    "objectID": "datasets/submission/install-package.html#copy-the-environment-file",
-    "href": "datasets/submission/install-package.html#copy-the-environment-file",
-    "title": "C. install package",
-    "section": "2. Copy the environment file",
-    "text": "2. Copy the environment file\ncp .env.example .env\n\n\n\n\n\n\nNote\n\n\n\nLeave .env untouched for now — you will fill in the values in D. Configure.",
-    "crumbs": [
-      "Implementation",
-      "C. install package"
-    ]
-  },
-  {
     "objectID": "datasets/submission/install-package.html#pull-the-container-images",
     "href": "datasets/submission/install-package.html#pull-the-container-images",
     "title": "C. install package",
-    "section": "3. Pull the container images",
-    "text": "3. Pull the container images\nmake pull\n\n\n\n\n\n\nVerify\n\n\n\ndocker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline\nExpected: one or more ghcr.io/imi-bigpicture/bp-submission-pipeline/... images listed.",
+    "section": "2. Pull the container images",
+    "text": "2. Pull the container images\nmake pull\n\n\n\n\n\n\nVerify\n\n\n\ndocker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline\nExpected: one or more ghcr.io/imi-bigpicture/bp-submission-pipeline/... images listed.",
     "crumbs": [
       "Implementation",
       "C. install package"
@@ -769,7 +758,62 @@
     "href": "datasets/submission/configure.html",
     "title": "D. Configure",
     "section": "",
-    "text": "Set up your .env, mount your data directory with make mount, and set the config.yaml salt.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #8.",
+    "text": "Set up your environment file, lay out the data directories, and rotate the config.yaml salt before you start the pipeline for the first time.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#copy-the-environment-file",
+    "href": "datasets/submission/configure.html#copy-the-environment-file",
+    "title": "D. Configure",
+    "section": "1. Copy the environment file",
+    "text": "1. Copy the environment file\ncp .env.example .env",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#lay-out-the-data-directories",
+    "href": "datasets/submission/configure.html#lay-out-the-data-directories",
+    "title": "D. Configure",
+    "section": "2. Lay out the data directories",
+    "text": "2. Lay out the data directories\nmake mount ROOT=&lt;path&gt; creates the six host directories the pipeline bind-mounts into its containers, then prints ready-to-paste .env lines so you do not have to type the paths by hand.\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nAll make commands must be run in Git Bash, not PowerShell or cmd.exe.\n\n\nReplace ./data with the path where you want pipeline data to live:\nmake mount ROOT=./data\nThe command prints something like:\n# Paste into .env (paths under ./data):\nPIPELINE_STORAGE=./data/storage\nPIPELINE_OUTBOX_DIR=./data/storage/storage\nPIPELINE_REFDATA_DIR=./data/refdata\nPIPELINE_IMAGE_ROOT=./data/images\nPIPELINE_SUBMITTER_CREDS_DIR=./data/certs\nPIPELINE_SUBMITTER_STATE=./data/submitter-state\nPIPELINE_SSL_DIR=./data/certs\nIt does not write to .env — copy and paste the output yourself.\n\n\n\n\n\n\nVerify\n\n\n\nls ./data\nExpected: certs  images  refdata  storage  submitter-state listed under ./data.\n\n\n\n\n\n\n\n\nSkipping make mount\n\n\n\nIf your directories already exist (NAS share, previous install, custom layout), skip this step and set the path variables in .env manually in the next section.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#fill-in-.env",
+    "href": "datasets/submission/configure.html#fill-in-.env",
+    "title": "D. Configure",
+    "section": "3. Fill in .env",
+    "text": "3. Fill in .env\nOpen .env in any text editor.\n\n\n\n\n\n\nWindows: save with LF line endings\n\n\n\nDocker reads .env inside a Linux container. Save with LF (Unix) line endings, not CRLF. VS Code does this automatically; other editors may need a setting change.\n\n\n\nMust set\nThese variables have no working defaults — the pipeline will not start without them:\n\n\n\n\n\n\n\n\nVariable\nWhat to set\nHow\n\n\n\n\nSLIDETAP_SECRET_KEY\nRandom string, ≥ 32 characters\nRun openssl rand -hex 32 and paste the output\n\n\nXLSX_MAPPER_GROUP_NAME\nYour institution’s short name\ne.g. karolinska — used as the mapper group label\n\n\nPIPELINE_STORAGE\nHost path for pipeline storage\nFrom make mount output, or set manually\n\n\nPIPELINE_OUTBOX_DIR\nMust be &lt;PIPELINE_STORAGE&gt;/storage\nFrom make mount output, or append /storage to your storage path\n\n\nPIPELINE_REFDATA_DIR\nHost path for reference data\nFrom make mount output, or set manually\n\n\nPIPELINE_IMAGE_ROOT\nHost path for whole-slide images\nFrom make mount output, or set manually\n\n\nPIPELINE_SUBMITTER_STATE\nHost path for submitter state\nFrom make mount output, or set manually\n\n\n\nTo generate a value for SLIDETAP_SECRET_KEY:\nopenssl rand -hex 32\nPaste the printed string as the value in .env.\n\n\n\n\n\n\nWindows: forward-slash paths only\n\n\n\nDocker’s bind-mount parser does not accept Windows backslashes. Write ./data/storage, not .\\data\\storage or C:\\data\\storage. If you need an absolute path, use C:/data/storage (forward slashes).\n\n\n\n\nMay change\n\n\n\n\n\n\n\n\nVariable\nDefault\nWhen to change\n\n\n\n\nPIPELINE_SERVERNAME\nlocalhost\nSet to your host’s DNS name or IP if other machines need to reach it\n\n\nPIPELINE_PORT\n443\nChange if port 443 is already in use on the host\n\n\nPIPELINE_SSL_DIR\n./certs\nWhere your TLS certificate and key live\n\n\nPIPELINE_SSL_CERT\nserver.crt\nTLS certificate filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_SSL_KEY\nserver.key\nTLS private key filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_CREDENTIALS_FILE\n./credentials.json\nPath to the hashed credentials file (generated in step E)\n\n\nPIPELINE_SUBMITTER_CREDS_DIR\n./certs\nDirectory holding BigPicture-issued S3 and Crypt4GH keys\n\n\nPIPELINE_CONFIG_FILE\n./config.yaml\nPath to the app config file — set up in the next step\n\n\n\n\n\nLeave as-is\nEverything in the Dev / advanced section of .env (PIPELINE_DB_*, XLSX_MAPPER_GROUP_UID, SLIDETAP_APP_CREATOR, PIPELINE_IMAGE_PREFIX, etc.) has working defaults. Do not change these unless you have a specific reason.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#set-up-config.yaml",
+    "href": "datasets/submission/configure.html#set-up-config.yaml",
+    "title": "D. Configure",
+    "section": "4. Set up config.yaml",
+    "text": "4. Set up config.yaml\nCopy the example file:\ncp config.yaml.example config.yaml\nOpen config.yaml and replace the salt value with a unique secret of at least 32 characters:\njson_file_auth:\n  credentials_file: /credentials.json\n  salt: \"replace-this-with-your-own-secret-at-least-32-characters\"\n\n\n\n\n\n\nSet the salt once — never change it afterwards\n\n\n\nThe salt is mixed into every hashed password. Changing it after you run make gen-credentials (step E) invalidates all existing passwords and locks everyone out.\n\n\n\nOther settings (optional)\nThe rest of config.yaml controls application behaviour and DICOM conversion. The defaults are fine for most deployments; adjust only if you have a specific need.\n\n\n\n\n\n\n\n\nSetting\nDefault\nWhen to change\n\n\n\n\nrestore_projects\nfalse\nSet to true to let operators resume in-progress submissions after a container restart\n\n\ndicomization.threads\n1\nIncrease for faster conversion on multi-core hosts (no effect on .vms slides)\n\n\ndicomization.levels\nall\nRestrict (e.g. [0, 1, 2]) for smaller output; fewer levels reduce zoom range in viewers\n\n\ndicomization.include_labels\nfalse\nSet to true to include the barcode/cassette label image\n\n\ndicomization.include_overviews\nfalse\nSet to true to include the macro overview thumbnail\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nConfirm the salt has been changed:\ngrep salt config.yaml\nThe output should show your string, not change-this-salt-to-something-secret-in-production!!.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#if-something-goes-wrong",
+    "href": "datasets/submission/configure.html#if-something-goes-wrong",
+    "title": "D. Configure",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nmake doctor reports a missing or placeholder variable\nRun make doctor to see exactly which variable failed — it names the variable and describes the problem. Return to the relevant section above, set the value, and run make doctor again.\nmake doctor reports “PIPELINE_CONFIG_FILE still matches config.yaml.example”\nYou copied config.yaml.example to config.yaml but did not change the salt. Open config.yaml, replace the salt: value with your own 32+ character string, save the file, and run make doctor again.\nContainer bind-mount fails after docker compose up (Windows)\nYou have backslash paths in .env. Docker’s bind-mount parser requires forward slashes on Windows. Open .env, replace all \\ with /, save with LF line endings, and restart.",
     "crumbs": [
       "Implementation",
       "D. Configure"

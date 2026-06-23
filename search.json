@@ -681,29 +681,73 @@
     "href": "datasets/submission/prerequisites.html",
     "title": "A. Prerequisites",
     "section": "",
-    "text": "Before you can run the submission pipeline, your machine needs a small set of tools: Docker, Git, the GitHub CLI (gh), make, OpenSSL, and Python. This page shows the pattern with Docker; the full per-tool walkthrough is being written in issue #5.",
+    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
     "crumbs": [
       "Implementation",
       "A. Prerequisites"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#install-docker",
-    "href": "datasets/submission/prerequisites.html#install-docker",
+    "objectID": "datasets/submission/prerequisites.html#docker-compose-v2",
+    "href": "datasets/submission/prerequisites.html#docker-compose-v2",
     "title": "A. Prerequisites",
-    "section": "Install Docker",
-    "text": "Install Docker\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine from the official convenience script:\ncurl -fsSL https://get.docker.com | sh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ndocker --version\nExpected output (your version may differ):\nDocker version 27.3.1, build ce12230",
+    "section": "Docker + Compose v2",
+    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nPaste these:\ndocker --version\ndocker compose version",
     "crumbs": [
       "Implementation",
       "A. Prerequisites"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#the-rest-of-the-toolbelt",
-    "href": "datasets/submission/prerequisites.html#the-rest-of-the-toolbelt",
+    "objectID": "datasets/submission/prerequisites.html#git",
+    "href": "datasets/submission/prerequisites.html#git",
     "title": "A. Prerequisites",
-    "section": "The rest of the toolbelt",
-    "text": "The rest of the toolbelt\nYou will also need the tools below. Detailed, verified per-OS steps for each are tracked in issue #5; they all follow the same install → verify pattern shown above.\n\nGit — clone the pipeline repository.\nGitHub CLI (gh) — authenticate to the private repos and images (step B).\nmake — run the pipeline’s make targets.\nOpenSSL — generate TLS certificates (step F).\nPython — required by some pipeline tooling.\n\nOnce every tool reports a version, continue to B. GitHub access.",
+    "section": "Git",
+    "text": "Git\n\nWindowsmacOSLinux\n\n\nwinget install --id Git.Git -e\nRestart any open terminals after installing.\n\n\nbrew install git\n\n\napt install -y git\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngit --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#github-cli-gh",
+    "href": "datasets/submission/prerequisites.html#github-cli-gh",
+    "title": "A. Prerequisites",
+    "section": "GitHub CLI (gh)",
+    "text": "GitHub CLI (gh)\n\nWindowsmacOSLinux\n\n\nwinget install --id GitHub.cli -e\n\n\nbrew install gh\n\n\napt install gh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngh --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#make",
+    "href": "datasets/submission/prerequisites.html#make",
+    "title": "A. Prerequisites",
+    "section": "make",
+    "text": "make\nOn Windows, make is bundled with Git for Windows — no separate install. You only need to add Git’s tool folder to your system PATH once.\n\nWindowsmacOSLinux\n\n\nGit for Windows ships make in C:\\Program Files\\Git\\usr\\bin. Add that folder to your system PATH:\n\nPress the Windows key, type environment variables, and open “Edit the system environment variables”.\nClick Environment Variables…\nUnder System variables, select Path and click Edit…\nClick New and paste:\nC:\\Program Files\\Git\\usr\\bin\nClick OK three times, then restart any open terminals.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you installed Git to a custom location, replace C:\\Program Files\\Git with your actual install path. The openssl command in the next section lives in the same folder, so this one PATH change covers both.\n\n\n\n\nInstall GNU make via Homebrew and make it the default make:\nbrew install make\necho 'export PATH=\"$(brew --prefix)/opt/make/libexec/gnubin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y make\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nmake --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#openssl",
+    "href": "datasets/submission/prerequisites.html#openssl",
+    "title": "A. Prerequisites",
+    "section": "OpenSSL",
+    "text": "OpenSSL\nOn Windows, OpenSSL ships in the same Git folder you already added to PATH in the make step — no extra install needed.\nOn macOS, the system openssl command is actually LibreSSL. The pipeline needs real OpenSSL, so we install it via Homebrew.\n\nWindowsmacOSLinux\n\n\nNo additional install needed. Open a new terminal and confirm it is available:\nopenssl version\n\n\nbrew install openssl\necho 'export PATH=\"$(brew --prefix)/opt/openssl@3/bin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y openssl\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nopenssl version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#python",
+    "href": "datasets/submission/prerequisites.html#python",
+    "title": "A. Prerequisites",
+    "section": "Python",
+    "text": "Python\nThe pipeline requires Python 3.12 or later.\n\nWindowsmacOSLinux\n\n\nwinget install --id Python.Python.3.12 -e\nRestart any open terminals after installing.\n\n\nbrew install python@3.12\n\n\nOn Ubuntu 24.04 and later, Python 3.12 is in the default repositories:\napt install -y python3.12\nOn Ubuntu 22.04, install it via the deadsnakes PPA:\nadd-apt-repository ppa:deadsnakes/ppa\napt update\napt install -y python3.12\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\npython3.12 --version\nOn Windows, use python --version instead.\n\n\nOnce every tool reports a version, continue to B. GitHub access.",
     "crumbs": [
       "Implementation",
       "A. Prerequisites"

@@ -1,0 +1,109 @@
+---
+title: C. install package
+---
+
+Clone the submission pipeline repository, create your local environment file, and
+pull the prebuilt container images from GitHub Container Registry.
+
+::: {.callout-important}
+## Requires: GitHub access (step B)
+`make pull` authenticates via the `read:packages` scope added in the previous
+step. Complete [B. GitHub access](github-access.qmd) before continuing.
+:::
+
+## 1. Clone the repository
+
+::: {.callout-note}
+## Windows: use Git Bash
+Open **Git Bash** (installed with Git for Windows in step A). All `make`
+commands in this manual must be run in **Git Bash**, not PowerShell.
+:::
+
+```bash
+git clone --recurse-submodules https://github.com/imi-bigpicture/bp-submission-pipeline.git
+cd bp-submission-pipeline
+```
+
+::: {.callout-note}
+## What are submodules?
+The pipeline bundles several companion components (web app, data model, and
+submission CLI) as Git submodules — without `--recurse-submodules` those
+folders arrive empty and the pipeline will not start.
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+ls bigpicture-metadata-interface
+```
+
+You should see files listed inside the folder, not an empty directory.
+:::
+
+::: {.callout-important}
+## You are now inside `bp-submission-pipeline/`
+All commands from here through step J are run from this directory. If you open
+a new terminal, run `cd bp-submission-pipeline` before continuing.
+:::
+
+## 2. Copy the environment file
+
+```bash
+cp .env.example .env
+```
+
+::: {.callout-note}
+Leave `.env` untouched for now — you will fill in the values in
+[D. Configure](configure.qmd).
+:::
+
+## 3. Pull the container images
+
+```bash
+make pull
+```
+
+::: {.callout-tip}
+## Verify
+
+```bash
+docker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline
+```
+
+Expected: one or more `ghcr.io/imi-bigpicture/bp-submission-pipeline/...` images listed.
+:::
+
+## If something goes wrong
+
+**`make pull` fails with "lacks the read:packages scope"**
+
+Return to [B. GitHub access](github-access.qmd) and run
+`gh auth refresh -s read:packages`, then try again.
+
+**Clone fails with "repository not found" or "access denied"**
+
+Your GitHub account has not been granted access to the private repository.
+Request access via the [servicedesk](mailto:{{< var email.servicedesk >}}).
+
+**`make pull` fails with "no such file or directory" on `/var/run/docker.sock`**
+
+The Docker daemon is not running. Start it and retry:
+
+::: {.panel-tabset}
+## Windows / macOS
+Launch **Docker Desktop** and wait until the whale icon in the taskbar/menu bar
+shows "Docker Desktop is running", then run `make pull` again.
+
+## Linux
+```bash
+systemctl start docker
+```
+On older systems without systemd, use `service docker start` instead.
+Then run `make pull` again.
+:::
+
+**Submodule folders are empty after cloning**
+
+You cloned without `--recurse-submodules`. Delete the cloned folder and re-run
+the full clone command above.

@@ -67,146 +67,193 @@
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html",
-    "href": "datasets/submission/prerequisites.html",
-    "title": "A. Prerequisites",
+    "objectID": "datasets/submission/boot.html",
+    "href": "datasets/submission/boot.html",
+    "title": "G. Preflight + boot",
     "section": "",
-    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
+    "text": "Run the preflight check with make doctor, start the stack with make up, and open the submission UI in your browser.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #12.",
     "crumbs": [
       "Implementation",
-      "A. Prerequisites"
+      "G. Preflight + boot"
     ]
   },
   {
-    "objectID": "datasets/submission/prerequisites.html#docker-compose-v2",
-    "href": "datasets/submission/prerequisites.html#docker-compose-v2",
-    "title": "A. Prerequisites",
-    "section": "Docker + Compose v2",
-    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ndocker --version\ndocker compose version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#git",
-    "href": "datasets/submission/prerequisites.html#git",
-    "title": "A. Prerequisites",
-    "section": "Git",
-    "text": "Git\n\nWindowsmacOSLinux\n\n\nwinget install --id Git.Git -e\nRestart any open terminals after installing.\n\n\nbrew install git\n\n\napt install -y git\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngit --version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#github-cli-gh",
-    "href": "datasets/submission/prerequisites.html#github-cli-gh",
-    "title": "A. Prerequisites",
-    "section": "GitHub CLI (gh)",
-    "text": "GitHub CLI (gh)\n\nWindowsmacOSLinux\n\n\nwinget install --id GitHub.cli -e\n\n\nbrew install gh\n\n\napt install gh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngh --version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#make",
-    "href": "datasets/submission/prerequisites.html#make",
-    "title": "A. Prerequisites",
-    "section": "make",
-    "text": "make\nOn Windows, make is bundled with Git for Windows — no separate install. You only need to add Git’s tool folder to your system PATH once.\n\nWindowsmacOSLinux\n\n\nGit for Windows ships make in C:\\Program Files\\Git\\usr\\bin. Add that folder to your system PATH:\n\nPress the Windows key, type environment variables, and open “Edit the system environment variables”.\nClick Environment Variables…\nUnder System variables, select Path and click Edit…\nClick New and paste:\nC:\\Program Files\\Git\\usr\\bin\nClick OK three times, then restart any open terminals.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you installed Git to a custom location, replace C:\\Program Files\\Git with your actual install path. The openssl command in the next section lives in the same folder, so this one PATH change covers both.\n\n\n\n\nInstall GNU make via Homebrew and make it the default make:\nbrew install make\necho 'export PATH=\"$(brew --prefix)/opt/make/libexec/gnubin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y make\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nmake --version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#openssl",
-    "href": "datasets/submission/prerequisites.html#openssl",
-    "title": "A. Prerequisites",
-    "section": "OpenSSL",
-    "text": "OpenSSL\nOn Windows, OpenSSL ships in the same Git folder you already added to PATH in the make step — no extra install needed.\nOn macOS, the system openssl command is actually LibreSSL. The pipeline needs real OpenSSL, so we install it via Homebrew.\n\nWindowsmacOSLinux\n\n\nNo additional install needed. Open a new terminal and confirm it is available:\nopenssl version\n\n\nbrew install openssl\necho 'export PATH=\"$(brew --prefix)/opt/openssl@3/bin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y openssl\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nopenssl version",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/prerequisites.html#python",
-    "href": "datasets/submission/prerequisites.html#python",
-    "title": "A. Prerequisites",
-    "section": "Python",
-    "text": "Python\nThe pipeline requires Python 3.12 or later.\n\nWindowsmacOSLinux\n\n\nwinget install --id Python.Python.3.12 -e\nRestart any open terminals after installing.\n\n\nbrew install python@3.12\n\n\nOn Ubuntu 24.04 and later, Python 3.12 is in the default repositories:\napt install -y python3.12\nOn Ubuntu 22.04, install it via the deadsnakes PPA:\nadd-apt-repository ppa:deadsnakes/ppa\napt update\napt install -y python3.12\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\npython3.12 --version\nOn Windows, use python --version instead.\n\n\nOnce every tool reports a version, continue to B. GitHub access.",
-    "crumbs": [
-      "Implementation",
-      "A. Prerequisites"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/tls-credentials.html",
-    "href": "datasets/submission/tls-credentials.html",
-    "title": "F. TLS + credentials",
+    "objectID": "datasets/submission/support.html",
+    "href": "datasets/submission/support.html",
+    "title": "Support",
     "section": "",
-    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
+    "text": "If you get stuck while following the manual, here is where to turn.",
+    "crumbs": [
+      "Help",
+      "Support"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/support.html#get-help",
+    "href": "datasets/submission/support.html#get-help",
+    "title": "Support",
+    "section": "Get help",
+    "text": "Get help\n\nSubmission pipeline, server, or data-archive issues: bp-ops — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.\nGeneral and technical support: servicedesk.",
+    "crumbs": [
+      "Help",
+      "Support"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/support.html#when-you-ask-include",
+    "href": "datasets/submission/support.html#when-you-ask-include",
+    "title": "Support",
+    "section": "When you ask, include",
+    "text": "When you ask, include\nTo get a useful answer quickly, tell us:\n\nWhich manual step you were on — the letter and name, e.g. F. TLS + credentials — and the exact command you ran.\nThe output you got versus what the Verify box said to expect.\nYour operating system (Windows / macOS / Linux).",
+    "crumbs": [
+      "Help",
+      "Support"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/support.html#out-of-scope",
+    "href": "datasets/submission/support.html#out-of-scope",
+    "title": "Support",
+    "section": "Out of scope",
+    "text": "Out of scope\nSupport covers the submission pipeline itself. Custom data transformations and your own infrastructure setup are outside what the helpdesk can troubleshoot.",
+    "crumbs": [
+      "Help",
+      "Support"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html",
+    "href": "datasets/submission/configure.html",
+    "title": "D. Configure",
+    "section": "",
+    "text": "Set up your environment file, lay out the data directories, and rotate the config.yaml salt before you start the pipeline for the first time.",
     "crumbs": [
       "Implementation",
-      "F. TLS + credentials"
+      "D. Configure"
     ]
   },
   {
-    "objectID": "datasets/submission/upload.html",
-    "href": "datasets/submission/upload.html",
-    "title": "J. Upload to BigPicture",
-    "section": "",
-    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
+    "objectID": "datasets/submission/configure.html#copy-the-environment-file",
+    "href": "datasets/submission/configure.html#copy-the-environment-file",
+    "title": "D. Configure",
+    "section": "1. Copy the environment file",
+    "text": "1. Copy the environment file\ncp .env.example .env",
     "crumbs": [
       "Implementation",
-      "J. Upload to BigPicture"
+      "D. Configure"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html",
-    "href": "datasets/submission/contributing/page-template.html",
-    "title": "Page template & conventions",
+    "objectID": "datasets/submission/configure.html#lay-out-the-data-directories",
+    "href": "datasets/submission/configure.html#lay-out-the-data-directories",
+    "title": "D. Configure",
+    "section": "2. Lay out the data directories",
+    "text": "2. Lay out the data directories\nEvery host directory the pipeline bind-mounts derives from a single variable, PIPELINE_ROOT, in .env (default ./data). You set one path and storage, images, reference data, certificates, and submitter state all follow from it.\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nAll make commands must be run in Git Bash, not PowerShell or cmd.exe.\n\n\nFor a single-host install the default PIPELINE_ROOT=./data is fine — leave it as shipped; it is all you need for a test run. Create the directory tree it points to:\nmake dirs\nmake dirs reads the paths from your .env and creates exactly the directories the containers expect, printing one line per directory:\nok: PIPELINE_STORAGE -&gt; ./data/storage\nok: PIPELINE_OUTBOX_DIR -&gt; ./data/storage/storage\nok: PIPELINE_IMAGE_ROOT -&gt; ./data/images\nok: PIPELINE_REFDATA_DIR -&gt; ./data/refdata\nok: PIPELINE_SSL_DIR -&gt; ./data/certs\nok: PIPELINE_SUBMITTER_CREDS_DIR -&gt; ./data/certs\nok: PIPELINE_SUBMITTER_STATE -&gt; ./data/submitter-state\nThe repeated storage/storage is intentional, not a typo: PIPELINE_STORAGE is the storage root, and the export outbox (PIPELINE_OUTBOX_DIR) is a folder named storage inside it — slidetap always writes finished bundles to &lt;storage root&gt;/storage.\nmake dirs is for the local layout only. To place a category on a network share, see Relocating individual categories below.\n\nRelocating individual categories\nBundling everything under PIPELINE_ROOT suits a single host. In production you might want to place categories on different mounts by performance and sensitivity. Override only the categories that move, the rest stay derived from PIPELINE_ROOT.\n\n\n\n\n\n\n\n\nCategory (.env variable)\nPut it on\nWhy\n\n\n\n\nPIPELINE_IMAGE_ROOT\nLarge, read-only NFS/CIFS share\nTerabytes of whole-slide images; read-only, no write-speed requirement\n\n\nPIPELINE_STORAGE (download, conversion and the export outbox all live here)\nLarge and reasonably fast volume\nHolds the entire converted dataset plus intermediate work. Conversion also writes here, so a slow network share hurts\n\n\nPIPELINE_REFDATA_DIR\nSmall shared NFS\nreference data that multiple people might want access to, like snomed conversions\n\n\nPIPELINE_SSL_DIR, PIPELINE_SUBMITTER_CREDS_DIR\nLocal disk, not a shared mount\nTLS keys and BigPicture credentials — keep secrets off shared storage\n\n\nPIPELINE_SUBMITTER_STATE\nLocal disk\nSmall read/write upload state for the bp-submitter\n\n\n\nTo relocate a category, set its variable to an absolute path in .env, for example:\nPIPELINE_IMAGE_ROOT=/mnt/nas/wsi-images\nPIPELINE_STORAGE=/srv/bp-storage \nPIPELINE_OUTBOX_DIR always follows PIPELINE_STORAGE automatically — you never set it by hand, so the outbox can never drift out of storage.\nWhen you relocate a category to a network share, mounting that share and giving the container user (UID 1000) write access is an administrator prerequisite — set it up via fstab/NFS/CIFS with uid=1000. The pipeline only verifies the result with make doctor; it never creates or mounts anything.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#fill-in-.env",
+    "href": "datasets/submission/configure.html#fill-in-.env",
+    "title": "D. Configure",
+    "section": "3. Fill in .env",
+    "text": "3. Fill in .env\nOpen .env in any text editor.\n\n\n\n\n\n\nWindows: save with LF line endings\n\n\n\nDocker reads .env inside a Linux container. Save with LF (Unix) line endings, not CRLF. VS Code does this automatically; other editors may need a setting change.\n\n\n\nMust set\nThese variables have no working defaults — the pipeline will not start without them:\n\n\n\n\n\n\n\n\nVariable\nWhat to set\nHow\n\n\n\n\nSLIDETAP_SECRET_KEY\nRandom string, ≥ 32 characters\nRun openssl rand -hex 32 and paste the output\n\n\nXLSX_MAPPER_GROUP_NAME\nYour institution’s short name\ne.g. karolinska — used as the mapper group label\n\n\n\nTo generate a value for SLIDETAP_SECRET_KEY:\nopenssl rand -hex 32\nPaste the printed string as the value in .env.\n\n\nHost paths — derived, nothing to set\nYou set PIPELINE_ROOT in step 2; these all follow from it automatically. You only touch them to relocate a category (see Relocating individual categories above) — never to wire up the default layout.\n\n\n\n\n\n\n\nVariable\nDerived value\n\n\n\n\nPIPELINE_STORAGE\n${PIPELINE_ROOT}/storage\n\n\nPIPELINE_OUTBOX_DIR\n${PIPELINE_STORAGE}/storage — always inside storage\n\n\nPIPELINE_IMAGE_ROOT\n${PIPELINE_ROOT}/images\n\n\nPIPELINE_REFDATA_DIR\n${PIPELINE_ROOT}/refdata\n\n\nPIPELINE_SSL_DIR\n${PIPELINE_ROOT}/certs\n\n\nPIPELINE_SUBMITTER_CREDS_DIR\n${PIPELINE_ROOT}/certs\n\n\nPIPELINE_SUBMITTER_STATE\n${PIPELINE_ROOT}/submitter-state\n\n\n\n\n\n\n\n\n\nWindows: forward-slash paths only\n\n\n\nIf you set an absolute PIPELINE_ROOT (or relocate a category), Docker’s bind-mount parser does not accept Windows backslashes. Write C:/bp-data, not C:\\bp-data or .\\bp-data.\n\n\n\n\nMay change\n\n\n\n\n\n\n\n\nVariable\nDefault\nWhen to change\n\n\n\n\nPIPELINE_SERVERNAME\nlocalhost\nSet to your host’s DNS name or IP if other machines need to reach it\n\n\nPIPELINE_PORT\n443\nChange if port 443 is already in use on the host\n\n\nPIPELINE_SSL_CERT\nserver.crt\nTLS certificate filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_SSL_KEY\nserver.key\nTLS private key filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_CREDENTIALS_FILE\n./credentials.json\nPath to the hashed credentials file (generated in step E)\n\n\nPIPELINE_CONFIG_FILE\n./config.yaml\nPath to the app config file — set up in the next step\n\n\n\n\n\nLeave as-is\nEverything in the Dev / advanced section of .env (PIPELINE_DB_*, XLSX_MAPPER_GROUP_UID, SLIDETAP_APP_CREATOR, PIPELINE_IMAGE_PREFIX, etc.) has working defaults. Do not change these unless you have a specific reason.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#set-up-config.yaml",
+    "href": "datasets/submission/configure.html#set-up-config.yaml",
+    "title": "D. Configure",
+    "section": "4. Set up config.yaml",
+    "text": "4. Set up config.yaml\nCopy the example file:\ncp config.yaml.example config.yaml\nOpen config.yaml and replace the salt value with a unique secret of at least 32 characters:\njson_file_auth:\n  credentials_file: /credentials.json\n  salt: \"replace-this-with-your-own-secret-at-least-32-characters\"\n\n\n\n\n\n\nSet the salt once — never change it afterwards\n\n\n\nThe salt is mixed into every hashed password. Changing it after you run make gen-credentials (step E) invalidates all existing passwords and locks everyone out.\n\n\n\nOther settings (optional)\nThe rest of config.yaml controls application behaviour and DICOM conversion. The defaults are fine for most deployments; adjust only if you have a specific need.\n\n\n\n\n\n\n\n\nSetting\nDefault\nWhen to change\n\n\n\n\nrestore_projects\nfalse\nSet to true to resume in-progress submissions after a container restart\n\n\ndicomization.threads\n1\nIncrease for faster conversion on multi-core hosts (no effect on .vms slides)\n\n\ndicomization.levels\nall\nRestrict (e.g. [0, 1, 2]) for smaller output; fewer levels reduce zoom range in viewers. Useful to reduce for quick tests.\n\n\ndicomization.include_labels\nfalse\nSet to true to include the barcode/cassette label image\n\n\ndicomization.include_overviews\nfalse\nSet to true to include the macro overview thumbnail\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nConfirm the salt has been changed:\ngrep salt config.yaml\nThe output should show your string, not change-this-salt-to-something-secret-in-production!!.",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/configure.html#if-something-goes-wrong",
+    "href": "datasets/submission/configure.html#if-something-goes-wrong",
+    "title": "D. Configure",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong",
+    "crumbs": [
+      "Implementation",
+      "D. Configure"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/github-access.html",
+    "href": "datasets/submission/github-access.html",
+    "title": "B. GitHub access",
     "section": "",
-    "text": "Every page in this manual is fill-in-the-blanks. This page documents the two conventions that make that possible — the OS tabset and the verify step — and shows them rendered so you can copy the source.",
+    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).",
     "crumbs": [
-      "For contributors",
-      "Page template & conventions"
+      "Implementation",
+      "B. GitHub access"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html#the-os-tabset",
-    "href": "datasets/submission/contributing/page-template.html#the-os-tabset",
-    "title": "Page template & conventions",
-    "section": "1. The OS tabset",
-    "text": "1. The OS tabset\nWhere a command or instruction differs by operating system, wrap it in a panel-tabset with Windows / macOS / Linux tabs, in that order. The reader picks their tab once and ignores the rest.\nSource:\n::: {.panel-tabset}\n## Windows\nOpen **PowerShell** and run:\n```powershell\nwinget install --id Git.Git -e\n```\n## macOS\nIn **Terminal**, run:\n```bash\nbrew install git\n```\n## Linux\n```bash\nsudo apt-get install -y git\n```\n:::\nRenders as:\n\nWindowsmacOSLinux\n\n\nOpen PowerShell and run:\nwinget install --id Git.Git -e\n\n\nIn Terminal, run:\nbrew install git\n\n\nsudo apt-get install -y git\n\n\n\nRules\n\nAlways include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.\nKeep commands copy-pasteable: one tool per code block, no shell prompts ($, &gt;) inside the block.\nLinux is the reference path. Write and validate the Linux tab first; the others mirror its shape.",
+    "objectID": "datasets/submission/github-access.html#steps",
+    "href": "datasets/submission/github-access.html#steps",
+    "title": "B. GitHub access",
+    "section": "Steps",
+    "text": "Steps\nRun the three commands below in order:\n1. Sign in to GitHub\ngh auth login\nYou will be asked three questions — answer as shown:\n? What account do you want to log into? **GitHub.com**\n? What is your preferred protocol for Git operations on this host? **HTTPS**\n? Authenticate Git with your GitHub credentials? (Y/n) **Y**\n? How would you like to authenticate GitHub CLI? **Login with a web browser**\nA browser window then opens. Follow the prompts to complete the sign-in.\n2. Wire gh into Git\ngh auth setup-git\nConfigures Git to use gh as its credential helper, so git clone and git pull authenticate automatically without a password prompt.\n3. Add the package-read scope\ngh auth refresh -s read:packages\nExtends your token with the read:packages scope so Docker can pull private container images from GitHub Container Registry (GHCR).\n\n\n\n\n\n\nVerify\n\n\n\ngh auth status\nExpected output:\ngithub.com\n  ✓ Logged in to github.com as &lt;your-username&gt;\n  ...",
     "crumbs": [
-      "For contributors",
-      "Page template & conventions"
+      "Implementation",
+      "B. GitHub access"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html#the-verify-step",
-    "href": "datasets/submission/contributing/page-template.html#the-verify-step",
-    "title": "Page template & conventions",
-    "section": "2. The verify step",
-    "text": "2. The verify step\nAfter an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a callout-tip titled “Verify” with the paste-this / expect-this pattern.\nSource:\n::: {.callout-tip}\n## Verify\n\nPaste this:\n\n```bash\ngit --version\n```\n\nExpected output (your version may differ):\n\n```\ngit version 2.40.0\n```\n:::\nRenders as:\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ngit --version\nExpected output (your version may differ):\ngit version 2.40.0\n\n\nRules\n\nShow the exact command to paste and a representative expected output.\nIf the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.\nOne verify step per meaningful action; don’t make the reader run five things before they can check anything.",
+    "objectID": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "href": "datasets/submission/github-access.html#if-something-goes-wrong",
+    "title": "B. GitHub access",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nBrowser does not open during gh auth login\nA one-time code and a URL are printed in the terminal. Open https://github.com/login/device manually, enter the code, and complete the sign-in there.",
     "crumbs": [
-      "For contributors",
-      "Page template & conventions"
+      "Implementation",
+      "B. GitHub access"
     ]
   },
   {
-    "objectID": "datasets/submission/contributing/page-template.html#page-skeleton",
-    "href": "datasets/submission/contributing/page-template.html#page-skeleton",
-    "title": "Page template & conventions",
-    "section": "3. Page skeleton",
-    "text": "3. Page skeleton\nStart every operator page from this shape:\n---\ntitle: &lt;Step letter&gt;. &lt;Short imperative title&gt;\n---\n\nOne or two sentences: what this step accomplishes and why.\n\n## Do it\n\n&lt;OS tabset with the commands&gt;\n\n::: {.callout-tip}\n## Verify\n&lt;paste-this / expect-this&gt;\n:::\n\n## If something goes wrong\n\n&lt;the one or two most common failures and their fixes&gt;\nThe « Prev / Next » navigation is automatic — it comes from the sidebar order in _quarto.yml, so you never hand-write next-step links.",
+    "objectID": "datasets/submission/reference-data-model.html",
+    "href": "datasets/submission/reference-data-model.html",
+    "title": "E1. model.json",
+    "section": "",
+    "text": "Place the provided default model.json in PIPELINE_REFDATA_DIR so the pipeline has a working attribute and observation model from day one.",
     "crumbs": [
-      "For contributors",
-      "Page template & conventions"
+      "Implementation",
+      "E. Reference data",
+      "model.json"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-model.html#place-the-default-file",
+    "href": "datasets/submission/reference-data-model.html#place-the-default-file",
+    "title": "E1. model.json",
+    "section": "Place the default file",
+    "text": "Place the default file\nRun make setup-refdata to copy the default model.json into your refdata directory:\nmake setup-refdata\nExpected output (file not yet present):\nSetting up refdata in: ./data/refdata\nCopying model.json from bigpicture-slidetap/tests/test_data...\n✓ Setup complete\nIf model.json was already present from a previous run:\nSetting up refdata in: ./data/refdata\n✓ model.json found\n✓ Setup complete\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\nmake doctor\nmake doctor checks every preflight condition in one pass. A passing model check produces no FAIL line for model.json. If all checks pass, the final line is:\ndoctor: OK\nIf model.json is missing, you will see:\nFAIL: model.json missing from ./data/refdata (run: make setup-refdata)",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "model.json"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
+    "href": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
+    "title": "E1. model.json",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nFAIL: model.json missing from ... — run make setup-refdata again and confirm model.json appears in PIPELINE_REFDATA_DIR.\nWarning: model.json not found in bigpicture-slidetap/tests/test_data — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "model.json"
     ]
   },
   {
@@ -714,164 +761,213 @@
     "href": "datasets/submission/reference-data.html",
     "title": "E. Reference data",
     "section": "",
-    "text": "Provide the two reference files the pipeline needs for your site: the model.json (use the provided default for now) and the mappers.xlsx (start from the template and fill it in for your site).\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #9 (model.json) and issue #10 (mappers.xlsx).",
+    "text": "semi-static data referenced by slidetap.\n\nmodel.json — allows you to verify your data to BigPicture’s metadata standard.\nmappers.xlsx — allows you to map attributes to bigpicture standards.",
     "crumbs": [
       "Implementation",
       "E. Reference data"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html",
-    "href": "datasets/submission/github-access.html",
-    "title": "B. GitHub access",
+    "objectID": "datasets/submission/contributing/page-template.html",
+    "href": "datasets/submission/contributing/page-template.html",
+    "title": "Page template & conventions",
     "section": "",
-    "text": "Sign in with the GitHub CLI (gh) so your machine can reach the private BigPicture repositories and container images (GHCR).",
+    "text": "Every page in this manual is fill-in-the-blanks. This page documents the two conventions that make that possible — the OS tabset and the verify step — and shows them rendered so you can copy the source.",
     "crumbs": [
-      "Implementation",
-      "B. GitHub access"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html#steps",
-    "href": "datasets/submission/github-access.html#steps",
-    "title": "B. GitHub access",
-    "section": "Steps",
-    "text": "Steps\nRun the three commands below in order:\n1. Sign in to GitHub\ngh auth login\nYou will be asked three questions — answer as shown:\n? What account do you want to log into? **GitHub.com**\n? What is your preferred protocol for Git operations on this host? **HTTPS**\n? Authenticate Git with your GitHub credentials? (Y/n) **Y**\n? How would you like to authenticate GitHub CLI? **Login with a web browser**\nA browser window then opens. Follow the prompts to complete the sign-in.\n2. Wire gh into Git\ngh auth setup-git\nConfigures Git to use gh as its credential helper, so git clone and git pull authenticate automatically without a password prompt.\n3. Add the package-read scope\ngh auth refresh -s read:packages\nExtends your token with the read:packages scope so Docker can pull private container images from GitHub Container Registry (GHCR).\n\n\n\n\n\n\nVerify\n\n\n\ngh auth status\nExpected output:\ngithub.com\n  ✓ Logged in to github.com as &lt;your-username&gt;\n  ...",
+    "objectID": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "href": "datasets/submission/contributing/page-template.html#the-os-tabset",
+    "title": "Page template & conventions",
+    "section": "1. The OS tabset",
+    "text": "1. The OS tabset\nWhere a command or instruction differs by operating system, wrap it in a panel-tabset with Windows / macOS / Linux tabs, in that order. The reader picks their tab once and ignores the rest.\nSource:\n::: {.panel-tabset}\n## Windows\nOpen **PowerShell** and run:\n```powershell\nwinget install --id Git.Git -e\n```\n## macOS\nIn **Terminal**, run:\n```bash\nbrew install git\n```\n## Linux\n```bash\nsudo apt-get install -y git\n```\n:::\nRenders as:\n\nWindowsmacOSLinux\n\n\nOpen PowerShell and run:\nwinget install --id Git.Git -e\n\n\nIn Terminal, run:\nbrew install git\n\n\nsudo apt-get install -y git\n\n\n\nRules\n\nAlways include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.\nKeep commands copy-pasteable: one tool per code block, no shell prompts ($, &gt;) inside the block.\nLinux is the reference path. Write and validate the Linux tab first; the others mirror its shape.",
     "crumbs": [
-      "Implementation",
-      "B. GitHub access"
+      "For contributors",
+      "Page template & conventions"
     ]
   },
   {
-    "objectID": "datasets/submission/github-access.html#if-something-goes-wrong",
-    "href": "datasets/submission/github-access.html#if-something-goes-wrong",
-    "title": "B. GitHub access",
+    "objectID": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "href": "datasets/submission/contributing/page-template.html#the-verify-step",
+    "title": "Page template & conventions",
+    "section": "2. The verify step",
+    "text": "2. The verify step\nAfter an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a callout-tip titled “Verify” with the paste-this / expect-this pattern.\nSource:\n::: {.callout-tip}\n## Verify\n\nPaste this:\n\n```bash\ngit --version\n```\n\nExpected output (your version may differ):\n\n```\ngit version 2.40.0\n```\n:::\nRenders as:\n\n\n\n\n\n\nVerify\n\n\n\nPaste this:\ngit --version\nExpected output (your version may differ):\ngit version 2.40.0\n\n\nRules\n\nShow the exact command to paste and a representative expected output.\nIf the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.\nOne verify step per meaningful action; don’t make the reader run five things before they can check anything.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "href": "datasets/submission/contributing/page-template.html#page-skeleton",
+    "title": "Page template & conventions",
+    "section": "3. Page skeleton",
+    "text": "3. Page skeleton\nStart every operator page from this shape:\n---\ntitle: &lt;Step letter&gt;. &lt;Short imperative title&gt;\n---\n\nOne or two sentences: what this step accomplishes and why.\n\n## Do it\n\n&lt;OS tabset with the commands&gt;\n\n::: {.callout-tip}\n## Verify\n&lt;paste-this / expect-this&gt;\n:::\n\n## If something goes wrong\n\n&lt;the one or two most common failures and their fixes&gt;\nThe « Prev / Next » navigation is automatic — it comes from the sidebar order in _quarto.yml, so you never hand-write next-step links.",
+    "crumbs": [
+      "For contributors",
+      "Page template & conventions"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html",
+    "href": "datasets/submission/upload.html",
+    "title": "J. Upload to BigPicture",
+    "section": "",
+    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/tls-credentials.html",
+    "href": "datasets/submission/tls-credentials.html",
+    "title": "F. TLS + credentials",
+    "section": "",
+    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
+    "crumbs": [
+      "Implementation",
+      "F. TLS + credentials"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html",
+    "href": "datasets/submission/prerequisites.html",
+    "title": "A. Prerequisites",
+    "section": "",
+    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#docker-compose-v2",
+    "href": "datasets/submission/prerequisites.html#docker-compose-v2",
+    "title": "A. Prerequisites",
+    "section": "Docker + Compose v2",
+    "text": "Docker + Compose v2\n\nWindowsmacOSLinux\n\n\nInstall Docker Desktop (includes Compose v2) with the package manager:\nwinget install --id Docker.DockerDesktop -e\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Desktop (includes Compose v2) with Homebrew:\nbrew install --cask docker\nThen launch Docker Desktop once so the engine starts.\n\n\nInstall Docker Engine and the Compose v2 plugin using these commands:\napt update\napt install -y curl\ncurl -fsSL https://get.docker.com | sh\napt install -y docker-compose-plugin\nAdd your user to the docker group so you can run Docker without sudo:\nusermod -aG docker $USER\nLog out and back in for the group change to take effect.\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ndocker --version\ndocker compose version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#git",
+    "href": "datasets/submission/prerequisites.html#git",
+    "title": "A. Prerequisites",
+    "section": "Git",
+    "text": "Git\n\nWindowsmacOSLinux\n\n\nwinget install --id Git.Git -e\nRestart any open terminals after installing.\n\n\nbrew install git\n\n\napt install -y git\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngit --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#github-cli-gh",
+    "href": "datasets/submission/prerequisites.html#github-cli-gh",
+    "title": "A. Prerequisites",
+    "section": "GitHub CLI (gh)",
+    "text": "GitHub CLI (gh)\n\nWindowsmacOSLinux\n\n\nwinget install --id GitHub.cli -e\n\n\nbrew install gh\n\n\napt install gh\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ngh --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#make",
+    "href": "datasets/submission/prerequisites.html#make",
+    "title": "A. Prerequisites",
+    "section": "make",
+    "text": "make\nOn Windows, make is bundled with Git for Windows — no separate install. You only need to add Git’s tool folder to your system PATH once.\n\nWindowsmacOSLinux\n\n\nGit for Windows ships make in C:\\Program Files\\Git\\usr\\bin. Add that folder to your system PATH:\n\nPress the Windows key, type environment variables, and open “Edit the system environment variables”.\nClick Environment Variables…\nUnder System variables, select Path and click Edit…\nClick New and paste:\nC:\\Program Files\\Git\\usr\\bin\nClick OK three times, then restart any open terminals.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you installed Git to a custom location, replace C:\\Program Files\\Git with your actual install path. The openssl command in the next section lives in the same folder, so this one PATH change covers both.\n\n\n\n\nInstall GNU make via Homebrew and make it the default make:\nbrew install make\necho 'export PATH=\"$(brew --prefix)/opt/make/libexec/gnubin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y make\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nmake --version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#openssl",
+    "href": "datasets/submission/prerequisites.html#openssl",
+    "title": "A. Prerequisites",
+    "section": "OpenSSL",
+    "text": "OpenSSL\nOn Windows, OpenSSL ships in the same Git folder you already added to PATH in the make step — no extra install needed.\nOn macOS, the system openssl command is actually LibreSSL. The pipeline needs real OpenSSL, so we install it via Homebrew.\n\nWindowsmacOSLinux\n\n\nNo additional install needed. Open a new terminal and confirm it is available:\nopenssl version\n\n\nbrew install openssl\necho 'export PATH=\"$(brew --prefix)/opt/openssl@3/bin:$PATH\"' &gt;&gt; ~/.zshrc\nsource ~/.zshrc\nIf you use Bash instead of Zsh, replace ~/.zshrc with ~/.bash_profile.\n\n\napt install -y openssl\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nopenssl version",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/prerequisites.html#python",
+    "href": "datasets/submission/prerequisites.html#python",
+    "title": "A. Prerequisites",
+    "section": "Python",
+    "text": "Python\nThe pipeline requires Python 3.12 or later.\n\nWindowsmacOSLinux\n\n\nwinget install --id Python.Python.3.12 -e\nRestart any open terminals after installing.\n\n\nbrew install python@3.12\n\n\nOn Ubuntu 24.04 and later, Python 3.12 is in the default repositories:\napt install -y python3.12\nOn Ubuntu 22.04, install it via the deadsnakes PPA:\nadd-apt-repository ppa:deadsnakes/ppa\napt update\napt install -y python3.12\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\npython3.12 --version\nOn Windows, use python --version instead.\n\n\nOnce every tool reports a version, continue to B. GitHub access.",
+    "crumbs": [
+      "Implementation",
+      "A. Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-mappers.html",
+    "href": "datasets/submission/reference-data-mappers.html",
+    "title": "E2. mappers.xlsx",
+    "section": "",
+    "text": "mappers.xlsx translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to None and the slidetap validator marks it as invalid, which marks the item as invalid in the curation UI and blocks a valid export.\nCreating and maintaining mappers.xlsx is the sites responsibility, as many sites use different local codes.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "mappers.xlsx"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-mappers.html#place-the-template",
+    "href": "datasets/submission/reference-data-mappers.html#place-the-template",
+    "title": "E2. mappers.xlsx",
+    "section": "Place the template",
+    "text": "Place the template\nRun make setup-refdata to copy the starter template into your refdata directory:\nmake setup-refdata\nThe template has the correct sheet structure and column layout. The mapping keys and codes in it are test data. Replace them with your site’s own short codes before running a real submission.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "mappers.xlsx"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-mappers.html#workbook-structure",
+    "href": "datasets/submission/reference-data-mappers.html#workbook-structure",
+    "title": "E2. mappers.xlsx",
+    "section": "Workbook structure",
+    "text": "Workbook structure\nThe workbook has one required master sheet (mappers) and one per-mapper sheet for each attribute mapping.\n\nMaster sheet (mappers)\nThe mappers sheet is an index — one row per attribute you want to map. The sheet name is case-insensitive; all other sheet names referenced from it are case-sensitive.\n\n\n\n\n\n\n\n\nColumn\nRequired\nDescription\n\n\n\n\nName\nyes\nDisplay name for this mapper\n\n\nUID\nyes\nUUID — must be a valid UUID or the row is skipped\n\n\nType\nyes\nOne of staining, code, enum, boolean (case-insensitive)\n\n\nAttribute\nyes (except staining)\nBigPicture attribute name this mapper populates\n\n\nRoot Attribute\nno\nPresent in the template; not used by the pipeline — leave as-is\n\n\nSheet\nyes\nName of the sheet containing the mapping rows — case-sensitive\n\n\n\nA row with a missing required field, invalid UUID, or unknown type is logged and skipped. The rest of the workbook still loads.\n\n\nCode mapper sheet\nMaps a short-code regex to a single SNOMED (or other scheme) coded value.\n\n\n\nColumn\nRequired\nDescription\n\n\n\n\nMapping Key\nyes\nRegex matched against the operator’s input\n\n\nCode\nyes\nNumeric or string code (e.g. 86273004)\n\n\nScheme\nyes\nCode system (e.g. SNOMED)\n\n\nMeaning\nyes\nHuman-readable label for the code\n\n\n\nExample (SpecimenType sheet):\n\n\n\nMapping Key\nCode\nScheme\nMeaning\n\n\n\n\n.*prostate.*\nT-77100\nSNOMED\nProstate\n\n\n.*kidney.*\nT-71000\nSNOMED\nKidney\n\n\n\n\n\nEnum mapper sheet\nMaps a short-code regex to a fixed string value from an enumeration.\n\n\n\n\n\n\n\n\nColumn\nRequired\nDescription\n\n\n\n\nMapping Key\nyes\nRegex matched against the operator’s input\n\n\nValue\nyes\nMust be a valid value for the target attribute’s enum type\n\n\n\nExample (Sex sheet):\n\n\n\nMapping Key\nValue\n\n\n\n\n.*female.*\nFemale\n\n\n.*male.*\nMale\n\n\n\n\n\nBoolean mapper sheet\nMaps a short-code regex to true or false.\n\n\n\n\n\n\n\n\nColumn\nRequired\nDescription\n\n\n\n\nMapping Key\nyes\nRegex matched against the operator’s input\n\n\nValue\nyes\nTruthy: true, 1, yes (case-insensitive). Everything else → False\n\n\n\nExample (HasOverview sheet):\n\n\n\nMapping Key\nValue\n\n\n\n\n.*overview.*\nTrue\n\n\n.*no_overview.*\nFalse\n\n\n\n\n\nStaining mapper sheet\nStaining is the most complex type: one staining can consist of multiple components (a chemical stain, one or more antibodies, etc.), so mapping keys map to groups of rows.\nRows within a group share the same Mapping Key. Each row has a Type column that controls which columns are required:\n\n\n\n\n\n\n\n\nType\nMeaning\nRequired columns\n\n\n\n\nprocedure\nA named staining procedure\nCode, Scheme, Meaning\n\n\nlist\nOne component of a multi-part staining\nStain Type + component columns (see below)\n\n\n\nStain Type values for list rows:\n\n\n\n\n\n\n\nStain Type\nRequired columns\n\n\n\n\nchemical\nCode, Scheme, Meaning\n\n\nimmunogenic\nCompound, Target, Reporter Type, Reporter Color, Reporter\n\n\nin_situ_hybridisation (or ish)\nCompound, Target, Reporter Type, Reporter Color, Reporter\n\n\n\nExample (Staining sheet — an HE stain as a procedure, and a two-component IHC panel):\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMapping Key\nType\nStain Type\nCompound\nTarget\nReporter Type\nReporter Color\nReporter\nCode\nScheme\nMeaning\n\n\n\n\n^HE[0-9]*\nprocedure\n\n\n\n\n\n\n104210008\nSNOMED\nHE - Hematoxylin and eosin stain method (procedure)\n\n\nCKAE\nlist\nchemical\n\n\n\n\n\n12710003\nSCT\nhematoxylin stain\n\n\nCKAE\nlist\nimmunogenic\nANTIBODY\nCB, TP, Cytokeratin AE1/AE3\nCHROMOGEN\nBROWN\nDAB",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "mappers.xlsx"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-mappers.html#common-pitfalls",
+    "href": "datasets/submission/reference-data-mappers.html#common-pitfalls",
+    "title": "E2. mappers.xlsx",
+    "section": "Common pitfalls",
+    "text": "Common pitfalls\n\nMapping keys are regexes — and re.match, not re.fullmatch\nThe pipeline matches keys using Python’s re.match, which anchors at the start of the string but not the end. A key like .*male.* will match \"female\" because re.match finds .* matching the empty string at position 0, then male within female. To match exactly, anchor both ends:\n^male$\n^female$\nPlain strings like HE are valid regexes (they match any string starting with HE), but special regex characters (., *, +, (, [, \\) in a cell are interpreted as regex syntax, which can cause unexpected non-matches.\n\n\nFirst matching row wins — silently\nWhen two mapping keys both match an operator’s input, the row that appears first in the sheet wins. There is no warning. Order your rows from most specific to least specific, or use anchors (^...$) to make matches unambiguous.\n\n\nSheet names in the Sheet column are case-sensitive\nThe master sheet name (mappers) is case-insensitive, but the sheet names you write in the Sheet column are matched exactly. specimentype will not find a sheet named SpecimenType — the mapper is silently skipped with a logged warning.\n\n\nPer-mapper sheet column headers are case-sensitive\nMapping Key works; mapping key does not — the column is read as empty strings and the mapper fails to load.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "mappers.xlsx"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-mappers.html#if-something-goes-wrong",
+    "href": "datasets/submission/reference-data-mappers.html#if-something-goes-wrong",
+    "title": "E2. mappers.xlsx",
     "section": "If something goes wrong",
-    "text": "If something goes wrong\nBrowser does not open during gh auth login\nA one-time code and a URL are printed in the terminal. Open https://github.com/login/device manually, enter the code, and complete the sign-in there.",
+    "text": "If something goes wrong\nOperator input produces an empty attribute in the export — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern).\nMapper silently absent from the running pipeline — check the pipeline logs for logging.warning or logging.exception output at startup. Common causes: wrong Sheet name in the master sheet, invalid UUID in the UID column, or an unknown Type value.\nmake setup-refdata warning: mappers.xlsx not found in ... — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
     "crumbs": [
       "Implementation",
-      "B. GitHub access"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html",
-    "href": "datasets/submission/configure.html",
-    "title": "D. Configure",
-    "section": "",
-    "text": "Set up your environment file, lay out the data directories, and rotate the config.yaml salt before you start the pipeline for the first time.",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html#copy-the-environment-file",
-    "href": "datasets/submission/configure.html#copy-the-environment-file",
-    "title": "D. Configure",
-    "section": "1. Copy the environment file",
-    "text": "1. Copy the environment file\ncp .env.example .env",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html#lay-out-the-data-directories",
-    "href": "datasets/submission/configure.html#lay-out-the-data-directories",
-    "title": "D. Configure",
-    "section": "2. Lay out the data directories",
-    "text": "2. Lay out the data directories\nEvery host directory the pipeline bind-mounts derives from a single variable, PIPELINE_ROOT, in .env (default ./data). You set one path and storage, images, reference data, certificates, and submitter state all follow from it.\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nAll make commands must be run in Git Bash, not PowerShell or cmd.exe.\n\n\nFor a single-host install the default PIPELINE_ROOT=./data is fine — leave it as shipped; it is all you need for a test run. Create the directory tree it points to:\nmake dirs\nmake dirs reads the paths from your .env and creates exactly the directories the containers expect, printing one line per directory:\nok: PIPELINE_STORAGE -&gt; ./data/storage\nok: PIPELINE_OUTBOX_DIR -&gt; ./data/storage/storage\nok: PIPELINE_IMAGE_ROOT -&gt; ./data/images\nok: PIPELINE_REFDATA_DIR -&gt; ./data/refdata\nok: PIPELINE_SSL_DIR -&gt; ./data/certs\nok: PIPELINE_SUBMITTER_CREDS_DIR -&gt; ./data/certs\nok: PIPELINE_SUBMITTER_STATE -&gt; ./data/submitter-state\nThe repeated storage/storage is intentional, not a typo: PIPELINE_STORAGE is the storage root, and the export outbox (PIPELINE_OUTBOX_DIR) is a folder named storage inside it — slidetap always writes finished bundles to &lt;storage root&gt;/storage.\nmake dirs is for the local layout only. To place a category on a network share, see Relocating individual categories below.\n\nRelocating individual categories\nBundling everything under PIPELINE_ROOT suits a single host. In production you might want to place categories on different mounts by performance and sensitivity. Override only the categories that move, the rest stay derived from PIPELINE_ROOT.\n\n\n\n\n\n\n\n\nCategory (.env variable)\nPut it on\nWhy\n\n\n\n\nPIPELINE_IMAGE_ROOT\nLarge, read-only NFS/CIFS share\nTerabytes of whole-slide images; read-only, no write-speed requirement\n\n\nPIPELINE_STORAGE (download, conversion and the export outbox all live here)\nLarge and reasonably fast volume\nHolds the entire converted dataset plus intermediate work. Conversion also writes here, so a slow network share hurts\n\n\nPIPELINE_REFDATA_DIR\nSmall shared NFS\nreference data that multiple people might want access to, like snomed conversions\n\n\nPIPELINE_SSL_DIR, PIPELINE_SUBMITTER_CREDS_DIR\nLocal disk, not a shared mount\nTLS keys and BigPicture credentials — keep secrets off shared storage\n\n\nPIPELINE_SUBMITTER_STATE\nLocal disk\nSmall read/write upload state for the bp-submitter\n\n\n\nTo relocate a category, set its variable to an absolute path in .env, for example:\nPIPELINE_IMAGE_ROOT=/mnt/nas/wsi-images\nPIPELINE_STORAGE=/srv/bp-storage \nPIPELINE_OUTBOX_DIR always follows PIPELINE_STORAGE automatically — you never set it by hand, so the outbox can never drift out of storage.\nWhen you relocate a category to a network share, mounting that share and giving the container user (UID 1000) write access is an administrator prerequisite — set it up via fstab/NFS/CIFS with uid=1000. The pipeline only verifies the result with make doctor; it never creates or mounts anything.",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html#fill-in-.env",
-    "href": "datasets/submission/configure.html#fill-in-.env",
-    "title": "D. Configure",
-    "section": "3. Fill in .env",
-    "text": "3. Fill in .env\nOpen .env in any text editor.\n\n\n\n\n\n\nWindows: save with LF line endings\n\n\n\nDocker reads .env inside a Linux container. Save with LF (Unix) line endings, not CRLF. VS Code does this automatically; other editors may need a setting change.\n\n\n\nMust set\nThese variables have no working defaults — the pipeline will not start without them:\n\n\n\n\n\n\n\n\nVariable\nWhat to set\nHow\n\n\n\n\nSLIDETAP_SECRET_KEY\nRandom string, ≥ 32 characters\nRun openssl rand -hex 32 and paste the output\n\n\nXLSX_MAPPER_GROUP_NAME\nYour institution’s short name\ne.g. karolinska — used as the mapper group label\n\n\n\nTo generate a value for SLIDETAP_SECRET_KEY:\nopenssl rand -hex 32\nPaste the printed string as the value in .env.\n\n\nHost paths — derived, nothing to set\nYou set PIPELINE_ROOT in step 2; these all follow from it automatically. You only touch them to relocate a category (see Relocating individual categories above) — never to wire up the default layout.\n\n\n\n\n\n\n\nVariable\nDerived value\n\n\n\n\nPIPELINE_STORAGE\n${PIPELINE_ROOT}/storage\n\n\nPIPELINE_OUTBOX_DIR\n${PIPELINE_STORAGE}/storage — always inside storage\n\n\nPIPELINE_IMAGE_ROOT\n${PIPELINE_ROOT}/images\n\n\nPIPELINE_REFDATA_DIR\n${PIPELINE_ROOT}/refdata\n\n\nPIPELINE_SSL_DIR\n${PIPELINE_ROOT}/certs\n\n\nPIPELINE_SUBMITTER_CREDS_DIR\n${PIPELINE_ROOT}/certs\n\n\nPIPELINE_SUBMITTER_STATE\n${PIPELINE_ROOT}/submitter-state\n\n\n\n\n\n\n\n\n\nWindows: forward-slash paths only\n\n\n\nIf you set an absolute PIPELINE_ROOT (or relocate a category), Docker’s bind-mount parser does not accept Windows backslashes. Write C:/bp-data, not C:\\bp-data or .\\bp-data.\n\n\n\n\nMay change\n\n\n\n\n\n\n\n\nVariable\nDefault\nWhen to change\n\n\n\n\nPIPELINE_SERVERNAME\nlocalhost\nSet to your host’s DNS name or IP if other machines need to reach it\n\n\nPIPELINE_PORT\n443\nChange if port 443 is already in use on the host\n\n\nPIPELINE_SSL_CERT\nserver.crt\nTLS certificate filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_SSL_KEY\nserver.key\nTLS private key filename (inside PIPELINE_SSL_DIR)\n\n\nPIPELINE_CREDENTIALS_FILE\n./credentials.json\nPath to the hashed credentials file (generated in step E)\n\n\nPIPELINE_CONFIG_FILE\n./config.yaml\nPath to the app config file — set up in the next step\n\n\n\n\n\nLeave as-is\nEverything in the Dev / advanced section of .env (PIPELINE_DB_*, XLSX_MAPPER_GROUP_UID, SLIDETAP_APP_CREATOR, PIPELINE_IMAGE_PREFIX, etc.) has working defaults. Do not change these unless you have a specific reason.",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html#set-up-config.yaml",
-    "href": "datasets/submission/configure.html#set-up-config.yaml",
-    "title": "D. Configure",
-    "section": "4. Set up config.yaml",
-    "text": "4. Set up config.yaml\nCopy the example file:\ncp config.yaml.example config.yaml\nOpen config.yaml and replace the salt value with a unique secret of at least 32 characters:\njson_file_auth:\n  credentials_file: /credentials.json\n  salt: \"replace-this-with-your-own-secret-at-least-32-characters\"\n\n\n\n\n\n\nSet the salt once — never change it afterwards\n\n\n\nThe salt is mixed into every hashed password. Changing it after you run make gen-credentials (step E) invalidates all existing passwords and locks everyone out.\n\n\n\nOther settings (optional)\nThe rest of config.yaml controls application behaviour and DICOM conversion. The defaults are fine for most deployments; adjust only if you have a specific need.\n\n\n\n\n\n\n\n\nSetting\nDefault\nWhen to change\n\n\n\n\nrestore_projects\nfalse\nSet to true to resume in-progress submissions after a container restart\n\n\ndicomization.threads\n1\nIncrease for faster conversion on multi-core hosts (no effect on .vms slides)\n\n\ndicomization.levels\nall\nRestrict (e.g. [0, 1, 2]) for smaller output; fewer levels reduce zoom range in viewers. Useful to reduce for quick tests.\n\n\ndicomization.include_labels\nfalse\nSet to true to include the barcode/cassette label image\n\n\ndicomization.include_overviews\nfalse\nSet to true to include the macro overview thumbnail\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nConfirm the salt has been changed:\ngrep salt config.yaml\nThe output should show your string, not change-this-salt-to-something-secret-in-production!!.",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/configure.html#if-something-goes-wrong",
-    "href": "datasets/submission/configure.html#if-something-goes-wrong",
-    "title": "D. Configure",
-    "section": "If something goes wrong",
-    "text": "If something goes wrong",
-    "crumbs": [
-      "Implementation",
-      "D. Configure"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html",
-    "href": "datasets/submission/support.html",
-    "title": "Support",
-    "section": "",
-    "text": "If you get stuck while following the manual, here is where to turn.",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html#get-help",
-    "href": "datasets/submission/support.html#get-help",
-    "title": "Support",
-    "section": "Get help",
-    "text": "Get help\n\nSubmission pipeline, server, or data-archive issues: bp-ops — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.\nGeneral and technical support: servicedesk.",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html#when-you-ask-include",
-    "href": "datasets/submission/support.html#when-you-ask-include",
-    "title": "Support",
-    "section": "When you ask, include",
-    "text": "When you ask, include\nTo get a useful answer quickly, tell us:\n\nWhich manual step you were on — the letter and name, e.g. F. TLS + credentials — and the exact command you ran.\nThe output you got versus what the Verify box said to expect.\nYour operating system (Windows / macOS / Linux).",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/support.html#out-of-scope",
-    "href": "datasets/submission/support.html#out-of-scope",
-    "title": "Support",
-    "section": "Out of scope",
-    "text": "Out of scope\nSupport covers the submission pipeline itself. Custom data transformations and your own infrastructure setup are outside what the helpdesk can troubleshoot.",
-    "crumbs": [
-      "Help",
-      "Support"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/boot.html",
-    "href": "datasets/submission/boot.html",
-    "title": "G. Preflight + boot",
-    "section": "",
-    "text": "Run the preflight check with make doctor, start the stack with make up, and open the submission UI in your browser.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #12.",
-    "crumbs": [
-      "Implementation",
-      "G. Preflight + boot"
+      "E. Reference data",
+      "mappers.xlsx"
     ]
   },
   {

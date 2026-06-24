@@ -29,7 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/tls-credentials.html" rel="next">
+<link href="../../datasets/submission/reference-data-model.html" rel="next">
 <link href="../../datasets/submission/configure.html" rel="prev">
 <link href="../../favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
@@ -252,12 +252,29 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">D. Configure</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">E. Reference data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">E. Reference data</span></a>
+  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">model.json</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mappers.xlsx</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link">
@@ -292,13 +309,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
  <span class="menu-text">Help</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
@@ -309,13 +326,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
  <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
@@ -354,20 +371,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Provide the two reference files the pipeline needs for your site: the <strong><code>model.json</code></strong> (use the provided default for now) and the <strong><code>mappers.xlsx</code></strong> (start from the template and fill it in for your site).</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Coming soon
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/9">issue #9</a> (model.json) and <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/10">issue #10</a> (mappers.xlsx).</p>
-</div>
-</div>
+<p>semi-static data referenced by slidetap.</p>
+<ul>
+<li><strong><a href="../../datasets/submission/reference-data-model.html">model.json</a></strong> — allows you to verify your data to BigPicture’s metadata standard.</li>
+<li><strong><a href="../../datasets/submission/reference-data-mappers.html">mappers.xlsx</a></strong> — allows you to map attributes to bigpicture standards.</li>
+</ul>
 
 
 
@@ -766,8 +774,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/tls-credentials.html" class="pagination-link" aria-label="F. TLS + credentials">
-        <span class="nav-page-text">F. TLS + credentials</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../datasets/submission/reference-data-model.html" class="pagination-link" aria-label="model.json">
+        <span class="nav-page-text">model.json</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

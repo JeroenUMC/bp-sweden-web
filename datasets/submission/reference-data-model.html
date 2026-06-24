@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - F. TLS + credentials</title>
+<title>Bigpicture - E1. model.json</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -29,8 +63,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/boot.html" rel="next">
-<link href="../../datasets/submission/reference-data-mappers.html" rel="prev">
+<link href="../../datasets/submission/reference-data-mappers.html" rel="next">
+<link href="../../datasets/submission/reference-data.html" rel="prev">
 <link href="../../favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -184,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">Implementation</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">Implementation</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data-model.html">model.json</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -256,14 +290,14 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">E. Reference data</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">model.json</span></a>
   </div>
 </li>
@@ -277,7 +311,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">F. TLS + credentials</span></a>
   </div>
 </li>
@@ -347,14 +381,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#place-the-default-file" id="toc-place-the-default-file" class="nav-link active" data-scroll-target="#place-the-default-file">Place the default file</a></li>
+  <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">Implementation</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">Implementation</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data-model.html">model.json</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">F. TLS + credentials</h1>
+<h1 class="title">E1. model.json</h1>
 </div>
 
 
@@ -371,22 +412,61 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Generate the TLS certificates with <code>make ssl</code> and the login credentials with <code>make gen-credentials</code>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>Place the provided default <code>model.json</code> in <code>PIPELINE_REFDATA_DIR</code> so the pipeline has a working attribute and observation model from day one.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Coming soon
+Work in progress
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/11">issue #11</a>.</p>
+<p>Full instructions for building a site-specific <code>model.json</code> are coming once the generator lands. The future workflow: visit the <a href="https://bpmetrics-config.tools.balsever.se/">bpmetrics-config browser</a>, select the attributes your site needs, export the selection, and run <code>make gen-model</code>.</p>
+<p><strong>MSMDAD</strong> is BigPicture’s mandatory minimum attribute set. <strong>MetaFlex</strong> covers optional extensions. The bpmetrics-config browser lets you browse and select from both.</p>
 </div>
 </div>
+<section id="place-the-default-file" class="level2">
+<h2 class="anchored" data-anchor-id="place-the-default-file">Place the default file</h2>
+<p>Run <code>make setup-refdata</code> to copy the default <code>model.json</code> into your refdata directory:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> setup-refdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output (file not yet present):</p>
+<pre><code>Setting up refdata in: ./data/refdata
+Copying model.json from bigpicture-slidetap/tests/test_data...
+✓ Setup complete</code></pre>
+<p>If <code>model.json</code> was already present from a previous run:</p>
+<pre><code>Setting up refdata in: ./data/refdata
+✓ model.json found
+✓ Setup complete</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Paste this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> doctor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>make doctor</code> checks every preflight condition in one pass. A passing model check produces no <code>FAIL</code> line for <code>model.json</code>. If all checks pass, the final line is:</p>
+<pre><code>doctor: OK</code></pre>
+<p>If <code>model.json</code> is missing, you will see:</p>
+<pre><code>FAIL: model.json missing from ./data/refdata (run: make setup-refdata)</code></pre>
+</div>
+</div>
+</section>
+<section id="if-something-goes-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
+<p><strong><code>FAIL: model.json missing from ...</code></strong> — run <code>make setup-refdata</code> again and confirm <code>model.json</code> appears in <code>PIPELINE_REFDATA_DIR</code>.</p>
+<p><strong><code>Warning: model.json not found in bigpicture-slidetap/tests/test_data</code></strong> — the pipeline submodule was not initialised. Run:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>then retry <code>make setup-refdata</code>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -778,13 +858,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../datasets/submission/reference-data-mappers.html" class="pagination-link" aria-label="mappers.xlsx">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">mappers.xlsx</span>
+      <a href="../../datasets/submission/reference-data.html" class="pagination-link" aria-label="E. Reference data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">E. Reference data</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/boot.html" class="pagination-link" aria-label="G. Preflight + boot">
-        <span class="nav-page-text">G. Preflight + boot</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../datasets/submission/reference-data-mappers.html" class="pagination-link" aria-label="mappers.xlsx">
+        <span class="nav-page-text">mappers.xlsx</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

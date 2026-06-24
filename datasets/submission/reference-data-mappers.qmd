@@ -6,10 +6,15 @@ title: "E2. mappers.xlsx"
 tissue types, preparation methods, etc.) into the BigPicture coded attributes
 the pipeline exports. Every short code an operator types in a submission
 workbook must have a matching row here — an unmatched value leaves the
-attribute equal to `None` and the slidetap validator marks it as `invalid`, which marks the item as **invalid** in the curation UI and
-blocks a valid export.
+attribute equal to `None`, the slidetap validator marks it as `invalid`, and
+the item becomes **invalid** in the curation UI, blocking export.
 
-Creating and maintaining `mappers.xlsx` is the sites responsibility, as many sites use different local codes.
+The operator's original input is not lost: it is stored internally and the
+item does not need to be re-submitted. To recover, add the missing mapping row
+to `mappers.xlsx`, upload the updated file, and re-trigger mapping from the
+curation UI.
+
+Creating and maintaining `mappers.xlsx` is the site's responsibility, as many sites use different local codes.
 
 ## Place the template
 
@@ -169,7 +174,9 @@ strings and the mapper fails to load.
 
 **Operator input produces an empty attribute in the export** — a mapping key
 did not match. Check the key in the relevant sheet (regex anchoring, typos,
-case of the input vs the key pattern).
+case of the input vs the key pattern). The operator's original input is
+preserved — fix the mapping row, re-upload `mappers.xlsx`, and re-trigger
+mapping from the curation UI. No workbook re-submission is needed.
 
 **Mapper silently absent from the running pipeline** — check the pipeline logs
 for `logging.warning` or `logging.exception` output at startup. Common causes:

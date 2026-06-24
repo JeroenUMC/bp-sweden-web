@@ -71,7 +71,62 @@
     "href": "datasets/submission/boot.html",
     "title": "G. Preflight + boot",
     "section": "",
-    "text": "Run the preflight check with make doctor, start the stack with make up, and open the submission UI in your browser.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #12.",
+    "text": "Everything is now configured. This step runs a preflight check to confirm your setup, starts the pipeline, and opens the submission UI in your browser.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#preflight-make-doctor",
+    "href": "datasets/submission/boot.html#preflight-make-doctor",
+    "title": "G. Preflight + boot",
+    "section": "1. Preflight: make doctor",
+    "text": "1. Preflight: make doctor\nmake doctor\ndoctor is a read-only check that confirms your .env, required settings, the rotated config salt, your reference data (model.json + mappers.xlsx), the TLS certificate and key, your credentials file, the data mounts, and the required tools (Docker, gh login, OpenSSL, make).\nA healthy setup ends with doctor: OK:\nOK: .env exists\nOK: gh is installed, authenticated, and wired into git\ndoctor: OK\n\n\n\n\n\n\nFix every FAIL before continuing\n\n\n\nAny problem is printed as a FAIL: line and doctor exits without reaching doctor: OK. Each line names what is wrong; fix them all and re-run make doctor until it is clean. Do not run make up until doctor passes — booting on a broken setup just fails later, less clearly.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#start-the-stack",
+    "href": "datasets/submission/boot.html#start-the-stack",
+    "title": "G. Preflight + boot",
+    "section": "2. Start the stack",
+    "text": "2. Start the stack\nmake up\nThis starts all the pipeline services (database, web app, and workers) using the images you pulled in C. install package. First boot can take up to a minute while the database initialises and the app reports healthy — the command waits for that, then prints the UI address:\n[+] Running 5/5\n ✔ Container bp-submission-pipeline-pipeline-db-1       Healthy\n ✔ Container bp-submission-pipeline-slidetap-db-init-1  Exited\n ✔ Container bp-submission-pipeline-slidetap-task-1     Started\n ✔ Container bp-submission-pipeline-slidetap-app-1      Healthy\n ✔ Container bp-submission-pipeline-slidetap-web-1      Started\nslidetap UI: https://localhost:443  (resolves to 127.0.0.1)\nThe address comes from your .env: PIPELINE_SERVERNAME and PIPELINE_PORT. With the defaults from D. Configure (localhost and 443) it is https://localhost:443. If you changed either value, use the address make up printed for you.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#open-the-ui",
+    "href": "datasets/submission/boot.html#open-the-ui",
+    "title": "G. Preflight + boot",
+    "section": "3. Open the UI",
+    "text": "3. Open the UI\nOpen the address from the previous step in your browser.\nBecause the certificate is self-signed (you created it yourself in step F), the browser shows a “your connection is not private / not secure” warning. This is expected and does not mean anything is wrong. It only means the certificate was not issued by a public authority. Tell the browser to continue:\n\nChrome / EdgeFirefoxSafari\n\n\nClick Advanced, then Proceed to localhost (unsafe).\n\n\nClick Advanced…, then Accept the Risk and Continue.\n\n\nClick Show Details, then visit this website, and confirm.\n\n\n\nYou should land on the login page, confirming the stack is up. Logging in and running a submission is the next step, H. Run a submission.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#useful-controls",
+    "href": "datasets/submission/boot.html#useful-controls",
+    "title": "G. Preflight + boot",
+    "section": "Useful controls",
+    "text": "Useful controls\n\nmake logs — follow the live output from all services (press Ctrl-C to stop watching; the services keep running). Your first stop when something misbehaves. Tail one service with make logs s=slidetap-app.\nmake down — stop and remove the containers. Your data is preserved; run make up again to restart.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#if-something-goes-wrong",
+    "href": "datasets/submission/boot.html#if-something-goes-wrong",
+    "title": "G. Preflight + boot",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\n\ndoctor says a cert, key, or credentials file is missing. You skipped or mis-set F. TLS + credentials. Re-run make ssl and make gen-credentials.\ndoctor says the config still matches the example / the salt is not rotated. Rotate the salt in D. Configure, then re-run make gen-credentials so your login still matches.\ndoctor says a host path is missing or not owned by UID 1000. Create the local data tree with make dirs (single-host setups), or fix the mount — see D. Configure.\ndoctor says gh is not logged in. Re-run the sign-in from B. GitHub access.\nThe browser can’t reach the UI after make up. Give it a few seconds and refresh. If it still fails, check the service output with make logs — the app may have failed to start. Confirm nothing else is using the port in PIPELINE_PORT.",
     "crumbs": [
       "Implementation",
       "G. Preflight + boot"

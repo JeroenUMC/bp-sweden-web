@@ -19,51 +19,75 @@ cp .env.example .env
 
 ## 2. Lay out the data directories
 
-`make mount ROOT=<path>` creates the six host directories the pipeline
-bind-mounts into its containers, then prints ready-to-paste `.env` lines so you
-do not have to type the paths by hand.
+Every host directory the pipeline bind-mounts derives from a single variable,
+`PIPELINE_ROOT`, in `.env` (default `./data`). You set **one** path and storage,
+images, reference data, certificates, and submitter state all follow from it.
 
 ::: {.callout-note}
 ## Windows: use Git Bash
 All `make` commands must be run in **Git Bash**, not PowerShell or cmd.exe.
 :::
 
-Replace `./data` with the path where you want pipeline data to live:
+For a single-host install the default `PIPELINE_ROOT=./data` is fine — leave it
+as shipped; it is all you need for a test run. Create the directory tree it
+points to:
 
 ```bash
-make mount ROOT=./data
+make dirs
 ```
 
-The command prints something like:
+`make dirs` reads the paths from your `.env` and creates exactly the directories
+the containers expect, printing one line per directory:
 
 ```
-# Paste into .env (paths under ./data):
-PIPELINE_STORAGE=./data/storage
-PIPELINE_OUTBOX_DIR=./data/storage/storage
-PIPELINE_REFDATA_DIR=./data/refdata
-PIPELINE_IMAGE_ROOT=./data/images
-PIPELINE_SUBMITTER_CREDS_DIR=./data/certs
-PIPELINE_SUBMITTER_STATE=./data/submitter-state
-PIPELINE_SSL_DIR=./data/certs
+ok: PIPELINE_STORAGE -> ./data/storage
+ok: PIPELINE_OUTBOX_DIR -> ./data/storage/storage
+ok: PIPELINE_IMAGE_ROOT -> ./data/images
+ok: PIPELINE_REFDATA_DIR -> ./data/refdata
+ok: PIPELINE_SSL_DIR -> ./data/certs
+ok: PIPELINE_SUBMITTER_CREDS_DIR -> ./data/certs
+ok: PIPELINE_SUBMITTER_STATE -> ./data/submitter-state
 ```
 
-It does **not** write to `.env` — copy and paste the output yourself.
+The repeated `storage/storage` is intentional, not a typo: `PIPELINE_STORAGE` is
+the storage **root**, and the export outbox (`PIPELINE_OUTBOX_DIR`) is a folder
+named `storage` *inside* it — slidetap always writes finished bundles to
+`<storage root>/storage`.
 
-::: {.callout-tip}
-## Verify
+`make dirs` is for the **local** layout only. To place a category on a network
+share, see *Relocating individual categories* below.
+
+### Relocating individual categories
+
+Bundling everything under `PIPELINE_ROOT` suits a single host. In production you
+might want to place categories on different mounts by **performance** and
+**sensitivity**. Override only the categories that move, the rest stay derived
+from `PIPELINE_ROOT`.
+
+| Category (`.env` variable) | Put it on | Why |
+|---|---|---|
+| `PIPELINE_IMAGE_ROOT` | Large, read-only NFS/CIFS share | Terabytes of whole-slide images; read-only, no write-speed requirement |
+| `PIPELINE_STORAGE` (download, conversion **and** the export outbox all live here) | Large *and* reasonably fast volume | Holds the entire converted dataset plus intermediate work. Conversion also writes here, so a slow network share hurts |
+| `PIPELINE_REFDATA_DIR` | Small shared NFS | reference data that multiple people might want access to, like snomed conversions |
+| `PIPELINE_SSL_DIR`, `PIPELINE_SUBMITTER_CREDS_DIR` | Local disk, not a shared mount | TLS keys and BigPicture credentials — keep secrets off shared storage |
+| `PIPELINE_SUBMITTER_STATE` | Local disk | Small read/write upload state for the bp-submitter |
+
+
+To relocate a category, set its variable to an absolute path in `.env`, for
+example:
 
 ```bash
-ls ./data
+PIPELINE_IMAGE_ROOT=/mnt/nas/wsi-images
+PIPELINE_STORAGE=/srv/bp-storage 
 ```
 
-Expected: `certs  images  refdata  storage  submitter-state` listed under `./data`.
-:::
+`PIPELINE_OUTBOX_DIR` always follows `PIPELINE_STORAGE` automatically — you never
+set it by hand, so the outbox can never drift out of storage.
 
-::: {.callout-note}
-## Skipping `make mount`
-If your directories already exist (NAS share, previous install, custom layout),
-skip this step and set the path variables in `.env` manually in the next section.
-:::
+When you relocate a category to a network share, mounting that share and giving
+the container user (UID 1000) write access is an administrator prerequisite —
+set it up via `fstab`/NFS/CIFS with `uid=1000`. The pipeline only verifies the
+result with `make doctor`; it never creates or mounts anything.
 
 ## 3. Fill in `.env`
 
@@ -85,11 +109,6 @@ them:
 |---|---|---|
 | `SLIDETAP_SECRET_KEY` | Random string, ≥ 32 characters | Run `openssl rand -hex 32` and paste the output |
 | `XLSX_MAPPER_GROUP_NAME` | Your institution's short name | e.g. `karolinska` — used as the mapper group label |
-| `PIPELINE_STORAGE` | Host path for pipeline storage | From `make mount` output, or set manually |
-| `PIPELINE_OUTBOX_DIR` | Must be `<PIPELINE_STORAGE>/storage` | From `make mount` output, or append `/storage` to your storage path |
-| `PIPELINE_REFDATA_DIR` | Host path for reference data | From `make mount` output, or set manually |
-| `PIPELINE_IMAGE_ROOT` | Host path for whole-slide images | From `make mount` output, or set manually |
-| `PIPELINE_SUBMITTER_STATE` | Host path for submitter state | From `make mount` output, or set manually |
 
 To generate a value for `SLIDETAP_SECRET_KEY`:
 
@@ -99,11 +118,27 @@ openssl rand -hex 32
 
 Paste the printed string as the value in `.env`.
 
+### Host paths — derived, nothing to set
+
+You set `PIPELINE_ROOT` in step 2; these all follow from it automatically. You
+only touch them to relocate a category (see *Relocating individual categories*
+above) — never to wire up the default layout.
+
+| Variable | Derived value |
+|---|---|
+| `PIPELINE_STORAGE` | `${PIPELINE_ROOT}/storage` |
+| `PIPELINE_OUTBOX_DIR` | `${PIPELINE_STORAGE}/storage` — always inside storage |
+| `PIPELINE_IMAGE_ROOT` | `${PIPELINE_ROOT}/images` |
+| `PIPELINE_REFDATA_DIR` | `${PIPELINE_ROOT}/refdata` |
+| `PIPELINE_SSL_DIR` | `${PIPELINE_ROOT}/certs` |
+| `PIPELINE_SUBMITTER_CREDS_DIR` | `${PIPELINE_ROOT}/certs` |
+| `PIPELINE_SUBMITTER_STATE` | `${PIPELINE_ROOT}/submitter-state` |
+
 ::: {.callout-note}
 ## Windows: forward-slash paths only
-Docker's bind-mount parser does not accept Windows backslashes. Write
-`./data/storage`, not `.\data\storage` or `C:\data\storage`. If you need an
-absolute path, use `C:/data/storage` (forward slashes).
+If you set an absolute `PIPELINE_ROOT` (or relocate a category), Docker's
+bind-mount parser does not accept Windows backslashes. Write `C:/bp-data`, not
+`C:\bp-data` or `.\bp-data`.
 :::
 
 ### May change
@@ -112,11 +147,9 @@ absolute path, use `C:/data/storage` (forward slashes).
 |---|---|---|
 | `PIPELINE_SERVERNAME` | `localhost` | Set to your host's DNS name or IP if other machines need to reach it |
 | `PIPELINE_PORT` | `443` | Change if port 443 is already in use on the host |
-| `PIPELINE_SSL_DIR` | `./certs` | Where your TLS certificate and key live |
 | `PIPELINE_SSL_CERT` | `server.crt` | TLS certificate filename (inside `PIPELINE_SSL_DIR`) |
 | `PIPELINE_SSL_KEY` | `server.key` | TLS private key filename (inside `PIPELINE_SSL_DIR`) |
 | `PIPELINE_CREDENTIALS_FILE` | `./credentials.json` | Path to the hashed credentials file (generated in step E) |
-| `PIPELINE_SUBMITTER_CREDS_DIR` | `./certs` | Directory holding BigPicture-issued S3 and Crypt4GH keys |
 | `PIPELINE_CONFIG_FILE` | `./config.yaml` | Path to the app config file — set up in the next step |
 
 ### Leave as-is
@@ -156,9 +189,9 @@ The defaults are fine for most deployments; adjust only if you have a specific n
 
 | Setting | Default | When to change |
 |---|---|---|
-| `restore_projects` | `false` | Set to `true` to let operators resume in-progress submissions after a container restart |
+| `restore_projects` | `false` | Set to `true` to resume in-progress submissions after a container restart |
 | `dicomization.threads` | `1` | Increase for faster conversion on multi-core hosts (no effect on `.vms` slides) |
-| `dicomization.levels` | `all` | Restrict (e.g. `[0, 1, 2]`) for smaller output; fewer levels reduce zoom range in viewers |
+| `dicomization.levels` | `all` | Restrict (e.g. `[0, 1, 2]`) for smaller output; fewer levels reduce zoom range in viewers. Useful to reduce for quick tests. |
 | `dicomization.include_labels` | `false` | Set to `true` to include the barcode/cassette label image |
 | `dicomization.include_overviews` | `false` | Set to `true` to include the macro overview thumbnail |
 
@@ -176,20 +209,4 @@ The output should show your string, not `change-this-salt-to-something-secret-in
 
 ## If something goes wrong
 
-**`make doctor` reports a missing or placeholder variable**
 
-Run `make doctor` to see exactly which variable failed — it names the variable
-and describes the problem. Return to the relevant section above, set the value,
-and run `make doctor` again.
-
-**`make doctor` reports "PIPELINE_CONFIG_FILE still matches config.yaml.example"**
-
-You copied `config.yaml.example` to `config.yaml` but did not change the salt.
-Open `config.yaml`, replace the `salt:` value with your own 32+ character
-string, save the file, and run `make doctor` again.
-
-**Container bind-mount fails after `docker compose up` (Windows)**
-
-You have backslash paths in `.env`. Docker's bind-mount parser requires forward
-slashes on Windows. Open `.env`, replace all `\` with `/`, save with LF line
-endings, and restart.

@@ -827,7 +827,40 @@
     "href": "datasets/submission/tls-credentials.html",
     "title": "F. TLS + credentials",
     "section": "",
-    "text": "Generate the TLS certificates with make ssl and the login credentials with make gen-credentials.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #11.",
+    "text": "The web UI is served over HTTPS and asks you to sign in. This step creates the two things that makes possible: a TLS certificate so the browser can open a secure connection, and a login account so you can authenticate.",
+    "crumbs": [
+      "Implementation",
+      "F. TLS + credentials"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/tls-credentials.html#generate-the-tls-certificate",
+    "href": "datasets/submission/tls-credentials.html#generate-the-tls-certificate",
+    "title": "F. TLS + credentials",
+    "section": "1. Generate the TLS certificate",
+    "text": "1. Generate the TLS certificate\nmake ssl\nThis creates a self-signed certificate and private key and writes them into your certificates directory (PIPELINE_SSL_DIR, default ./data/certs):\n\n\n\nFile\n.env variable\nDefault name\n\n\n\n\nCertificate\nPIPELINE_SSL_CERT\nserver.crt\n\n\nPrivate key\nPIPELINE_SSL_KEY\nserver.key\n\n\n\nThe certificate is issued for the host name in PIPELINE_SERVERNAME (default localhost) and is valid for one year.",
+    "crumbs": [
+      "Implementation",
+      "F. TLS + credentials"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/tls-credentials.html#create-your-login",
+    "href": "datasets/submission/tls-credentials.html#create-your-login",
+    "title": "F. TLS + credentials",
+    "section": "2. Create your login",
+    "text": "2. Create your login\nmake gen-credentials\nThis prompts for a password and creates the account admin. It writes a hashed credentials file to credentials.json in the repository root (the path in PIPELINE_CREDENTIALS_FILE, default ./credentials.json) — your password is never stored in plain text.\nTo set the password without an interactive prompt (for example in a script), pass PASSWORD=:\nmake gen-credentials PASSWORD=your-password-here\n\n\n\n\n\n\nThe salt must already be set — and never change afterwards\n\n\n\nmake gen-credentials mixes your password with the salt from config.yaml before hashing. If you change that salt after generating credentials, every stored password becomes invalid and you’ll be locked out. Rotate the salt once in D. Configure, then leave it alone.",
+    "crumbs": [
+      "Implementation",
+      "F. TLS + credentials"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/tls-credentials.html#if-something-goes-wrong",
+    "href": "datasets/submission/tls-credentials.html#if-something-goes-wrong",
+    "title": "F. TLS + credentials",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\n\ndoctor says the cert or key is missing. Re-run make ssl and check that PIPELINE_SSL_DIR, PIPELINE_SSL_CERT, and PIPELINE_SSL_KEY in .env match the files that were created.\ndoctor says the credentials file is missing. Re-run make gen-credentials. The file is written to the repo root by default; make sure PIPELINE_CREDENTIALS_FILE in .env points at it.\nYou can’t log in even though the files exist. The password was almost certainly hashed with a different salt than the app is using. Set the salt in config.yaml first, then re-run make gen-credentials so the hash matches.",
     "crumbs": [
       "Implementation",
       "F. TLS + credentials"

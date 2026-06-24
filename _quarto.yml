@@ -89,8 +89,13 @@ website:
               file: datasets/submission/install-package.qmd
             - text: D. Configure
               file: datasets/submission/configure.qmd
-            - text: E. Reference data
-              file: datasets/submission/reference-data.qmd
+            - section: E. Reference data
+              href: datasets/submission/reference-data.qmd
+              contents:
+                - text: "model.json"
+                  file: datasets/submission/reference-data-model.qmd
+                - text: "mappers.xlsx"
+                  file: datasets/submission/reference-data-mappers.qmd
             - text: F. TLS + credentials
               file: datasets/submission/tls-credentials.qmd
             - text: G. Preflight + boot

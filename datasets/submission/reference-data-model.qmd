@@ -1,0 +1,82 @@
+---
+title: "E1. model.json"
+---
+
+Place the provided default `model.json` in `PIPELINE_REFDATA_DIR` so the
+pipeline has a working attribute and observation model from day one.
+
+::: {.callout-warning}
+## Work in progress
+
+Full instructions for building a site-specific `model.json` are coming once
+the generator lands. The future workflow: visit the
+[bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/),
+select the attributes your site needs, export the selection, and run
+`make gen-model`.
+
+**MSMDAD** is BigPicture's mandatory minimum attribute set. **MetaFlex** covers
+optional extensions. The bpmetrics-config browser lets you browse and select
+from both.
+:::
+
+## Place the default file
+
+Run `make setup-refdata` to copy the default `model.json` into your refdata
+directory:
+
+```bash
+make setup-refdata
+```
+
+Expected output (file not yet present):
+
+```
+Setting up refdata in: ./data/refdata
+Copying model.json from bigpicture-slidetap/tests/test_data...
+✓ Setup complete
+```
+
+If `model.json` was already present from a previous run:
+
+```
+Setting up refdata in: ./data/refdata
+✓ model.json found
+✓ Setup complete
+```
+
+::: {.callout-tip}
+## Verify
+
+Paste this:
+
+```bash
+make doctor
+```
+
+`make doctor` checks every preflight condition in one pass. A passing model check
+produces no `FAIL` line for `model.json`. If all checks pass, the final line is:
+
+```
+doctor: OK
+```
+
+If `model.json` is missing, you will see:
+
+```
+FAIL: model.json missing from ./data/refdata (run: make setup-refdata)
+```
+:::
+
+## If something goes wrong
+
+**`FAIL: model.json missing from ...`** — run `make setup-refdata` again and
+confirm `model.json` appears in `PIPELINE_REFDATA_DIR`.
+
+**`Warning: model.json not found in bigpicture-slidetap/tests/test_data`** —
+the pipeline submodule was not initialised. Run:
+
+```bash
+git submodule update --init --recursive
+```
+
+then retry `make setup-refdata`.

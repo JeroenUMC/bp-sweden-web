@@ -427,8 +427,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>mappers.xlsx</code> translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to <code>None</code> and the slidetap validator marks it as <code>invalid</code>, which marks the item as <strong>invalid</strong> in the curation UI and blocks a valid export.</p>
-<p>Creating and maintaining <code>mappers.xlsx</code> is the sites responsibility, as many sites use different local codes.</p>
+<p><code>mappers.xlsx</code> translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to <code>None</code>, the slidetap validator marks it as <code>invalid</code>, and the item becomes <strong>invalid</strong> in the curation UI, blocking export.</p>
+<p>The operator’s original input is not lost: it is stored internally and the item does not need to be re-submitted. To recover, add the missing mapping row to <code>mappers.xlsx</code>, upload the updated file, and re-trigger mapping from the curation UI.</p>
+<p>Creating and maintaining <code>mappers.xlsx</code> is the site’s responsibility, as many sites use different local codes.</p>
 <section id="place-the-template" class="level2">
 <h2 class="anchored" data-anchor-id="place-the-template">Place the template</h2>
 <p>Run <code>make setup-refdata</code> to copy the starter template into your refdata directory:</p>
@@ -802,7 +803,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
-<p><strong>Operator input produces an empty attribute in the export</strong> — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern).</p>
+<p><strong>Operator input produces an empty attribute in the export</strong> — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern). The operator’s original input is preserved — fix the mapping row, re-upload <code>mappers.xlsx</code>, and re-trigger mapping from the curation UI. No workbook re-submission is needed.</p>
 <p><strong>Mapper silently absent from the running pipeline</strong> — check the pipeline logs for <code>logging.warning</code> or <code>logging.exception</code> output at startup. Common causes: wrong <code>Sheet</code> name in the master sheet, invalid UUID in the <code>UID</code> column, or an unknown <code>Type</code> value.</p>
 <p><strong><code>make setup-refdata</code> warning: <code>mappers.xlsx not found in ...</code></strong> — the pipeline submodule was not initialised. Run:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

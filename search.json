@@ -761,7 +761,7 @@
     "href": "datasets/submission/reference-data.html",
     "title": "E. Reference data",
     "section": "",
-    "text": "semi-static data referenced by slidetap.\n\nmodel.json — allows you to verify your data to BigPicture’s metadata standard.\nmappers.xlsx — allows you to map attributes to bigpicture standards.",
+    "text": "Two files that the pipeline reads on startup to understand your site’s data model and local code vocabulary.\n\nmodel.json — defines the attribute and observation model; copy the default to get started.\nmappers.xlsx — translates your site’s local short codes into BigPicture-standard coded attributes.",
     "crumbs": [
       "Implementation",
       "E. Reference data"
@@ -915,7 +915,7 @@
     "href": "datasets/submission/reference-data-mappers.html",
     "title": "E2. mappers.xlsx",
     "section": "",
-    "text": "mappers.xlsx translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to None and the slidetap validator marks it as invalid, which marks the item as invalid in the curation UI and blocks a valid export.\nCreating and maintaining mappers.xlsx is the sites responsibility, as many sites use different local codes.",
+    "text": "mappers.xlsx translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to None, the slidetap validator marks it as invalid, and the item becomes invalid in the curation UI, blocking export.\nThe operator’s original input is not lost: it is stored internally and the item does not need to be re-submitted. To recover, add the missing mapping row to mappers.xlsx, upload the updated file, and re-trigger mapping from the curation UI.\nCreating and maintaining mappers.xlsx is the site’s responsibility, as many sites use different local codes.",
     "crumbs": [
       "Implementation",
       "E. Reference data",
@@ -963,7 +963,7 @@
     "href": "datasets/submission/reference-data-mappers.html#if-something-goes-wrong",
     "title": "E2. mappers.xlsx",
     "section": "If something goes wrong",
-    "text": "If something goes wrong\nOperator input produces an empty attribute in the export — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern).\nMapper silently absent from the running pipeline — check the pipeline logs for logging.warning or logging.exception output at startup. Common causes: wrong Sheet name in the master sheet, invalid UUID in the UID column, or an unknown Type value.\nmake setup-refdata warning: mappers.xlsx not found in ... — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
+    "text": "If something goes wrong\nOperator input produces an empty attribute in the export — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern). The operator’s original input is preserved — fix the mapping row, re-upload mappers.xlsx, and re-trigger mapping from the curation UI. No workbook re-submission is needed.\nMapper silently absent from the running pipeline — check the pipeline logs for logging.warning or logging.exception output at startup. Common causes: wrong Sheet name in the master sheet, invalid UUID in the UID column, or an unknown Type value.\nmake setup-refdata warning: mappers.xlsx not found in ... — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
     "crumbs": [
       "Implementation",
       "E. Reference data",

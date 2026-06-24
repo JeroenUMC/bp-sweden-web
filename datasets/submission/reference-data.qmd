@@ -2,7 +2,8 @@
 title: E. Reference data
 ---
 
-semi-static data referenced by slidetap.
+Two files that the pipeline reads on startup to understand your site's data model
+and local code vocabulary.
 
-- **[model.json](reference-data-model.qmd)** — allows you to verify your data to BigPicture's metadata standard.
-- **[mappers.xlsx](reference-data-mappers.qmd)** — allows you to map attributes to bigpicture standards.
+- **[model.json](reference-data-model.qmd)** — defines the attribute and observation model; copy the default to get started.
+- **[mappers.xlsx](reference-data-mappers.qmd)** — translates your site's local short codes into BigPicture-standard coded attributes.

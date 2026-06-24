@@ -369,10 +369,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#copy-the-environment-file" id="toc-copy-the-environment-file" class="nav-link active" data-scroll-target="#copy-the-environment-file">1. Copy the environment file</a></li>
-  <li><a href="#lay-out-the-data-directories" id="toc-lay-out-the-data-directories" class="nav-link" data-scroll-target="#lay-out-the-data-directories">2. Lay out the data directories</a></li>
+  <li><a href="#lay-out-the-data-directories" id="toc-lay-out-the-data-directories" class="nav-link" data-scroll-target="#lay-out-the-data-directories">2. Lay out the data directories</a>
+  <ul class="collapse">
+  <li><a href="#relocating-individual-categories" id="toc-relocating-individual-categories" class="nav-link" data-scroll-target="#relocating-individual-categories">Relocating individual categories</a></li>
+  </ul></li>
   <li><a href="#fill-in-.env" id="toc-fill-in-.env" class="nav-link" data-scroll-target="#fill-in-.env">3. Fill in <code>.env</code></a>
   <ul class="collapse">
   <li><a href="#must-set" id="toc-must-set" class="nav-link" data-scroll-target="#must-set">Must set</a></li>
+  <li><a href="#host-paths-derived-nothing-to-set" id="toc-host-paths-derived-nothing-to-set" class="nav-link" data-scroll-target="#host-paths-derived-nothing-to-set">Host paths — derived, nothing to set</a></li>
   <li><a href="#may-change" id="toc-may-change" class="nav-link" data-scroll-target="#may-change">May change</a></li>
   <li><a href="#leave-as-is" id="toc-leave-as-is" class="nav-link" data-scroll-target="#leave-as-is">Leave as-is</a></li>
   </ul></li>
@@ -426,7 +430,7 @@ Requires: Install package (step C)
 </section>
 <section id="lay-out-the-data-directories" class="level2">
 <h2 class="anchored" data-anchor-id="lay-out-the-data-directories">2. Lay out the data directories</h2>
-<p><code>make mount ROOT=&lt;path&gt;</code> creates the six host directories the pipeline bind-mounts into its containers, then prints ready-to-paste <code>.env</code> lines so you do not have to type the paths by hand.</p>
+<p>Every host directory the pipeline bind-mounts derives from a single variable, <code>PIPELINE_ROOT</code>, in <code>.env</code> (default <code>./data</code>). You set <strong>one</strong> path and storage, images, reference data, certificates, and submitter state all follow from it.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -440,45 +444,68 @@ Windows: use Git Bash
 <p>All <code>make</code> commands must be run in <strong>Git Bash</strong>, not PowerShell or cmd.exe.</p>
 </div>
 </div>
-<p>Replace <code>./data</code> with the path where you want pipeline data to live:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> mount ROOT=./data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The command prints something like:</p>
-<pre><code># Paste into .env (paths under ./data):
-PIPELINE_STORAGE=./data/storage
-PIPELINE_OUTBOX_DIR=./data/storage/storage
-PIPELINE_REFDATA_DIR=./data/refdata
-PIPELINE_IMAGE_ROOT=./data/images
-PIPELINE_SUBMITTER_CREDS_DIR=./data/certs
-PIPELINE_SUBMITTER_STATE=./data/submitter-state
-PIPELINE_SSL_DIR=./data/certs</code></pre>
-<p>It does <strong>not</strong> write to <code>.env</code> — copy and paste the output yourself.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Verify
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ./data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected: <code>certs  images  refdata  storage  submitter-state</code> listed under <code>./data</code>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Skipping <code>make mount</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If your directories already exist (NAS share, previous install, custom layout), skip this step and set the path variables in <code>.env</code> manually in the next section.</p>
-</div>
-</div>
+<p>For a single-host install the default <code>PIPELINE_ROOT=./data</code> is fine — leave it as shipped; it is all you need for a test run. Create the directory tree it points to:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> dirs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>make dirs</code> reads the paths from your <code>.env</code> and creates exactly the directories the containers expect, printing one line per directory:</p>
+<pre><code>ok: PIPELINE_STORAGE -&gt; ./data/storage
+ok: PIPELINE_OUTBOX_DIR -&gt; ./data/storage/storage
+ok: PIPELINE_IMAGE_ROOT -&gt; ./data/images
+ok: PIPELINE_REFDATA_DIR -&gt; ./data/refdata
+ok: PIPELINE_SSL_DIR -&gt; ./data/certs
+ok: PIPELINE_SUBMITTER_CREDS_DIR -&gt; ./data/certs
+ok: PIPELINE_SUBMITTER_STATE -&gt; ./data/submitter-state</code></pre>
+<p>The repeated <code>storage/storage</code> is intentional, not a typo: <code>PIPELINE_STORAGE</code> is the storage <strong>root</strong>, and the export outbox (<code>PIPELINE_OUTBOX_DIR</code>) is a folder named <code>storage</code> <em>inside</em> it — slidetap always writes finished bundles to <code>&lt;storage root&gt;/storage</code>.</p>
+<p><code>make dirs</code> is for the <strong>local</strong> layout only. To place a category on a network share, see <em>Relocating individual categories</em> below.</p>
+<section id="relocating-individual-categories" class="level3">
+<h3 class="anchored" data-anchor-id="relocating-individual-categories">Relocating individual categories</h3>
+<p>Bundling everything under <code>PIPELINE_ROOT</code> suits a single host. In production you might want to place categories on different mounts by <strong>performance</strong> and <strong>sensitivity</strong>. Override only the categories that move, the rest stay derived from <code>PIPELINE_ROOT</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category (<code>.env</code> variable)</th>
+<th>Put it on</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PIPELINE_IMAGE_ROOT</code></td>
+<td>Large, read-only NFS/CIFS share</td>
+<td>Terabytes of whole-slide images; read-only, no write-speed requirement</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_STORAGE</code> (download, conversion <strong>and</strong> the export outbox all live here)</td>
+<td>Large <em>and</em> reasonably fast volume</td>
+<td>Holds the entire converted dataset plus intermediate work. Conversion also writes here, so a slow network share hurts</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_REFDATA_DIR</code></td>
+<td>Small shared NFS</td>
+<td>reference data that multiple people might want access to, like snomed conversions</td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_SSL_DIR</code>, <code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
+<td>Local disk, not a shared mount</td>
+<td>TLS keys and BigPicture credentials — keep secrets off shared storage</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SUBMITTER_STATE</code></td>
+<td>Local disk</td>
+<td>Small read/write upload state for the bp-submitter</td>
+</tr>
+</tbody>
+</table>
+<p>To relocate a category, set its variable to an absolute path in <code>.env</code>, for example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">PIPELINE_IMAGE_ROOT</span><span class="op">=</span>/mnt/nas/wsi-images</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">PIPELINE_STORAGE</span><span class="op">=</span>/srv/bp-storage </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>PIPELINE_OUTBOX_DIR</code> always follows <code>PIPELINE_STORAGE</code> automatically — you never set it by hand, so the outbox can never drift out of storage.</p>
+<p>When you relocate a category to a network share, mounting that share and giving the container user (UID 1000) write access is an administrator prerequisite — set it up via <code>fstab</code>/NFS/CIFS with <code>uid=1000</code>. The pipeline only verifies the result with <code>make doctor</code>; it never creates or mounts anything.</p>
+</section>
 </section>
 <section id="fill-in-.env" class="level2">
 <h2 class="anchored" data-anchor-id="fill-in-.env">3. Fill in <code>.env</code></h2>
@@ -523,36 +550,57 @@ Windows: save with LF line endings
 <td>Your institution’s short name</td>
 <td>e.g.&nbsp;<code>karolinska</code> — used as the mapper group label</td>
 </tr>
-<tr class="odd">
-<td><code>PIPELINE_STORAGE</code></td>
-<td>Host path for pipeline storage</td>
-<td>From <code>make mount</code> output, or set manually</td>
-</tr>
-<tr class="even">
-<td><code>PIPELINE_OUTBOX_DIR</code></td>
-<td>Must be <code>&lt;PIPELINE_STORAGE&gt;/storage</code></td>
-<td>From <code>make mount</code> output, or append <code>/storage</code> to your storage path</td>
-</tr>
-<tr class="odd">
-<td><code>PIPELINE_REFDATA_DIR</code></td>
-<td>Host path for reference data</td>
-<td>From <code>make mount</code> output, or set manually</td>
-</tr>
-<tr class="even">
-<td><code>PIPELINE_IMAGE_ROOT</code></td>
-<td>Host path for whole-slide images</td>
-<td>From <code>make mount</code> output, or set manually</td>
-</tr>
-<tr class="odd">
-<td><code>PIPELINE_SUBMITTER_STATE</code></td>
-<td>Host path for submitter state</td>
-<td>From <code>make mount</code> output, or set manually</td>
-</tr>
 </tbody>
 </table>
 <p>To generate a value for <code>SLIDETAP_SECRET_KEY</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">openssl</span> rand <span class="at">-hex</span> 32</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Paste the printed string as the value in <code>.env</code>.</p>
+</section>
+<section id="host-paths-derived-nothing-to-set" class="level3">
+<h3 class="anchored" data-anchor-id="host-paths-derived-nothing-to-set">Host paths — derived, nothing to set</h3>
+<p>You set <code>PIPELINE_ROOT</code> in step 2; these all follow from it automatically. You only touch them to relocate a category (see <em>Relocating individual categories</em> above) — never to wire up the default layout.</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Derived value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PIPELINE_STORAGE</code></td>
+<td><code>${PIPELINE_ROOT}/storage</code></td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_OUTBOX_DIR</code></td>
+<td><code>${PIPELINE_STORAGE}/storage</code> — always inside storage</td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_IMAGE_ROOT</code></td>
+<td><code>${PIPELINE_ROOT}/images</code></td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_REFDATA_DIR</code></td>
+<td><code>${PIPELINE_ROOT}/refdata</code></td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SSL_DIR</code></td>
+<td><code>${PIPELINE_ROOT}/certs</code></td>
+</tr>
+<tr class="even">
+<td><code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
+<td><code>${PIPELINE_ROOT}/certs</code></td>
+</tr>
+<tr class="odd">
+<td><code>PIPELINE_SUBMITTER_STATE</code></td>
+<td><code>${PIPELINE_ROOT}/submitter-state</code></td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -563,7 +611,7 @@ Windows: forward-slash paths only
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Docker’s bind-mount parser does not accept Windows backslashes. Write <code>./data/storage</code>, not <code>.\data\storage</code> or <code>C:\data\storage</code>. If you need an absolute path, use <code>C:/data/storage</code> (forward slashes).</p>
+<p>If you set an absolute <code>PIPELINE_ROOT</code> (or relocate a category), Docker’s bind-mount parser does not accept Windows backslashes. Write <code>C:/bp-data</code>, not <code>C:\bp-data</code> or <code>.\bp-data</code>.</p>
 </div>
 </div>
 </section>
@@ -594,29 +642,19 @@ Windows: forward-slash paths only
 <td>Change if port 443 is already in use on the host</td>
 </tr>
 <tr class="odd">
-<td><code>PIPELINE_SSL_DIR</code></td>
-<td><code>./certs</code></td>
-<td>Where your TLS certificate and key live</td>
-</tr>
-<tr class="even">
 <td><code>PIPELINE_SSL_CERT</code></td>
 <td><code>server.crt</code></td>
 <td>TLS certificate filename (inside <code>PIPELINE_SSL_DIR</code>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>PIPELINE_SSL_KEY</code></td>
 <td><code>server.key</code></td>
 <td>TLS private key filename (inside <code>PIPELINE_SSL_DIR</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>PIPELINE_CREDENTIALS_FILE</code></td>
 <td><code>./credentials.json</code></td>
 <td>Path to the hashed credentials file (generated in step E)</td>
-</tr>
-<tr class="odd">
-<td><code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
-<td><code>./certs</code></td>
-<td>Directory holding BigPicture-issued S3 and Crypt4GH keys</td>
 </tr>
 <tr class="even">
 <td><code>PIPELINE_CONFIG_FILE</code></td>
@@ -672,7 +710,7 @@ Set the salt once — never change it afterwards
 <tr class="odd">
 <td><code>restore_projects</code></td>
 <td><code>false</code></td>
-<td>Set to <code>true</code> to let operators resume in-progress submissions after a container restart</td>
+<td>Set to <code>true</code> to resume in-progress submissions after a container restart</td>
 </tr>
 <tr class="even">
 <td><code>dicomization.threads</code></td>
@@ -682,7 +720,7 @@ Set the salt once — never change it afterwards
 <tr class="odd">
 <td><code>dicomization.levels</code></td>
 <td><code>all</code></td>
-<td>Restrict (e.g.&nbsp;<code>[0, 1, 2]</code>) for smaller output; fewer levels reduce zoom range in viewers</td>
+<td>Restrict (e.g.&nbsp;<code>[0, 1, 2]</code>) for smaller output; fewer levels reduce zoom range in viewers. Useful to reduce for quick tests.</td>
 </tr>
 <tr class="even">
 <td><code>dicomization.include_labels</code></td>
@@ -715,12 +753,6 @@ Verify
 </section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
-<p><strong><code>make doctor</code> reports a missing or placeholder variable</strong></p>
-<p>Run <code>make doctor</code> to see exactly which variable failed — it names the variable and describes the problem. Return to the relevant section above, set the value, and run <code>make doctor</code> again.</p>
-<p><strong><code>make doctor</code> reports “PIPELINE_CONFIG_FILE still matches config.yaml.example”</strong></p>
-<p>You copied <code>config.yaml.example</code> to <code>config.yaml</code> but did not change the salt. Open <code>config.yaml</code>, replace the <code>salt:</code> value with your own 32+ character string, save the file, and run <code>make doctor</code> again.</p>
-<p><strong>Container bind-mount fails after <code>docker compose up</code> (Windows)</strong></p>
-<p>You have backslash paths in <code>.env</code>. Docker’s bind-mount parser requires forward slashes on Windows. Open <code>.env</code>, replace all <code>\</code> with <code>/</code>, save with LF line endings, and restart.</p>
 
 
 </section>

@@ -1,0 +1,186 @@
+---
+title: "E2. mappers.xlsx"
+---
+
+`mappers.xlsx` translates your site's local short codes (staining names,
+tissue types, preparation methods, etc.) into the BigPicture coded attributes
+the pipeline exports. Every short code an operator types in a submission
+workbook must have a matching row here — an unmatched value leaves the
+attribute equal to `None` and the slidetap validator marks it as `invalid`, which marks the item as **invalid** in the curation UI and
+blocks a valid export.
+
+Creating and maintaining `mappers.xlsx` is the sites responsibility, as many sites use different local codes.
+
+## Place the template
+
+Run `make setup-refdata` to copy the starter template into your refdata
+directory:
+
+```bash
+make setup-refdata
+```
+
+The template has the correct sheet structure and column layout. The mapping
+keys and codes in it are test data. Replace them with your site's own
+short codes before running a real submission.
+
+
+## Workbook structure
+
+The workbook has one required **master sheet** (`mappers`) and one **per-mapper
+sheet** for each attribute mapping.
+
+### Master sheet (`mappers`)
+
+The `mappers` sheet is an index — one row per attribute you want to map.
+The sheet name is case-insensitive; all other sheet names referenced from it
+are case-sensitive.
+
+| Column | Required | Description |
+|---|---|---|
+| `Name` | yes | Display name for this mapper |
+| `UID` | yes | UUID — must be a valid UUID or the row is skipped |
+| `Type` | yes | One of `staining`, `code`, `enum`, `boolean` (case-insensitive) |
+| `Attribute` | yes (except staining) | BigPicture attribute name this mapper populates |
+| `Root Attribute` | no | Present in the template; not used by the pipeline — leave as-is |
+| `Sheet` | yes | Name of the sheet containing the mapping rows — **case-sensitive** |
+
+A row with a missing required field, invalid UUID, or unknown type is logged
+and skipped. The rest of the workbook still loads.
+
+### Code mapper sheet
+
+Maps a short-code regex to a single SNOMED (or other scheme) coded value.
+
+| Column | Required | Description |
+|---|---|---|
+| `Mapping Key` | yes | Regex matched against the operator's input |
+| `Code` | yes | Numeric or string code (e.g. `86273004`) |
+| `Scheme` | yes | Code system (e.g. `SNOMED`) |
+| `Meaning` | yes | Human-readable label for the code |
+
+**Example** (`SpecimenType` sheet):
+
+| Mapping Key | Code | Scheme | Meaning |
+|---|---|---|---|
+| `.*prostate.*` | T-77100 | SNOMED | Prostate |
+| `.*kidney.*` | T-71000 | SNOMED | Kidney |
+
+### Enum mapper sheet
+
+Maps a short-code regex to a fixed string value from an enumeration.
+
+| Column | Required | Description |
+|---|---|---|
+| `Mapping Key` | yes | Regex matched against the operator's input |
+| `Value` | yes | Must be a valid value for the target attribute's enum type |
+
+**Example** (`Sex` sheet):
+
+| Mapping Key | Value |
+|---|---|
+| `.*female.*` | Female |
+| `.*male.*` | Male |
+
+### Boolean mapper sheet
+
+Maps a short-code regex to `true` or `false`.
+
+| Column | Required | Description |
+|---|---|---|
+| `Mapping Key` | yes | Regex matched against the operator's input |
+| `Value` | yes | Truthy: `true`, `1`, `yes` (case-insensitive). Everything else → `False` |
+
+**Example** (`HasOverview` sheet):
+
+| Mapping Key | Value |
+|---|---|
+| `.*overview.*` | True |
+| `.*no_overview.*` | False |
+
+### Staining mapper sheet
+
+Staining is the most complex type: one staining can consist of multiple
+components (a chemical stain, one or more antibodies, etc.), so mapping keys
+map to **groups of rows**.
+
+Rows within a group share the same `Mapping Key`. Each row has a `Type`
+column that controls which columns are required:
+
+| `Type` | Meaning | Required columns |
+|---|---|---|
+| `procedure` | A named staining procedure | `Code`, `Scheme`, `Meaning` |
+| `list` | One component of a multi-part staining | `Stain Type` + component columns (see below) |
+
+`Stain Type` values for `list` rows:
+
+| Stain Type | Required columns |
+|---|---|
+| `chemical` | `Code`, `Scheme`, `Meaning` |
+| `immunogenic` | `Compound`, `Target`, `Reporter Type`, `Reporter Color`, `Reporter` |
+| `in_situ_hybridisation` (or `ish`) | `Compound`, `Target`, `Reporter Type`, `Reporter Color`, `Reporter` |
+
+**Example** (`Staining` sheet — an HE stain as a procedure, and a two-component IHC panel):
+
+| Mapping Key | Type | Stain Type | Compound | Target | Reporter Type | Reporter Color | Reporter | Code | Scheme | Meaning |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `^HE[0-9]*` | procedure | | | | | | | 104210008 | SNOMED | HE - Hematoxylin and eosin stain method (procedure) |
+| `CKAE` | list | chemical | | | | | | 12710003 | SCT | hematoxylin stain |
+| `CKAE` | list | immunogenic | ANTIBODY | CB, TP, Cytokeratin AE1/AE3 | CHROMOGEN | BROWN | DAB | | | |
+
+## Common pitfalls
+
+### Mapping keys are regexes — and `re.match`, not `re.fullmatch`
+
+The pipeline matches keys using Python's `re.match`, which anchors at the
+**start** of the string but not the end. A key like `.*male.*` will match
+`"female"` because `re.match` finds `.*` matching the empty string at position
+0, then `male` within `female`. To match exactly, anchor both ends:
+
+```
+^male$
+^female$
+```
+
+Plain strings like `HE` are valid regexes (they match any string starting with
+`HE`), but special regex characters (`.`, `*`, `+`, `(`, `[`, `\`) in a cell
+are interpreted as regex syntax, which can cause unexpected non-matches.
+
+### First matching row wins — silently
+
+When two mapping keys both match an operator's input, the **row that appears
+first in the sheet wins**. There is no warning. Order your rows from most
+specific to least specific, or use anchors (`^...$`) to make matches
+unambiguous.
+
+### Sheet names in the `Sheet` column are case-sensitive
+
+The master sheet name (`mappers`) is case-insensitive, but the sheet names
+you write in the `Sheet` column are matched exactly. `specimentype` will not
+find a sheet named `SpecimenType` — the mapper is silently skipped with a
+logged warning.
+
+### Per-mapper sheet column headers are case-sensitive
+
+`Mapping Key` works; `mapping key` does not — the column is read as empty
+strings and the mapper fails to load.
+
+## If something goes wrong
+
+**Operator input produces an empty attribute in the export** — a mapping key
+did not match. Check the key in the relevant sheet (regex anchoring, typos,
+case of the input vs the key pattern).
+
+**Mapper silently absent from the running pipeline** — check the pipeline logs
+for `logging.warning` or `logging.exception` output at startup. Common causes:
+wrong `Sheet` name in the master sheet, invalid UUID in the `UID` column, or
+an unknown `Type` value.
+
+**`make setup-refdata` warning: `mappers.xlsx not found in ...`** — the
+pipeline submodule was not initialised. Run:
+
+```bash
+git submodule update --init --recursive
+```
+
+then retry `make setup-refdata`.

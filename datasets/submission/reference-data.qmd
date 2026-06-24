@@ -2,13 +2,7 @@
 title: E. Reference data
 ---
 
-Provide the two reference files the pipeline needs for your site: the
-**`model.json`** (use the provided default for now) and the **`mappers.xlsx`**
-(start from the template and fill it in for your site).
+semi-static data referenced by slidetap.
 
-::: {.callout-note}
-## Coming soon
-This page is part of the manual's skeleton. Its content is being written in
-[issue #9](https://github.com/JeroenUMC/bp-sweden-web/issues/9) (model.json) and
-[issue #10](https://github.com/JeroenUMC/bp-sweden-web/issues/10) (mappers.xlsx).
-:::
+- **[model.json](reference-data-model.qmd)** — allows you to verify your data to BigPicture's metadata standard.
+- **[mappers.xlsx](reference-data-mappers.qmd)** — allows you to map attributes to bigpicture standards.

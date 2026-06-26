@@ -1036,7 +1036,62 @@
     "href": "datasets/submission/upload.html",
     "title": "J. Upload to BigPicture",
     "section": "",
-    "text": "Push the validated bundle to BigPicture with bp-submitter. Note the receiver-key precondition and remember to run with --threads 1.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #15.",
+    "text": "Encrypt and submit your validated bundle to the NBIS inbox with bp-submitter. This is the final step of the operator journey.",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html#dry-run",
+    "href": "datasets/submission/upload.html#dry-run",
+    "title": "J. Upload to BigPicture",
+    "section": "1. Dry run",
+    "text": "1. Dry run\nRun a dry run first. It validates your credentials, bundle path, and encryption readiness without transferring any data.\n\nWindowsmacOSLinux\n\n\nIn Git Bash, run:\nmake upload-dry-run DATASET=&lt;project_dir&gt;\n\n\nmake upload-dry-run DATASET=&lt;project_dir&gt;\n\n\nmake upload-dry-run DATASET=&lt;project_dir&gt;\n\n\n\nReplace &lt;project_dir&gt; with the project directory name — it is the value after Project: in the make export-check output from H. Run a submission, for example DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af.\n\n\n\n\n\n\nVerify\n\n\n\nA passing dry run starts with:\nDry-run upload of '&lt;project_dir&gt;' (zero bytes) ...\nand exits 0 with no ERROR lines. Fix any reported errors before uploading.",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html#upload",
+    "href": "datasets/submission/upload.html#upload",
+    "title": "J. Upload to BigPicture",
+    "section": "2. Upload",
+    "text": "2. Upload\nWhen the dry run passes, run the real upload:\n\nWindowsmacOSLinux\n\n\nIn Git Bash, run:\nmake upload DATASET=&lt;project_dir&gt;\n\n\nmake upload DATASET=&lt;project_dir&gt;\n\n\nmake upload DATASET=&lt;project_dir&gt;\n\n\n\n\n\n\n\n\n\nUse --threads 1 (the default)\n\n\n\nNBIS has explicitly asked submitters not to use parallel upload threads. make upload enforces --threads 1 by default.\nIf NBIS has explicitly told you that more threads are allowed for your site, you can override:\nmake upload DATASET=&lt;project_dir&gt; THREADS=4",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html#notify-nbis",
+    "href": "datasets/submission/upload.html#notify-nbis",
+    "title": "J. Upload to BigPicture",
+    "section": "Notify NBIS",
+    "text": "Notify NBIS\nOnce your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: submission - DATASET_{IDENTIFIER}, for example DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af.\nThe email should contain:\n\nName of the uploader\nName of the dataset",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html#resumable-uploads",
+    "href": "datasets/submission/upload.html#resumable-uploads",
+    "title": "J. Upload to BigPicture",
+    "section": "Resumable uploads",
+    "text": "Resumable uploads\nbp-submitter tracks progress in a local SQLite database at ${PIPELINE_SUBMITTER_STATE}/upload.db (default: $PIPELINE_ROOT/submitter-state/upload.db). If an upload is interrupted, re-run the same make upload DATASET=&lt;project_dir&gt; command — it resumes from where it left off.\nTo start over (for example, after replacing a corrected bundle), delete upload.db from your PIPELINE_SUBMITTER_STATE directory before re-running.",
+    "crumbs": [
+      "Implementation",
+      "J. Upload to BigPicture"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/upload.html#if-something-goes-wrong",
+    "href": "datasets/submission/upload.html#if-something-goes-wrong",
+    "title": "J. Upload to BigPicture",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\n\nMissing creds file: .../s3cmd-inbox.conf or Missing creds file:   .../crypt4gh_bp_key.pub — one of the NBIS-provided files is absent from PIPELINE_SUBMITTER_CREDS_DIR. Place the missing file there and retry.\nDATASET not set — re-run with DATASET=&lt;project_dir&gt;.\nDataset dir not found — the project directory name does not match what is under PIPELINE_OUTBOX_DIR. Confirm the name from make export-check output (step H).\nConnection or authentication errors — your s3cmd-inbox.conf may be expired or misconfigured. Contact NBIS for an updated file.\nUpload stalls and does not resume — delete upload.db from PIPELINE_SUBMITTER_STATE and retry from the beginning.",
     "crumbs": [
       "Implementation",
       "J. Upload to BigPicture"

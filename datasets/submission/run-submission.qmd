@@ -1,12 +1,201 @@
 ---
-title: H. Run a submission
+title: H. Run a submission test
 ---
 
-Work through a submission in the UI (text-first): log in, create a project and
-batch, upload your workbook, curate the records, and export.
+This step walks you through a complete test submission in the slidetap web UI:
+log in, configure a project, upload your operator workbook, process the images,
+curate any invalid items, and export a bundle to the outbox.
 
-::: {.callout-note}
-## Coming soon
-This page is part of the manual's skeleton. Its content is being written in
-[issue #13](https://github.com/JeroenUMC/bp-sweden-web/issues/13).
+::: {.callout-important}
+## Requires: stack running (step G)
+The UI must be reachable before you begin. Complete
+[G. Preflight + boot](boot.qmd) and confirm the login page opens at the address
+`make up` printed.
 :::
+
+## 1. Log in
+
+Open the UI address in your browser (e.g. **<https://localhost:443>**). You will
+land on a **Login** page.
+
+Enter the credentials you created in [F. TLS + credentials](tls-credentials.qmd):
+
+- **User name** — the username from `make gen-credentials`
+- **Password** — the password from `make gen-credentials`
+
+Click **Login**. You will land on the **Projects** list.
+
+<!-- TODO: screenshot — login page -->
+
+## 2. Create a project
+
+On the Projects list, click **New project**. The UI creates the project and
+opens its **Settings** page immediately. A **Default** batch is created
+automatically — you do not need to create one manually.
+
+Fill in the three sections, then click **UPDATE** at the bottom.
+
+**General**
+
+Set **Project Name** to something recognisable (e.g. `test-submission`).
+
+**Mapper groups**
+
+This connects the project to the `mappers.xlsx` mappings you placed in
+[E. Reference data](reference-data.qmd).
+
+**Attributes**
+
+The required fields (marked `*`) will already be filled in with test values. 
+For a test run we don't need to do anything else, you can leave optional fields (Keywords, Geographical areas, Year of submission, etc.)
+blank for a test run.
+
+
+<!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
+<!-- TODO: See <TODO: LINK> for an in depth overview of Dataset, and its attibutes. -->
+## 3. Upload the workbook
+
+In the left sidebar under **Batch**, click **Search**.
+
+1. Click **Browse** and select your operator metadata workbook (`.xlsx` or `.json`).
+2. Click **Parse**.
+
+The batch status changes to **Metadata Searching** while the pipeline reads the
+workbook and creates items. When parsing finishes, the status becomes
+**Metadata Search Complete** and the item list populates. You can also check the status under **Search**, where, after a refresh, the Status will read **Complete**.
+
+## 4. Curate invalid items
+
+Click **Curate** in the Batch sidebar. Items are listed by type across tabs
+(e.g. *Sample*, *Image*).
+
+An **invalid** item is one where a mapper could not resolve an attribute —
+the attribute value stays `None`, the validator flags it as invalid, and it
+blocks the post-processing step downstream. See
+[E2. mappers.xlsx](reference-data-mappers.qmd) for why this happens and how
+to fix the mapping.
+
+To fix an invalid item:
+
+1. Click the row to open the detail panel. The unmapped attribute is shown in
+   red.
+2. Add the missing mapping row to `mappers.xlsx` and re-upload it via
+   **E. Reference data**.
+3. Select the affected items in the Curate table and click **Remap** to
+   re-apply the updated mappers. No workbook re-upload is needed.
+
+For a test run with the provided example workbook, items should already be
+valid if your `mappers.xlsx` covers the test values and the correct mapper group
+is selected in Project Settings.
+
+**Note:** WSI will always be invalid at this stage, they can become valid after Pre-process.
+<!-- TODO: screenshot — Curate tab showing an invalid item with attribute highlighted -->
+
+## 5. Pre-process images
+
+Click **Pre-process** in the Batch sidebar. Click the **Pre-process** button.
+
+The batch status changes to **Image Pre-processing** while the pipeline
+downloads and DICOMizes the slide images. The table updates live — wait until
+the status reaches **Image Pre-processing Complete**. 
+Alternatively, watch in the Pre-process view to see all WSI's get status **Pre-Processed**.
+
+If any image shows a failed status, click **Retry** next to it or select
+multiple rows and use the bulk retry action.
+
+## 6. Post-process images
+
+Click **Post-process** in the Batch sidebar.
+
+::: {.callout-important}
+The **Start** button is only enabled when all items are valid. If it is greyed
+out, return to **Curate** (step 4), resolve the remaining invalid items, and
+come back.
+:::
+
+Click **Start**. The batch status changes to **Image Post-processing**, then
+**Image Post-processing Complete**.
+
+## 7. Validate (optional)
+
+Click **Validate** in the Batch sidebar to browse image thumbnails and visually
+confirm the slides look correct. Use the **Included / Excluded** toggles to
+show only the images you want to include in the export.
+
+You can exclude individual slides here by clicking their thumbnail — this marks
+them as excluded and they will not appear in the export bundle.
+
+## 8. Complete the batch
+
+Click **Complete** in the Batch sidebar, then click the **Complete** button.
+
+The batch is sealed. Once all batches are completed, the project status updates
+to **Completed** and the **Export** item in the Project sidebar becomes active.
+
+## 9. Export the bundle
+
+Click **Export** in the Project sidebar (under **Project**, not **Batch**).
+Click the **Submit** button.
+
+The project status changes to **Exporting**, then **Export Complete**. The
+pipeline writes the export bundle to the outbox (`$PIPELINE_STORAGE/storage`).
+
+::: {.callout-tip}
+## Verify
+
+Run the following from the pipeline root directory to confirm the bundle was
+written correctly:
+
+::: {.panel-tabset}
+## Windows
+In **Git Bash**, run:
+```bash
+make export-check
+```
+## macOS
+```bash
+make export-check
+```
+## Linux
+```bash
+make export-check
+```
+:::
+
+Expected output (project name and UID will differ):
+
+```
+Checking /data/storage ...
+
+Project: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af
+  OK    METADATA/ — 1 xml file(s)
+  OK    IMAGES/ — 42 dcm file(s)
+  PASS
+
+export-check PASSED
+```
+
+`export-check PASSED` confirms the bundle has metadata XML and DICOM image
+files and is ready for [I. Validate the bundle](validate.qmd).
+:::
+
+## If something goes wrong
+
+- **Parse produces no items.** The workbook format does not match the pipeline's
+  expected structure. Check that you are uploading the correct `.xlsx` and that
+  the sheet layout matches the import schema.
+- **Images stay failed after retry.** Run `make logs` and check the image worker
+  output. Common causes: slide files are not reachable at the path referenced in
+  the workbook, or DICOM conversion failed on a specific file format.
+- **Post-process Start button is greyed out.** One or more items are still
+  invalid. Return to **Curate**, identify the invalid items, fix the mapping in
+  `mappers.xlsx`, and remap.
+- **Submit button is greyed out on the Export page.** The project is not yet in
+  Completed status. Confirm the batch was completed (step 8) and check the batch
+  status chip in the Batch sidebar.
+- **`export-check` reports `FAIL outbox not found`.** The `PIPELINE_STORAGE`
+  path in `.env` does not exist or is not mounted correctly — see
+  [D. Configure](configure.qmd).
+- **`export-check` reports `FAIL no project directories`.** The export did not
+  finish writing. Check `make logs` and confirm the project status shows
+  **Export Complete** in the UI.

@@ -2,11 +2,156 @@
 title: I. Validate the bundle
 ---
 
-Validate the exported bundle with `make validate-upload`, and learn how to read
-and act on the errors it reports.
+Run `make validate-upload` on your exported bundle before uploading. The gate
+checks structure, schema, and file references in both directions —
+anything it catches here saves a rejection post upload. The gate runs
+on the **unencrypted** bundle; `bp-submitter` handles encryption and upload in
+stage J.
 
-::: {.callout-note}
-## Coming soon
-This page is part of the manual's skeleton. Its content is being written in
-[issue #14](https://github.com/JeroenUMC/bp-sweden-web/issues/14).
+## What it checks
+
+The gate runs five checks in order and stops at the first failure:
+
+| Check | What it looks for |
+|-------|-------------------|
+| **Structure** | Root dir named `DATASET_<alias>`; required folders (`METADATA/`, `LANDING_PAGE/`, `PRIVATE/`) present; required XML files present (including `landing_page.xml`) |
+| **XSD schema** (`BPInterface.validate`) | Metadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact |
+| **Extended schema** | `staining.xml` and `landing_page.xml` validated against their XSDs separately (the underlying library skips them) |
+| **Forward references** | Every annotation and landing-page thumbnail file named in metadata actually exists on disk |
+| **Reverse references (orphans)** | Every file in `IMAGES/`, `ANNOTATIONS/`, and `LANDING_PAGE/THUMBNAILS/` is referenced by at least one metadata entity |
+
+::: {.callout-note collapse="true"}
+## Adjusting what the gate requires
+
+The set of required folders and files is defined in the
+`bigpicture-metadata-interface` submodule:
+
+```
+bigpicture-metadata-interface/bigpicture_metadata_interface/dataset_structure.py
+```
+
+Each entry in `DatasetFileStructure` has a `required` flag (default `True`).
+To make a file optional — for example if your site does not produce
+`landing_page.xml` — set `required=False` on its entry and rebuild:
+
+```python
+LANDING_PAGE = DatasetFile(DatasetFolderStructure.LANDING_PAGE, "landing_page.xml", False)
+```
+
+The gate in this repo reads the contract dynamically; no further changes are
+needed here.
+
+We mention this because whether `LANDING_PAGE` is still in dispute.
 :::
+
+## Run it
+
+From the pipeline root directory:
+
+::: {.panel-tabset}
+## Windows
+In **Git Bash**, run:
+```bash
+make validate-upload DATASET=<path-to-DATASET_alias>
+```
+## macOS
+```bash
+make validate-upload DATASET=<path-to-DATASET_alias>
+```
+## Linux
+```bash
+make validate-upload DATASET=<path-to-DATASET_alias>
+```
+:::
+
+Replace `<path-to-DATASET_alias>` with the full path to your `DATASET_<alias>`
+bundle directory.
+
+::: {.callout-tip}
+## Verify
+
+A passing run prints one line and exits 0:
+
+```
+validate-upload PASSED: /path/to/DATASET_<alias>
+```
+
+A failing run names the offending file or rule:
+
+```
+FAIL  missing required folder: METADATA
+validate-upload FAILED: /path/to/DATASET_<alias> (1 structure problem(s))
+```
+
+Only a `validate-upload PASSED` line means you are clear to upload.
+:::
+
+## How to read a failure
+
+Every failure line starts with `FAIL` and names the **file or rule** that
+failed. The final line names the **check category** and the count.
+
+```
+FAIL  <rule or file description>
+validate-upload FAILED: <bundle path> (<N> <category>)
+```
+
+Exit code `1` means a validation problem was found. Exit code `2` means the
+directory itself was not found — check your `DATASET=` path.
+Exit code `0` means everything passed.
+
+## Worked examples
+
+### Example 1 — wrong bundle root name
+
+You pass a project export directory instead of the `DATASET_<alias>` folder
+inside it:
+
+```
+FAIL  dataset root must be named DATASET_<alias>, got 'my-project.abc123'
+validate-upload FAILED: /data/storage/my-project.abc123 (1 structure problem(s))
+```
+
+**Fix:** Pass the `DATASET_<alias>` subdirectory, not its parent.
+
+### Example 2 — missing required metadata file
+
+A required XML file was not written by the export (e.g. the export failed
+partway through):
+
+```
+FAIL  missing required file: METADATA/dataset.xml
+validate-upload FAILED: /data/storage/DATASET_myslides (1 structure problem(s))
+```
+
+**Fix:** Re-export the bundle from the slidetap UI (stage H, step 9). If the
+export appears to complete but the file is still missing, check `make logs` for
+errors in the export worker.
+
+### Example 3 — orphan file in IMAGES/
+
+A DICOM file is present on disk but not referenced by any metadata entity.
+This can happen if a slide was excluded after export:
+
+```
+FAIL  unreferenced file not in metadata: /data/storage/DATASET_myslides/IMAGES/slide_07.dcm
+validate-upload FAILED: /data/storage/DATASET_myslides (1 orphan file(s))
+```
+
+**Fix:** Either add the file to the metadata (re-export with the slide
+included) or remove the stray file from the bundle. Do not upload a bundle
+with orphan files — the submitter will reject it.
+
+## If something goes wrong
+
+- **`FAIL dataset directory not found`** — the path you passed to `DATASET=`
+  does not exist. Double-check the path and ensure the export step completed
+  successfully.
+- **`FAIL missing required folder`** — the export did not create the expected
+  structure. Re-export from the UI; if the folder is still missing, check
+  `make logs` for export worker errors.
+- **`FAIL schema validation: ...`** — a metadata XML file does not conform to
+  the BigPicture XSD schema. This usually indicates a mismatch between your
+  `model.json` or `mappers.xlsx` and the current metaflex schema. Check the
+  named file and the specific schema error for the attribute or element that
+  is out of place.

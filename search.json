@@ -58,9 +58,119 @@
   {
     "objectID": "datasets/submission/run-submission.html",
     "href": "datasets/submission/run-submission.html",
-    "title": "H. Run a submission",
+    "title": "H. Run a submission test",
     "section": "",
-    "text": "Work through a submission in the UI (text-first): log in, create a project and batch, upload your workbook, curate the records, and export.\n\n\n\n\n\n\nComing soon\n\n\n\nThis page is part of the manual’s skeleton. Its content is being written in issue #13.",
+    "text": "This step walks you through a complete test submission in the slidetap web UI: log in, configure a project, upload your operator workbook, process the images, curate any invalid items, and export a bundle to the outbox.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#log-in",
+    "href": "datasets/submission/run-submission.html#log-in",
+    "title": "H. Run a submission test",
+    "section": "1. Log in",
+    "text": "1. Log in\nOpen the UI address in your browser (e.g. https://localhost:443). You will land on a Login page.\nEnter the credentials you created in F. TLS + credentials:\n\nUser name — the username from make gen-credentials\nPassword — the password from make gen-credentials\n\nClick Login. You will land on the Projects list.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#create-a-project",
+    "href": "datasets/submission/run-submission.html#create-a-project",
+    "title": "H. Run a submission test",
+    "section": "2. Create a project",
+    "text": "2. Create a project\nOn the Projects list, click New project. The UI creates the project and opens its Settings page immediately. A Default batch is created automatically — you do not need to create one manually.\nFill in the three sections, then click UPDATE at the bottom.\nGeneral\nSet Project Name to something recognisable (e.g. test-submission).\nMapper groups\nThis connects the project to the mappers.xlsx mappings you placed in E. Reference data.\nAttributes\nThe required fields (marked *) will already be filled in with test values. For a test run we don’t need to do anything else, you can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#upload-the-workbook",
+    "href": "datasets/submission/run-submission.html#upload-the-workbook",
+    "title": "H. Run a submission test",
+    "section": "3. Upload the workbook",
+    "text": "3. Upload the workbook\nIn the left sidebar under Batch, click Search.\n\nClick Browse and select your operator metadata workbook (.xlsx or .json).\nClick Parse.\n\nThe batch status changes to Metadata Searching while the pipeline reads the workbook and creates items. When parsing finishes, the status becomes Metadata Search Complete and the item list populates. You can also check the status under Search, where, after a refresh, the Status will read Complete.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#curate-invalid-items",
+    "href": "datasets/submission/run-submission.html#curate-invalid-items",
+    "title": "H. Run a submission test",
+    "section": "4. Curate invalid items",
+    "text": "4. Curate invalid items\nClick Curate in the Batch sidebar. Items are listed by type across tabs (e.g. Sample, Image).\nAn invalid item is one where a mapper could not resolve an attribute — the attribute value stays None, the validator flags it as invalid, and it blocks the post-processing step downstream. See E2. mappers.xlsx for why this happens and how to fix the mapping.\nTo fix an invalid item:\n\nClick the row to open the detail panel. The unmapped attribute is shown in red.\nAdd the missing mapping row to mappers.xlsx and re-upload it via E. Reference data.\nSelect the affected items in the Curate table and click Remap to re-apply the updated mappers. No workbook re-upload is needed.\n\nFor a test run with the provided example workbook, items should already be valid if your mappers.xlsx covers the test values and the correct mapper group is selected in Project Settings.\nNote: WSI will always be invalid at this stage, they can become valid after Pre-process.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#pre-process-images",
+    "href": "datasets/submission/run-submission.html#pre-process-images",
+    "title": "H. Run a submission test",
+    "section": "5. Pre-process images",
+    "text": "5. Pre-process images\nClick Pre-process in the Batch sidebar. Click the Pre-process button.\nThe batch status changes to Image Pre-processing while the pipeline downloads and DICOMizes the slide images. The table updates live — wait until the status reaches Image Pre-processing Complete. Alternatively, watch in the Pre-process view to see all WSI’s get status Pre-Processed.\nIf any image shows a failed status, click Retry next to it or select multiple rows and use the bulk retry action.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#post-process-images",
+    "href": "datasets/submission/run-submission.html#post-process-images",
+    "title": "H. Run a submission test",
+    "section": "6. Post-process images",
+    "text": "6. Post-process images\nClick Post-process in the Batch sidebar.\n\n\n\n\n\n\nImportant\n\n\n\nThe Start button is only enabled when all items are valid. If it is greyed out, return to Curate (step 4), resolve the remaining invalid items, and come back.\n\n\nClick Start. The batch status changes to Image Post-processing, then Image Post-processing Complete.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#validate-optional",
+    "href": "datasets/submission/run-submission.html#validate-optional",
+    "title": "H. Run a submission test",
+    "section": "7. Validate (optional)",
+    "text": "7. Validate (optional)\nClick Validate in the Batch sidebar to browse image thumbnails and visually confirm the slides look correct. Use the Included / Excluded toggles to show only the images you want to include in the export.\nYou can exclude individual slides here by clicking their thumbnail — this marks them as excluded and they will not appear in the export bundle.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#complete-the-batch",
+    "href": "datasets/submission/run-submission.html#complete-the-batch",
+    "title": "H. Run a submission test",
+    "section": "8. Complete the batch",
+    "text": "8. Complete the batch\nClick Complete in the Batch sidebar, then click the Complete button.\nThe batch is sealed. Once all batches are completed, the project status updates to Completed and the Export item in the Project sidebar becomes active.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#export-the-bundle",
+    "href": "datasets/submission/run-submission.html#export-the-bundle",
+    "title": "H. Run a submission test",
+    "section": "9. Export the bundle",
+    "text": "9. Export the bundle\nClick Export in the Project sidebar (under Project, not Batch). Click the Submit button.\nThe project status changes to Exporting, then Export Complete. The pipeline writes the export bundle to the outbox ($PIPELINE_STORAGE/storage).\n\n\n\n\n\n\nVerify\n\n\n\nRun the following from the pipeline root directory to confirm the bundle was written correctly:\n\nWindowsmacOSLinux\n\n\nIn Git Bash, run:\nmake export-check\n\n\nmake export-check\n\n\nmake export-check\n\n\n\nExpected output (project name and UID will differ):\nChecking /data/storage ...\n\nProject: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af\n  OK    METADATA/ — 1 xml file(s)\n  OK    IMAGES/ — 42 dcm file(s)\n  PASS\n\nexport-check PASSED\nexport-check PASSED confirms the bundle has metadata XML and DICOM image files and is ready for I. Validate the bundle.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/run-submission.html#if-something-goes-wrong",
+    "href": "datasets/submission/run-submission.html#if-something-goes-wrong",
+    "title": "H. Run a submission test",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\n\nParse produces no items. The workbook format does not match the pipeline’s expected structure. Check that you are uploading the correct .xlsx and that the sheet layout matches the import schema.\nImages stay failed after retry. Run make logs and check the image worker output. Common causes: slide files are not reachable at the path referenced in the workbook, or DICOM conversion failed on a specific file format.\nPost-process Start button is greyed out. One or more items are still invalid. Return to Curate, identify the invalid items, fix the mapping in mappers.xlsx, and remap.\nSubmit button is greyed out on the Export page. The project is not yet in Completed status. Confirm the batch was completed (step 8) and check the batch status chip in the Batch sidebar.\nexport-check reports FAIL outbox not found. The PIPELINE_STORAGE path in .env does not exist or is not mounted correctly — see D. Configure.\nexport-check reports FAIL no project directories. The export did not finish writing. Check make logs and confirm the project status shows Export Complete in the UI.",
     "crumbs": [
       "Implementation",
       "H. Run a submission"

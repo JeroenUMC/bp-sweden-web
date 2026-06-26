@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - H. Run a submission</title>
+<title>Bigpicture - H. Run a submission test</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -347,14 +381,29 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#log-in" id="toc-log-in" class="nav-link active" data-scroll-target="#log-in">1. Log in</a></li>
+  <li><a href="#create-a-project" id="toc-create-a-project" class="nav-link" data-scroll-target="#create-a-project">2. Create a project</a></li>
+  <li><a href="#upload-the-workbook" id="toc-upload-the-workbook" class="nav-link" data-scroll-target="#upload-the-workbook">3. Upload the workbook</a></li>
+  <li><a href="#curate-invalid-items" id="toc-curate-invalid-items" class="nav-link" data-scroll-target="#curate-invalid-items">4. Curate invalid items</a></li>
+  <li><a href="#pre-process-images" id="toc-pre-process-images" class="nav-link" data-scroll-target="#pre-process-images">5. Pre-process images</a></li>
+  <li><a href="#post-process-images" id="toc-post-process-images" class="nav-link" data-scroll-target="#post-process-images">6. Post-process images</a></li>
+  <li><a href="#validate-optional" id="toc-validate-optional" class="nav-link" data-scroll-target="#validate-optional">7. Validate (optional)</a></li>
+  <li><a href="#complete-the-batch" id="toc-complete-the-batch" class="nav-link" data-scroll-target="#complete-the-batch">8. Complete the batch</a></li>
+  <li><a href="#export-the-bundle" id="toc-export-the-bundle" class="nav-link" data-scroll-target="#export-the-bundle">9. Export the bundle</a></li>
+  <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">Implementation</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/run-submission.html">H. Run a submission</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">H. Run a submission</h1>
+<h1 class="title">H. Run a submission test</h1>
 </div>
 
 
@@ -371,22 +420,156 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Work through a submission in the UI (text-first): log in, create a project and batch, upload your workbook, curate the records, and export.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>This step walks you through a complete test submission in the slidetap web UI: log in, configure a project, upload your operator workbook, process the images, curate any invalid items, and export a bundle to the outbox.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Coming soon
+Requires: stack running (step G)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/13">issue #13</a>.</p>
+<p>The UI must be reachable before you begin. Complete <a href="../../datasets/submission/boot.html">G. Preflight + boot</a> and confirm the login page opens at the address <code>make up</code> printed.</p>
 </div>
 </div>
+<section id="log-in" class="level2">
+<h2 class="anchored" data-anchor-id="log-in">1. Log in</h2>
+<p>Open the UI address in your browser (e.g.&nbsp;<strong><a href="https://localhost:443" class="uri">https://localhost:443</a></strong>). You will land on a <strong>Login</strong> page.</p>
+<p>Enter the credentials you created in <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a>:</p>
+<ul>
+<li><strong>User name</strong> — the username from <code>make gen-credentials</code></li>
+<li><strong>Password</strong> — the password from <code>make gen-credentials</code></li>
+</ul>
+<p>Click <strong>Login</strong>. You will land on the <strong>Projects</strong> list.</p>
+<!-- TODO: screenshot — login page -->
+</section>
+<section id="create-a-project" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-project">2. Create a project</h2>
+<p>On the Projects list, click <strong>New project</strong>. The UI creates the project and opens its <strong>Settings</strong> page immediately. A <strong>Default</strong> batch is created automatically — you do not need to create one manually.</p>
+<p>Fill in the three sections, then click <strong>UPDATE</strong> at the bottom.</p>
+<p><strong>General</strong></p>
+<p>Set <strong>Project Name</strong> to something recognisable (e.g.&nbsp;<code>test-submission</code>).</p>
+<p><strong>Mapper groups</strong></p>
+<p>This connects the project to the <code>mappers.xlsx</code> mappings you placed in <a href="../../datasets/submission/reference-data.html">E. Reference data</a>.</p>
+<p><strong>Attributes</strong></p>
+<p>The required fields (marked <code>*</code>) will already be filled in with test values. For a test run we don’t need to do anything else, you can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.</p>
+<!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
+<!-- TODO: See <TODO: LINK> for an in depth overview of Dataset, and its attibutes. -->
+</section>
+<section id="upload-the-workbook" class="level2">
+<h2 class="anchored" data-anchor-id="upload-the-workbook">3. Upload the workbook</h2>
+<p>In the left sidebar under <strong>Batch</strong>, click <strong>Search</strong>.</p>
+<ol type="1">
+<li>Click <strong>Browse</strong> and select your operator metadata workbook (<code>.xlsx</code> or <code>.json</code>).</li>
+<li>Click <strong>Parse</strong>.</li>
+</ol>
+<p>The batch status changes to <strong>Metadata Searching</strong> while the pipeline reads the workbook and creates items. When parsing finishes, the status becomes <strong>Metadata Search Complete</strong> and the item list populates. You can also check the status under <strong>Search</strong>, where, after a refresh, the Status will read <strong>Complete</strong>.</p>
+</section>
+<section id="curate-invalid-items" class="level2">
+<h2 class="anchored" data-anchor-id="curate-invalid-items">4. Curate invalid items</h2>
+<p>Click <strong>Curate</strong> in the Batch sidebar. Items are listed by type across tabs (e.g.&nbsp;<em>Sample</em>, <em>Image</em>).</p>
+<p>An <strong>invalid</strong> item is one where a mapper could not resolve an attribute — the attribute value stays <code>None</code>, the validator flags it as invalid, and it blocks the post-processing step downstream. See <a href="../../datasets/submission/reference-data-mappers.html">E2. mappers.xlsx</a> for why this happens and how to fix the mapping.</p>
+<p>To fix an invalid item:</p>
+<ol type="1">
+<li>Click the row to open the detail panel. The unmapped attribute is shown in red.</li>
+<li>Add the missing mapping row to <code>mappers.xlsx</code> and re-upload it via <strong>E. Reference data</strong>.</li>
+<li>Select the affected items in the Curate table and click <strong>Remap</strong> to re-apply the updated mappers. No workbook re-upload is needed.</li>
+</ol>
+<p>For a test run with the provided example workbook, items should already be valid if your <code>mappers.xlsx</code> covers the test values and the correct mapper group is selected in Project Settings.</p>
+<p><strong>Note:</strong> WSI will always be invalid at this stage, they can become valid after Pre-process. <!-- TODO: screenshot — Curate tab showing an invalid item with attribute highlighted --></p>
+</section>
+<section id="pre-process-images" class="level2">
+<h2 class="anchored" data-anchor-id="pre-process-images">5. Pre-process images</h2>
+<p>Click <strong>Pre-process</strong> in the Batch sidebar. Click the <strong>Pre-process</strong> button.</p>
+<p>The batch status changes to <strong>Image Pre-processing</strong> while the pipeline downloads and DICOMizes the slide images. The table updates live — wait until the status reaches <strong>Image Pre-processing Complete</strong>. Alternatively, watch in the Pre-process view to see all WSI’s get status <strong>Pre-Processed</strong>.</p>
+<p>If any image shows a failed status, click <strong>Retry</strong> next to it or select multiple rows and use the bulk retry action.</p>
+</section>
+<section id="post-process-images" class="level2">
+<h2 class="anchored" data-anchor-id="post-process-images">6. Post-process images</h2>
+<p>Click <strong>Post-process</strong> in the Batch sidebar.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>Start</strong> button is only enabled when all items are valid. If it is greyed out, return to <strong>Curate</strong> (step 4), resolve the remaining invalid items, and come back.</p>
+</div>
+</div>
+<p>Click <strong>Start</strong>. The batch status changes to <strong>Image Post-processing</strong>, then <strong>Image Post-processing Complete</strong>.</p>
+</section>
+<section id="validate-optional" class="level2">
+<h2 class="anchored" data-anchor-id="validate-optional">7. Validate (optional)</h2>
+<p>Click <strong>Validate</strong> in the Batch sidebar to browse image thumbnails and visually confirm the slides look correct. Use the <strong>Included / Excluded</strong> toggles to show only the images you want to include in the export.</p>
+<p>You can exclude individual slides here by clicking their thumbnail — this marks them as excluded and they will not appear in the export bundle.</p>
+</section>
+<section id="complete-the-batch" class="level2">
+<h2 class="anchored" data-anchor-id="complete-the-batch">8. Complete the batch</h2>
+<p>Click <strong>Complete</strong> in the Batch sidebar, then click the <strong>Complete</strong> button.</p>
+<p>The batch is sealed. Once all batches are completed, the project status updates to <strong>Completed</strong> and the <strong>Export</strong> item in the Project sidebar becomes active.</p>
+</section>
+<section id="export-the-bundle" class="level2">
+<h2 class="anchored" data-anchor-id="export-the-bundle">9. Export the bundle</h2>
+<p>Click <strong>Export</strong> in the Project sidebar (under <strong>Project</strong>, not <strong>Batch</strong>). Click the <strong>Submit</strong> button.</p>
+<p>The project status changes to <strong>Exporting</strong>, then <strong>Export Complete</strong>. The pipeline writes the export bundle to the outbox (<code>$PIPELINE_STORAGE/storage</code>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run the following from the pipeline root directory to confirm the bundle was written correctly:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In <strong>Git Bash</strong>, run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> export-check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> export-check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> export-check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Expected output (project name and UID will differ):</p>
+<pre><code>Checking /data/storage ...
+
+Project: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af
+  OK    METADATA/ — 1 xml file(s)
+  OK    IMAGES/ — 42 dcm file(s)
+  PASS
+
+export-check PASSED</code></pre>
+<p><code>export-check PASSED</code> confirms the bundle has metadata XML and DICOM image files and is ready for <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.</p>
+</div>
+</div>
+</section>
+<section id="if-something-goes-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
+<ul>
+<li><strong>Parse produces no items.</strong> The workbook format does not match the pipeline’s expected structure. Check that you are uploading the correct <code>.xlsx</code> and that the sheet layout matches the import schema.</li>
+<li><strong>Images stay failed after retry.</strong> Run <code>make logs</code> and check the image worker output. Common causes: slide files are not reachable at the path referenced in the workbook, or DICOM conversion failed on a specific file format.</li>
+<li><strong>Post-process Start button is greyed out.</strong> One or more items are still invalid. Return to <strong>Curate</strong>, identify the invalid items, fix the mapping in <code>mappers.xlsx</code>, and remap.</li>
+<li><strong>Submit button is greyed out on the Export page.</strong> The project is not yet in Completed status. Confirm the batch was completed (step 8) and check the batch status chip in the Batch sidebar.</li>
+<li><strong><code>export-check</code> reports <code>FAIL outbox not found</code>.</strong> The <code>PIPELINE_STORAGE</code> path in <code>.env</code> does not exist or is not mounted correctly — see <a href="../../datasets/submission/configure.html">D. Configure</a>.</li>
+<li><strong><code>export-check</code> reports <code>FAIL no project directories</code>.</strong> The export did not finish writing. Check <code>make logs</code> and confirm the project status shows <strong>Export Complete</strong> in the UI.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

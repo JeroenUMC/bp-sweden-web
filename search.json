@@ -214,7 +214,18 @@
     "href": "datasets/submission/boot.html#open-the-ui",
     "title": "G. Preflight + boot",
     "section": "3. Open the UI",
-    "text": "3. Open the UI\nOpen the address from the previous step in your browser.\nBecause the certificate is self-signed (you created it yourself in step F), the browser shows a “your connection is not private / not secure” warning. This is expected and does not mean anything is wrong. It only means the certificate was not issued by a public authority. Tell the browser to continue:\n\nChrome / EdgeFirefoxSafari\n\n\nClick Advanced, then Proceed to localhost (unsafe).\n\n\nClick Advanced…, then Accept the Risk and Continue.\n\n\nClick Show Details, then visit this website, and confirm.\n\n\n\nYou should land on the login page, confirming the stack is up. Logging in and running a submission is the next step, H. Run a submission.",
+    "text": "3. Open the UI\nOpen the address from the previous step in your browser.\nBecause the certificate is self-signed (you created it yourself in step F), the browser shows a “your connection is not private / not secure” warning. This is expected and does not mean anything is wrong. It only means the certificate was not issued by a public authority. Tell the browser to continue:\n\nChrome / EdgeFirefoxSafari\n\n\nClick Advanced, then Proceed to localhost (unsafe).\n\n\nClick Advanced…, then Accept the Risk and Continue.\n\n\nClick Show Details, then visit this website, and confirm.\n\n\n\nYou should land on the login page, confirming the stack is up.",
+    "crumbs": [
+      "Implementation",
+      "G. Preflight + boot"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/boot.html#add-a-slide-image-for-the-test-run",
+    "href": "datasets/submission/boot.html#add-a-slide-image-for-the-test-run",
+    "title": "G. Preflight + boot",
+    "section": "4. Add a slide image for the test run",
+    "text": "4. Add a slide image for the test run\nThe example sample set ships with metadata, mappers, and a model file, but no slide image — whole-slide images run to gigabytes and are too large to bundle. Before you run the test submission in H. Run a submission, place one slide in your image folder so the Pre-process step has something to convert. OpenSlide publishes freely usable example slides for exactly this.\n\nOpen the OpenSlide demo gallery: https://openslide.org/demo/.\nPick a slide and download it. Some formats are large and slow to download and convert, so start with a small, single-file Aperio (.svs) slide — e.g. Aperio › CMU-1-Small-Region (a few MB) or Aperio › CMU-1. Avoid the MIRAX (.mrxs) and Hamamatsu VMS slides for a first run: they arrive as multi-file bundles and take longer to process.\nMove the downloaded file into your image folder, PIPELINE_IMAGE_ROOT (default ./data/images — see D. Configure).\nOpen your operator metadata workbook and set the Image path value to the filename you just downloaded (e.g. CMU-1-Small-Region.svs). Pre-process resolves the slide by this path relative to PIPELINE_IMAGE_ROOT, so the value must match the file on disk exactly.\n\n\n\n\n\n\n\nNote\n\n\n\nThe image folder is mounted read-only into the containers, but files you drop in after make up are still picked up live — you do not need to restart the stack.\n\n\nLogging in and running a submission is the next step, H. Run a submission.",
     "crumbs": [
       "Implementation",
       "G. Preflight + boot"

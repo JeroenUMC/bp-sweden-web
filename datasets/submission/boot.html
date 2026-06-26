@@ -388,6 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#preflight-make-doctor" id="toc-preflight-make-doctor" class="nav-link active" data-scroll-target="#preflight-make-doctor">1. Preflight: <code>make doctor</code></a></li>
   <li><a href="#start-the-stack" id="toc-start-the-stack" class="nav-link" data-scroll-target="#start-the-stack">2. Start the stack</a></li>
   <li><a href="#open-the-ui" id="toc-open-the-ui" class="nav-link" data-scroll-target="#open-the-ui">3. Open the UI</a></li>
+  <li><a href="#add-a-slide-image-for-the-test-run" id="toc-add-a-slide-image-for-the-test-run" class="nav-link" data-scroll-target="#add-a-slide-image-for-the-test-run">4. Add a slide image for the test run</a></li>
   <li><a href="#useful-controls" id="toc-useful-controls" class="nav-link" data-scroll-target="#useful-controls">Useful controls</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
@@ -495,7 +496,31 @@ slidetap UI: https://localhost:443  (resolves to 127.0.0.1)</code></pre>
 </div>
 </div>
 </div>
-<p>You should land on the <strong>login page</strong>, confirming the stack is up. Logging in and running a submission is the next step, <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>.</p>
+<p>You should land on the <strong>login page</strong>, confirming the stack is up.</p>
+</section>
+<section id="add-a-slide-image-for-the-test-run" class="level2">
+<h2 class="anchored" data-anchor-id="add-a-slide-image-for-the-test-run">4. Add a slide image for the test run</h2>
+<p>The example sample set ships with metadata, mappers, and a model file, but <strong>no slide image</strong> — whole-slide images run to gigabytes and are too large to bundle. Before you run the test submission in <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>, place one slide in your image folder so the <strong>Pre-process</strong> step has something to convert. OpenSlide publishes freely usable example slides for exactly this.</p>
+<ol type="1">
+<li>Open the OpenSlide demo gallery: <a href="https://openslide.org/demo/" class="uri">https://openslide.org/demo/</a>.</li>
+<li>Pick a slide and download it. Some formats are large and slow to download and convert, so <strong>start with a small, single-file Aperio (<code>.svs</code>) slide</strong> — e.g. <strong>Aperio › CMU-1-Small-Region</strong> (a few MB) or <strong>Aperio › CMU-1</strong>. Avoid the MIRAX (<code>.mrxs</code>) and Hamamatsu VMS slides for a first run: they arrive as multi-file bundles and take longer to process.</li>
+<li>Move the downloaded file into your image folder, <code>PIPELINE_IMAGE_ROOT</code> (default <code>./data/images</code> — see <a href="../../datasets/submission/configure.html">D. Configure</a>).</li>
+<li>Open your operator metadata workbook and set the <strong><code>Image path</code></strong> value to the filename you just downloaded (e.g.&nbsp;<code>CMU-1-Small-Region.svs</code>). Pre-process resolves the slide by this path <strong>relative to</strong> <code>PIPELINE_IMAGE_ROOT</code>, so the value must match the file on disk exactly.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The image folder is mounted <strong>read-only</strong> into the containers, but files you drop in after <code>make up</code> are still picked up live — you do not need to restart the stack.</p>
+</div>
+</div>
+<p>Logging in and running a submission is the next step, <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>.</p>
 </section>
 <section id="useful-controls" class="level2">
 <h2 class="anchored" data-anchor-id="useful-controls">Useful controls</h2>

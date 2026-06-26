@@ -2,11 +2,125 @@
 title: J. Upload to BigPicture
 ---
 
-Push the validated bundle to BigPicture with **`bp-submitter`**. Note the
-receiver-key precondition and remember to run with `--threads 1`.
+Encrypt and submit your validated bundle to the NBIS inbox with **`bp-submitter`**.
+This is the final step of the operator journey.
 
-::: {.callout-note}
-## Coming soon
-This page is part of the manual's skeleton. Its content is being written in
-[issue #15](https://github.com/JeroenUMC/bp-sweden-web/issues/15).
+::: {.callout-important}
+## Precondition: NBIS receiver credentials
+
+NBIS provides two files before you can upload. Place both in your
+`PIPELINE_SUBMITTER_CREDS_DIR` directory — the same `certs/` folder used in
+[F. TLS + credentials](tls-credentials.qmd):
+
+| File | Purpose |
+|---|---|
+| `s3cmd-inbox.conf` | S3 connection configuration for the NBIS inbox |
+| `crypt4gh_bp_key.pub` | NBIS receiver public key for encryption |
+
+Contact NBIS if you do not have these files. Do **not** commit them to version
+control — they are already covered by the `.gitignore`.
 :::
+
+## 1. Dry run
+
+Run a dry run first. It validates your credentials, bundle path, and encryption
+readiness without transferring any data.
+
+::: {.panel-tabset}
+## Windows
+In **Git Bash**, run:
+```bash
+make upload-dry-run DATASET=<project_dir>
+```
+## macOS
+```bash
+make upload-dry-run DATASET=<project_dir>
+```
+## Linux
+```bash
+make upload-dry-run DATASET=<project_dir>
+```
+:::
+
+Replace `<project_dir>` with the project directory name — it is the value after
+`Project:` in the `make export-check` output from [H. Run a submission](run-submission.qmd),
+for example `DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+
+::: {.callout-tip}
+## Verify
+
+A passing dry run starts with:
+
+```
+Dry-run upload of '<project_dir>' (zero bytes) ...
+```
+
+and exits 0 with no `ERROR` lines. Fix any reported errors before uploading.
+:::
+
+## 2. Upload
+
+When the dry run passes, run the real upload:
+
+::: {.panel-tabset}
+## Windows
+In **Git Bash**, run:
+```bash
+make upload DATASET=<project_dir>
+```
+## macOS
+```bash
+make upload DATASET=<project_dir>
+```
+## Linux
+```bash
+make upload DATASET=<project_dir>
+```
+:::
+
+::: {.callout-warning}
+## Use `--threads 1` (the default)
+
+NBIS has explicitly asked submitters not to use parallel upload threads.
+`make upload` enforces `--threads 1` by default.
+
+If NBIS has explicitly told you that more threads are allowed for your site,
+you can override:
+
+```bash
+make upload DATASET=<project_dir> THREADS=4
+```
+:::
+
+## Notify NBIS
+Once your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+
+The email should contain:
+
+- Name of the uploader
+- Name of the dataset
+
+## Resumable uploads
+
+`bp-submitter` tracks progress in a local SQLite database at
+`${PIPELINE_SUBMITTER_STATE}/upload.db` (default:
+`$PIPELINE_ROOT/submitter-state/upload.db`). If an upload is interrupted,
+re-run the same `make upload DATASET=<project_dir>` command — it resumes from
+where it left off.
+
+To start over (for example, after replacing a corrected bundle), delete
+`upload.db` from your `PIPELINE_SUBMITTER_STATE` directory before re-running.
+
+## If something goes wrong
+
+- **`Missing creds file: .../s3cmd-inbox.conf`** or **`Missing creds file:
+  .../crypt4gh_bp_key.pub`** — one of the NBIS-provided files is absent from
+  `PIPELINE_SUBMITTER_CREDS_DIR`. Place the missing file there and retry.
+- **`DATASET not set`** — re-run with `DATASET=<project_dir>`.
+- **`Dataset dir not found`** — the project directory name does not match what
+  is under `PIPELINE_OUTBOX_DIR`. Confirm the name from `make export-check`
+  output (step H).
+- **Connection or authentication errors** — your `s3cmd-inbox.conf` may be
+  expired or misconfigured. Contact NBIS for an updated file.
+- **Upload stalls and does not resume** — delete `upload.db` from
+  `PIPELINE_SUBMITTER_STATE` and retry from the beginning.

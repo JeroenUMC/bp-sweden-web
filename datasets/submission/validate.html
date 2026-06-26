@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -347,7 +381,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-it-checks" id="toc-what-it-checks" class="nav-link active" data-scroll-target="#what-it-checks">What it checks</a></li>
+  <li><a href="#run-it" id="toc-run-it" class="nav-link" data-scroll-target="#run-it">Run it</a></li>
+  <li><a href="#how-to-read-a-failure" id="toc-how-to-read-a-failure" class="nav-link" data-scroll-target="#how-to-read-a-failure">How to read a failure</a></li>
+  <li><a href="#worked-examples" id="toc-worked-examples" class="nav-link" data-scroll-target="#worked-examples">Worked examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-wrong-bundle-root-name" id="toc-example-1-wrong-bundle-root-name" class="nav-link" data-scroll-target="#example-1-wrong-bundle-root-name">Example 1 — wrong bundle root name</a></li>
+  <li><a href="#example-2-missing-required-metadata-file" id="toc-example-2-missing-required-metadata-file" class="nav-link" data-scroll-target="#example-2-missing-required-metadata-file">Example 2 — missing required metadata file</a></li>
+  <li><a href="#example-3-orphan-file-in-images" id="toc-example-3-orphan-file-in-images" class="nav-link" data-scroll-target="#example-3-orphan-file-in-images">Example 3 — orphan file in IMAGES/</a></li>
+  </ul></li>
+  <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -371,22 +420,145 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Validate the exported bundle with <code>make validate-upload</code>, and learn how to read and act on the errors it reports.</p>
+<p>Run <code>make validate-upload</code> on your exported bundle before uploading. The gate checks structure, schema, and file references in both directions — anything it catches here saves a rejection post upload. The gate runs on the <strong>unencrypted</strong> bundle; <code>bp-submitter</code> handles encryption and upload in stage J.</p>
+<section id="what-it-checks" class="level2">
+<h2 class="anchored" data-anchor-id="what-it-checks">What it checks</h2>
+<p>The gate runs five checks in order and stops at the first failure:</p>
+<table class="table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Check</th>
+<th>What it looks for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Structure</strong></td>
+<td>Root dir named <code>DATASET_&lt;alias&gt;</code>; required folders (<code>METADATA/</code>, <code>LANDING_PAGE/</code>, <code>PRIVATE/</code>) present; required XML files present (including <code>landing_page.xml</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>XSD schema</strong> (<code>BPInterface.validate</code>)</td>
+<td>Metadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact</td>
+</tr>
+<tr class="odd">
+<td><strong>Extended schema</strong></td>
+<td><code>staining.xml</code> and <code>landing_page.xml</code> validated against their XSDs separately (the underlying library skips them)</td>
+</tr>
+<tr class="even">
+<td><strong>Forward references</strong></td>
+<td>Every annotation and landing-page thumbnail file named in metadata actually exists on disk</td>
+</tr>
+<tr class="odd">
+<td><strong>Reverse references (orphans)</strong></td>
+<td>Every file in <code>IMAGES/</code>, <code>ANNOTATIONS/</code>, and <code>LANDING_PAGE/THUMBNAILS/</code> is referenced by at least one metadata entity</td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Adjusting what the gate requires
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The set of required folders and files is defined in the <code>bigpicture-metadata-interface</code> submodule:</p>
+<pre><code>bigpicture-metadata-interface/bigpicture_metadata_interface/dataset_structure.py</code></pre>
+<p>Each entry in <code>DatasetFileStructure</code> has a <code>required</code> flag (default <code>True</code>). To make a file optional — for example if your site does not produce <code>landing_page.xml</code> — set <code>required=False</code> on its entry and rebuild:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LANDING_PAGE <span class="op">=</span> DatasetFile(DatasetFolderStructure.LANDING_PAGE, <span class="st">"landing_page.xml"</span>, <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The gate in this repo reads the contract dynamically; no further changes are needed here.</p>
+<p>We mention this because whether <code>LANDING_PAGE</code> is still in dispute.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="run-it" class="level2">
+<h2 class="anchored" data-anchor-id="run-it">Run it</h2>
+<p>From the pipeline root directory:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In <strong>Git Bash</strong>, run:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Replace <code>&lt;path-to-DATASET_alias&gt;</code> with the full path to your <code>DATASET_&lt;alias&gt;</code> bundle directory.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Coming soon
+Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page is part of the manual’s skeleton. Its content is being written in <a href="https://github.com/JeroenUMC/bp-sweden-web/issues/14">issue #14</a>.</p>
+<p>A passing run prints one line and exits 0:</p>
+<pre><code>validate-upload PASSED: /path/to/DATASET_&lt;alias&gt;</code></pre>
+<p>A failing run names the offending file or rule:</p>
+<pre><code>FAIL  missing required folder: METADATA
+validate-upload FAILED: /path/to/DATASET_&lt;alias&gt; (1 structure problem(s))</code></pre>
+<p>Only a <code>validate-upload PASSED</code> line means you are clear to upload.</p>
 </div>
 </div>
+</section>
+<section id="how-to-read-a-failure" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-a-failure">How to read a failure</h2>
+<p>Every failure line starts with <code>FAIL</code> and names the <strong>file or rule</strong> that failed. The final line names the <strong>check category</strong> and the count.</p>
+<pre><code>FAIL  &lt;rule or file description&gt;
+validate-upload FAILED: &lt;bundle path&gt; (&lt;N&gt; &lt;category&gt;)</code></pre>
+<p>Exit code <code>1</code> means a validation problem was found. Exit code <code>2</code> means the directory itself was not found — check your <code>DATASET=</code> path. Exit code <code>0</code> means everything passed.</p>
+</section>
+<section id="worked-examples" class="level2">
+<h2 class="anchored" data-anchor-id="worked-examples">Worked examples</h2>
+<section id="example-1-wrong-bundle-root-name" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-wrong-bundle-root-name">Example 1 — wrong bundle root name</h3>
+<p>You pass a project export directory instead of the <code>DATASET_&lt;alias&gt;</code> folder inside it:</p>
+<pre><code>FAIL  dataset root must be named DATASET_&lt;alias&gt;, got 'my-project.abc123'
+validate-upload FAILED: /data/storage/my-project.abc123 (1 structure problem(s))</code></pre>
+<p><strong>Fix:</strong> Pass the <code>DATASET_&lt;alias&gt;</code> subdirectory, not its parent.</p>
+</section>
+<section id="example-2-missing-required-metadata-file" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-missing-required-metadata-file">Example 2 — missing required metadata file</h3>
+<p>A required XML file was not written by the export (e.g.&nbsp;the export failed partway through):</p>
+<pre><code>FAIL  missing required file: METADATA/dataset.xml
+validate-upload FAILED: /data/storage/DATASET_myslides (1 structure problem(s))</code></pre>
+<p><strong>Fix:</strong> Re-export the bundle from the slidetap UI (stage H, step 9). If the export appears to complete but the file is still missing, check <code>make logs</code> for errors in the export worker.</p>
+</section>
+<section id="example-3-orphan-file-in-images" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-orphan-file-in-images">Example 3 — orphan file in IMAGES/</h3>
+<p>A DICOM file is present on disk but not referenced by any metadata entity. This can happen if a slide was excluded after export:</p>
+<pre><code>FAIL  unreferenced file not in metadata: /data/storage/DATASET_myslides/IMAGES/slide_07.dcm
+validate-upload FAILED: /data/storage/DATASET_myslides (1 orphan file(s))</code></pre>
+<p><strong>Fix:</strong> Either add the file to the metadata (re-export with the slide included) or remove the stray file from the bundle. Do not upload a bundle with orphan files — the submitter will reject it.</p>
+</section>
+</section>
+<section id="if-something-goes-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
+<ul>
+<li><strong><code>FAIL dataset directory not found</code></strong> — the path you passed to <code>DATASET=</code> does not exist. Double-check the path and ensure the export step completed successfully.</li>
+<li><strong><code>FAIL missing required folder</code></strong> — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check <code>make logs</code> for export worker errors.</li>
+<li><strong><code>FAIL schema validation: ...</code></strong> — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your <code>model.json</code> or <code>mappers.xlsx</code> and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

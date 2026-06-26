@@ -97,6 +97,33 @@ Click **Show Details**, then **visit this website**, and confirm.
 :::
 
 You should land on the **login page**, confirming the stack is up.
+
+## 4. Add a slide image for the test run
+
+The example sample set ships with metadata, mappers, and a model file, but **no
+slide image** — whole-slide images run to gigabytes and are too large to bundle.
+Before you run the test submission in [H. Run a submission](run-submission.qmd),
+place one slide in your image folder so the **Pre-process** step has something to
+convert. OpenSlide publishes freely usable example slides for exactly this.
+
+1. Open the OpenSlide demo gallery: <https://openslide.org/demo/>.
+2. Pick a slide and download it. Some formats are large and slow to download and
+   convert, so **start with a small, single-file Aperio (`.svs`) slide** — e.g.
+   **Aperio › CMU-1-Small-Region** (a few MB) or **Aperio › CMU-1**. Avoid the
+   MIRAX (`.mrxs`) and Hamamatsu VMS slides for a first run: they arrive as
+   multi-file bundles and take longer to process.
+3. Move the downloaded file into your image folder, `PIPELINE_IMAGE_ROOT`
+   (default `./data/images` — see [D. Configure](configure.qmd)).
+4. Open your operator metadata workbook and set the **`Image path`** value to the
+   filename you just downloaded (e.g. `CMU-1-Small-Region.svs`). Pre-process
+   resolves the slide by this path **relative to** `PIPELINE_IMAGE_ROOT`, so the
+   value must match the file on disk exactly.
+
+::: {.callout-note}
+The image folder is mounted **read-only** into the containers, but files you drop
+in after `make up` are still picked up live — you do not need to restart the stack.
+:::
+
 Logging in and running a submission is the next step, [H. Run a
 submission](run-submission.qmd).
 

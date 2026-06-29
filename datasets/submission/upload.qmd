@@ -20,9 +20,13 @@ submission.
 ::: {.callout-important}
 ## Precondition: NBIS receiver credentials
 
-NBIS provides two files before you can upload. Place both in your
-`PIPELINE_SUBMITTER_CREDS_DIR` directory — the same `certs/` folder used in
-[F. TLS + credentials](tls-credentials.qmd):
+NBIS provides two files before you can upload. Because the A–J manual is a
+**staging** test, place both in your staging credentials directory
+(`PIPELINE_SUBMITTER_CREDS_DIR_STAGING`, default `certs/staging`) — a subfolder
+of the `certs/` directory you set up in [F. TLS + credentials](tls-credentials.qmd).
+For a real **production** submission the equivalent files go in
+`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` (default `certs/production`) instead, so
+the two instances never share credentials:
 
 | File | Purpose |
 |---|---|
@@ -58,13 +62,16 @@ Replace `<project_dir>` with the project directory name — it is the value afte
 `Project:` in the `make export-check` output from [H. Run a submission](run-submission.qmd),
 for example `DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
 
+`make upload-dry-run` defaults to **staging**. To dry-run against production
+credentials instead, add `TARGET=production`.
+
 ::: {.callout-tip}
 ## Verify
 
 A passing dry run starts with:
 
 ```
-Dry-run upload of '<project_dir>' (zero bytes) ...
+Dry-run upload of '<project_dir>' to staging (zero bytes) ...
 ```
 
 and exits 0 with no `ERROR` lines. Fix any reported errors before uploading.
@@ -72,23 +79,32 @@ and exits 0 with no `ERROR` lines. Fix any reported errors before uploading.
 
 ## 2. Upload
 
-When the dry run passes, run the real upload:
+When the dry run passes, run the real upload. `make upload` **requires** a
+`TARGET` — it never guesses which instance to push to. The A–J manual is a
+staging test, so use `TARGET=staging`:
 
 ::: {.panel-tabset}
 ## Windows
 In **Git Bash**, run:
 ```bash
-make upload DATASET=<project_dir>
+make upload DATASET=<project_dir> TARGET=staging
 ```
 ## macOS
 ```bash
-make upload DATASET=<project_dir>
+make upload DATASET=<project_dir> TARGET=staging
 ```
 ## Linux
 ```bash
-make upload DATASET=<project_dir>
+make upload DATASET=<project_dir> TARGET=staging
 ```
 :::
+
+For a real submission, use `TARGET=production` instead — it reads the separate
+`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` credentials:
+
+```bash
+make upload DATASET=<project_dir> TARGET=production
+```
 
 ::: {.callout-warning}
 ## Use `--threads 1` (the default)
@@ -100,7 +116,7 @@ If NBIS has explicitly told you that more threads are allowed for your site,
 you can override:
 
 ```bash
-make upload DATASET=<project_dir> THREADS=4
+make upload DATASET=<project_dir> TARGET=staging THREADS=4
 ```
 :::
 
@@ -117,17 +133,23 @@ The email should contain:
 `bp-submitter` tracks progress in a local SQLite database at
 `${PIPELINE_SUBMITTER_STATE}/upload.db` (default:
 `$PIPELINE_ROOT/submitter-state/upload.db`). If an upload is interrupted,
-re-run the same `make upload DATASET=<project_dir>` command — it resumes from
-where it left off.
+re-run the same `make upload DATASET=<project_dir> TARGET=<staging|production>`
+command — it resumes from where it left off.
 
 To start over (for example, after replacing a corrected bundle), delete
 `upload.db` from your `PIPELINE_SUBMITTER_STATE` directory before re-running.
 
 ## If something goes wrong
 
+- **`TARGET is required: ...`** — `make upload` will not run without a target.
+  Re-run with `TARGET=staging` (the manual) or `TARGET=production`.
+- **`Invalid TARGET '<x>': expected 'staging' or 'production'`** — the `TARGET`
+  value is mistyped. Use exactly `staging` or `production`.
 - **`Missing creds file: .../s3cmd-inbox.conf`** or **`Missing creds file:
-  .../crypt4gh_bp_key.pub`** — one of the NBIS-provided files is absent from
-  `PIPELINE_SUBMITTER_CREDS_DIR`. Place the missing file there and retry.
+  .../crypt4gh_bp_key.pub`** — one of the NBIS-provided files is absent from the
+  credentials directory for the `TARGET` you chose (`certs/staging` for
+  `TARGET=staging`, `certs/production` for `TARGET=production`). Place the missing
+  file in that directory and retry.
 - **`DATASET not set`** — re-run with `DATASET=<project_dir>`.
 - **`Dataset dir not found`** — the project directory name does not match what
   is under `PIPELINE_OUTBOX_DIR`. Confirm the name from `make export-check`

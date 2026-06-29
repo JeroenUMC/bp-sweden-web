@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - Page template &amp; conventions</title>
+<title>Bigpicture - Upload (sda-cli)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -63,7 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../datasets/submission/support.html" rel="prev">
+<link href="../../../datasets/submission/support.html" rel="next">
+<link href="../../../datasets/submission/direct-upload/validate-metadata.html" rel="prev">
 <link href="../../../favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -217,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">For contributors</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">Page template &amp; conventions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/prerequisites.html">Direct upload (sda-cli)</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/upload.html">Upload (sda-cli)</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -342,13 +343,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
  <span class="menu-text">Direct upload (sda-cli)</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
@@ -369,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Upload (sda-cli)</span></a>
   </div>
 </li>
@@ -394,16 +395,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
  <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Page template &amp; conventions</span></a>
   </div>
 </li>
@@ -419,19 +420,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-os-tabset" id="toc-the-os-tabset" class="nav-link active" data-scroll-target="#the-os-tabset">1. The OS tabset</a></li>
-  <li><a href="#the-verify-step" id="toc-the-verify-step" class="nav-link" data-scroll-target="#the-verify-step">2. The verify step</a></li>
-  <li><a href="#page-skeleton" id="toc-page-skeleton" class="nav-link" data-scroll-target="#page-skeleton">3. Page skeleton</a></li>
+  <li><a href="#test-submission-recommended" id="toc-test-submission-recommended" class="nav-link active" data-scroll-target="#test-submission-recommended">0. Test submission (recommended)</a></li>
+  <li><a href="#sign-and-send-the-terms-of-use-form" id="toc-sign-and-send-the-terms-of-use-form" class="nav-link" data-scroll-target="#sign-and-send-the-terms-of-use-form">1. Sign and send the Terms of Use form</a></li>
+  <li><a href="#download-the-encryption-key" id="toc-download-the-encryption-key" class="nav-link" data-scroll-target="#download-the-encryption-key">2. Download the encryption key</a></li>
+  <li><a href="#encrypt-the-files" id="toc-encrypt-the-files" class="nav-link" data-scroll-target="#encrypt-the-files">3. Encrypt the files</a></li>
+  <li><a href="#download-your-configuration-file-and-upload" id="toc-download-your-configuration-file-and-upload" class="nav-link" data-scroll-target="#download-your-configuration-file-and-upload">4. Download your configuration file and upload</a></li>
+  <li><a href="#notify-us" id="toc-notify-us" class="nav-link" data-scroll-target="#notify-us">5. Notify us</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">For contributors</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">Page template &amp; conventions</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/prerequisites.html">Direct upload (sda-cli)</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/upload.html">Upload (sda-cli)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Page template &amp; conventions</h1>
-<p class="subtitle lead">For contributors writing manual pages</p>
+<h1 class="title">Upload (sda-cli)</h1>
 </div>
 
 
@@ -448,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Every page in this manual is <strong>fill-in-the-blanks</strong>. This page documents the two conventions that make that possible — the <strong>OS tabset</strong> and the <strong>verify step</strong> — and shows them rendered so you can copy the source.</p>
+<p>This is the core of the direct path: encrypt your prepared dataset and upload it to your BigPicture inbox with <code>sda-cli</code>. Work through the steps in order.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -459,73 +462,35 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This is a contributor reference, not a step in the operator journey. Operators can ignore it.</p>
+<p>Make sure <code>sda-cli</code> is installed first — see <a href="../../../datasets/submission/direct-upload/prerequisites.html">Prerequisites (alternative path)</a> — and that your dataset is laid out and validated per <a href="../../../datasets/submission/direct-upload/prepare-data.html">Prepare data</a> and <a href="../../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a>.</p>
 </div>
 </div>
-<section id="the-os-tabset" class="level2">
-<h2 class="anchored" data-anchor-id="the-os-tabset">1. The OS tabset</h2>
-<p>Where a command or instruction differs by operating system, wrap it in a <code>panel-tabset</code> with <strong>Windows / macOS / Linux</strong> tabs, <strong>in that order</strong>. The reader picks their tab once and ignores the rest.</p>
-<p><strong>Source:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Open **PowerShell** and run:</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">winget install --id Git.Git -e</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## macOS</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In **Terminal**, run:</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linux</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> git</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Renders as:</strong></p>
+<section id="test-submission-recommended" class="level2">
+<h2 class="anchored" data-anchor-id="test-submission-recommended">0. Test submission (recommended)</h2>
+<p>We strongly recommend a small test upload to the <strong>staging</strong> environment first, so you don’t have to re-upload terabytes if something is wrong. Upload two images with metadata generated per <a href="../../../datasets/submission/direct-upload/prepare-data.html">Prepare data</a> — include all XML files, the <code>PRIVATE</code> folder (always required), and the <code>LANDING_PAGE</code> folder (if you want a landing page).</p>
+<p>Follow the same steps below, but log in at the <a href="https://staging-login.bp.nbis.se/">staging service</a> instead of production.</p>
+</section>
+<section id="sign-and-send-the-terms-of-use-form" class="level2">
+<h2 class="anchored" data-anchor-id="sign-and-send-the-terms-of-use-form">1. Sign and send the Terms of Use form</h2>
+<p>Sign the <a href="https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&amp;file=BigPicture%20ToU%20v2.6.docx&amp;action=default&amp;mobileredirect=true">Terms of Use form</a> <em>(internal)</em> and submit it to <a href="mailto:submit@bigpicture.eu">submit@bigpicture.eu</a>.</p>
+</section>
+<section id="download-the-encryption-key" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-encryption-key">2. Download the encryption key</h2>
+<p>For BigPicture to read your files, they must be encrypted with the correct <strong>public key</strong>. Download it:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>Open <strong>PowerShell</strong> and run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>winget install <span class="op">--</span>id Git<span class="op">.</span><span class="fu">Git</span> <span class="op">-</span>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curl</span> <span class="op">-</span>OL https<span class="op">://</span>raw<span class="op">.</span><span class="fu">githubusercontent</span><span class="op">.</span><span class="fu">com</span><span class="op">/</span>NBISweden<span class="op">/</span>EGA-SE-user-docs<span class="op">/</span>main<span class="op">/</span>crypt4gh_bp_key<span class="op">.</span><span class="fu">pub</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>In <strong>Terminal</strong>, run:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-OL</span> https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-OL</span> https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
-<p><strong>Rules</strong></p>
-<ul>
-<li>Always include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.</li>
-<li>Keep commands copy-pasteable: one tool per code block, no shell prompts (<code>$</code>, <code>&gt;</code>) inside the block.</li>
-<li><strong>Linux is the reference path.</strong> Write and validate the Linux tab first; the others mirror its shape.</li>
-</ul>
-</section>
-<section id="the-verify-step" class="level2">
-<h2 class="anchored" data-anchor-id="the-verify-step">2. The verify step</h2>
-<p>After an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a <strong><code>callout-tip</code> titled “Verify”</strong> with the <em>paste-this / expect-this</em> pattern.</p>
-<p><strong>Source:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Paste this:</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>Expected output (your version may differ):</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="in">git version 2.40.0</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Renders as:</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -536,41 +501,121 @@ Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Paste this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected output (your version may differ):</p>
-<pre><code>git version 2.40.0</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> crypt4gh_bp_key.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The file should be present in your working directory.</p>
 </div>
 </div>
-<p><strong>Rules</strong></p>
-<ul>
-<li>Show the <strong>exact command</strong> to paste and a representative <strong>expected output</strong>.</li>
-<li>If the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.</li>
-<li>One verify step per meaningful action; don’t make the reader run five things before they can check anything.</li>
-</ul>
 </section>
-<section id="page-skeleton" class="level2">
-<h2 class="anchored" data-anchor-id="page-skeleton">3. Page skeleton</h2>
-<p>Start every operator page from this shape:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &lt;Step letter&gt;. &lt;Short imperative title&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>One or two sentences: what this step accomplishes and why.</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>&lt;OS tabset with the commands&gt;</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>&lt;paste-this / expect-this&gt;</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## If something goes wrong</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>&lt;the one or two most common failures and their fixes&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <strong>« Prev / Next »</strong> navigation is automatic — it comes from the sidebar order in <code>_quarto.yml</code>, so you never hand-write next-step links.</p>
+<section id="encrypt-the-files" class="level2">
+<h2 class="anchored" data-anchor-id="encrypt-the-files">3. Encrypt the files</h2>
+<p>With the public key in place, encrypt your submission files. <code>sda-cli</code> creates its own encryption key automatically.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sda-cli encrypt <span class="op">--</span>key crypt4gh_bp_key<span class="op">.</span><span class="fu">pub</span> <span class="op">&lt;</span>file_1_to_encrypt<span class="op">&gt;</span> <span class="op">&lt;</span>file_2_to_encrypt<span class="op">&gt;</span> <span class="op">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> encrypt <span class="at">--key</span> crypt4gh_bp_key.pub <span class="op">&lt;</span>file_1_to_encrypt<span class="op">&gt;</span> <span class="op">&lt;</span>file_2_to_encrypt<span class="op">&gt;</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> encrypt <span class="at">--key</span> crypt4gh_bp_key.pub <span class="op">&lt;</span>file_1_to_encrypt<span class="op">&gt;</span> <span class="op">&lt;</span>file_2_to_encrypt<span class="op">&gt;</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>The tool also writes four checksum files — <strong>save these, you need them during submission</strong>:</p>
+<pre><code>checksum_encrypted.md5
+checksum_encrypted.sha256
+checksum_unencrypted.md5
+checksum_unencrypted.sha256</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each input file should now have an encrypted <code>.c4gh</code> counterpart, and the four checksum files should exist:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.c4gh checksum_<span class="pp">*</span>.md5 checksum_<span class="pp">*</span>.sha256</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="download-your-configuration-file-and-upload" class="level2">
+<h2 class="anchored" data-anchor-id="download-your-configuration-file-and-upload">4. Download your configuration file and upload</h2>
+<ol type="1">
+<li><p>Log in at the <a href="https://login.bp.nbis.se/">BigPicture login portal</a> and follow the prompts to authenticate. Click <strong>Download credentials to upload to the Inbox</strong> to get your <code>s3cmd-inbox.conf</code> file. <em>(For a test upload, use the <a href="https://staging-login.bp.nbis.se/">staging service</a> instead.)</em></p></li>
+<li><p>Upload your encrypted files. By default the local folder structure is <strong>not</strong> preserved — all files land in the root of your inbox. Use <code>--target-directory &lt;path&gt;</code> to place them in a specific remote folder.</p>
+<p>To upload files individually:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sda-cli <span class="op">--</span>config <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="op">&lt;</span>encrypted_file_1<span class="op">&gt;</span> <span class="op">&lt;</span>encrypted_file_2<span class="op">&gt;</span> <span class="op">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> <span class="at">--config</span> <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="op">&lt;</span>encrypted_file_1<span class="op">&gt;</span> <span class="op">&lt;</span>encrypted_file_2<span class="op">&gt;</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> <span class="at">--config</span> <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="op">&lt;</span>encrypted_file_1<span class="op">&gt;</span> <span class="op">&lt;</span>encrypted_file_2<span class="op">&gt;</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>To upload an entire directory — often more efficient — use the recursive <code>-r</code> flag, which <strong>preserves</strong> your local folder structure on the remote server:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="sourceCode" id="cb13"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sda-cli <span class="op">--</span>config <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="op">-</span>r <span class="op">&lt;</span>folder_to_upload<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> <span class="at">--config</span> <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="at">-r</span> <span class="op">&lt;</span>folder_to_upload<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> <span class="at">--config</span> <span class="op">&lt;</span>configuration_file<span class="op">&gt;</span> upload <span class="at">-r</span> <span class="op">&lt;</span>folder_to_upload<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>sda-cli</code> reports each file as it finishes uploading. For the full set of commands and flags — which may change between versions — consult the tool’s built-in help, the most reliable reference:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="sourceCode" id="cb16"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sda-cli help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./sda-cli</span> help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="notify-us" class="level2">
+<h2 class="anchored" data-anchor-id="notify-us">5. Notify us</h2>
+<p>When the upload is complete, <a href="mailto:bp-ops@nbis.se">email the helpdesk</a> so we know to process it. Use this subject line:</p>
+<pre><code>submission - DATASET_{IDENTIFIER}</code></pre>
+<p>And include in the body:</p>
+<ul>
+<li>the <strong>name of the uploader</strong>, and</li>
+<li>the <strong>name of the dataset</strong>.</li>
+</ul>
 
 
 </section>
@@ -965,11 +1010,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../datasets/submission/support.html" class="pagination-link" aria-label="Support">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Support</span>
+      <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="pagination-link" aria-label="Validate metadata">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Validate metadata</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../../datasets/submission/support.html" class="pagination-link" aria-label="Support">
+        <span class="nav-page-text">Support</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

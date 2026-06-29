@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - Page template &amp; conventions</title>
+<title>Bigpicture - Validate metadata</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -63,7 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../datasets/submission/support.html" rel="prev">
+<link href="../../../datasets/submission/direct-upload/upload.html" rel="next">
+<link href="../../../datasets/submission/direct-upload/prepare-data.html" rel="prev">
 <link href="../../../favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -217,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">For contributors</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">Page template &amp; conventions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/prerequisites.html">Direct upload (sda-cli)</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -342,13 +343,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
  <span class="menu-text">Direct upload (sda-cli)</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
@@ -363,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Validate metadata</span></a>
   </div>
 </li>
@@ -394,16 +395,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
  <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Page template &amp; conventions</span></a>
   </div>
 </li>
@@ -419,19 +420,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-os-tabset" id="toc-the-os-tabset" class="nav-link active" data-scroll-target="#the-os-tabset">1. The OS tabset</a></li>
-  <li><a href="#the-verify-step" id="toc-the-verify-step" class="nav-link" data-scroll-target="#the-verify-step">2. The verify step</a></li>
-  <li><a href="#page-skeleton" id="toc-page-skeleton" class="nav-link" data-scroll-target="#page-skeleton">3. Page skeleton</a></li>
+  <li><a href="#install-xmllint" id="toc-install-xmllint" class="nav-link active" data-scroll-target="#install-xmllint">Install xmllint</a></li>
+  <li><a href="#download-the-schemas-xsds" id="toc-download-the-schemas-xsds" class="nav-link" data-scroll-target="#download-the-schemas-xsds">Download the schemas (XSDs)</a></li>
+  <li><a href="#validate-each-xml-file" id="toc-validate-each-xml-file" class="nav-link" data-scroll-target="#validate-each-xml-file">Validate each XML file</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">For contributors</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/contributing/page-template.html">Page template &amp; conventions</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/prerequisites.html">Direct upload (sda-cli)</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Page template &amp; conventions</h1>
-<p class="subtitle lead">For contributors writing manual pages</p>
+<h1 class="title">Validate metadata</h1>
 </div>
 
 
@@ -448,84 +448,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Every page in this manual is <strong>fill-in-the-blanks</strong>. This page documents the two conventions that make that possible — the <strong>OS tabset</strong> and the <strong>verify step</strong> — and shows them rendered so you can copy the source.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a contributor reference, not a step in the operator journey. Operators can ignore it.</p>
-</div>
-</div>
-<section id="the-os-tabset" class="level2">
-<h2 class="anchored" data-anchor-id="the-os-tabset">1. The OS tabset</h2>
-<p>Where a command or instruction differs by operating system, wrap it in a <code>panel-tabset</code> with <strong>Windows / macOS / Linux</strong> tabs, <strong>in that order</strong>. The reader picks their tab once and ignores the rest.</p>
-<p><strong>Source:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Open **PowerShell** and run:</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">winget install --id Git.Git -e</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## macOS</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In **Terminal**, run:</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linux</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> git</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Renders as:</strong></p>
+<p>You can check whether your metadata will pass BigPicture’s validation <strong>before</strong> you upload, using <a href="https://gnome.pages.gitlab.gnome.org/libxml2/xmllint.html"><code>xmllint</code></a> and the official <a href="https://github.com/imi-bigpicture/bigpicture-metaflex">BigPicture metadata schemas (metaflex)</a>. This applies to the XML files in the <code>METADATA</code>, <code>LANDING_PAGE</code>, and <code>PRIVATE</code> folders.</p>
+<section id="install-xmllint" class="level2">
+<h2 class="anchored" data-anchor-id="install-xmllint">Install xmllint</h2>
+<p><code>xmllint</code> ships with <strong>libxml2</strong>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>Open <strong>PowerShell</strong> and run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>winget install <span class="op">--</span>id Git<span class="op">.</span><span class="fu">Git</span> <span class="op">-</span>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install libxml2 (which provides <code>xmllint</code>):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>choco install xsltproc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you don’t use Chocolatey, the libxml2 binaries are also available from the <a href="https://www.zlatkovic.com/libxml.en.html">libxml2 Windows builds</a>.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>In <strong>Terminal</strong>, run:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install libxml2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> libxml2-utils</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
-<p><strong>Rules</strong></p>
-<ul>
-<li>Always include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.</li>
-<li>Keep commands copy-pasteable: one tool per code block, no shell prompts (<code>$</code>, <code>&gt;</code>) inside the block.</li>
-<li><strong>Linux is the reference path.</strong> Write and validate the Linux tab first; the others mirror its shape.</li>
-</ul>
-</section>
-<section id="the-verify-step" class="level2">
-<h2 class="anchored" data-anchor-id="the-verify-step">2. The verify step</h2>
-<p>After an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a <strong><code>callout-tip</code> titled “Verify”</strong> with the <em>paste-this / expect-this</em> pattern.</p>
-<p><strong>Source:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Paste this:</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>Expected output (your version may differ):</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="in">git version 2.40.0</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Renders as:</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -536,41 +478,60 @@ Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Paste this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected output (your version may differ):</p>
-<pre><code>git version 2.40.0</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xmllint</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see a <code>libxml2</code> version string printed (your version may differ).</p>
 </div>
 </div>
-<p><strong>Rules</strong></p>
-<ul>
-<li>Show the <strong>exact command</strong> to paste and a representative <strong>expected output</strong>.</li>
-<li>If the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.</li>
-<li>One verify step per meaningful action; don’t make the reader run five things before they can check anything.</li>
-</ul>
 </section>
-<section id="page-skeleton" class="level2">
-<h2 class="anchored" data-anchor-id="page-skeleton">3. Page skeleton</h2>
-<p>Start every operator page from this shape:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &lt;Step letter&gt;. &lt;Short imperative title&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>One or two sentences: what this step accomplishes and why.</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>&lt;OS tabset with the commands&gt;</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>&lt;paste-this / expect-this&gt;</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## If something goes wrong</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>&lt;the one or two most common failures and their fixes&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <strong>« Prev / Next »</strong> navigation is automatic — it comes from the sidebar order in <code>_quarto.yml</code>, so you never hand-write next-step links.</p>
+<section id="download-the-schemas-xsds" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-schemas-xsds">Download the schemas (XSDs)</h2>
+<p>Download the XSD files for the metadata version you target. They are available directly from the metaflex repository (<a href="https://github.com/imi-bigpicture/bigpicture-metaflex/tree/v1.0.0/src/">v1</a> / <a href="https://github.com/imi-bigpicture/bigpicture-metaflex/tree/main/src">v2</a>), or you can fetch them all at once with this script, which places them in an <code>xsd-files/</code> folder:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">version</span><span class="op">=</span>v2  <span class="co"># replace with v1 for metadata version 1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> xsd-files</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-H</span> <span class="st">"Accept: application/vnd.github.v3+json"</span> <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  https://api.github.com/repos/imi-bigpicture/bigpicture-metaflex/contents/src<span class="pp">?</span>ref=<span class="va">$version</span>.0.0 <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.[] | .download_url'</span> <span class="kw">|</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">IFS</span><span class="op">=</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">url</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">xsd_name</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$url</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">curl</span> <span class="at">-o</span> <span class="st">"xsd-files/</span><span class="va">${xsd_name</span><span class="op">%</span><span class="dt">\?</span><span class="pp">*</span><span class="va">}</span><span class="st">"</span> <span class="at">-J</span> <span class="at">-L</span> <span class="st">"</span><span class="va">$url</span><span class="st">"</span> <span class="op">&gt;</span>/dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> xsd-files/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see a set of <code>BP.*.xsd</code> files, one per metadata type (for example <code>BP.dataset.xsd</code>, <code>BP.image.xsd</code>, <code>BP.sample.xsd</code>).</p>
+</div>
+</div>
+</section>
+<section id="validate-each-xml-file" class="level2">
+<h2 class="anchored" data-anchor-id="validate-each-xml-file">Validate each XML file</h2>
+<p>For each metadata file, validate it against the matching schema:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xmllint</span> <span class="at">--noout</span> <span class="at">--schema</span> xsd-files/BP.<span class="op">&lt;</span>filename<span class="op">&gt;</span>.xsd <span class="op">&lt;</span>filename<span class="op">&gt;</span>.xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For example, to check <code>dataset.xml</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xmllint</span> <span class="at">--noout</span> <span class="at">--schema</span> xsd-files/BP.dataset.xsd METADATA/dataset.xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A file that passes prints:</p>
+<pre><code>METADATA/dataset.xml validates</code></pre>
+<p>If you see schema errors instead, fix the reported lines and re-run before moving on — these are the same checks BigPicture applies on its side.</p>
+</div>
+</div>
+<p>Once every metadata file validates, continue to <a href="../../../datasets/submission/direct-upload/upload.html">Upload (sda-cli)</a>.</p>
 
 
 </section>
@@ -965,11 +926,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../datasets/submission/support.html" class="pagination-link" aria-label="Support">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Support</span>
+      <a href="../../../datasets/submission/direct-upload/prepare-data.html" class="pagination-link" aria-label="Prepare data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prepare data</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../../datasets/submission/direct-upload/upload.html" class="pagination-link" aria-label="Upload (sda-cli)">
+        <span class="nav-page-text">Upload (sda-cli)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

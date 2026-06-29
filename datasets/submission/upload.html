@@ -63,7 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/support.html" rel="next">
+<link href="../../datasets/submission/direct-upload/prerequisites.html" rel="next">
 <link href="../../datasets/submission/validate.html" rel="prev">
 <link href="../../favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
@@ -344,12 +344,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Help</span></a>
+ <span class="menu-text">Direct upload (sda-cli)</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prepare data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validate metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Upload (sda-cli)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Help</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
@@ -360,13 +395,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
  <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
@@ -415,7 +450,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Encrypt and submit your validated bundle to the NBIS inbox with <strong><code>bp-submitter</code></strong>. This is the final step of the operator journey.</p>
+<p>Encrypt and submit your validated bundle to the NBIS <strong>staging</strong> inbox with <strong><code>bp-submitter</code></strong>. This is the final step of the operator journey.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+This is a staging (test) upload
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The A–J manual is a test submission, so this step uploads to BigPicture’s <strong>staging</strong> environment — the <code>s3cmd-inbox.conf</code> NBIS provides for the manual points there. The signed <a href="https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&amp;file=BigPicture%20ToU%20v2.6.docx&amp;action=default&amp;mobileredirect=true">Terms of Use form</a> <em>(internal)</em> is <strong>not</strong> needed for a staging test — you only sign and send it to <a href="mailto:submit@bigpicture.eu">submit@bigpicture.eu</a> before a <strong>production</strong> submission.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -519,7 +567,7 @@ Use <code>--threads 1</code> (the default)
 </section>
 <section id="notify-nbis" class="level2">
 <h2 class="anchored" data-anchor-id="notify-nbis">Notify NBIS</h2>
-<p>Once your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: <code>submission - DATASET_{IDENTIFIER}</code>, for example <code>submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af</code>.</p>
+<p>Once your submission is completed, notify NBIS by <a href="mailto:bp-ops@nbis.se">sending an email</a>. The subject of the email should be in the format of: <code>submission - DATASET_{IDENTIFIER}</code>, for example <code>submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af</code>.</p>
 <p>The email should contain:</p>
 <ul>
 <li>Name of the uploader</li>
@@ -939,8 +987,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/support.html" class="pagination-link" aria-label="Support">
-        <span class="nav-page-text">Support</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../datasets/submission/direct-upload/prerequisites.html" class="pagination-link" aria-label="Prerequisites">
+        <span class="nav-page-text">Prerequisites</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

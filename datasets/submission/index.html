@@ -309,12 +309,47 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Help</span></a>
+ <span class="menu-text">Direct upload (sda-cli)</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prepare data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validate metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Upload (sda-cli)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Help</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
@@ -325,13 +360,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
  <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
@@ -464,13 +499,25 @@ Before you start: you need access
 </tr>
 </tbody>
 </table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prefer the command line? There’s a direct alternative
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You don’t have to run the <code>bp-submission-pipeline</code> at all. If you’re comfortable on the command line, the <a href="../../datasets/submission/direct-upload/prerequisites.html"><strong>Direct upload (sda-cli)</strong></a> section walks you through preparing, validating, and uploading a dataset yourself with <code>sda-cli</code> — a leaner path that some uploaders use directly (often with another tool in between). It assumes a more technical reader than the A–J manual below.</p>
+</div>
+</div>
 </section>
 <section id="how-to-read-this-manual" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-read-this-manual">How to read this manual</h2>
 <ul>
-<li><strong>Three operating systems, one manual.</strong> Where a command differs, you’ll see <strong>Windows / macOS / Linux</strong> tabs — pick your tab and ignore the rest. See the <a href="../../datasets/submission/contributing/page-template.html">page template</a> for the conventions.</li>
+<li><strong>Step by step.</strong> A-G are required for setting up your data pipeline, H-J are for submitting a test set.</li>
 <li><strong>Verify as you go.</strong> Most steps end with a <em>Verify</em> box: paste the command, compare against the expected output, and only move on once it matches.</li>
-<li><strong>Linux is the reference path.</strong> Every command-bearing step is validated on a clean Linux machine; Windows and macOS tabs follow the same shape.</li>
 </ul>
 </section>
 <section id="need-help" class="level2">

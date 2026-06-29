@@ -254,6 +254,127 @@
     ]
   },
   {
+    "objectID": "datasets/submission/direct-upload/prerequisites.html",
+    "href": "datasets/submission/direct-upload/prerequisites.html",
+    "title": "Prerequisites",
+    "section": "",
+    "text": "You don’t need the bp-submission-pipeline to submit to BigPicture. If you are comfortable on the command line, you can prepare and upload a dataset yourself with the sda-cli direct path described in this section. Some of these tools are also used inside the bp-submission-pipeline, so this path stays close to what happens under the hood there.\nThis page installs the three tools the direct path needs. Use at least the minimum version listed — older versions are missing commands this guide relies on.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prerequisites.html#sda-cli",
+    "href": "datasets/submission/direct-upload/prerequisites.html#sda-cli",
+    "title": "Prerequisites",
+    "section": "sda-cli",
+    "text": "sda-cli\nDownload the release that matches your operating system from the sda-cli releases page, then extract the binary. The executable ends up in the same directory as the downloaded archive.\n\nWindowsmacOSLinux\n\n\nDownload the ..._Windows_x86_64.zip asset, then extract it:\ntar -xvzf sda-cli_vX_Windows_x86_64.zip\n\n\nDownload the ..._Darwin_x86_64.tar.gz asset, then extract it:\ntar -xvzf sda-cli_vX_Darwin_x86_64.tar.gz\n\n\nDownload the ..._Linux_x86_64.tar.gz asset, then extract it:\ntar -xvzf sda-cli_vX_Linux_x86_64.tar.gz\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nRun the binary’s built-in help to confirm it executes:\n\nWindowsmacOSLinux\n\n\nsda-cli help\n\n\n./sda-cli help\n\n\n./sda-cli help\n\n\n\nYou should see the usage text listing the encrypt and upload commands. Check that you downloaded v0.2.1 or later from the releases page.\n\n\n\n\n\n\n\n\nNote\n\n\n\nFull sda-cli user documentation lives in its GitHub repository. This guide includes everything needed to encrypt and upload to BigPicture.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prerequisites.html#s3cmd",
+    "href": "datasets/submission/direct-upload/prerequisites.html#s3cmd",
+    "title": "Prerequisites",
+    "section": "s3cmd",
+    "text": "s3cmd\n\nWindowsmacOSLinux\n\n\nInstall with pip (Python required):\npip install \"s3cmd&gt;=2.2.0\"\n\n\nbrew install s3cmd\n\n\nsudo apt-get install -y s3cmd\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\ns3cmd --version\nExpected output (your patch version may differ):\ns3cmd version 2.2.0",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prerequisites.html#bigpicture-metadata-interface",
+    "href": "datasets/submission/direct-upload/prerequisites.html#bigpicture-metadata-interface",
+    "title": "Prerequisites",
+    "section": "bigpicture-metadata-interface",
+    "text": "bigpicture-metadata-interface\nThis tool is distributed through a private Git repository, so you must have been granted access before you can install it. Once you have access, install v2.0.2 or later following the instructions in the repository’s own README.\n\n\n\n\n\n\nImportant\n\n\n\nIf you cannot reach the repository, you do not yet have access. Request it the same way you request access to the other private BigPicture resources — see Support.\n\n\nOnce all three tools report a version, continue to Prepare data.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prerequisites"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html",
+    "href": "datasets/submission/direct-upload/upload.html",
+    "title": "Upload (sda-cli)",
+    "section": "",
+    "text": "This is the core of the direct path: encrypt your prepared dataset and upload it to your BigPicture inbox with sda-cli. Work through the steps in order.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#test-submission-recommended",
+    "href": "datasets/submission/direct-upload/upload.html#test-submission-recommended",
+    "title": "Upload (sda-cli)",
+    "section": "0. Test submission (recommended)",
+    "text": "0. Test submission (recommended)\nWe strongly recommend a small test upload to the staging environment first, so you don’t have to re-upload terabytes if something is wrong. Upload two images with metadata generated per Prepare data — include all XML files, the PRIVATE folder (always required), and the LANDING_PAGE folder (if you want a landing page).\nFollow the same steps below, but log in at the staging service instead of production.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#sign-and-send-the-terms-of-use-form",
+    "href": "datasets/submission/direct-upload/upload.html#sign-and-send-the-terms-of-use-form",
+    "title": "Upload (sda-cli)",
+    "section": "1. Sign and send the Terms of Use form",
+    "text": "1. Sign and send the Terms of Use form\nSign the Terms of Use form (internal) and submit it to submit@bigpicture.eu.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#download-the-encryption-key",
+    "href": "datasets/submission/direct-upload/upload.html#download-the-encryption-key",
+    "title": "Upload (sda-cli)",
+    "section": "2. Download the encryption key",
+    "text": "2. Download the encryption key\nFor BigPicture to read your files, they must be encrypted with the correct public key. Download it:\n\nWindowsmacOSLinux\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls crypt4gh_bp_key.pub\nThe file should be present in your working directory.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#encrypt-the-files",
+    "href": "datasets/submission/direct-upload/upload.html#encrypt-the-files",
+    "title": "Upload (sda-cli)",
+    "section": "3. Encrypt the files",
+    "text": "3. Encrypt the files\nWith the public key in place, encrypt your submission files. sda-cli creates its own encryption key automatically.\n\nWindowsmacOSLinux\n\n\nsda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n\nThe tool also writes four checksum files — save these, you need them during submission:\nchecksum_encrypted.md5\nchecksum_encrypted.sha256\nchecksum_unencrypted.md5\nchecksum_unencrypted.sha256\n\n\n\n\n\n\nVerify\n\n\n\nEach input file should now have an encrypted .c4gh counterpart, and the four checksum files should exist:\nls *.c4gh checksum_*.md5 checksum_*.sha256",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#download-your-configuration-file-and-upload",
+    "href": "datasets/submission/direct-upload/upload.html#download-your-configuration-file-and-upload",
+    "title": "Upload (sda-cli)",
+    "section": "4. Download your configuration file and upload",
+    "text": "4. Download your configuration file and upload\n\nLog in at the BigPicture login portal and follow the prompts to authenticate. Click Download credentials to upload to the Inbox to get your s3cmd-inbox.conf file. (For a test upload, use the staging service instead.)\nUpload your encrypted files. By default the local folder structure is not preserved — all files land in the root of your inbox. Use --target-directory &lt;path&gt; to place them in a specific remote folder.\nTo upload files individually:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n\nTo upload an entire directory — often more efficient — use the recursive -r flag, which preserves your local folder structure on the remote server:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nsda-cli reports each file as it finishes uploading. For the full set of commands and flags — which may change between versions — consult the tool’s built-in help, the most reliable reference:\n\nWindowsmacOSLinux\n\n\nsda-cli help\n\n\n./sda-cli help\n\n\n./sda-cli help",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/upload.html#notify-us",
+    "href": "datasets/submission/direct-upload/upload.html#notify-us",
+    "title": "Upload (sda-cli)",
+    "section": "5. Notify us",
+    "text": "5. Notify us\nWhen the upload is complete, email the helpdesk so we know to process it. Use this subject line:\nsubmission - DATASET_{IDENTIFIER}\nAnd include in the body:\n\nthe name of the uploader, and\nthe name of the dataset.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Upload (sda-cli)"
+    ]
+  },
+  {
     "objectID": "datasets/submission/support.html",
     "href": "datasets/submission/support.html",
     "title": "Support",
@@ -492,7 +613,7 @@
     "href": "datasets/submission/validate.html#if-something-goes-wrong",
     "title": "I. Validate the bundle",
     "section": "If something goes wrong",
-    "text": "If something goes wrong\n\nFAIL dataset directory not found — the path you passed to DATASET= does not exist. Double-check the path and ensure the export step completed successfully.\nFAIL missing required folder — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check make logs for export worker errors.\nFAIL schema validation: ... — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your model.json or mappers.xlsx and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place.",
+    "text": "If something goes wrong\n\nFAIL dataset directory not found — the path you passed to DATASET= does not exist. Double-check the path and ensure the export step completed successfully.\nFAIL missing required folder — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check make logs for export worker errors.\nFAIL schema validation: ... — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your model.json or mappers.xlsx and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place. To pinpoint the offending element by hand, validate the single file with xmllint against the metaflex XSDs — see Validate metadata in the Direct upload section.",
     "crumbs": [
       "Implementation",
       "I. Validate the bundle"
@@ -1047,7 +1168,7 @@
     "href": "datasets/submission/upload.html",
     "title": "J. Upload to BigPicture",
     "section": "",
-    "text": "Encrypt and submit your validated bundle to the NBIS inbox with bp-submitter. This is the final step of the operator journey.",
+    "text": "Encrypt and submit your validated bundle to the NBIS staging inbox with bp-submitter. This is the final step of the operator journey.",
     "crumbs": [
       "Implementation",
       "J. Upload to BigPicture"
@@ -1153,11 +1274,88 @@
     ]
   },
   {
+    "objectID": "datasets/submission/direct-upload/validate-metadata.html",
+    "href": "datasets/submission/direct-upload/validate-metadata.html",
+    "title": "Validate metadata",
+    "section": "",
+    "text": "You can check whether your metadata will pass BigPicture’s validation before you upload, using xmllint and the official BigPicture metadata schemas (metaflex). This applies to the XML files in the METADATA, LANDING_PAGE, and PRIVATE folders.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Validate metadata"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/validate-metadata.html#install-xmllint",
+    "href": "datasets/submission/direct-upload/validate-metadata.html#install-xmllint",
+    "title": "Validate metadata",
+    "section": "Install xmllint",
+    "text": "Install xmllint\nxmllint ships with libxml2.\n\nWindowsmacOSLinux\n\n\nInstall libxml2 (which provides xmllint):\nchoco install xsltproc\nIf you don’t use Chocolatey, the libxml2 binaries are also available from the libxml2 Windows builds.\n\n\nbrew install libxml2\n\n\nsudo apt-get install -y libxml2-utils\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nxmllint --version\nYou should see a libxml2 version string printed (your version may differ).",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Validate metadata"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/validate-metadata.html#download-the-schemas-xsds",
+    "href": "datasets/submission/direct-upload/validate-metadata.html#download-the-schemas-xsds",
+    "title": "Validate metadata",
+    "section": "Download the schemas (XSDs)",
+    "text": "Download the schemas (XSDs)\nDownload the XSD files for the metadata version you target. They are available directly from the metaflex repository (v1 / v2), or you can fetch them all at once with this script, which places them in an xsd-files/ folder:\nversion=v2  # replace with v1 for metadata version 1\nmkdir -p xsd-files\n\ncurl -H \"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/imi-bigpicture/bigpicture-metaflex/contents/src?ref=$version.0.0 | jq -r '.[] | .download_url' |\nwhile IFS= read -r url; do\n    xsd_name=$(basename \"$url\")\n    curl -o \"xsd-files/${xsd_name%\\?*}\" -J -L \"$url\" &gt;/dev/null 2&gt;&1\ndone\n\n\n\n\n\n\nVerify\n\n\n\nls xsd-files/\nYou should see a set of BP.*.xsd files, one per metadata type (for example BP.dataset.xsd, BP.image.xsd, BP.sample.xsd).",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Validate metadata"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/validate-metadata.html#validate-each-xml-file",
+    "href": "datasets/submission/direct-upload/validate-metadata.html#validate-each-xml-file",
+    "title": "Validate metadata",
+    "section": "Validate each XML file",
+    "text": "Validate each XML file\nFor each metadata file, validate it against the matching schema:\nxmllint --noout --schema xsd-files/BP.&lt;filename&gt;.xsd &lt;filename&gt;.xml\nFor example, to check dataset.xml:\nxmllint --noout --schema xsd-files/BP.dataset.xsd METADATA/dataset.xml\n\n\n\n\n\n\nVerify\n\n\n\nA file that passes prints:\nMETADATA/dataset.xml validates\nIf you see schema errors instead, fix the reported lines and re-run before moving on — these are the same checks BigPicture applies on its side.\n\n\nOnce every metadata file validates, continue to Upload (sda-cli).",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Validate metadata"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prepare-data.html",
+    "href": "datasets/submission/direct-upload/prepare-data.html",
+    "title": "Prepare data",
+    "section": "",
+    "text": "Before you upload anything, your dataset must be laid out in the exact folder structure BigPicture expects, and every data file must be encrypted with crypt4gh (the sda-cli encrypt step on the Upload page produces these .c4gh files for you).",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prepare data"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prepare-data.html#folder-structure",
+    "href": "datasets/submission/direct-upload/prepare-data.html#folder-structure",
+    "title": "Prepare data",
+    "section": "Folder structure",
+    "text": "Folder structure\nThe root of your submission is the dataset folder, which contains several subfolders:\nDATASET_{IDENTIFIER}\n|--- METADATA\n|    |--- dataset.xml      (contains: Dataset)\n|    |--- policy.xml       (contains: Policy)\n|    |--- image.xml        (contains: Images)\n|    |--- annotation.xml   (contains: Annotations)\n|    |--- observation.xml  (contains: Observations)\n|    |--- observer.xml     (contains: Observers)\n|    |--- sample.xml        (contains: Biological Beings, Cases (if present), Specimens, Blocks and Slides)\n|    |--- staining.xml      (contains: Stainings)\n|--- IMAGES\n|    |--- IMAGE_{IDENTIFIER}\n|    |    |--- *.dcm        (DICOM files of an Image)\n|    |--- IMAGE_{IDENTIFIER}\n|    |    |--- *.dcm\n|--- ANNOTATIONS\n|    |--- *.geojson\n|--- LANDING_PAGE\n|    |--- landing_page.xml (contains: Landing Page)\n|    |--- THUMBNAILS\n|    |    |--- *.jpg\n|--- PRIVATE               (not shared with users)\n|    |--- rems.xml\n|    |--- organisation.xml\n|    |--- datacite.xml     (contains: DataCite, optional)\n\nThe root folder must be named DATASET_{IDENTIFIER}, where IDENTIFIER is either the accession ID generated by the repository (when data is downloaded) or the ALIAS you define at dataset creation/submission.\nEach image folder must be named IMAGE_{IDENTIFIER}, following the same rule.\nIf the dataset has no annotations, the ANNOTATIONS folder and the annotation.xml file can be omitted.\n\n\n\n\n\n\n\nWarning\n\n\n\nAnything in the LANDING_PAGE folder should be treated as visible to the entire world. The PRIVATE folder, by contrast, holds metadata that is never shared with users who are granted access to a dataset.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prepare data"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/direct-upload/prepare-data.html#file-rules",
+    "href": "datasets/submission/direct-upload/prepare-data.html#file-rules",
+    "title": "Prepare data",
+    "section": "File rules",
+    "text": "File rules\n\nEvery data file must be encrypted with crypt4gh and carry the .c4gh extension — for example image.xml.c4gh, image1.dcm.c4gh. (sda-cli encrypt does this on the Upload page.)\nMetadata is split between two subfolders: METADATA and PRIVATE.\nThe only files allowed in METADATA are: dataset.xml, image.xml, observation.xml, observer.xml (optional), policy.xml, sample.xml, annotation.xml (optional), and staining.xml.\nThe image.xml file must include the full path of each DICOM image plus the checksums of both the encrypted and unencrypted files:\n&lt;FILES&gt;\n    &lt;FILE filename=\"IMAGES/IMAGE_{IDENTIFIER}/*.dcm\"\n          checksum_method=\"SHA256\"\n          checksum=\"&lt;encrypted_checksum&gt;\"\n          unencrypted_checksum=\"&lt;unencrypted_checksum&gt;\"\n          filetype=\"dcm\"/&gt;\n&lt;/FILES&gt;\n\n\n\n\n\n\n\nVerify\n\n\n\nFrom inside your dataset folder, list the top-level layout and confirm the expected subfolders are present:\n\nWindowsmacOSLinux\n\n\nGet-ChildItem -Directory\n\n\nls -d */\n\n\nls -d */\n\n\n\nYou should see METADATA, IMAGES, and PRIVATE (plus ANNOTATIONS and LANDING_PAGE if your dataset uses them), and the folder name should start with DATASET_.\n\n\nWith the layout in place, continue to Validate metadata.",
+    "crumbs": [
+      "Direct upload (sda-cli)",
+      "Prepare data"
+    ]
+  },
+  {
     "objectID": "datasets/submission/prerequisites.html",
     "href": "datasets/submission/prerequisites.html",
     "title": "A. Prerequisites",
     "section": "",
-    "text": "test edit daddafdsfsdafagjhkfhjgkhjkjjkh Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
+    "text": "Before you can run the submission pipeline your machine needs six tools: Docker + Compose v2, Git, the GitHub CLI (gh), make, OpenSSL, and Python 3.12+. Each section below gives the install command for your OS and a verify step to confirm it worked.",
     "crumbs": [
       "Implementation",
       "A. Prerequisites"
@@ -1305,7 +1503,7 @@
     "href": "datasets/submission/index.html#the-journey-at-a-glance",
     "title": "Submit data to BigPicture",
     "section": "The journey at a glance",
-    "text": "The journey at a glance\nYou will move through ten steps, A to J. Each builds on the one before, so do them in order the first time.\n\n\n\n\nStep\nWhat you’ll do\n\n\n\n\n\nKey concepts\nThe handful of words you need: model, mappers, metadata, bundle.\n\n\nA\nPrerequisites\nInstall the tools (Docker, Git, gh, make, OpenSSL, Python) and verify each.\n\n\nB\nGitHub access\nSign in with gh so you can reach the private repos and images.\n\n\nC\ninstall package\nClone the pipeline (with submodules) and pull the images.\n\n\nD\nConfigure\nSet up .env, mount your data, and set the config salt.\n\n\nE\nReference data\nProvide the model.json and mappers.xlsx for your site.\n\n\nF\nTLS + credentials\nGenerate certificates and login credentials.\n\n\nG\nPreflight + boot\nRun the doctor check, start the stack, open the UI.\n\n\nH\nRun a submission\nLog in, create a project/batch, upload your workbook, curate, export.\n\n\nI\nValidate the bundle\nCheck the export and learn how to read the errors.\n\n\nJ\nUpload to BigPicture\nPush the validated bundle with bp-submitter.",
+    "text": "The journey at a glance\nYou will move through ten steps, A to J. Each builds on the one before, so do them in order the first time.\n\n\n\n\nStep\nWhat you’ll do\n\n\n\n\n\nKey concepts\nThe handful of words you need: model, mappers, metadata, bundle.\n\n\nA\nPrerequisites\nInstall the tools (Docker, Git, gh, make, OpenSSL, Python) and verify each.\n\n\nB\nGitHub access\nSign in with gh so you can reach the private repos and images.\n\n\nC\ninstall package\nClone the pipeline (with submodules) and pull the images.\n\n\nD\nConfigure\nSet up .env, mount your data, and set the config salt.\n\n\nE\nReference data\nProvide the model.json and mappers.xlsx for your site.\n\n\nF\nTLS + credentials\nGenerate certificates and login credentials.\n\n\nG\nPreflight + boot\nRun the doctor check, start the stack, open the UI.\n\n\nH\nRun a submission\nLog in, create a project/batch, upload your workbook, curate, export.\n\n\nI\nValidate the bundle\nCheck the export and learn how to read the errors.\n\n\nJ\nUpload to BigPicture\nPush the validated bundle with bp-submitter.\n\n\n\n\n\n\n\n\n\nPrefer the command line? There’s a direct alternative\n\n\n\nYou don’t have to run the bp-submission-pipeline at all. If you’re comfortable on the command line, the Direct upload (sda-cli) section walks you through preparing, validating, and uploading a dataset yourself with sda-cli — a leaner path that some uploaders use directly (often with another tool in between). It assumes a more technical reader than the A–J manual below.",
     "crumbs": [
       "Start here",
       "Overview"
@@ -1316,7 +1514,7 @@
     "href": "datasets/submission/index.html#how-to-read-this-manual",
     "title": "Submit data to BigPicture",
     "section": "How to read this manual",
-    "text": "How to read this manual\n\nThree operating systems, one manual. Where a command differs, you’ll see Windows / macOS / Linux tabs — pick your tab and ignore the rest. See the page template for the conventions.\nVerify as you go. Most steps end with a Verify box: paste the command, compare against the expected output, and only move on once it matches.\nLinux is the reference path. Every command-bearing step is validated on a clean Linux machine; Windows and macOS tabs follow the same shape.",
+    "text": "How to read this manual\n\nStep by step. A-G are required for setting up your data pipeline, H-J are for submitting a test set.\nVerify as you go. Most steps end with a Verify box: paste the command, compare against the expected output, and only move on once it matches.",
     "crumbs": [
       "Start here",
       "Overview"

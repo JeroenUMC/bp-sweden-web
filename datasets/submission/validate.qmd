@@ -14,35 +14,18 @@ The gate runs five checks in order and stops at the first failure:
 
 | Check | What it looks for |
 |-------|-------------------|
-| **Structure** | Root dir named `DATASET_<alias>`; required folders (`METADATA/`, `LANDING_PAGE/`, `PRIVATE/`) present; required XML files present (including `landing_page.xml`) |
+| **Structure** | Root dir named `DATASET_<alias>`; required folders (`METADATA/`, `LANDING_PAGE/`, `PRIVATE/`) present; required metadata XML files present. The `LANDING_PAGE/` folder is required, but a missing `landing_page.xml` inside it is a **WARN**, not a FAIL |
 | **XSD schema** (`BPInterface.validate`) | Metadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact |
 | **Extended schema** | `staining.xml` and `landing_page.xml` validated against their XSDs separately (the underlying library skips them) |
 | **Forward references** | Every annotation and landing-page thumbnail file named in metadata actually exists on disk |
 | **Reverse references (orphans)** | Every file in `IMAGES/`, `ANNOTATIONS/`, and `LANDING_PAGE/THUMBNAILS/` is referenced by at least one metadata entity |
 
-::: {.callout-note collapse="true"}
-## Adjusting what the gate requires
+::: {.callout-note}
+## Landing page is a warning, not a requirement
 
-The set of required folders and files is defined in the
-`bigpicture-metadata-interface` submodule:
-
-```
-bigpicture-metadata-interface/bigpicture_metadata_interface/dataset_structure.py
-```
-
-Each entry in `DatasetFileStructure` has a `required` flag (default `True`).
-To make a file optional — for example if your site does not produce
-`landing_page.xml` — set `required=False` on its entry and rebuild:
-
-```python
-LANDING_PAGE = DatasetFile(DatasetFolderStructure.LANDING_PAGE, "landing_page.xml", False)
-```
-
-The gate in this repo reads the contract dynamically; no further changes are
-needed here.
-
-Landing page is treated as a warning for now (workgroup discussion #69; tracked in
-imi-bigpicture/bp-submission-pipeline#70).
+The `LANDING_PAGE/` folder is required, but `landing_page.xml` inside it is
+optional: if it is absent, the gate prints a `WARN` and still passes. If a `landing_page.xml` **is** present, it must still validate
+against its XSD or the gate FAILs.
 :::
 
 ## Run it
@@ -74,6 +57,13 @@ bundle directory.
 A passing run prints one line and exits 0:
 
 ```
+validate-upload PASSED: /path/to/DATASET_<alias>
+```
+
+A run can print a `WARN` line and still pass. The most common one is the absent landing page:
+
+```
+WARN  landing_page.xml absent (optional; see #69)
 validate-upload PASSED: /path/to/DATASET_<alias>
 ```
 

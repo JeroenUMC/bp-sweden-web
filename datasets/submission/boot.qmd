@@ -114,10 +114,11 @@ convert. OpenSlide publishes freely usable example slides for exactly this.
    multi-file bundles and take longer to process.
 3. Move the downloaded file into your image folder, `PIPELINE_IMAGE_ROOT`
    (default `./data/images` — see [D. Configure](configure.qmd)).
-4. Open your operator metadata workbook and set the **`Image path`** value to the
-   filename you just downloaded (e.g. `CMU-1-Small-Region.svs`). Pre-process
-   resolves the slide by this path **relative to** `PIPELINE_IMAGE_ROOT`, so the
-   value must match the file on disk exactly.
+4. Open `tests/data/metadata/metadata.xlsx` — the example workbook that ships
+   with the pipeline — and set its **`Image path`** cell to the filename you just
+   downloaded (e.g. `CMU-1-Small-Region.svs`). The shipped value is a placeholder
+   (`IMAGE_gold-ref`) — replace it with the exact filename on disk. Pre-process
+   resolves the path **relative to** `PIPELINE_IMAGE_ROOT`.
 
 ::: {.callout-note}
 The image folder is mounted **read-only** into the containers, but files you drop

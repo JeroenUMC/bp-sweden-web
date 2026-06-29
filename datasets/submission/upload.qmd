@@ -93,7 +93,7 @@ make upload DATASET=<project_dir> THREADS=4
 :::
 
 ## Notify NBIS
-Once your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+Once your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
 
 The email should contain:
 

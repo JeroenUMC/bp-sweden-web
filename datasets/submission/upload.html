@@ -474,7 +474,7 @@ Precondition: NBIS receiver credentials
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>NBIS provides two files before you can upload. Place both in your <code>PIPELINE_SUBMITTER_CREDS_DIR</code> directory — the same <code>certs/</code> folder used in <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a>:</p>
+<p>NBIS provides two files before you can upload. Because the A–J manual is a <strong>staging</strong> test, place both in your staging credentials directory (<code>PIPELINE_SUBMITTER_CREDS_DIR_STAGING</code>, default <code>certs/staging</code>) — a subfolder of the <code>certs/</code> directory you set up in <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a>. For a real <strong>production</strong> submission the equivalent files go in <code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code> (default <code>certs/production</code>) instead, so the two instances never share credentials:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -515,6 +515,7 @@ Precondition: NBIS receiver credentials
 </div>
 </div>
 <p>Replace <code>&lt;project_dir&gt;</code> with the project directory name — it is the value after <code>Project:</code> in the <code>make export-check</code> output from <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>, for example <code>DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af</code>.</p>
+<p><code>make upload-dry-run</code> defaults to <strong>staging</strong>. To dry-run against production credentials instead, add <code>TARGET=production</code>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -526,29 +527,31 @@ Verify
 </div>
 <div class="callout-body-container callout-body">
 <p>A passing dry run starts with:</p>
-<pre><code>Dry-run upload of '&lt;project_dir&gt;' (zero bytes) ...</code></pre>
+<pre><code>Dry-run upload of '&lt;project_dir&gt;' to staging (zero bytes) ...</code></pre>
 <p>and exits 0 with no <code>ERROR</code> lines. Fix any reported errors before uploading.</p>
 </div>
 </div>
 </section>
 <section id="upload" class="level2">
 <h2 class="anchored" data-anchor-id="upload">2. Upload</h2>
-<p>When the dry run passes, run the real upload:</p>
+<p>When the dry run passes, run the real upload. <code>make upload</code> <strong>requires</strong> a <code>TARGET</code> — it never guesses which instance to push to. The A–J manual is a staging test, so use <code>TARGET=staging</code>:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Linux</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>In <strong>Git Bash</strong>, run:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> TARGET=staging</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> TARGET=staging</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> TARGET=staging</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
+<p>For a real submission, use <code>TARGET=production</code> instead — it reads the separate <code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code> credentials:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> TARGET=production</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -561,7 +564,7 @@ Use <code>--threads 1</code> (the default)
 <div class="callout-body-container callout-body">
 <p>NBIS has explicitly asked submitters not to use parallel upload threads. <code>make upload</code> enforces <code>--threads 1</code> by default.</p>
 <p>If NBIS has explicitly told you that more threads are allowed for your site, you can override:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> THREADS=4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span> TARGET=staging THREADS=4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -576,13 +579,15 @@ Use <code>--threads 1</code> (the default)
 </section>
 <section id="resumable-uploads" class="level2">
 <h2 class="anchored" data-anchor-id="resumable-uploads">Resumable uploads</h2>
-<p><code>bp-submitter</code> tracks progress in a local SQLite database at <code>${PIPELINE_SUBMITTER_STATE}/upload.db</code> (default: <code>$PIPELINE_ROOT/submitter-state/upload.db</code>). If an upload is interrupted, re-run the same <code>make upload DATASET=&lt;project_dir&gt;</code> command — it resumes from where it left off.</p>
+<p><code>bp-submitter</code> tracks progress in a local SQLite database at <code>${PIPELINE_SUBMITTER_STATE}/upload.db</code> (default: <code>$PIPELINE_ROOT/submitter-state/upload.db</code>). If an upload is interrupted, re-run the same <code>make upload DATASET=&lt;project_dir&gt; TARGET=&lt;staging|production&gt;</code> command — it resumes from where it left off.</p>
 <p>To start over (for example, after replacing a corrected bundle), delete <code>upload.db</code> from your <code>PIPELINE_SUBMITTER_STATE</code> directory before re-running.</p>
 </section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
 <ul>
-<li><strong><code>Missing creds file: .../s3cmd-inbox.conf</code></strong> or <strong><code>Missing creds file:   .../crypt4gh_bp_key.pub</code></strong> — one of the NBIS-provided files is absent from <code>PIPELINE_SUBMITTER_CREDS_DIR</code>. Place the missing file there and retry.</li>
+<li><strong><code>TARGET is required: ...</code></strong> — <code>make upload</code> will not run without a target. Re-run with <code>TARGET=staging</code> (the manual) or <code>TARGET=production</code>.</li>
+<li><strong><code>Invalid TARGET '&lt;x&gt;': expected 'staging' or 'production'</code></strong> — the <code>TARGET</code> value is mistyped. Use exactly <code>staging</code> or <code>production</code>.</li>
+<li><strong><code>Missing creds file: .../s3cmd-inbox.conf</code></strong> or <strong><code>Missing creds file:   .../crypt4gh_bp_key.pub</code></strong> — one of the NBIS-provided files is absent from the credentials directory for the <code>TARGET</code> you chose (<code>certs/staging</code> for <code>TARGET=staging</code>, <code>certs/production</code> for <code>TARGET=production</code>). Place the missing file in that directory and retry.</li>
 <li><strong><code>DATASET not set</code></strong> — re-run with <code>DATASET=&lt;project_dir&gt;</code>.</li>
 <li><strong><code>Dataset dir not found</code></strong> — the project directory name does not match what is under <code>PIPELINE_OUTBOX_DIR</code>. Confirm the name from <code>make export-check</code> output (step H).</li>
 <li><strong>Connection or authentication errors</strong> — your <code>s3cmd-inbox.conf</code> may be expired or misconfigured. Contact NBIS for an updated file.</li>

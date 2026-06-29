@@ -499,13 +499,15 @@ Windows: use Git Bash
 <p>For a single-host install the default <code>PIPELINE_ROOT=./data</code> is fine — leave it as shipped; it is all you need for a test run. Create the directory tree it points to:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> dirs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>make dirs</code> reads the paths from your <code>.env</code> and creates exactly the directories the containers expect, printing one line per directory:</p>
-<pre><code>ok: PIPELINE_STORAGE -&gt; ./data/storage
+<pre><code>ok: PIPELINE_IMAGE_ROOT -&gt; ./data/images
 ok: PIPELINE_OUTBOX_DIR -&gt; ./data/storage/storage
-ok: PIPELINE_IMAGE_ROOT -&gt; ./data/images
 ok: PIPELINE_REFDATA_DIR -&gt; ./data/refdata
 ok: PIPELINE_SSL_DIR -&gt; ./data/certs
-ok: PIPELINE_SUBMITTER_CREDS_DIR -&gt; ./data/certs
+ok: PIPELINE_STORAGE -&gt; ./data/storage
+ok: PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION -&gt; ./data/certs/production
+ok: PIPELINE_SUBMITTER_CREDS_DIR_STAGING -&gt; ./data/certs/staging
 ok: PIPELINE_SUBMITTER_STATE -&gt; ./data/submitter-state</code></pre>
+<p>Staging and production BigPicture credentials live in <strong>two separate</strong> directories (<code>certs/staging</code> and <code>certs/production</code>) so <code>make upload</code> can reach either instance without swapping files — see <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.</p>
 <p>The repeated <code>storage/storage</code> is intentional, not a typo: <code>PIPELINE_STORAGE</code> is the storage <strong>root</strong>, and the export outbox (<code>PIPELINE_OUTBOX_DIR</code>) is a folder named <code>storage</code> <em>inside</em> it — slidetap always writes finished bundles to <code>&lt;storage root&gt;/storage</code>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -558,9 +560,9 @@ Mounted filesystems: own the mount before running <code>make dirs</code>
 <td>reference data that multiple people might want access to, like snomed conversions</td>
 </tr>
 <tr class="even">
-<td><code>PIPELINE_SSL_DIR</code>, <code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
+<td><code>PIPELINE_SSL_DIR</code>, <code>PIPELINE_SUBMITTER_CREDS_DIR_STAGING</code>, <code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code></td>
 <td>Local disk, not a shared mount</td>
-<td>TLS keys and BigPicture credentials — keep secrets off shared storage</td>
+<td>TLS keys and BigPicture staging/production credentials — keep secrets off shared storage</td>
 </tr>
 <tr class="odd">
 <td><code>PIPELINE_SUBMITTER_STATE</code></td>
@@ -661,15 +663,20 @@ Windows: save with LF line endings
 <td><code>${PIPELINE_ROOT}/certs</code></td>
 </tr>
 <tr class="even">
-<td><code>PIPELINE_SUBMITTER_CREDS_DIR</code></td>
-<td><code>${PIPELINE_ROOT}/certs</code></td>
+<td><code>PIPELINE_SUBMITTER_CREDS_DIR_STAGING</code></td>
+<td><code>${PIPELINE_ROOT}/certs/staging</code></td>
 </tr>
 <tr class="odd">
+<td><code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code></td>
+<td><code>${PIPELINE_ROOT}/certs/production</code></td>
+</tr>
+<tr class="even">
 <td><code>PIPELINE_SUBMITTER_STATE</code></td>
 <td><code>${PIPELINE_ROOT}/submitter-state</code></td>
 </tr>
 </tbody>
 </table>
+<p><code>make upload</code> picks the staging or production creds dir from its <code>TARGET</code> argument; you do not set the path it mounts. (The internal <code>.env</code> slot <code>PIPELINE_SUBMITTER_CREDS_DIR</code> defaults to the staging dir and is best left alone.)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

@@ -529,362 +529,190 @@
     ]
   },
   {
-    "objectID": "datasets/submission/reference-data-model.html",
-    "href": "datasets/submission/reference-data-model.html",
-    "title": "E1. model.json",
+    "objectID": "datasets/submission/contributing/testing.html",
+    "href": "datasets/submission/contributing/testing.html",
+    "title": "Testing the pipeline",
     "section": "",
-    "text": "Place the provided default model.json in PIPELINE_REFDATA_DIR so the pipeline has a working attribute and observation model from day one.",
+    "text": "This page is about testing the bp-submission-pipeline itself — not this documentation site. If you’re editing manual pages, see Page template & conventions instead.\nThe pipeline ships two developer test targets. Run them before opening a PR to catch breakage early:",
     "crumbs": [
-      "Implementation",
-      "E. Reference data",
-      "model.json"
+      "For contributors",
+      "Testing the pipeline"
     ]
   },
   {
-    "objectID": "datasets/submission/reference-data-model.html#place-the-default-file",
-    "href": "datasets/submission/reference-data-model.html#place-the-default-file",
-    "title": "E1. model.json",
-    "section": "Place the default file",
-    "text": "Place the default file\nRun make setup-refdata to copy the default model.json into your refdata directory:\nmake setup-refdata\nExpected output (files not yet present):\nSetting up refdata in: ./data/refdata\nCopying mappers.xlsx from bigpicture-slidetap/tests/test_data...\nCopying model.json from bigpicture-slidetap/tests/test_data...\n\nRefdata contents:\n  mappers.xlsx (9.0K)\n  model.json (3.6K)\n\n✓ Setup complete\nIf both files were already present from a previous run:\nSetting up refdata in: ./data/refdata\n✓ mappers.xlsx found\n✓ model.json found\n\nRefdata contents:\n  mappers.xlsx (9.0K)\n  model.json (3.6K)\n\n✓ Setup complete\n\n\n\n\n\n\nVerify\n\n\n\nConfirm both refdata files are in place:\nls ./data/refdata/\nExpected output:\nmappers.xlsx  model.json\nmake doctor checks all preflight conditions including certificates and credentials that have not been created yet. Run the full make doctor check at G. Preflight + boot once all prerequisites are in place.",
+    "objectID": "datasets/submission/contributing/testing.html#make-test-unit",
+    "href": "datasets/submission/contributing/testing.html#make-test-unit",
+    "title": "Testing the pipeline",
+    "section": "make test-unit",
+    "text": "make test-unit\nWhat it covers. Unit and contract tests — the seams between the pipeline and its submodules (env vars, directory layout, the XLSX/mapper contracts, the API client, the submitter argv, credential generation). It runs pytest tests/unit/ and needs no Docker and no running stack.\nWhen to run. On every change, and always before opening a PR. It’s cheap, so there’s no reason to skip it.\nPrerequisites. A Python with pytest importable. The target invokes python3 -m pytest, so you don’t need a pytest shim on your PATH — but you do need pytest installed in that interpreter (python3 -m pip install pytest). If make can’t find python3 on your machine, run the underlying command directly instead:\nPYTHONPATH=bigpicture-metadata-interface:bp-submitter python -m pytest tests/unit/ -v\nWhat a pass looks like. A green pytest summary (your counts and timing will differ):\ntests/unit/test_env_contract.py::test_required_vars_present PASSED\ntests/unit/test_xlsx_contract.py::test_columns_match_model PASSED\n...\n============================ 211 passed in 2.13s ============================\nWhat a failure looks like. pytest names the failing test and the assertion; the run ends with a red summary:\ntests/unit/test_xlsx_contract.py::test_columns_match_model FAILED\n...\nE   AssertionError: column 'specimen_type' missing from model.json\n======================= 1 failed, 210 passed in 2.1s =======================\nFix the contract that broke (or update the test if the contract changed deliberately) and re-run until green.",
     "crumbs": [
-      "Implementation",
-      "E. Reference data",
-      "model.json"
+      "For contributors",
+      "Testing the pipeline"
     ]
   },
   {
-    "objectID": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
-    "href": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
-    "title": "E1. model.json",
+    "objectID": "datasets/submission/contributing/testing.html#make-smoke",
+    "href": "datasets/submission/contributing/testing.html#make-smoke",
+    "title": "Testing the pipeline",
+    "section": "make smoke",
+    "text": "make smoke\nWhat it checks. The full end-to-end path against a metadata XLSX: it generates test credentials, boots the minimal stack (pipeline-db, slidetap-app, slidetap-task), waits for the API to become healthy, then drives a complete submission via the REST API — create project, upload the XLSX, image pre- and post-processing, complete the batch, export the bundle, verify the outbox, and finally run bp-submitter --dry-run over the exported dataset. If all of that succeeds, the submit→export→upload contract is intact.\nWhen to run. When your change touches pipeline behavior — the API client, the submitter, export logic, or the Docker Compose / .env wiring. It’s slow (image processing does real DICOM conversion and can take minutes per slide), so it’s not worth running for pure docs or typo changes.\nPrerequisites. Unlike test-unit, smoke needs a working environment: a configured .env, Docker running, and credentials in place. If you haven’t set that up, follow D. Configure and G. Preflight + boot first.\nBy default smoke uses the bundled fixture tests/data/metadata/metadata.xlsx. To run against your own metadata, pass XLSX:\nmake smoke XLSX=path/to/your/metadata.xlsx\nWhat a pass looks like. Progress is logged stage by stage, ending with Smoke finished:\nAPI healthy\nLogging in as admin...\nCreating project...\nWaiting for metadata import to complete (METADATA_SEARCH_COMPLETE)...\n  status=3\nMetadata import complete\n...\nExport ready\nRunning bp-submitter --dry-run on project smoke-project-...\nSmoke finished\nWhat a failure looks like. The run aborts at the stage that broke. The two most common early failures:\nError: .env not found. Copy .env.example to .env and update values.\nMissing XLSX: tests/data/metadata/metadata.xlsx\n(both exit with code 2 before anything boots), and — once the stack is starting — the API health timeout:\nError: API did not become healthy within 60 seconds\nwhich usually means a container failed to start; check docker compose logs for the offending service.",
+    "crumbs": [
+      "For contributors",
+      "Testing the pipeline"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data.html",
+    "href": "datasets/submission/reference-data.html",
+    "title": "E. Reference data",
+    "section": "",
+    "text": "Two files that the pipeline reads on startup to understand your site’s data model and local code vocabulary.\n\nmodel.json — defines the attribute and observation model; copy the default to get started.\nmappers.xlsx — translates your site’s local short codes into BigPicture-standard coded attributes.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html",
+    "href": "datasets/submission/install-package.html",
+    "title": "C. install package",
+    "section": "",
+    "text": "Clone the submission pipeline repository and pull the prebuilt container images from GitHub Container Registry.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#clone-the-repository",
+    "href": "datasets/submission/install-package.html#clone-the-repository",
+    "title": "C. install package",
+    "section": "1. Clone the repository",
+    "text": "1. Clone the repository\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nOpen Git Bash (installed with Git for Windows in step A). All make commands in this manual must be run in Git Bash, not PowerShell.\n\n\ngit clone --recurse-submodules https://github.com/imi-bigpicture/bp-submission-pipeline.git\ncd bp-submission-pipeline\n\n\n\n\n\n\nWhat are submodules?\n\n\n\nThe pipeline bundles several companion components (web app, data model, and submission CLI) as Git submodules — without --recurse-submodules those folders arrive empty and the pipeline will not start.\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls bigpicture-metadata-interface\nYou should see files listed inside the folder, not an empty directory.\n\n\n\n\n\n\n\n\nYou are now inside bp-submission-pipeline/\n\n\n\nAll commands from here through step J are run from this directory. If you open a new terminal, run cd bp-submission-pipeline before continuing.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#pull-the-container-images",
+    "href": "datasets/submission/install-package.html#pull-the-container-images",
+    "title": "C. install package",
+    "section": "2. Pull the container images",
+    "text": "2. Pull the container images\nmake pull\n\n\n\n\n\n\nVerify\n\n\n\ndocker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline\nExpected: one or more ghcr.io/imi-bigpicture/bp-submission-pipeline/... images listed.",
+    "crumbs": [
+      "Implementation",
+      "C. install package"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/install-package.html#if-something-goes-wrong",
+    "href": "datasets/submission/install-package.html#if-something-goes-wrong",
+    "title": "C. install package",
     "section": "If something goes wrong",
-    "text": "If something goes wrong\nFAIL: model.json missing from ... — run make setup-refdata again and confirm model.json appears in PIPELINE_REFDATA_DIR.\nWarning: model.json not found in bigpicture-slidetap/tests/test_data — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
+    "text": "If something goes wrong\nmake pull fails with “lacks the read:packages scope”\nReturn to B. GitHub access and run gh auth refresh -s read:packages, then try again.\nClone fails with “repository not found” or “access denied”\nYour GitHub account has not been granted access to the private repository. Request access via the servicedesk.\nmake pull fails with “no such file or directory” on /var/run/docker.sock\nThe Docker daemon is not running. Start it and retry:\n\nWindows / macOSLinux\n\n\nLaunch Docker Desktop and wait until the whale icon in the taskbar/menu bar shows “Docker Desktop is running”, then run make pull again.\n\n\nsystemctl start docker\nOn older systems without systemd, use service docker start instead. Then run make pull again.\n\n\n\nSubmodule folders are empty after cloning\nYou cloned without --recurse-submodules. Delete the cloned folder and re-run the full clone command above.",
     "crumbs": [
       "Implementation",
-      "E. Reference data",
-      "model.json"
+      "C. install package"
     ]
   },
   {
-    "objectID": "datasets/submission/validate.html",
-    "href": "datasets/submission/validate.html",
-    "title": "I. Validate the bundle",
+    "objectID": "compute/analysis/index.html",
+    "href": "compute/analysis/index.html",
+    "title": "Analysis",
     "section": "",
-    "text": "Run make validate-upload on your exported bundle before uploading. The gate checks structure, schema, and file references in both directions — anything it catches here saves a rejection post upload. The gate runs on the unencrypted bundle; bp-submitter handles encryption and upload in stage J.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
+    "text": "Request Services for on-platform data use such as Cytomine"
   },
   {
-    "objectID": "datasets/submission/validate.html#what-it-checks",
-    "href": "datasets/submission/validate.html#what-it-checks",
-    "title": "I. Validate the bundle",
-    "section": "What it checks",
-    "text": "What it checks\nThe gate runs five checks in order and stops at the first failure:\n\n\n\n\n\n\n\nCheck\nWhat it looks for\n\n\n\n\nStructure\nRoot dir named DATASET_&lt;alias&gt;; required folders (METADATA/, LANDING_PAGE/, PRIVATE/) present; required metadata XML files present. The LANDING_PAGE/ folder is required, but a missing landing_page.xml inside it is a WARN, not a FAIL\n\n\nXSD schema (BPInterface.validate)\nMetadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact\n\n\nExtended schema\nstaining.xml and landing_page.xml validated against their XSDs separately (the underlying library skips them)\n\n\nForward references\nEvery annotation and landing-page thumbnail file named in metadata actually exists on disk\n\n\nReverse references (orphans)\nEvery file in IMAGES/, ANNOTATIONS/, and LANDING_PAGE/THUMBNAILS/ is referenced by at least one metadata entity\n\n\n\n\n\n\n\n\n\nLanding page is a warning, not a requirement\n\n\n\nThe LANDING_PAGE/ folder is required, but landing_page.xml inside it is optional: if it is absent, the gate prints a WARN and still passes. If a landing_page.xml is present, it must still validate against its XSD or the gate FAILs.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/validate.html#run-it",
-    "href": "datasets/submission/validate.html#run-it",
-    "title": "I. Validate the bundle",
-    "section": "Run it",
-    "text": "Run it\nFrom the pipeline root directory:\n\nWindowsmacOSLinux\n\n\nIn Git Bash, run:\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\n\nReplace &lt;path-to-DATASET_alias&gt; with the full path to your DATASET_&lt;alias&gt; bundle directory.\n\n\n\n\n\n\nVerify\n\n\n\nA passing run prints one line and exits 0:\nvalidate-upload PASSED: /path/to/DATASET_&lt;alias&gt;\nA run can print a WARN line and still pass. The most common one is the absent landing page:\nWARN  landing_page.xml absent (optional; see #69)\nvalidate-upload PASSED: /path/to/DATASET_&lt;alias&gt;\nA failing run names the offending file or rule:\nFAIL  missing required folder: METADATA\nvalidate-upload FAILED: /path/to/DATASET_&lt;alias&gt; (1 structure problem(s))\nOnly a validate-upload PASSED line means you are clear to upload.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/validate.html#how-to-read-a-failure",
-    "href": "datasets/submission/validate.html#how-to-read-a-failure",
-    "title": "I. Validate the bundle",
-    "section": "How to read a failure",
-    "text": "How to read a failure\nEvery failure line starts with FAIL and names the file or rule that failed. The final line names the check category and the count.\nFAIL  &lt;rule or file description&gt;\nvalidate-upload FAILED: &lt;bundle path&gt; (&lt;N&gt; &lt;category&gt;)\nRead the output text, not the exit code. When calling via make validate-upload, GNU make returns exit 2 on any recipe failure regardless of whether the underlying issue is a validation problem or a missing directory — the 1-vs-2 distinction from the script does not surface reliably. Instead, read the final output line: validate-upload PASSED means you are clear to upload; any FAIL line names the specific problem. Exit code 0 still means everything passed.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/validate.html#worked-examples",
-    "href": "datasets/submission/validate.html#worked-examples",
-    "title": "I. Validate the bundle",
-    "section": "Worked examples",
-    "text": "Worked examples\n\nExample 1 — wrong bundle root name\nYou pass a project export directory instead of the DATASET_&lt;alias&gt; folder inside it:\nFAIL  dataset root must be named DATASET_&lt;alias&gt;, got 'my-project.abc123'\nvalidate-upload FAILED: /data/storage/my-project.abc123 (1 structure problem(s))\nFix: Pass the DATASET_&lt;alias&gt; subdirectory, not its parent.\n\n\nExample 2 — missing required metadata file\nA required XML file was not written by the export (e.g. the export failed partway through):\nFAIL  missing required file: METADATA/dataset.xml\nvalidate-upload FAILED: /data/storage/DATASET_myslides (1 structure problem(s))\nFix: Re-export the bundle from the slidetap UI (stage H, step 9). If the export appears to complete but the file is still missing, check make logs for errors in the export worker.\n\n\nExample 3 — orphan file in IMAGES/\nA DICOM file is present on disk but not referenced by any metadata entity. This can happen if a slide was excluded after export:\nFAIL  unreferenced file not in metadata: /data/storage/DATASET_myslides/IMAGES/slide_07.dcm\nvalidate-upload FAILED: /data/storage/DATASET_myslides (1 orphan file(s))\nFix: Either add the file to the metadata (re-export with the slide included) or remove the stray file from the bundle. Do not upload a bundle with orphan files — the submitter will reject it.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/validate.html#if-something-goes-wrong",
-    "href": "datasets/submission/validate.html#if-something-goes-wrong",
-    "title": "I. Validate the bundle",
-    "section": "If something goes wrong",
-    "text": "If something goes wrong\n\nFAIL dataset directory not found — the path you passed to DATASET= does not exist. Double-check the path and ensure the export step completed successfully.\nFAIL missing required folder — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check make logs for export worker errors.\nFAIL schema validation: ... — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your model.json or mappers.xlsx and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place. To pinpoint the offending element by hand, validate the single file with xmllint against the metaflex XSDs — see Validate metadata in the Direct upload section.",
-    "crumbs": [
-      "Implementation",
-      "I. Validate the bundle"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html",
-    "href": "datasets/submission/key-concepts.html",
-    "title": "Key concepts",
+    "objectID": "changelogs/changelog-2025-10-06.html",
+    "href": "changelogs/changelog-2025-10-06.html",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "A handful of words appear throughout this manual. This page defines each one in plain language, in the order you meet it, so the steps make sense when you reach them.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
+    "text": "Return stable ID as part of the file info response. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1506\nDownload re-encrypted file from the inbox by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1627\nOptimize db queries for /users and /files by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1792\nReduce verbose logging from GIN by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1799\nExplicit audit trail in the logs by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/issues/1847\nUse fileids instead of paths when working with the repository by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/1934\nSpecify dataset when listing files by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1903\n\n\n\n\n\nServe both raw (for download) and resigned (for upload) tokens by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1362\nFix blank page on failed ega login by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1460\n\n\n\n\n\nAllow starting without backup enabled by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1879\n\n\n\n\n\nConfigurable s3 endpoint for download by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1163\nTidier gin logs by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1266\nFix/latest linter suggestions by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1790\n\n\n\n\n\nSupport multiple C4GH keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1197\nWait for delays from s3 by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1483\nRefactor main work loop by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1526\nEnsure cryp4gh keys are loaded on startup. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1663\nRegister configured C4GH keys on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1794\n\n\n\n\n\nPersist fileID over changes of the service instance by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1357\nSend remove message on overwrite by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1543\nStore uploaded file size in db by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1571\n\n\n\n\n\nSupport multiple private keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1235\nMore robust against getting stuck in broker message loops by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1600\n\n\n\n\n\nUpdate Go to version 1.24 by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1429\nAdd test step to append files to a dataset. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1507\nUpdate constraint to also include the submission user by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1594\nAdjust log levels by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1764\nRemove string concatenations from SQL queries. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1797\nEnsure all switches have a default case by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1818\nInclude file-id in loginfo by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857\nDo not leak submitter ids from download by @jbygdell and @MalinAhlberg https://github.com/neicnordic/sensitive-data-archive/pull/1601\nInclude fileid in log information by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857"
   },
   {
-    "objectID": "datasets/submission/key-concepts.html#model.json",
-    "href": "datasets/submission/key-concepts.html#model.json",
-    "title": "Key concepts",
-    "section": "model.json",
-    "text": "model.json\nA file that describes the structure of a BigPicture-compatible dataset: what types of data it can contain (specimens, observations, images) and how they relate to each other. For most sites the provided default works unchanged.\n→ You supply this file at E. Reference data.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#mapper-workbook-mappers.xlsx",
-    "href": "datasets/submission/key-concepts.html#mapper-workbook-mappers.xlsx",
-    "title": "Key concepts",
-    "section": "Mapper workbook (mappers.xlsx)",
-    "text": "Mapper workbook (mappers.xlsx)\nA spreadsheet you fill in for your site that translates your institution’s labels, codes, and field names into the vocabulary BigPicture expects. Each site has its own mapper workbook.\n→ You prepare and provide this at E. Reference data.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#metadata-workbook",
-    "href": "datasets/submission/key-concepts.html#metadata-workbook",
-    "title": "Key concepts",
-    "section": "Metadata workbook",
-    "text": "Metadata workbook\nThe Excel file you create for each submission. It contains the contextual metadata for your dataset: specimens, observations, whole-slide images, and their relationships. This is your data — the pipeline ingests it and uses it to build the submission.\n→ You upload this in H. Run a submission.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#project",
-    "href": "datasets/submission/key-concepts.html#project",
-    "title": "Key concepts",
-    "section": "Project",
-    "text": "Project\nA container you create in the SlideTap UI that holds everything for one upload attempt — its dataset definition and one or more batches. Think of a project as “one dataset going through the pipeline.”\n→ You create a project in H. Run a submission.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#dataset",
-    "href": "datasets/submission/key-concepts.html#dataset",
-    "title": "Key concepts",
-    "section": "Dataset",
-    "text": "Dataset\nThe named entity within your project that becomes the dataset record in BigPicture. This is where you define secondary information: the policy, the metadata standard version, the type of dataset, and so on. The dataset’s identifier (short name) becomes the folder name of your SlideTap outbox.\n→ You configure the dataset in H. Run a submission.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#batch",
-    "href": "datasets/submission/key-concepts.html#batch",
-    "title": "Key concepts",
-    "section": "Batch",
-    "text": "Batch\nA processing run within a project where you ingest your metadata workbook and curate the records through SlideTap. A project can contain multiple batches — for example if your metadata arrives in parts — though a single batch is usually enough.\n→ You create and complete a batch in H. Run a submission.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "datasets/submission/key-concepts.html#slidetap-outbox",
-    "href": "datasets/submission/key-concepts.html#slidetap-outbox",
-    "title": "Key concepts",
-    "section": "SlideTap outbox",
-    "text": "SlideTap outbox\nThe folder SlideTap writes when a batch finishes its export, named DATASET_&lt;your dataset identifier&gt;. This folder is the direct output of the pipeline: you validate it, fix any errors, and then upload it to BigPicture.\n→ You validate the outbox at I. Validate and upload it at J. Upload to BigPicture.",
-    "crumbs": [
-      "Start here",
-      "Key concepts"
-    ]
-  },
-  {
-    "objectID": "compute/ai-training/index.html",
-    "href": "compute/ai-training/index.html",
-    "title": "AI Training",
+    "objectID": "changelogs/changelog-2025-10-06.html#admin-api",
+    "href": "changelogs/changelog-2025-10-06.html#admin-api",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Guidance on how to procure on-platform GPU HPC resources"
+    "text": "Return stable ID as part of the file info response. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1506\nDownload re-encrypted file from the inbox by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1627\nOptimize db queries for /users and /files by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1792\nReduce verbose logging from GIN by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1799\nExplicit audit trail in the logs by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/issues/1847\nUse fileids instead of paths when working with the repository by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/1934\nSpecify dataset when listing files by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1903"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html",
-    "href": "changelogs/changelog-2026-06-01.html",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#auth",
+    "href": "changelogs/changelog-2025-10-06.html#auth",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Add new command for key rotation. By @pahatz in https://github.com/neicnordic/sensitive-data-archive/pull/2058\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nReturn 403 if user attempts to download non-existing data or data which user does not have access to. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2317\n\nPreviously returned a List of the datasets user had access to when such was attempted.\n\nFix code lint issues. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2179\nEnable Htsget-rs functionalities\n\nSupport Htsget-Context-Public-Key header. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2226\n\nFix possible issue with downloading bigger files(&gt;1gb). By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2402\n\n\n\n\n\nNew download-v2 API specification. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2232\nNew download-v2 API implementation. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2187\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\nBugfix populate backup location and path. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2342\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nNew admin service to support rotating private key used to encrypt a dataset. By @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1918\nAdd backup of headers before rotating of key. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2164\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nUse postgres instead of in memory cache for file multi part uploads. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2382\n\nMore strict S3 action detection, supported S3 actions are: GetBucketLocation, ListObjects, ListObjectsV2, PutObject, UploadPart, CreateMultiPartUpload, CompleteMultiPartUpload, AbortMultiPartUpload, ListMultiPartUpload, ListParts\nReturn generic error messages on errors\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nTemporarily disable syncing files to CSC as the sda-stack is no longer compatible with the older CEPH version running on the CSC side, and instead back up files to a second location on the NBIS side\n\nOnce CSC confirms they have updated the CEPH version running on their side, we will plan on enabling syncing to CSC again, including backporting the syncing of all files backed up to the second location on the NBIS side since this release\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nUpdate Go to version 1.25. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2276\nNew multiple storage backends library. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2162\n\nFix bug in library to support TLS. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2217\n\nFix linter issues across multiple services. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2257\nAdd RotateKey service documentation to the sda documentation. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2288"
+    "text": "Serve both raw (for download) and resigned (for upload) tokens by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1362\nFix blank page on failed ega login by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1460"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#admin-api",
-    "href": "changelogs/changelog-2026-06-01.html#admin-api",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#finalize",
+    "href": "changelogs/changelog-2025-10-06.html#finalize",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Add new command for key rotation. By @pahatz in https://github.com/neicnordic/sensitive-data-archive/pull/2058"
+    "text": "Allow starting without backup enabled by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1879"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#api",
-    "href": "changelogs/changelog-2026-06-01.html#api",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#download",
+    "href": "changelogs/changelog-2025-10-06.html#download",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+    "text": "Configurable s3 endpoint for download by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1163\nTidier gin logs by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1266\nFix/latest linter suggestions by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1790"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#download",
-    "href": "changelogs/changelog-2026-06-01.html#download",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#ingest",
+    "href": "changelogs/changelog-2025-10-06.html#ingest",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nReturn 403 if user attempts to download non-existing data or data which user does not have access to. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2317\n\nPreviously returned a List of the datasets user had access to when such was attempted.\n\nFix code lint issues. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2179\nEnable Htsget-rs functionalities\n\nSupport Htsget-Context-Public-Key header. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2226\n\nFix possible issue with downloading bigger files(&gt;1gb). By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2402"
+    "text": "Support multiple C4GH keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1197\nWait for delays from s3 by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1483\nRefactor main work loop by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1526\nEnsure cryp4gh keys are loaded on startup. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1663\nRegister configured C4GH keys on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1794"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#download-v2",
-    "href": "changelogs/changelog-2026-06-01.html#download-v2",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#s3inbox",
+    "href": "changelogs/changelog-2025-10-06.html#s3inbox",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "New download-v2 API specification. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2232\nNew download-v2 API implementation. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2187"
+    "text": "Persist fileID over changes of the service instance by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1357\nSend remove message on overwrite by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1543\nStore uploaded file size in db by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1571"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#finalize",
-    "href": "changelogs/changelog-2026-06-01.html#finalize",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#verify",
+    "href": "changelogs/changelog-2025-10-06.html#verify",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\nBugfix populate backup location and path. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2342"
+    "text": "Support multiple private keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1235\nMore robust against getting stuck in broker message loops by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1600"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#ingest",
-    "href": "changelogs/changelog-2026-06-01.html#ingest",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-10-06.html#common",
+    "href": "changelogs/changelog-2025-10-06.html#common",
+    "title": "Detailed Changelog 2025-10-06",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+    "text": "Update Go to version 1.24 by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1429\nAdd test step to append files to a dataset. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1507\nUpdate constraint to also include the submission user by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1594\nAdjust log levels by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1764\nRemove string concatenations from SQL queries. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1797\nEnsure all switches have a default case by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1818\nInclude file-id in loginfo by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857\nDo not leak submitter ids from download by @jbygdell and @MalinAhlberg https://github.com/neicnordic/sensitive-data-archive/pull/1601\nInclude fileid in log information by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#mapper",
-    "href": "changelogs/changelog-2026-06-01.html#mapper",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-06-09.html",
+    "href": "changelogs/changelog-2025-06-09.html",
+    "title": "Detailed Changelog 2025-06-09",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+    "text": "List datasets by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1119\nAdd endpoint to re-verify an entire dataset by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1121\nEnable re-verification of a file by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1120\nDelete file by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/1122\n\n\n\n\n\nSave userinfo to db by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1099\n\n\n\n\n\nCheck for keyhash on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/1189"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#rotatekey",
-    "href": "changelogs/changelog-2026-06-01.html#rotatekey",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-06-09.html#admin-api",
+    "href": "changelogs/changelog-2025-06-09.html#admin-api",
+    "title": "Detailed Changelog 2025-06-09",
     "section": "",
-    "text": "New admin service to support rotating private key used to encrypt a dataset. By @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1918\nAdd backup of headers before rotating of key. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2164"
+    "text": "List datasets by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1119\nAdd endpoint to re-verify an entire dataset by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1121\nEnable re-verification of a file by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1120\nDelete file by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/1122"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#s3inbox",
-    "href": "changelogs/changelog-2026-06-01.html#s3inbox",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-06-09.html#auth",
+    "href": "changelogs/changelog-2025-06-09.html#auth",
+    "title": "Detailed Changelog 2025-06-09",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nUse postgres instead of in memory cache for file multi part uploads. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2382\n\nMore strict S3 action detection, supported S3 actions are: GetBucketLocation, ListObjects, ListObjectsV2, PutObject, UploadPart, CreateMultiPartUpload, CompleteMultiPartUpload, AbortMultiPartUpload, ListMultiPartUpload, ListParts\nReturn generic error messages on errors"
+    "text": "Save userinfo to db by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1099"
   },
   {
-    "objectID": "changelogs/changelog-2026-06-01.html#sync",
-    "href": "changelogs/changelog-2026-06-01.html#sync",
-    "title": "Detailed Changelog 2026-06-01",
+    "objectID": "changelogs/changelog-2025-06-09.html#ingest",
+    "href": "changelogs/changelog-2025-06-09.html#ingest",
+    "title": "Detailed Changelog 2025-06-09",
     "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nTemporarily disable syncing files to CSC as the sda-stack is no longer compatible with the older CEPH version running on the CSC side, and instead back up files to a second location on the NBIS side\n\nOnce CSC confirms they have updated the CEPH version running on their side, we will plan on enabling syncing to CSC again, including backporting the syncing of all files backed up to the second location on the NBIS side since this release"
-  },
-  {
-    "objectID": "changelogs/changelog-2026-06-01.html#verify",
-    "href": "changelogs/changelog-2026-06-01.html#verify",
-    "title": "Detailed Changelog 2026-06-01",
-    "section": "",
-    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
-  },
-  {
-    "objectID": "changelogs/changelog-2026-06-01.html#common",
-    "href": "changelogs/changelog-2026-06-01.html#common",
-    "title": "Detailed Changelog 2026-06-01",
-    "section": "",
-    "text": "Update Go to version 1.25. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2276\nNew multiple storage backends library. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2162\n\nFix bug in library to support TLS. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2217\n\nFix linter issues across multiple services. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2257\nAdd RotateKey service documentation to the sda documentation. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2288"
-  },
-  {
-    "objectID": "changelogs/changelog-2025-12-16.html",
-    "href": "changelogs/changelog-2025-12-16.html",
-    "title": "Detailed Changelog 2025-12-16",
-    "section": "",
-    "text": "[sda-admin] Using UUID for ingest and finalize by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/2026\n[SDA] ingestion pipeline database improvements by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2115\n[SDA] bugfix fix sda-download range header issues by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2126\n[SDA] bugfix correlation_id_deprecation_mig_fix by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2134\n[SDA] Prevent starting with an old DB schema by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2138\n\nFull Changelog: https://github.com/neicnordic/sensitive-data-archive/compare/v3.0.31…v3.1.0"
-  },
-  {
-    "objectID": "changelogs/changelog-2025-12-16.html#whats-changed",
-    "href": "changelogs/changelog-2025-12-16.html#whats-changed",
-    "title": "Detailed Changelog 2025-12-16",
-    "section": "",
-    "text": "[sda-admin] Using UUID for ingest and finalize by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/2026\n[SDA] ingestion pipeline database improvements by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2115\n[SDA] bugfix fix sda-download range header issues by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2126\n[SDA] bugfix correlation_id_deprecation_mig_fix by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2134\n[SDA] Prevent starting with an old DB schema by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2138\n\nFull Changelog: https://github.com/neicnordic/sensitive-data-archive/compare/v3.0.31…v3.1.0"
-  },
-  {
-    "objectID": "maintenance_window.html",
-    "href": "maintenance_window.html",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "This update focuses on backend scalability (enabling multiple storage backends) and enhanced security (key rotation and expiry). There are no major functional changes for end-users, though some API error handling and download stability improvements are included.\nWe’re also planning to start demo a new download service, but the current download will continue to be the primary method for download of datasets.\nDetailed Changelog\n\n\n\nExtraordinary maintenence window on the 16th to improve database performance. This will speed up submission handling a lot. Detailed changelog will come.\nDetailed Changelog\n\n\n\nOn Monday 6th of October, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog\n\n\n\nOn Monday 9th of June, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog\n\n\n\nOn Monday 3rd of March, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nWhile this update is mostly for updating our internal services to improve submission automation there is on change to services that are relevant to BigPicture users are listed below.\n\nThe repository’s public key is now available as a base64 encoded string form the login pages info endpoint https://login.bp.nbis.se/info\n\nDetailed Changelog\n\n\n\nOn Monday 30th of September, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nChanges to services that are relevant to BigPicture users and/or the helpdesk team are listed below.\n\n\nNew service for accessing datasets in the BigPicture repository. Now it’s not necessary to use the work-around with sending emails and public keys but instead once you’ve gotten access to a dataset in REMS you can access it directly via sda-cli (version 0.1.2).\nThe download service currently supports downloading both decrypted files or files encrypted with your public key directly to your environment.\n\n\n\nIt is now possible to provide the the authentication token in the environment instead of having it in the configuration file (version 0.1.3).\n\n\n\nCorrect branding for authentication services in the login portal"
-  },
-  {
-    "objectID": "maintenance_window.html#section",
-    "href": "maintenance_window.html#section",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "This update focuses on backend scalability (enabling multiple storage backends) and enhanced security (key rotation and expiry). There are no major functional changes for end-users, though some API error handling and download stability improvements are included.\nWe’re also planning to start demo a new download service, but the current download will continue to be the primary method for download of datasets.\nDetailed Changelog"
-  },
-  {
-    "objectID": "maintenance_window.html#section-1",
-    "href": "maintenance_window.html#section-1",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "Extraordinary maintenence window on the 16th to improve database performance. This will speed up submission handling a lot. Detailed changelog will come.\nDetailed Changelog"
-  },
-  {
-    "objectID": "maintenance_window.html#section-2",
-    "href": "maintenance_window.html#section-2",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "On Monday 6th of October, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog"
-  },
-  {
-    "objectID": "maintenance_window.html#section-3",
-    "href": "maintenance_window.html#section-3",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "On Monday 9th of June, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog"
-  },
-  {
-    "objectID": "maintenance_window.html#section-4",
-    "href": "maintenance_window.html#section-4",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "On Monday 3rd of March, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nWhile this update is mostly for updating our internal services to improve submission automation there is on change to services that are relevant to BigPicture users are listed below.\n\nThe repository’s public key is now available as a base64 encoded string form the login pages info endpoint https://login.bp.nbis.se/info\n\nDetailed Changelog"
-  },
-  {
-    "objectID": "maintenance_window.html#section-5",
-    "href": "maintenance_window.html#section-5",
-    "title": "Maintenance Window",
-    "section": "",
-    "text": "On Monday 30th of September, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nChanges to services that are relevant to BigPicture users and/or the helpdesk team are listed below.\n\n\nNew service for accessing datasets in the BigPicture repository. Now it’s not necessary to use the work-around with sending emails and public keys but instead once you’ve gotten access to a dataset in REMS you can access it directly via sda-cli (version 0.1.2).\nThe download service currently supports downloading both decrypted files or files encrypted with your public key directly to your environment.\n\n\n\nIt is now possible to provide the the authentication token in the environment instead of having it in the configuration file (version 0.1.3).\n\n\n\nCorrect branding for authentication services in the login portal"
-  },
-  {
-    "objectID": "metrics/index.html",
-    "href": "metrics/index.html",
-    "title": "Repository Metrics",
-    "section": "",
-    "text": "Metrics displayed for datasets that are clinical and anonymized. Datasets that are non-clinical or contain personal data currently not included."
+    "text": "Check for keyhash on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/1189"
   },
   {
     "objectID": "changelogs/changelog-2025-03-03.html",
@@ -978,156 +806,361 @@
     "text": "Fix sync and sync-api deployments by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/867\nAdd charts install instructions readme by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/971\nFeature/admin api charts by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/972\nAdd nginx-affinity label to ingress templates in the SDA-SVC chart. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/904\nAdd more review suggestions for chart README by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/984"
   },
   {
-    "objectID": "changelogs/changelog-2025-06-09.html",
-    "href": "changelogs/changelog-2025-06-09.html",
-    "title": "Detailed Changelog 2025-06-09",
+    "objectID": "metrics/index.html",
+    "href": "metrics/index.html",
+    "title": "Repository Metrics",
     "section": "",
-    "text": "List datasets by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1119\nAdd endpoint to re-verify an entire dataset by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1121\nEnable re-verification of a file by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1120\nDelete file by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/1122\n\n\n\n\n\nSave userinfo to db by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1099\n\n\n\n\n\nCheck for keyhash on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/1189"
+    "text": "Metrics displayed for datasets that are clinical and anonymized. Datasets that are non-clinical or contain personal data currently not included."
   },
   {
-    "objectID": "changelogs/changelog-2025-06-09.html#admin-api",
-    "href": "changelogs/changelog-2025-06-09.html#admin-api",
-    "title": "Detailed Changelog 2025-06-09",
+    "objectID": "maintenance_window.html",
+    "href": "maintenance_window.html",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "List datasets by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1119\nAdd endpoint to re-verify an entire dataset by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1121\nEnable re-verification of a file by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1120\nDelete file by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/1122"
+    "text": "This update focuses on backend scalability (enabling multiple storage backends) and enhanced security (key rotation and expiry). There are no major functional changes for end-users, though some API error handling and download stability improvements are included.\nWe’re also planning to start demo a new download service, but the current download will continue to be the primary method for download of datasets.\nDetailed Changelog\n\n\n\nExtraordinary maintenence window on the 16th to improve database performance. This will speed up submission handling a lot. Detailed changelog will come.\nDetailed Changelog\n\n\n\nOn Monday 6th of October, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog\n\n\n\nOn Monday 9th of June, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog\n\n\n\nOn Monday 3rd of March, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nWhile this update is mostly for updating our internal services to improve submission automation there is on change to services that are relevant to BigPicture users are listed below.\n\nThe repository’s public key is now available as a base64 encoded string form the login pages info endpoint https://login.bp.nbis.se/info\n\nDetailed Changelog\n\n\n\nOn Monday 30th of September, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nChanges to services that are relevant to BigPicture users and/or the helpdesk team are listed below.\n\n\nNew service for accessing datasets in the BigPicture repository. Now it’s not necessary to use the work-around with sending emails and public keys but instead once you’ve gotten access to a dataset in REMS you can access it directly via sda-cli (version 0.1.2).\nThe download service currently supports downloading both decrypted files or files encrypted with your public key directly to your environment.\n\n\n\nIt is now possible to provide the the authentication token in the environment instead of having it in the configuration file (version 0.1.3).\n\n\n\nCorrect branding for authentication services in the login portal"
   },
   {
-    "objectID": "changelogs/changelog-2025-06-09.html#auth",
-    "href": "changelogs/changelog-2025-06-09.html#auth",
-    "title": "Detailed Changelog 2025-06-09",
+    "objectID": "maintenance_window.html#section",
+    "href": "maintenance_window.html#section",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Save userinfo to db by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1099"
+    "text": "This update focuses on backend scalability (enabling multiple storage backends) and enhanced security (key rotation and expiry). There are no major functional changes for end-users, though some API error handling and download stability improvements are included.\nWe’re also planning to start demo a new download service, but the current download will continue to be the primary method for download of datasets.\nDetailed Changelog"
   },
   {
-    "objectID": "changelogs/changelog-2025-06-09.html#ingest",
-    "href": "changelogs/changelog-2025-06-09.html#ingest",
-    "title": "Detailed Changelog 2025-06-09",
+    "objectID": "maintenance_window.html#section-1",
+    "href": "maintenance_window.html#section-1",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Check for keyhash on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/1189"
+    "text": "Extraordinary maintenence window on the 16th to improve database performance. This will speed up submission handling a lot. Detailed changelog will come.\nDetailed Changelog"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html",
-    "href": "changelogs/changelog-2025-10-06.html",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "maintenance_window.html#section-2",
+    "href": "maintenance_window.html#section-2",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Return stable ID as part of the file info response. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1506\nDownload re-encrypted file from the inbox by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1627\nOptimize db queries for /users and /files by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1792\nReduce verbose logging from GIN by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1799\nExplicit audit trail in the logs by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/issues/1847\nUse fileids instead of paths when working with the repository by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/1934\nSpecify dataset when listing files by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1903\n\n\n\n\n\nServe both raw (for download) and resigned (for upload) tokens by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1362\nFix blank page on failed ega login by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1460\n\n\n\n\n\nAllow starting without backup enabled by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1879\n\n\n\n\n\nConfigurable s3 endpoint for download by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1163\nTidier gin logs by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1266\nFix/latest linter suggestions by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1790\n\n\n\n\n\nSupport multiple C4GH keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1197\nWait for delays from s3 by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1483\nRefactor main work loop by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1526\nEnsure cryp4gh keys are loaded on startup. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1663\nRegister configured C4GH keys on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1794\n\n\n\n\n\nPersist fileID over changes of the service instance by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1357\nSend remove message on overwrite by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1543\nStore uploaded file size in db by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1571\n\n\n\n\n\nSupport multiple private keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1235\nMore robust against getting stuck in broker message loops by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1600\n\n\n\n\n\nUpdate Go to version 1.24 by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1429\nAdd test step to append files to a dataset. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1507\nUpdate constraint to also include the submission user by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1594\nAdjust log levels by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1764\nRemove string concatenations from SQL queries. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1797\nEnsure all switches have a default case by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1818\nInclude file-id in loginfo by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857\nDo not leak submitter ids from download by @jbygdell and @MalinAhlberg https://github.com/neicnordic/sensitive-data-archive/pull/1601\nInclude fileid in log information by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857"
+    "text": "On Monday 6th of October, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#admin-api",
-    "href": "changelogs/changelog-2025-10-06.html#admin-api",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "maintenance_window.html#section-3",
+    "href": "maintenance_window.html#section-3",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Return stable ID as part of the file info response. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1506\nDownload re-encrypted file from the inbox by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1627\nOptimize db queries for /users and /files by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1792\nReduce verbose logging from GIN by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1799\nExplicit audit trail in the logs by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/issues/1847\nUse fileids instead of paths when working with the repository by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/1934\nSpecify dataset when listing files by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1903"
+    "text": "On Monday 9th of June, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nThis time there will be no user facing changes, we will add an option for administrators to be able to re-verify uploaded files in the system.\nDetailed Changelog"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#auth",
-    "href": "changelogs/changelog-2025-10-06.html#auth",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "maintenance_window.html#section-4",
+    "href": "maintenance_window.html#section-4",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Serve both raw (for download) and resigned (for upload) tokens by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1362\nFix blank page on failed ega login by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1460"
+    "text": "On Monday 3rd of March, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nWhile this update is mostly for updating our internal services to improve submission automation there is on change to services that are relevant to BigPicture users are listed below.\n\nThe repository’s public key is now available as a base64 encoded string form the login pages info endpoint https://login.bp.nbis.se/info\n\nDetailed Changelog"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#finalize",
-    "href": "changelogs/changelog-2025-10-06.html#finalize",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "maintenance_window.html#section-5",
+    "href": "maintenance_window.html#section-5",
+    "title": "Maintenance Window",
     "section": "",
-    "text": "Allow starting without backup enabled by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1879"
+    "text": "On Monday 30th of September, we will begin maintenance work on the BigPicuture infrastructure. During this time, disruptions to the availability of SDA services may be observed. We will do our best to keep the downtime to a minimum. A notification will be sent out when work is finished. Maintenance work will mainly consist of updating running services to their latest stable version.\nChanges to services that are relevant to BigPicture users and/or the helpdesk team are listed below.\n\n\nNew service for accessing datasets in the BigPicture repository. Now it’s not necessary to use the work-around with sending emails and public keys but instead once you’ve gotten access to a dataset in REMS you can access it directly via sda-cli (version 0.1.2).\nThe download service currently supports downloading both decrypted files or files encrypted with your public key directly to your environment.\n\n\n\nIt is now possible to provide the the authentication token in the environment instead of having it in the configuration file (version 0.1.3).\n\n\n\nCorrect branding for authentication services in the login portal"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#download",
-    "href": "changelogs/changelog-2025-10-06.html#download",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "changelogs/changelog-2025-12-16.html",
+    "href": "changelogs/changelog-2025-12-16.html",
+    "title": "Detailed Changelog 2025-12-16",
     "section": "",
-    "text": "Configurable s3 endpoint for download by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1163\nTidier gin logs by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1266\nFix/latest linter suggestions by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1790"
+    "text": "[sda-admin] Using UUID for ingest and finalize by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/2026\n[SDA] ingestion pipeline database improvements by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2115\n[SDA] bugfix fix sda-download range header issues by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2126\n[SDA] bugfix correlation_id_deprecation_mig_fix by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2134\n[SDA] Prevent starting with an old DB schema by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2138\n\nFull Changelog: https://github.com/neicnordic/sensitive-data-archive/compare/v3.0.31…v3.1.0"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#ingest",
-    "href": "changelogs/changelog-2025-10-06.html#ingest",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "changelogs/changelog-2025-12-16.html#whats-changed",
+    "href": "changelogs/changelog-2025-12-16.html#whats-changed",
+    "title": "Detailed Changelog 2025-12-16",
     "section": "",
-    "text": "Support multiple C4GH keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1197\nWait for delays from s3 by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1483\nRefactor main work loop by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1526\nEnsure cryp4gh keys are loaded on startup. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1663\nRegister configured C4GH keys on startup by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1794"
+    "text": "[sda-admin] Using UUID for ingest and finalize by @kostas-kou in https://github.com/neicnordic/sensitive-data-archive/pull/2026\n[SDA] ingestion pipeline database improvements by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2115\n[SDA] bugfix fix sda-download range header issues by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2126\n[SDA] bugfix correlation_id_deprecation_mig_fix by @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2134\n[SDA] Prevent starting with an old DB schema by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2138\n\nFull Changelog: https://github.com/neicnordic/sensitive-data-archive/compare/v3.0.31…v3.1.0"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#s3inbox",
-    "href": "changelogs/changelog-2025-10-06.html#s3inbox",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "changelogs/changelog-2026-06-01.html",
+    "href": "changelogs/changelog-2026-06-01.html",
+    "title": "Detailed Changelog 2026-06-01",
     "section": "",
-    "text": "Persist fileID over changes of the service instance by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1357\nSend remove message on overwrite by @MalinAhlberg in https://github.com/neicnordic/sensitive-data-archive/pull/1543\nStore uploaded file size in db by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1571"
+    "text": "Add new command for key rotation. By @pahatz in https://github.com/neicnordic/sensitive-data-archive/pull/2058\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nReturn 403 if user attempts to download non-existing data or data which user does not have access to. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2317\n\nPreviously returned a List of the datasets user had access to when such was attempted.\n\nFix code lint issues. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2179\nEnable Htsget-rs functionalities\n\nSupport Htsget-Context-Public-Key header. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2226\n\nFix possible issue with downloading bigger files(&gt;1gb). By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2402\n\n\n\n\n\nNew download-v2 API specification. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2232\nNew download-v2 API implementation. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2187\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\nBugfix populate backup location and path. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2342\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nNew admin service to support rotating private key used to encrypt a dataset. By @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1918\nAdd backup of headers before rotating of key. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2164\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nUse postgres instead of in memory cache for file multi part uploads. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2382\n\nMore strict S3 action detection, supported S3 actions are: GetBucketLocation, ListObjects, ListObjectsV2, PutObject, UploadPart, CreateMultiPartUpload, CompleteMultiPartUpload, AbortMultiPartUpload, ListMultiPartUpload, ListParts\nReturn generic error messages on errors\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nTemporarily disable syncing files to CSC as the sda-stack is no longer compatible with the older CEPH version running on the CSC side, and instead back up files to a second location on the NBIS side\n\nOnce CSC confirms they have updated the CEPH version running on their side, we will plan on enabling syncing to CSC again, including backporting the syncing of all files backed up to the second location on the NBIS side since this release\n\n\n\n\n\n\nMultiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\n\n\n\n\nUpdate Go to version 1.25. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2276\nNew multiple storage backends library. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2162\n\nFix bug in library to support TLS. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2217\n\nFix linter issues across multiple services. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2257\nAdd RotateKey service documentation to the sda documentation. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2288"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#verify",
-    "href": "changelogs/changelog-2025-10-06.html#verify",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "changelogs/changelog-2026-06-01.html#admin-api",
+    "href": "changelogs/changelog-2026-06-01.html#admin-api",
+    "title": "Detailed Changelog 2026-06-01",
     "section": "",
-    "text": "Support multiple private keys by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1235\nMore robust against getting stuck in broker message loops by @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1600"
+    "text": "Add new command for key rotation. By @pahatz in https://github.com/neicnordic/sensitive-data-archive/pull/2058"
   },
   {
-    "objectID": "changelogs/changelog-2025-10-06.html#common",
-    "href": "changelogs/changelog-2025-10-06.html#common",
-    "title": "Detailed Changelog 2025-10-06",
+    "objectID": "changelogs/changelog-2026-06-01.html#api",
+    "href": "changelogs/changelog-2026-06-01.html#api",
+    "title": "Detailed Changelog 2026-06-01",
     "section": "",
-    "text": "Update Go to version 1.24 by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1429\nAdd test step to append files to a dataset. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1507\nUpdate constraint to also include the submission user by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1594\nAdjust log levels by @zeidlitz in https://github.com/neicnordic/sensitive-data-archive/pull/1764\nRemove string concatenations from SQL queries. by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1797\nEnsure all switches have a default case by @jbygdell in https://github.com/neicnordic/sensitive-data-archive/pull/1818\nInclude file-id in loginfo by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857\nDo not leak submitter ids from download by @jbygdell and @MalinAhlberg https://github.com/neicnordic/sensitive-data-archive/pull/1601\nInclude fileid in log information by @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/1857"
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
   },
   {
-    "objectID": "compute/analysis/index.html",
-    "href": "compute/analysis/index.html",
-    "title": "Analysis",
+    "objectID": "changelogs/changelog-2026-06-01.html#download",
+    "href": "changelogs/changelog-2026-06-01.html#download",
+    "title": "Detailed Changelog 2026-06-01",
     "section": "",
-    "text": "Request Services for on-platform data use such as Cytomine"
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nReturn 403 if user attempts to download non-existing data or data which user does not have access to. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2317\n\nPreviously returned a List of the datasets user had access to when such was attempted.\n\nFix code lint issues. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2179\nEnable Htsget-rs functionalities\n\nSupport Htsget-Context-Public-Key header. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2226\n\nFix possible issue with downloading bigger files(&gt;1gb). By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2402"
   },
   {
-    "objectID": "datasets/submission/install-package.html",
-    "href": "datasets/submission/install-package.html",
-    "title": "C. install package",
+    "objectID": "changelogs/changelog-2026-06-01.html#download-v2",
+    "href": "changelogs/changelog-2026-06-01.html#download-v2",
+    "title": "Detailed Changelog 2026-06-01",
     "section": "",
-    "text": "Clone the submission pipeline repository and pull the prebuilt container images from GitHub Container Registry.",
+    "text": "New download-v2 API specification. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2232\nNew download-v2 API implementation. By @jhagberg in https://github.com/neicnordic/sensitive-data-archive/pull/2187"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#finalize",
+    "href": "changelogs/changelog-2026-06-01.html#finalize",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\n\nBugfix populate backup location and path. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2342"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#ingest",
+    "href": "changelogs/changelog-2026-06-01.html#ingest",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#mapper",
+    "href": "changelogs/changelog-2026-06-01.html#mapper",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#rotatekey",
+    "href": "changelogs/changelog-2026-06-01.html#rotatekey",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "New admin service to support rotating private key used to encrypt a dataset. By @aaperis in https://github.com/neicnordic/sensitive-data-archive/pull/1918\nAdd backup of headers before rotating of key. By @nanjiangshu in https://github.com/neicnordic/sensitive-data-archive/pull/2164"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#s3inbox",
+    "href": "changelogs/changelog-2026-06-01.html#s3inbox",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nUse postgres instead of in memory cache for file multi part uploads. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2382\n\nMore strict S3 action detection, supported S3 actions are: GetBucketLocation, ListObjects, ListObjectsV2, PutObject, UploadPart, CreateMultiPartUpload, CompleteMultiPartUpload, AbortMultiPartUpload, ListMultiPartUpload, ListParts\nReturn generic error messages on errors"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#sync",
+    "href": "changelogs/changelog-2026-06-01.html#sync",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244\nTemporarily disable syncing files to CSC as the sda-stack is no longer compatible with the older CEPH version running on the CSC side, and instead back up files to a second location on the NBIS side\n\nOnce CSC confirms they have updated the CEPH version running on their side, we will plan on enabling syncing to CSC again, including backporting the syncing of all files backed up to the second location on the NBIS side since this release"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#verify",
+    "href": "changelogs/changelog-2026-06-01.html#verify",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Multiple storage backends support. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2244"
+  },
+  {
+    "objectID": "changelogs/changelog-2026-06-01.html#common",
+    "href": "changelogs/changelog-2026-06-01.html#common",
+    "title": "Detailed Changelog 2026-06-01",
+    "section": "",
+    "text": "Update Go to version 1.25. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2276\nNew multiple storage backends library. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2162\n\nFix bug in library to support TLS. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2217\n\nFix linter issues across multiple services. By @KarlG-nbis in https://github.com/neicnordic/sensitive-data-archive/pull/2257\nAdd RotateKey service documentation to the sda documentation. By @jBygdell in https://github.com/neicnordic/sensitive-data-archive/pull/2288"
+  },
+  {
+    "objectID": "compute/ai-training/index.html",
+    "href": "compute/ai-training/index.html",
+    "title": "AI Training",
+    "section": "",
+    "text": "Guidance on how to procure on-platform GPU HPC resources"
+  },
+  {
+    "objectID": "datasets/submission/key-concepts.html",
+    "href": "datasets/submission/key-concepts.html",
+    "title": "Key concepts",
+    "section": "",
+    "text": "A handful of words appear throughout this manual. This page defines each one in plain language, in the order you meet it, so the steps make sense when you reach them.",
     "crumbs": [
-      "Implementation",
-      "C. install package"
+      "Start here",
+      "Key concepts"
     ]
   },
   {
-    "objectID": "datasets/submission/install-package.html#clone-the-repository",
-    "href": "datasets/submission/install-package.html#clone-the-repository",
-    "title": "C. install package",
-    "section": "1. Clone the repository",
-    "text": "1. Clone the repository\n\n\n\n\n\n\nWindows: use Git Bash\n\n\n\nOpen Git Bash (installed with Git for Windows in step A). All make commands in this manual must be run in Git Bash, not PowerShell.\n\n\ngit clone --recurse-submodules https://github.com/imi-bigpicture/bp-submission-pipeline.git\ncd bp-submission-pipeline\n\n\n\n\n\n\nWhat are submodules?\n\n\n\nThe pipeline bundles several companion components (web app, data model, and submission CLI) as Git submodules — without --recurse-submodules those folders arrive empty and the pipeline will not start.\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls bigpicture-metadata-interface\nYou should see files listed inside the folder, not an empty directory.\n\n\n\n\n\n\n\n\nYou are now inside bp-submission-pipeline/\n\n\n\nAll commands from here through step J are run from this directory. If you open a new terminal, run cd bp-submission-pipeline before continuing.",
+    "objectID": "datasets/submission/key-concepts.html#model.json",
+    "href": "datasets/submission/key-concepts.html#model.json",
+    "title": "Key concepts",
+    "section": "model.json",
+    "text": "model.json\nA file that describes the structure of a BigPicture-compatible dataset: what types of data it can contain (specimens, observations, images) and how they relate to each other. For most sites the provided default works unchanged.\n→ You supply this file at E. Reference data.",
     "crumbs": [
-      "Implementation",
-      "C. install package"
+      "Start here",
+      "Key concepts"
     ]
   },
   {
-    "objectID": "datasets/submission/install-package.html#pull-the-container-images",
-    "href": "datasets/submission/install-package.html#pull-the-container-images",
-    "title": "C. install package",
-    "section": "2. Pull the container images",
-    "text": "2. Pull the container images\nmake pull\n\n\n\n\n\n\nVerify\n\n\n\ndocker image ls | grep ghcr.io/imi-bigpicture/bp-submission-pipeline\nExpected: one or more ghcr.io/imi-bigpicture/bp-submission-pipeline/... images listed.",
+    "objectID": "datasets/submission/key-concepts.html#mapper-workbook-mappers.xlsx",
+    "href": "datasets/submission/key-concepts.html#mapper-workbook-mappers.xlsx",
+    "title": "Key concepts",
+    "section": "Mapper workbook (mappers.xlsx)",
+    "text": "Mapper workbook (mappers.xlsx)\nA spreadsheet you fill in for your site that translates your institution’s labels, codes, and field names into the vocabulary BigPicture expects. Each site has its own mapper workbook.\n→ You prepare and provide this at E. Reference data.",
     "crumbs": [
-      "Implementation",
-      "C. install package"
+      "Start here",
+      "Key concepts"
     ]
   },
   {
-    "objectID": "datasets/submission/install-package.html#if-something-goes-wrong",
-    "href": "datasets/submission/install-package.html#if-something-goes-wrong",
-    "title": "C. install package",
+    "objectID": "datasets/submission/key-concepts.html#metadata-workbook",
+    "href": "datasets/submission/key-concepts.html#metadata-workbook",
+    "title": "Key concepts",
+    "section": "Metadata workbook",
+    "text": "Metadata workbook\nThe Excel file you create for each submission. It contains the contextual metadata for your dataset: specimens, observations, whole-slide images, and their relationships. This is your data — the pipeline ingests it and uses it to build the submission.\n→ You upload this in H. Run a submission.",
+    "crumbs": [
+      "Start here",
+      "Key concepts"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/key-concepts.html#project",
+    "href": "datasets/submission/key-concepts.html#project",
+    "title": "Key concepts",
+    "section": "Project",
+    "text": "Project\nA container you create in the SlideTap UI that holds everything for one upload attempt — its dataset definition and one or more batches. Think of a project as “one dataset going through the pipeline.”\n→ You create a project in H. Run a submission.",
+    "crumbs": [
+      "Start here",
+      "Key concepts"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/key-concepts.html#dataset",
+    "href": "datasets/submission/key-concepts.html#dataset",
+    "title": "Key concepts",
+    "section": "Dataset",
+    "text": "Dataset\nThe named entity within your project that becomes the dataset record in BigPicture. This is where you define secondary information: the policy, the metadata standard version, the type of dataset, and so on. The dataset’s identifier (short name) becomes the folder name of your SlideTap outbox.\n→ You configure the dataset in H. Run a submission.",
+    "crumbs": [
+      "Start here",
+      "Key concepts"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/key-concepts.html#batch",
+    "href": "datasets/submission/key-concepts.html#batch",
+    "title": "Key concepts",
+    "section": "Batch",
+    "text": "Batch\nA processing run within a project where you ingest your metadata workbook and curate the records through SlideTap. A project can contain multiple batches — for example if your metadata arrives in parts — though a single batch is usually enough.\n→ You create and complete a batch in H. Run a submission.",
+    "crumbs": [
+      "Start here",
+      "Key concepts"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/key-concepts.html#slidetap-outbox",
+    "href": "datasets/submission/key-concepts.html#slidetap-outbox",
+    "title": "Key concepts",
+    "section": "SlideTap outbox",
+    "text": "SlideTap outbox\nThe folder SlideTap writes when a batch finishes its export, named DATASET_&lt;your dataset identifier&gt;. This folder is the direct output of the pipeline: you validate it, fix any errors, and then upload it to BigPicture.\n→ You validate the outbox at I. Validate and upload it at J. Upload to BigPicture.",
+    "crumbs": [
+      "Start here",
+      "Key concepts"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html",
+    "href": "datasets/submission/validate.html",
+    "title": "I. Validate the bundle",
+    "section": "",
+    "text": "Run make validate-upload on your exported bundle before uploading. The gate checks structure, schema, and file references in both directions — anything it catches here saves a rejection post upload. The gate runs on the unencrypted bundle; bp-submitter handles encryption and upload in stage J.",
+    "crumbs": [
+      "Implementation",
+      "I. Validate the bundle"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html#what-it-checks",
+    "href": "datasets/submission/validate.html#what-it-checks",
+    "title": "I. Validate the bundle",
+    "section": "What it checks",
+    "text": "What it checks\nThe gate runs five checks in order and stops at the first failure:\n\n\n\n\n\n\n\nCheck\nWhat it looks for\n\n\n\n\nStructure\nRoot dir named DATASET_&lt;alias&gt;; required folders (METADATA/, LANDING_PAGE/, PRIVATE/) present; required metadata XML files present. The LANDING_PAGE/ folder is required, but a missing landing_page.xml inside it is a WARN, not a FAIL\n\n\nXSD schema (BPInterface.validate)\nMetadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact\n\n\nExtended schema\nstaining.xml and landing_page.xml validated against their XSDs separately (the underlying library skips them)\n\n\nForward references\nEvery annotation and landing-page thumbnail file named in metadata actually exists on disk\n\n\nReverse references (orphans)\nEvery file in IMAGES/, ANNOTATIONS/, and LANDING_PAGE/THUMBNAILS/ is referenced by at least one metadata entity\n\n\n\n\n\n\n\n\n\nLanding page is a warning, not a requirement\n\n\n\nThe LANDING_PAGE/ folder is required, but landing_page.xml inside it is optional: if it is absent, the gate prints a WARN and still passes. If a landing_page.xml is present, it must still validate against its XSD or the gate FAILs.",
+    "crumbs": [
+      "Implementation",
+      "I. Validate the bundle"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html#run-it",
+    "href": "datasets/submission/validate.html#run-it",
+    "title": "I. Validate the bundle",
+    "section": "Run it",
+    "text": "Run it\nFrom the pipeline root directory:\n\nWindowsmacOSLinux\n\n\nIn Git Bash, run:\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\nmake validate-upload DATASET=&lt;path-to-DATASET_alias&gt;\n\n\n\nReplace &lt;path-to-DATASET_alias&gt; with the full path to your DATASET_&lt;alias&gt; bundle directory.\n\n\n\n\n\n\nVerify\n\n\n\nA passing run prints one line and exits 0:\nvalidate-upload PASSED: /path/to/DATASET_&lt;alias&gt;\nA run can print a WARN line and still pass. The most common one is the absent landing page:\nWARN  landing_page.xml absent (optional; see #69)\nvalidate-upload PASSED: /path/to/DATASET_&lt;alias&gt;\nA failing run names the offending file or rule:\nFAIL  missing required folder: METADATA\nvalidate-upload FAILED: /path/to/DATASET_&lt;alias&gt; (1 structure problem(s))\nOnly a validate-upload PASSED line means you are clear to upload.",
+    "crumbs": [
+      "Implementation",
+      "I. Validate the bundle"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html#how-to-read-a-failure",
+    "href": "datasets/submission/validate.html#how-to-read-a-failure",
+    "title": "I. Validate the bundle",
+    "section": "How to read a failure",
+    "text": "How to read a failure\nEvery failure line starts with FAIL and names the file or rule that failed. The final line names the check category and the count.\nFAIL  &lt;rule or file description&gt;\nvalidate-upload FAILED: &lt;bundle path&gt; (&lt;N&gt; &lt;category&gt;)\nRead the output text, not the exit code. When calling via make validate-upload, GNU make returns exit 2 on any recipe failure regardless of whether the underlying issue is a validation problem or a missing directory — the 1-vs-2 distinction from the script does not surface reliably. Instead, read the final output line: validate-upload PASSED means you are clear to upload; any FAIL line names the specific problem. Exit code 0 still means everything passed.",
+    "crumbs": [
+      "Implementation",
+      "I. Validate the bundle"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html#worked-examples",
+    "href": "datasets/submission/validate.html#worked-examples",
+    "title": "I. Validate the bundle",
+    "section": "Worked examples",
+    "text": "Worked examples\n\nExample 1 — wrong bundle root name\nYou pass a project export directory instead of the DATASET_&lt;alias&gt; folder inside it:\nFAIL  dataset root must be named DATASET_&lt;alias&gt;, got 'my-project.abc123'\nvalidate-upload FAILED: /data/storage/my-project.abc123 (1 structure problem(s))\nFix: Pass the DATASET_&lt;alias&gt; subdirectory, not its parent.\n\n\nExample 2 — missing required metadata file\nA required XML file was not written by the export (e.g. the export failed partway through):\nFAIL  missing required file: METADATA/dataset.xml\nvalidate-upload FAILED: /data/storage/DATASET_myslides (1 structure problem(s))\nFix: Re-export the bundle from the slidetap UI (stage H, step 9). If the export appears to complete but the file is still missing, check make logs for errors in the export worker.\n\n\nExample 3 — orphan file in IMAGES/\nA DICOM file is present on disk but not referenced by any metadata entity. This can happen if a slide was excluded after export:\nFAIL  unreferenced file not in metadata: /data/storage/DATASET_myslides/IMAGES/slide_07.dcm\nvalidate-upload FAILED: /data/storage/DATASET_myslides (1 orphan file(s))\nFix: Either add the file to the metadata (re-export with the slide included) or remove the stray file from the bundle. Do not upload a bundle with orphan files — the submitter will reject it.",
+    "crumbs": [
+      "Implementation",
+      "I. Validate the bundle"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/validate.html#if-something-goes-wrong",
+    "href": "datasets/submission/validate.html#if-something-goes-wrong",
+    "title": "I. Validate the bundle",
     "section": "If something goes wrong",
-    "text": "If something goes wrong\nmake pull fails with “lacks the read:packages scope”\nReturn to B. GitHub access and run gh auth refresh -s read:packages, then try again.\nClone fails with “repository not found” or “access denied”\nYour GitHub account has not been granted access to the private repository. Request access via the servicedesk.\nmake pull fails with “no such file or directory” on /var/run/docker.sock\nThe Docker daemon is not running. Start it and retry:\n\nWindows / macOSLinux\n\n\nLaunch Docker Desktop and wait until the whale icon in the taskbar/menu bar shows “Docker Desktop is running”, then run make pull again.\n\n\nsystemctl start docker\nOn older systems without systemd, use service docker start instead. Then run make pull again.\n\n\n\nSubmodule folders are empty after cloning\nYou cloned without --recurse-submodules. Delete the cloned folder and re-run the full clone command above.",
+    "text": "If something goes wrong\n\nFAIL dataset directory not found — the path you passed to DATASET= does not exist. Double-check the path and ensure the export step completed successfully.\nFAIL missing required folder — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check make logs for export worker errors.\nFAIL schema validation: ... — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your model.json or mappers.xlsx and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place. To pinpoint the offending element by hand, validate the single file with xmllint against the metaflex XSDs — see Validate metadata in the Direct upload section.",
     "crumbs": [
       "Implementation",
-      "C. install package"
+      "I. Validate the bundle"
     ]
   },
   {
-    "objectID": "datasets/submission/reference-data.html",
-    "href": "datasets/submission/reference-data.html",
-    "title": "E. Reference data",
+    "objectID": "datasets/submission/reference-data-model.html",
+    "href": "datasets/submission/reference-data-model.html",
+    "title": "E1. model.json",
     "section": "",
-    "text": "Two files that the pipeline reads on startup to understand your site’s data model and local code vocabulary.\n\nmodel.json — defines the attribute and observation model; copy the default to get started.\nmappers.xlsx — translates your site’s local short codes into BigPicture-standard coded attributes.",
+    "text": "Place the provided default model.json in PIPELINE_REFDATA_DIR so the pipeline has a working attribute and observation model from day one.",
     "crumbs": [
       "Implementation",
-      "E. Reference data"
+      "E. Reference data",
+      "model.json"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-model.html#place-the-default-file",
+    "href": "datasets/submission/reference-data-model.html#place-the-default-file",
+    "title": "E1. model.json",
+    "section": "Place the default file",
+    "text": "Place the default file\nRun make setup-refdata to copy the default model.json into your refdata directory:\nmake setup-refdata\nExpected output (files not yet present):\nSetting up refdata in: ./data/refdata\nCopying mappers.xlsx from bigpicture-slidetap/tests/test_data...\nCopying model.json from bigpicture-slidetap/tests/test_data...\n\nRefdata contents:\n  mappers.xlsx (9.0K)\n  model.json (3.6K)\n\n✓ Setup complete\nIf both files were already present from a previous run:\nSetting up refdata in: ./data/refdata\n✓ mappers.xlsx found\n✓ model.json found\n\nRefdata contents:\n  mappers.xlsx (9.0K)\n  model.json (3.6K)\n\n✓ Setup complete\n\n\n\n\n\n\nVerify\n\n\n\nConfirm both refdata files are in place:\nls ./data/refdata/\nExpected output:\nmappers.xlsx  model.json\nmake doctor checks all preflight conditions including certificates and credentials that have not been created yet. Run the full make doctor check at G. Preflight + boot once all prerequisites are in place.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "model.json"
+    ]
+  },
+  {
+    "objectID": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
+    "href": "datasets/submission/reference-data-model.html#if-something-goes-wrong",
+    "title": "E1. model.json",
+    "section": "If something goes wrong",
+    "text": "If something goes wrong\nFAIL: model.json missing from ... — run make setup-refdata again and confirm model.json appears in PIPELINE_REFDATA_DIR.\nWarning: model.json not found in bigpicture-slidetap/tests/test_data — the pipeline submodule was not initialised. Run:\ngit submodule update --init --recursive\nthen retry make setup-refdata.",
+    "crumbs": [
+      "Implementation",
+      "E. Reference data",
+      "model.json"
     ]
   },
   {

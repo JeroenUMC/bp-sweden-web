@@ -44,15 +44,21 @@ so do them in order the first time.
 | **I** | [Validate the bundle](validate.qmd) | Check the export and learn how to read the errors. |
 | **J** | [Upload to BigPicture](upload.qmd) | Push the validated bundle with `bp-submitter`. |
 
-## How to read this manual
+::: {.callout-tip}
+## Prefer the command line? There's a direct alternative
 
-- **Three operating systems, one manual.** Where a command differs, you'll see
-  **Windows / macOS / Linux** tabs — pick your tab and ignore the rest. See the
-  [page template](contributing/page-template.qmd) for the conventions.
+You don't have to run the `bp-submission-pipeline` at all. If you're comfortable
+on the command line, the [**Direct upload (sda-cli)**](direct-upload/prerequisites.qmd)
+section walks you through preparing, validating, and uploading a dataset
+yourself with `sda-cli` — a leaner path that some uploaders use directly (often
+with another tool in between). It assumes a more technical reader than the A–J
+manual below.
+:::
+
+## How to read this manual
+- **Step by step.** A-G are required for setting up your data pipeline, H-J are for submitting a test set.
 - **Verify as you go.** Most steps end with a *Verify* box: paste the command,
   compare against the expected output, and only move on once it matches.
-- **Linux is the reference path.** Every command-bearing step is validated on a
-  clean Linux machine; Windows and macOS tabs follow the same shape.
 
 ## Need help?
 

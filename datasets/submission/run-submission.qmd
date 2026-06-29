@@ -188,6 +188,19 @@ export-check PASSED
 files and is ready for [I. Validate the bundle](validate.qmd).
 :::
 
+## 10. Prepare the landing page thumbnails
+
+SlideTap writes a `THUMBNAILS/` folder inside the project directory (the images
+you browsed in step 7). These are local validation thumbnails only. The
+submission bundle also needs a `LANDING_PAGE/THUMBNAILS/` folder inside
+`DATASET_<alias>/` with the images you want to appear **publicly** in BigPicture.
+This is a manual step — SlideTap does not populate it automatically.
+
+::: {.callout-warning}
+Everything under `LANDING_PAGE/` is world-visible after submission. Choose
+representative images and avoid frames that carry sensitive information.
+:::
+
 ## If something goes wrong
 
 - **Parse produces no items.** The workbook format does not match the pipeline's

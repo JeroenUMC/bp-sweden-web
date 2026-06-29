@@ -505,7 +505,7 @@ slidetap UI: https://localhost:443  (resolves to 127.0.0.1)</code></pre>
 <li>Open the OpenSlide demo gallery: <a href="https://openslide.org/demo/" class="uri">https://openslide.org/demo/</a>.</li>
 <li>Pick a slide and download it. Some formats are large and slow to download and convert, so <strong>start with a small, single-file Aperio (<code>.svs</code>) slide</strong> — e.g. <strong>Aperio › CMU-1-Small-Region</strong> (a few MB) or <strong>Aperio › CMU-1</strong>. Avoid the MIRAX (<code>.mrxs</code>) and Hamamatsu VMS slides for a first run: they arrive as multi-file bundles and take longer to process.</li>
 <li>Move the downloaded file into your image folder, <code>PIPELINE_IMAGE_ROOT</code> (default <code>./data/images</code> — see <a href="../../datasets/submission/configure.html">D. Configure</a>).</li>
-<li>Open your operator metadata workbook and set the <strong><code>Image path</code></strong> value to the filename you just downloaded (e.g.&nbsp;<code>CMU-1-Small-Region.svs</code>). Pre-process resolves the slide by this path <strong>relative to</strong> <code>PIPELINE_IMAGE_ROOT</code>, so the value must match the file on disk exactly.</li>
+<li>Open <code>tests/data/metadata/metadata.xlsx</code> — the example workbook that ships with the pipeline — and set its <strong><code>Image path</code></strong> cell to the filename you just downloaded (e.g.&nbsp;<code>CMU-1-Small-Region.svs</code>). The shipped value is a placeholder (<code>IMAGE_gold-ref</code>) — replace it with the exact filename on disk. Pre-process resolves the path <strong>relative to</strong> <code>PIPELINE_IMAGE_ROOT</code>.</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">

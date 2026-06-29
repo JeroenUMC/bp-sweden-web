@@ -431,13 +431,25 @@ Work in progress
 <h2 class="anchored" data-anchor-id="place-the-default-file">Place the default file</h2>
 <p>Run <code>make setup-refdata</code> to copy the default <code>model.json</code> into your refdata directory:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> setup-refdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected output (file not yet present):</p>
+<p>Expected output (files not yet present):</p>
 <pre><code>Setting up refdata in: ./data/refdata
+Copying mappers.xlsx from bigpicture-slidetap/tests/test_data...
 Copying model.json from bigpicture-slidetap/tests/test_data...
+
+Refdata contents:
+  mappers.xlsx (9.0K)
+  model.json (3.6K)
+
 ✓ Setup complete</code></pre>
-<p>If <code>model.json</code> was already present from a previous run:</p>
+<p>If both files were already present from a previous run:</p>
 <pre><code>Setting up refdata in: ./data/refdata
+✓ mappers.xlsx found
 ✓ model.json found
+
+Refdata contents:
+  mappers.xlsx (9.0K)
+  model.json (3.6K)
+
 ✓ Setup complete</code></pre>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -449,12 +461,11 @@ Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Paste this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> doctor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>make doctor</code> checks every preflight condition in one pass. A passing model check produces no <code>FAIL</code> line for <code>model.json</code>. If all checks pass, the final line is:</p>
-<pre><code>doctor: OK</code></pre>
-<p>If <code>model.json</code> is missing, you will see:</p>
-<pre><code>FAIL: model.json missing from ./data/refdata (run: make setup-refdata)</code></pre>
+<p>Confirm both refdata files are in place:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ./data/refdata/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output:</p>
+<pre><code>mappers.xlsx  model.json</code></pre>
+<p><code>make doctor</code> checks all preflight conditions including certificates and credentials that have not been created yet. Run the full <code>make doctor</code> check at <a href="../../datasets/submission/boot.html">G. Preflight + boot</a> once all prerequisites are in place.</p>
 </div>
 </div>
 </section>
@@ -462,7 +473,7 @@ Verify
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
 <p><strong><code>FAIL: model.json missing from ...</code></strong> — run <code>make setup-refdata</code> again and confirm <code>model.json</code> appears in <code>PIPELINE_REFDATA_DIR</code>.</p>
 <p><strong><code>Warning: model.json not found in bigpicture-slidetap/tests/test_data</code></strong> — the pipeline submodule was not initialised. Run:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>then retry <code>make setup-refdata</code>.</p>
 
 

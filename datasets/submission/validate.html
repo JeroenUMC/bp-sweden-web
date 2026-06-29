@@ -475,7 +475,7 @@ Adjusting what the gate requires
 <p>Each entry in <code>DatasetFileStructure</code> has a <code>required</code> flag (default <code>True</code>). To make a file optional — for example if your site does not produce <code>landing_page.xml</code> — set <code>required=False</code> on its entry and rebuild:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LANDING_PAGE <span class="op">=</span> DatasetFile(DatasetFolderStructure.LANDING_PAGE, <span class="st">"landing_page.xml"</span>, <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The gate in this repo reads the contract dynamically; no further changes are needed here.</p>
-<p>We mention this because whether <code>LANDING_PAGE</code> is still in dispute.</p>
+<p>Landing page is treated as a warning for now (workgroup discussion #69; tracked in imi-bigpicture/bp-submission-pipeline#70).</p>
 </div>
 </div>
 </div>
@@ -523,7 +523,7 @@ validate-upload FAILED: /path/to/DATASET_&lt;alias&gt; (1 structure problem(s))<
 <p>Every failure line starts with <code>FAIL</code> and names the <strong>file or rule</strong> that failed. The final line names the <strong>check category</strong> and the count.</p>
 <pre><code>FAIL  &lt;rule or file description&gt;
 validate-upload FAILED: &lt;bundle path&gt; (&lt;N&gt; &lt;category&gt;)</code></pre>
-<p>Exit code <code>1</code> means a validation problem was found. Exit code <code>2</code> means the directory itself was not found — check your <code>DATASET=</code> path. Exit code <code>0</code> means everything passed.</p>
+<p><strong>Read the output text, not the exit code.</strong> When calling via <code>make validate-upload</code>, GNU make returns exit 2 on any recipe failure regardless of whether the underlying issue is a validation problem or a missing directory — the 1-vs-2 distinction from the script does not surface reliably. Instead, read the final output line: <code>validate-upload PASSED</code> means you are clear to upload; any <code>FAIL</code> line names the specific problem. Exit code <code>0</code> still means everything passed.</p>
 </section>
 <section id="worked-examples" class="level2">
 <h2 class="anchored" data-anchor-id="worked-examples">Worked examples</h2>

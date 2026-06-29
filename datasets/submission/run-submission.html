@@ -454,7 +454,9 @@ Requires: stack running (step G)
 <p><strong>Mapper groups</strong></p>
 <p>This connects the project to the <code>mappers.xlsx</code> mappings you placed in <a href="../../datasets/submission/reference-data.html">E. Reference data</a>.</p>
 <p><strong>Attributes</strong></p>
-<p>The required fields (marked <code>*</code>) will already be filled in with test values. For a test run we don’t need to do anything else, you can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.</p>
+<p>The required fields (marked <code>*</code>) will already be filled in with test values. You can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.</p>
+<p><strong>Dataset</strong></p>
+<p>Expand the <strong>Dataset</strong> section and change the <strong>Metadata standard</strong> field from its default (<code>0.1.2</code>) to <code>2.0.0</code>. The metaflex XSD validation in <a href="../../datasets/submission/validate.html">I. Validate the bundle</a> requires a <code>2.0.x</code> value — submissions with the default <code>0.1.2</code> fail schema validation.</p>
 <!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
 <!-- TODO: See <TODO: LINK> for an in depth overview of Dataset, and its attibutes. -->
 </section>
@@ -462,7 +464,7 @@ Requires: stack running (step G)
 <h2 class="anchored" data-anchor-id="upload-the-workbook">3. Upload the workbook</h2>
 <p>In the left sidebar under <strong>Batch</strong>, click <strong>Search</strong>.</p>
 <ol type="1">
-<li>Click <strong>Browse</strong> and select your operator metadata workbook (<code>.xlsx</code> or <code>.json</code>).</li>
+<li>Click <strong>Browse</strong> and select <code>tests/data/metadata/metadata.xlsx</code> — the example workbook that ships with the pipeline. Ensure its <strong><code>Image path</code></strong> already points to the slide you placed in step G.4.</li>
 <li>Click <strong>Parse</strong>.</li>
 </ol>
 <p>The batch status changes to <strong>Metadata Searching</strong> while the pipeline reads the workbook and creates items. When parsing finishes, the status becomes <strong>Metadata Search Complete</strong> and the item list populates. You can also check the status under <strong>Search</strong>, where, after a refresh, the Status will read <strong>Complete</strong>.</p>

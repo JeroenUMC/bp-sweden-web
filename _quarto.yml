@@ -124,6 +124,8 @@ website:
           contents:
             - text: Page template & conventions
               file: datasets/submission/contributing/page-template.qmd
+            - text: Testing the pipeline
+              file: datasets/submission/contributing/testing.qmd
     
     - id: access
       title: Access

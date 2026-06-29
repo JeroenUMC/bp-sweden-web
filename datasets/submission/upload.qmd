@@ -2,8 +2,20 @@
 title: J. Upload to BigPicture
 ---
 
-Encrypt and submit your validated bundle to the NBIS inbox with **`bp-submitter`**.
-This is the final step of the operator journey.
+Encrypt and submit your validated bundle to the NBIS **staging** inbox with
+**`bp-submitter`**. This is the final step of the operator journey.
+
+::: {.callout-note}
+## This is a staging (test) upload
+
+The A–J manual is a test submission, so this step uploads to BigPicture's
+**staging** environment — the `s3cmd-inbox.conf` NBIS provides for the manual
+points there. The signed
+[Terms of Use form](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&file=BigPicture%20ToU%20v2.6.docx&action=default&mobileredirect=true)
+*(internal)* is **not** needed for a staging test — you only sign and send it to
+[submit@bigpicture.eu](mailto:submit@bigpicture.eu) before a **production**
+submission.
+:::
 
 ::: {.callout-important}
 ## Precondition: NBIS receiver credentials
@@ -93,7 +105,7 @@ make upload DATASET=<project_dir> THREADS=4
 :::
 
 ## Notify NBIS
-Once your submission is completed, notify NBIS by sending an email. The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+Once your submission is completed, notify NBIS by [sending an email](mailto:{{< var email.helpdesk >}}). The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
 
 The email should contain:
 

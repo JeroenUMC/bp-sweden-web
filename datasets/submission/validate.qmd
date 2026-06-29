@@ -159,4 +159,7 @@ with orphan files — the submitter will reject it.
   the BigPicture XSD schema. This usually indicates a mismatch between your
   `model.json` or `mappers.xlsx` and the current metaflex schema. Check the
   named file and the specific schema error for the attribute or element that
-  is out of place.
+  is out of place. To pinpoint the offending element by hand, validate the
+  single file with `xmllint` against the metaflex XSDs — see
+  [Validate metadata](direct-upload/validate-metadata.qmd) in the Direct upload
+  section.

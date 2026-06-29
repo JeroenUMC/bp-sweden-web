@@ -106,6 +106,16 @@ website:
               file: datasets/submission/validate.qmd
             - text: J. Upload to BigPicture
               file: datasets/submission/upload.qmd
+        - section: Direct upload (sda-cli)
+          contents:
+            - text: Prerequisites
+              file: datasets/submission/direct-upload/prerequisites.qmd
+            - text: Prepare data
+              file: datasets/submission/direct-upload/prepare-data.qmd
+            - text: Validate metadata
+              file: datasets/submission/direct-upload/validate-metadata.qmd
+            - text: Upload (sda-cli)
+              file: datasets/submission/direct-upload/upload.qmd
         - section: Help
           contents:
             - text: Support

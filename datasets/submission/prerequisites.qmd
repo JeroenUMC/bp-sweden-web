@@ -1,7 +1,7 @@
 ---
 title: A. Prerequisites
 ---
-test edit daddafdsfsdafagjhkfhjgkhjkjjkh
+
 Before you can run the submission pipeline your machine needs six tools:
 **Docker + Compose v2**, **Git**, the **GitHub CLI (`gh`)**, **make**,
 **OpenSSL**, and **Python 3.12+**. Each section below gives the install command

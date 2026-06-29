@@ -1,0 +1,185 @@
+---
+title: Upload (sda-cli)
+---
+
+This is the core of the direct path: encrypt your prepared dataset and upload it
+to your BigPicture inbox with `sda-cli`. Work through the steps in order.
+
+::: {.callout-note}
+Make sure `sda-cli` is installed first — see
+[Prerequisites (alternative path)](prerequisites.qmd) — and that your dataset is
+laid out and validated per [Prepare data](prepare-data.qmd) and
+[Validate metadata](validate-metadata.qmd).
+:::
+
+## 0. Test submission (recommended)
+
+We strongly recommend a small test upload to the **staging** environment first,
+so you don't have to re-upload terabytes if something is wrong. Upload two
+images with metadata generated per [Prepare data](prepare-data.qmd) — include
+all XML files, the `PRIVATE` folder (always required), and the `LANDING_PAGE`
+folder (if you want a landing page).
+
+Follow the same steps below, but log in at the
+[staging service](https://staging-login.bp.nbis.se/) instead of production.
+
+## 1. Sign and send the Terms of Use form
+
+Sign the
+[Terms of Use form](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&file=BigPicture%20ToU%20v2.6.docx&action=default&mobileredirect=true)
+*(internal)* and submit it to [submit@bigpicture.eu](mailto:submit@bigpicture.eu).
+
+## 2. Download the encryption key
+
+For BigPicture to read your files, they must be encrypted with the correct
+**public key**. Download it:
+
+::: {.panel-tabset}
+## Windows
+```powershell
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+## macOS
+```bash
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+## Linux
+```bash
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+ls crypt4gh_bp_key.pub
+```
+
+The file should be present in your working directory.
+:::
+
+## 3. Encrypt the files
+
+With the public key in place, encrypt your submission files. `sda-cli` creates
+its own encryption key automatically.
+
+::: {.panel-tabset}
+## Windows
+```powershell
+sda-cli encrypt --key crypt4gh_bp_key.pub <file_1_to_encrypt> <file_2_to_encrypt> ...
+```
+## macOS
+```bash
+./sda-cli encrypt --key crypt4gh_bp_key.pub <file_1_to_encrypt> <file_2_to_encrypt> ...
+```
+## Linux
+```bash
+./sda-cli encrypt --key crypt4gh_bp_key.pub <file_1_to_encrypt> <file_2_to_encrypt> ...
+```
+:::
+
+The tool also writes four checksum files — **save these, you need them during
+submission**:
+
+```
+checksum_encrypted.md5
+checksum_encrypted.sha256
+checksum_unencrypted.md5
+checksum_unencrypted.sha256
+```
+
+::: {.callout-tip}
+## Verify
+
+Each input file should now have an encrypted `.c4gh` counterpart, and the four
+checksum files should exist:
+
+```bash
+ls *.c4gh checksum_*.md5 checksum_*.sha256
+```
+:::
+
+## 4. Download your configuration file and upload
+
+1.  Log in at the [BigPicture login portal](https://login.bp.nbis.se/) and
+    follow the prompts to authenticate. Click **Download credentials to upload
+    to the Inbox** to get your `s3cmd-inbox.conf` file. *(For a test upload, use
+    the [staging service](https://staging-login.bp.nbis.se/) instead.)*
+
+2.  Upload your encrypted files. By default the local folder structure is **not**
+    preserved — all files land in the root of your inbox. Use
+    `--target-directory <path>` to place them in a specific remote folder.
+
+    To upload files individually:
+
+    ::: {.panel-tabset}
+    ## Windows
+    ```powershell
+    sda-cli --config <configuration_file> upload <encrypted_file_1> <encrypted_file_2> ...
+    ```
+    ## macOS
+    ```bash
+    ./sda-cli --config <configuration_file> upload <encrypted_file_1> <encrypted_file_2> ...
+    ```
+    ## Linux
+    ```bash
+    ./sda-cli --config <configuration_file> upload <encrypted_file_1> <encrypted_file_2> ...
+    ```
+    :::
+
+    To upload an entire directory — often more efficient — use the recursive
+    `-r` flag, which **preserves** your local folder structure on the remote
+    server:
+
+    ::: {.panel-tabset}
+    ## Windows
+    ```powershell
+    sda-cli --config <configuration_file> upload -r <folder_to_upload>
+    ```
+    ## macOS
+    ```bash
+    ./sda-cli --config <configuration_file> upload -r <folder_to_upload>
+    ```
+    ## Linux
+    ```bash
+    ./sda-cli --config <configuration_file> upload -r <folder_to_upload>
+    ```
+    :::
+
+::: {.callout-tip}
+## Verify
+
+`sda-cli` reports each file as it finishes uploading. For the full set of
+commands and flags — which may change between versions — consult the tool's
+built-in help, the most reliable reference:
+
+::: {.panel-tabset}
+## Windows
+```powershell
+sda-cli help
+```
+## macOS
+```bash
+./sda-cli help
+```
+## Linux
+```bash
+./sda-cli help
+```
+:::
+:::
+
+## 5. Notify us
+
+When the upload is complete, [email the helpdesk](mailto:{{< var email.helpdesk >}})
+so we know to process it. Use this subject line:
+
+```
+submission - DATASET_{IDENTIFIER}
+```
+
+And include in the body:
+
+- the **name of the uploader**, and
+- the **name of the dataset**.

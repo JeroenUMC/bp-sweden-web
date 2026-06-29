@@ -166,6 +166,17 @@
     ]
   },
   {
+    "objectID": "datasets/submission/run-submission.html#prepare-the-landing-page-thumbnails",
+    "href": "datasets/submission/run-submission.html#prepare-the-landing-page-thumbnails",
+    "title": "H. Run a submission test",
+    "section": "10. Prepare the landing page thumbnails",
+    "text": "10. Prepare the landing page thumbnails\nSlideTap writes a THUMBNAILS/ folder inside the project directory (the images you browsed in step 7). These are local validation thumbnails only. The submission bundle also needs a LANDING_PAGE/THUMBNAILS/ folder inside DATASET_&lt;alias&gt;/ with the images you want to appear publicly in BigPicture. This is a manual step — SlideTap does not populate it automatically.\n\n\n\n\n\n\nWarning\n\n\n\nEverything under LANDING_PAGE/ is world-visible after submission. Choose representative images and avoid frames that carry sensitive information.",
+    "crumbs": [
+      "Implementation",
+      "H. Run a submission"
+    ]
+  },
+  {
     "objectID": "datasets/submission/run-submission.html#if-something-goes-wrong",
     "href": "datasets/submission/run-submission.html#if-something-goes-wrong",
     "title": "H. Run a submission test",

@@ -429,6 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#validate-optional" id="toc-validate-optional" class="nav-link" data-scroll-target="#validate-optional">7. Validate (optional)</a></li>
   <li><a href="#complete-the-batch" id="toc-complete-the-batch" class="nav-link" data-scroll-target="#complete-the-batch">8. Complete the batch</a></li>
   <li><a href="#export-the-bundle" id="toc-export-the-bundle" class="nav-link" data-scroll-target="#export-the-bundle">9. Export the bundle</a></li>
+  <li><a href="#prepare-the-landing-page-thumbnails" id="toc-prepare-the-landing-page-thumbnails" class="nav-link" data-scroll-target="#prepare-the-landing-page-thumbnails">10. Prepare the landing page thumbnails</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -591,6 +592,23 @@ Project: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af
 
 export-check PASSED</code></pre>
 <p><code>export-check PASSED</code> confirms the bundle has metadata XML and DICOM image files and is ready for <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.</p>
+</div>
+</div>
+</section>
+<section id="prepare-the-landing-page-thumbnails" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-landing-page-thumbnails">10. Prepare the landing page thumbnails</h2>
+<p>SlideTap writes a <code>THUMBNAILS/</code> folder inside the project directory (the images you browsed in step 7). These are local validation thumbnails only. The submission bundle also needs a <code>LANDING_PAGE/THUMBNAILS/</code> folder inside <code>DATASET_&lt;alias&gt;/</code> with the images you want to appear <strong>publicly</strong> in BigPicture. This is a manual step — SlideTap does not populate it automatically.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Everything under <code>LANDING_PAGE/</code> is world-visible after submission. Choose representative images and avoid frames that carry sensitive information.</p>
 </div>
 </div>
 </section>

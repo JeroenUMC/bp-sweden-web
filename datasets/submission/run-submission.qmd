@@ -46,9 +46,16 @@ This connects the project to the `mappers.xlsx` mappings you placed in
 
 **Attributes**
 
-The required fields (marked `*`) will already be filled in with test values. 
-For a test run we don't need to do anything else, you can leave optional fields (Keywords, Geographical areas, Year of submission, etc.)
-blank for a test run.
+The required fields (marked `*`) will already be filled in with test values.
+You can leave optional fields (Keywords, Geographical areas, Year of submission,
+etc.) blank for a test run.
+
+**Dataset**
+
+Expand the **Dataset** section and change the **Metadata standard** field from
+its default (`0.1.2`) to `2.0.0`. The metaflex XSD validation in
+[I. Validate the bundle](validate.qmd) requires a `2.0.x` value — submissions
+with the default `0.1.2` fail schema validation.
 
 
 <!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
@@ -57,7 +64,9 @@ blank for a test run.
 
 In the left sidebar under **Batch**, click **Search**.
 
-1. Click **Browse** and select your operator metadata workbook (`.xlsx` or `.json`).
+1. Click **Browse** and select `tests/data/metadata/metadata.xlsx` — the example
+   workbook that ships with the pipeline. Ensure its **`Image path`** already
+   points to the slide you placed in step G.4.
 2. Click **Parse**.
 
 The batch status changes to **Metadata Searching** while the pipeline reads the

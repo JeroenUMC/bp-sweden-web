@@ -28,43 +28,52 @@ directory:
 make setup-refdata
 ```
 
-Expected output (file not yet present):
+Expected output (files not yet present):
 
 ```
 Setting up refdata in: ./data/refdata
+Copying mappers.xlsx from bigpicture-slidetap/tests/test_data...
 Copying model.json from bigpicture-slidetap/tests/test_data...
+
+Refdata contents:
+  mappers.xlsx (9.0K)
+  model.json (3.6K)
+
 ✓ Setup complete
 ```
 
-If `model.json` was already present from a previous run:
+If both files were already present from a previous run:
 
 ```
 Setting up refdata in: ./data/refdata
+✓ mappers.xlsx found
 ✓ model.json found
+
+Refdata contents:
+  mappers.xlsx (9.0K)
+  model.json (3.6K)
+
 ✓ Setup complete
 ```
 
 ::: {.callout-tip}
 ## Verify
 
-Paste this:
+Confirm both refdata files are in place:
 
 ```bash
-make doctor
+ls ./data/refdata/
 ```
 
-`make doctor` checks every preflight condition in one pass. A passing model check
-produces no `FAIL` line for `model.json`. If all checks pass, the final line is:
+Expected output:
 
 ```
-doctor: OK
+mappers.xlsx  model.json
 ```
 
-If `model.json` is missing, you will see:
-
-```
-FAIL: model.json missing from ./data/refdata (run: make setup-refdata)
-```
+`make doctor` checks all preflight conditions including certificates and
+credentials that have not been created yet. Run the full `make doctor` check
+at [G. Preflight + boot](boot.qmd) once all prerequisites are in place.
 :::
 
 ## If something goes wrong

@@ -54,6 +54,25 @@ the storage **root**, and the export outbox (`PIPELINE_OUTBOX_DIR`) is a folder
 named `storage` *inside* it — slidetap always writes finished bundles to
 `<storage root>/storage`.
 
+::: {.callout-important}
+## Mounted filesystems: own the mount before running `make dirs`
+If `PIPELINE_ROOT` points to an absolute path on a mounted filesystem (e.g.
+`/mnt/data`), the mount must be owned by the container user (UID 1000) **before**
+you run `make dirs`. A root-owned mount causes `make dirs` to create root-owned
+directories that the containers cannot write to, silently breaking steps E, H,
+and J.
+
+Transfer ownership first, then create the directories as a regular user:
+
+```bash
+sudo chown -R 1000:1000 /mnt/data   # once, as root
+make dirs                            # as your regular user — no sudo
+```
+
+Do **not** run `sudo make dirs` — it produces 0755 root-owned directories that
+UID 1000 cannot write to.
+:::
+
 `make dirs` is for the **local** layout only. To place a category on a network
 share, see *Relocating individual categories* below.
 
@@ -209,4 +228,15 @@ The output should show your string, not `change-this-salt-to-something-secret-in
 
 ## If something goes wrong
 
-
+- **`make dirs` fails with `Permission denied`** — your `PIPELINE_ROOT` is on a
+  mount owned by root. Fix it with `sudo chown -R 1000:1000 <mount>`, then
+  re-run `make dirs` as a regular user (see *Lay out the data directories* above).
+- **`make doctor` reports the salt is unchanged** — the `salt` in `config.yaml`
+  still matches the example value. Open the file and replace it, then re-run
+  `make doctor`.
+- **Auth error after changing the salt** — you changed the salt after running
+  `make gen-credentials`. The credentials file was hashed with the old salt and
+  is now invalid. Re-run `make gen-credentials` with the current salt.
+- **`make` commands fail on Windows** — ensure you are running in **Git Bash**,
+  not PowerShell or cmd.exe. Also confirm `.env` uses LF line endings (see
+  *Fill in `.env`* above).

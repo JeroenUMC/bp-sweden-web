@@ -391,6 +391,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Support</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/submission/best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -582,6 +588,7 @@ Mounted filesystems: own the mount before running <code>make dirs</code>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">PIPELINE_STORAGE</span><span class="op">=</span>/srv/bp-storage </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>PIPELINE_OUTBOX_DIR</code> always follows <code>PIPELINE_STORAGE</code> automatically — you never set it by hand, so the outbox can never drift out of storage.</p>
 <p>When you relocate a category to a network share, mounting that share and giving the container user (UID 1000) write access is an administrator prerequisite — set it up via <code>fstab</code>/NFS/CIFS with <code>uid=1000</code>. The pipeline only verifies the result with <code>make doctor</code>; it never creates or mounts anything.</p>
+<p>For the deeper discussion of <em>which</em> category belongs on <em>which</em> storage, NFS/CIFS mount options, and the throughput caveats of network shares, see <a href="../../datasets/submission/best-practices.html">Best Practices</a>.</p>
 </section>
 </section>
 <section id="fill-in-.env" class="level2">

@@ -1,0 +1,206 @@
+---
+title: Best Practices
+---
+
+Advisory guidance for running real submissions at scale. 
+
+## Large datasets
+
+A real submission can be terabytes of whole-slide images (WSI). Most time will be spent Dicomizing and uploading your slides.
+Everything else (metadata parsing, curation, export) is cheap by comparison.
+
+### Budget your disk
+
+The two big data locations live on **separate** budgets, so plan them separately:
+
+- `PIPELINE_IMAGE_ROOT` holds your **source** dataset. The pipeline reads it in
+  place and never copies it elsewhere, so this only needs to fit the raw WSI.
+- `PIPELINE_STORAGE` holds the **converted** output — the export outbox
+  (`storage/storage`) — plus some transient conversion working space. Plan for it
+  to hold roughly **1× the converted dataset**. The converted DICOM is in the same
+  ballpark as the source, so a safe rule of thumb is "as much free space in
+  `PIPELINE_STORAGE` as your raw WSI occupies".
+
+You do **not** need a third copy for the upload: the BigPicture submitter encrypts
+and streams the export straight from the outbox to BigPicture, without writing
+another copy to disk.
+
+Running out of space mid-conversion leaves a batch half-processed, but completed
+images are kept. Free up space, then enable `restore_projects` (see
+[Performance tuning](#performance-tuning)) so the run resumes the remaining images
+instead of starting the batch over.
+
+### Split a large set into multiple batches
+
+If you do not want to process the entire dataset in a single batch, Slidetap can batch for you. 
+Inside a project, create several batches and process them one at a time:
+
+- **Curation and recovery stay manageable.** Invalid items and failed images are
+  scoped to one batch, so a problem in batch 3 does not block batches 1 and 2.
+- **The conversion working set stays bounded.** Only the batch in flight is being
+  converted at any time, so the intermediate conversion space never has to hold the
+  whole dataset at once. Note this does **not** shrink the final footprint: the
+  export outbox is per *project*, not per batch — every batch exports into the same
+  project directory, and `make upload` sends that whole directory in one go. Plan
+  `PIPELINE_STORAGE` for the full project's converted output regardless of how many
+  batches you split it into.
+- **Progress is checkpointed.** A completed batch is sealed; an interruption only
+  costs you the batch in flight.
+
+## Network shares & storage
+
+It can be useful to spread your data across different storages. [D. Configure](configure.qmd) covers the
+mechanics of *how* to relocate a category; this section is the deeper discussion
+of *which* category belongs on *which* storage, and why.
+
+### Place each category by performance and sensitivity
+
+Every host directory the pipeline bind-mounts derives from `PIPELINE_ROOT`, but
+you can override any single category to an absolute path in `.env`. Decide
+placement along two axes — how fast the storage needs to be, and how sensitive
+the data is. It's not mandatory to have these on different storage units, only do so if you feel the need.
+
+| Category (`.env` variable) | Put it on | Why |
+|---|---|---|
+| `PIPELINE_IMAGE_ROOT` | Large, read-only NFS/CIFS share | Terabytes of source WSI; read-only, so write speed does not matter, capacity does |
+| `PIPELINE_STORAGE` | Large **and** reasonably fast volume | Holds the converted dataset, intermediate conversion work, and the export outbox. Conversion writes here continuously, so a slow share directly slows every run |
+| `PIPELINE_REFDATA_DIR` | Small shared NFS | Reference data (e.g. SNOMED conversions) several people may share |
+| `PIPELINE_SSL_DIR`, `PIPELINE_SUBMITTER_CREDS_DIR_STAGING`, `PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` | Local disk, **not** a shared mount | TLS keys and BigPicture credentials, keep secrets off shared storage if you can |
+| `PIPELINE_SUBMITTER_STATE` | Local disk | Small read/write upload state for the bp-submitter |
+
+The single most important performance decision is **not** putting
+`PIPELINE_STORAGE` on a slow share. Storage is written to throughout conversion and export,
+so its throughput sets the pace of the whole run.
+
+### Ownership: own the mount before `make dirs`
+
+The pipeline runs inside containers, and those containers act as a fixed user
+called **UID 1000** — not as you. That matters because a program can only write to
+a directory its own user owns. So every directory the pipeline writes to has to be
+owned by UID 1000, and that ownership has to be in place *before* the directory
+tree is created.
+
+On the default local layout this is automatic. It only needs attention when
+`PIPELINE_ROOT` — or any category you relocated — sits on a **mounted filesystem**
+(for example a NAS share at `/mnt/data`), because mounts usually come up owned by
+`root`. In that case, hand ownership of the mount to UID 1000 once as an
+administrator, then create the directories as your normal user:
+
+```bash
+sudo chown -R 1000:1000 /mnt/data   # once, as root
+make dirs                            # as your regular user — no sudo
+```
+
+::: {.callout-important}
+## Never run `sudo make dirs`
+A root-owned mount makes `make dirs` create root-owned, `0755` directories that
+UID 1000 cannot write to. This breaks steps E, H, and J **silently** — the
+pipeline starts but cannot write images, conversions, or the export bundle.
+`sudo make dirs` produces the same broken result. Fix ownership of the mount;
+do not escalate the directory creation.
+:::
+
+### Mounting NFS / CIFS for UID 1000
+
+If you put a category on a network share, someone with admin rights has to mount
+that share and make sure the container user (UID 1000) can write to it. The
+pipeline never mounts anything itself — it assumes the share is already there. The
+goal is the same as above: files on the share should end up owned by UID 1000. The
+exact option depends on the share type:
+
+- **NFS:** export the share with UID/GID mapping that lands on 1000 — e.g.
+  `all_squash` together with `anonuid=1000,anongid=1000`.
+- **CIFS/SMB:** add `uid=1000,gid=1000` to the mount options (in `/etc/fstab` or on
+  the `mount` command line).
+
+If you are not sure which applies, this is the line to take to whoever administers
+your storage. Once the share is mounted, run `make doctor` — it checks that the
+paths and permissions the containers expect are actually in place.
+
+::: {.callout-warning}
+## SMB/NAS latency hurts conversion
+Network shares add per-file latency that is invisible on a quick test but
+compounds across the thousands of small tile writes a conversion performs. If
+runs are slow, the storage backing `PIPELINE_STORAGE` is the first thing to
+check. Where possible, keep `PIPELINE_STORAGE` on fast local or SAN-backed
+storage and reserve network shares for the read-only `PIPELINE_IMAGE_ROOT`.
+:::
+
+### Windows paths
+
+This one only bites Windows hosts. When you point a category at an absolute path,
+Docker has to parse that path to set up the bind mount, and its parser rejects
+Windows-style backslashes. So write the path with forward slashes — `C:/bp-data`,
+not `C:\bp-data` — or the container will fail to start. See
+[D. Configure](configure.qmd) for the full note.
+
+## Performance tuning
+
+Most tuning lives in `config.yaml` (see [D. Configure](configure.qmd)). The knobs
+below are ordered from the ones with the biggest, safest impact to more
+specialised ones. Change one at a time and re-time a small batch so you can
+attribute the difference.
+
+There are two independent forms of parallelism, and they stack:
+
+- **`dicomization.threads`** — how *fast a single slide* converts (parallel tiles
+  within one image).
+- **`task.concurrency`** — how *many slides* convert at once (parallel jobs across
+  images).
+
+All of these live in `config.yaml`. A setting written as `section.key` (e.g.
+`dicomization.threads`) is the key `threads` under a top-level `dicomization:`
+section. The shipped `config.yaml.example` does not ship the `task:` or
+`image_cache:` sections as active settings (at most as commented-out
+placeholders), so to tune those add the section to your `config.yaml` yourself:
+
+```yaml
+task:
+  concurrency: 8
+image_cache:
+  cache_size: 20
+```
+
+| Setting | Default | Effect & when to change |
+|---|---|---|
+| `dicomization.threads` | `1` | Parallelises tile conversion within a single slide. Raise on multi-core hosts to speed conversion. Effectiveness depends on the slide format/backend, so measure on a sample of your own data |
+| `task.concurrency` | `4` | Number of image jobs a worker runs in parallel — how many slides convert at once. Higher converts more simultaneously, at the cost of CPU, memory, and storage I/O contention. Tune against your host's cores and the throughput of `PIPELINE_STORAGE`. Can also be set without editing `config.yaml` via the `PROCRASTINATE_WORKER_CONCURRENCY` environment variable |
+| `dicomization.levels` | `all` | Restricting to a subset (e.g. `[0, 1, 2]`) produces smaller output and converts faster, but reduces the zoom range in viewers. Good for quick tests; think carefully before restricting a real submission |
+| `image_cache.cache_size` | `10` | Number of images held in the in-memory cache. Larger can reduce re-reads at the cost of memory |
+| `restore_projects` | `false` | Resume in-progress projects after a container restart. Worth enabling for long large-dataset runs that may be interrupted |
+| `dicomization.include_labels` | `false` | Includes the barcode/cassette label image. Small size impact; mainly a correctness/privacy choice |
+| `dicomization.include_overviews` | `false` | Includes the macro overview thumbnail. Small size impact; mainly a correctness/privacy choice |
+
+### Finding the right `task.concurrency`
+
+There is no universal best value — it depends on your host's cores and how fast
+`PIPELINE_STORAGE` is. Find it empirically:
+
+1. Start around your CPU core count.
+2. Convert a small, representative batch and note the wall-clock time.
+3. Raise `task.concurrency` and re-run the same batch. Keep going while the time
+   keeps dropping.
+4. Stop when it stops improving — or when CPU, memory, or disk I/O saturates
+   (slides start waiting on storage rather than CPU). Back off one step from there.
+
+Change only this one knob between runs so you can attribute the difference, and
+keep an eye on memory: too many parallel conversions can exhaust RAM.
+
+::: {.callout-tip}
+## Pair threads with levels for fast test runs
+For a quick smoke of a large set, restrict `dicomization.levels` to a few upper
+levels and raise `dicomization.threads` — you get a usable pyramid in a fraction
+of the time, then drop back to `all` levels for the real submission.
+:::
+
+::: {.callout-note}
+## Found another lever?
+This page is meant to grow. If you discover a setting or technique that
+meaningfully changes throughput or capacity, add a row to the table above (or a
+short subsection) so the next operator benefits.
+:::
+
+## Where to get help
+
+If a large run misbehaves and the guidance here does not resolve it, see
+[Support](support.qmd) for who to contact and what to include.

@@ -120,6 +120,8 @@ website:
           contents:
             - text: Support
               file: datasets/submission/support.qmd
+            - text: Best Practices
+              file: datasets/submission/best-practices.qmd
         - section: For contributors
           contents:
             - text: Page template & conventions

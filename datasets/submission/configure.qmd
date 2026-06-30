@@ -113,6 +113,10 @@ the container user (UID 1000) write access is an administrator prerequisite —
 set it up via `fstab`/NFS/CIFS with `uid=1000`. The pipeline only verifies the
 result with `make doctor`; it never creates or mounts anything.
 
+For the deeper discussion of *which* category belongs on *which* storage, NFS/CIFS
+mount options, and the throughput caveats of network shares, see
+[Best Practices](best-practices.qmd).
+
 ## 3. Fill in `.env`
 
 Open `.env` in any text editor.

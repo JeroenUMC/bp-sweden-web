@@ -1,0 +1,129 @@
+---
+title: "Staining mapping"
+---
+
+Two mapping modes exist for staining in `mappers.xlsx`. Which one to use depends
+on the staining type.
+
+→ For the mapper row structure and column layout, see [**mappers.xlsx**](reference-data-mappers.qmd).
+
+## Choosing a mapping mode
+
+| Staining type | Mapper row `Type` | Notes |
+|---|---|---|
+| Standalone chemical stain | `procedure` | Entire stain mapped as one entity |
+| IHC antibody stain | `list` | Each component mapped separately |
+| In-situ hybridisation (ISH / CISH) | `list` | Each component mapped separately |
+| Immunofluorescence (IF) | `list` | Each component mapped separately |
+
+When a chemical stain is used as a **counterstain within an IHC panel**, it must
+follow the `list` mode — not `procedure` — so it can be listed alongside the
+antibody components.
+
+## Chemical stains
+
+Use `Type: procedure`. Map the entire staining procedure to its SNOMED CT
+Concept ID (International Edition).
+
+### Common SNOMED CT codes
+
+| Stain | Concept ID | Fully Specified Name (FSN) |
+|---|---|---|
+| Hematoxylin & Eosin (H&E) | 104210008 | Hematoxylin and eosin stain method (procedure) |
+| Alcian blue / PAS | 117224009 | Alcian blue with Periodic acid Schiff stain method (procedure) |
+| Congo red | 117055006 | Congo red stain method (procedure) |
+| Giemsa | 104208006 | Giemsa stain method (procedure) |
+| Gomori | 117236003 | Gomori stain method (procedure) |
+| Masson trichrome | 117018006 | Masson trichrome stain method (procedure) |
+| Periodic acid Schiff (PAS) | 104216002 | Periodic acid Schiff stain method (procedure) |
+
+### Finding a missing code
+
+Use the [SNOMED CT Browser](https://browser.ihtsdotools.org/) (International
+Edition). Search for the staining method name, select the result with semantic
+type **procedure**, and copy the **Concept ID**. Use only **Active** concepts.
+
+If no SNOMED CT code exists for a staining method, contact
+[support](support.qmd) before leaving the field empty.
+
+## Targeted stains (IHC, ISH, IF)
+
+Use `Type: list`. Each individual staining component — each antibody or probe,
+and the counterstain — must be a separate row that shares the same `Mapping Key`.
+
+There are no SNOMED CT codes for IHC antibodies. Use a consistent free-text
+string for the `Target` field (see [Antibody naming](#antibody-naming) below).
+
+### Counterstain rule
+
+Every targeted staining must include the counterstain as an additional `list`
+row with `Stain Type: chemical`. Use the SNOMED CT code for hematoxylin as a
+substance:
+
+| Mapping Key | Type | Stain Type | Code | Scheme | Meaning |
+|---|---|---|---|---|---|
+| *(any IHC key)* | `list` | `chemical` | 12710003 | SNOMED CT | Hematoxylin stain (substance) |
+
+Omitting the counterstain does not block export, but leaves the staining record
+incomplete in BigPicture.
+
+### Antibody naming {#antibody-naming}
+
+Use a short string that pathologists and researchers would recognise from routine
+practice. Apply the same string consistently across all datasets your site
+submits — inconsistent naming for the same antibody across datasets reduces
+searchability in the BigPicture Discovery service.
+
+The same consistency rule applies to ISH / CISH probe strings: use a single,
+consistent value for a given probe across all datasets your site submits.
+
+| Preferred | Avoid |
+|---|---|
+| `CD3` | `CD3 antibody`, `Anti-CD3` |
+| `PD-L1` | `Programmed Death Ligand 1`, `Anti-PD-L1` |
+| `PD-L1 (SP142)` | `Anti-PD-L1 (SP142)`, `SP142` alone |
+
+A recognised clone designation is acceptable when used consistently.
+
+## Controlled vocabulary
+
+Valid values for the controlled fields in staining mapper rows.
+
+### `Stain Type` (list rows only)
+
+| Value | Use for |
+|---|---|
+| `chemical` | Chemical compounds (including counterstains) |
+| `immunogenic` | Antibody-based stains (IHC, IF) |
+| `in_situ_hybridisation` or `ish` | In-situ hybridisation (ISH / CISH) |
+
+Values are matched case-insensitively.
+
+### `Compound` (list rows only)
+
+| Value | Use for |
+|---|---|
+| `ANTIBODY` | IHC or IF antibody |
+| `Double-stranded DNA` | ISH / CISH probe (dsDNA) |
+| `Single-stranded DNA` | ISH / CISH probe (ssDNA) |
+| `RNA` | RNA FISH probe |
+| `Synthetic oligonucleotide` | Synthetic probe |
+
+### `Reporter Type`
+
+| Value |
+|---|
+| `chromogen` |
+| `fluorochrome` |
+
+### `Reporter Color`
+
+| Value |
+|---|
+| `brown` |
+| `red` |
+| `black` |
+| `teal` |
+| `purple` |
+| `green` |
+| `yellow` |

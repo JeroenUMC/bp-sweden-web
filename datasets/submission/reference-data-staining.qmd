@@ -74,6 +74,9 @@ practice. Apply the same string consistently across all datasets your site
 submits — inconsistent naming for the same antibody across datasets reduces
 searchability in the BigPicture Discovery service.
 
+The same consistency rule applies to ISH / CISH probe strings: use a single,
+consistent value for a given probe across all datasets your site submits.
+
 | Preferred | Avoid |
 |---|---|
 | `CD3` | `CD3 antibody`, `Anti-CD3` |

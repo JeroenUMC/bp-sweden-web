@@ -13,7 +13,7 @@ on the staining type.
 |---|---|---|
 | Standalone chemical stain | `procedure` | Entire stain mapped as one entity |
 | IHC antibody stain | `list` | Each component mapped separately |
-| In-situ hybridisation (ISH / CISH) | `list` | Each component mapped separately |
+| In-situ hybridisation (ISH; CISH = chromogenic ISH) | `list` | Each component mapped separately |
 | Immunofluorescence (IF) | `list` | Each component mapped separately |
 
 When a chemical stain is used as a **counterstain within an IHC panel**, it must
@@ -43,8 +43,12 @@ Use the [SNOMED CT Browser](https://browser.ihtsdotools.org/) (International
 Edition). Search for the staining method name, select the result with semantic
 type **procedure**, and copy the **Concept ID**. Use only **Active** concepts.
 
-If no SNOMED CT code exists for a staining method, contact
-[support](support.qmd) before leaving the field empty.
+If no SNOMED CT code exists for a staining method, do **not** leave the field
+empty. Provide a consistent free-text string as the value instead — the same
+consistency rule that applies to IHC antibody names (see
+[Antibody naming](#antibody-naming)): choose one string for the method and reuse
+it across every dataset your site submits. Reach [support](support.qmd) if you
+are unsure whether a code exists.
 
 ## Targeted stains (IHC, ISH, IF)
 
@@ -56,9 +60,14 @@ string for the `Target` field (see [Antibody naming](#antibody-naming) below).
 
 ### Counterstain rule
 
-Every targeted staining must include the counterstain as an additional `list`
-row with `Stain Type: chemical`. Use the SNOMED CT code for hematoxylin as a
-substance:
+Every targeted staining must include its counterstain as an additional `list`
+row with `Stain Type: chemical`, mapped to that counterstain's SNOMED CT
+substance code.
+
+The counterstain is usually **hematoxylin** in IHC — but it can be a different
+counterstain in some cases, and in ISH / CISH it is not necessarily hematoxylin.
+Map whichever counterstain was actually used. The hematoxylin case (the most
+common) looks like this:
 
 | Mapping Key | Type | Stain Type | Code | Scheme | Meaning |
 |---|---|---|---|---|---|
@@ -127,3 +136,9 @@ Values are matched case-insensitively.
 | `purple` |
 | `green` |
 | `yellow` |
+
+## Acknowledgements
+
+The staining domain guidance on this page — mapping-mode choice, the counterstain
+rule, and antibody/probe naming conventions — was contributed and reviewed by
+**Yossra H. Selma Zidi-Mouaffak, Pathologist**

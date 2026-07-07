@@ -96,6 +96,8 @@ website:
                   file: datasets/submission/reference-data-model.qmd
                 - text: "mappers.xlsx"
                   file: datasets/submission/reference-data-mappers.qmd
+                - text: "Staining mapping"
+                  file: datasets/submission/reference-data-staining.qmd
             - text: F. TLS + credentials
               file: datasets/submission/tls-credentials.qmd
             - text: G. Preflight + boot

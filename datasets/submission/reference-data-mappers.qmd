@@ -105,6 +105,9 @@ Maps a short-code regex to `true` or `false`.
 
 ### Staining mapper sheet
 
+→ For guidance on which mapping mode, SNOMED CT codes, and naming conventions
+to use for each staining type, see [**Staining mapping**](reference-data-staining.qmd).
+
 Staining is the most complex type: one staining can consist of multiple
 components (a chemical stain, one or more antibodies, etc.), so mapping keys
 map to **groups of rows**.

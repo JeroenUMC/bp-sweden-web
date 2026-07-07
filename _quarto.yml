@@ -79,7 +79,7 @@ website:
               file: datasets/submission/index.qmd
             - text: Key concepts
               file: datasets/submission/key-concepts.qmd
-        - section: "Implementation"
+        - section: "bp-submission-pipeline"
           contents:
             - text: A. Prerequisites
               file: datasets/submission/prerequisites.qmd
@@ -108,6 +108,12 @@ website:
               file: datasets/submission/validate.qmd
             - text: J. Upload to BigPicture
               file: datasets/submission/upload.qmd
+            - text: Best Practices
+              file: datasets/submission/best-practices.qmd
+        - section: Direct components
+          contents:
+            - text: Overview
+              file: datasets/submission/direct-components/index.qmd
         - section: Direct upload (sda-cli)
           contents:
             - text: Prerequisites
@@ -122,8 +128,6 @@ website:
           contents:
             - text: Support
               file: datasets/submission/support.qmd
-            - text: Best Practices
-              file: datasets/submission/best-practices.qmd
         - section: For contributors
           contents:
             - text: Page template & conventions

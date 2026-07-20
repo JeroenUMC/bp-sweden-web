@@ -25,7 +25,9 @@ The gate runs five checks in order and stops at the first failure:
 
 The `LANDING_PAGE/` folder is required, but `landing_page.xml` inside it is
 optional: if it is absent, the gate prints a `WARN` and still passes. If a `landing_page.xml` **is** present, it must still validate
-against its XSD or the gate FAILs.
+against its XSD or the gate FAILs. If you upload without one now and want to
+add it later, see [Add a landing page after
+submission](add-landing-page.qmd).
 :::
 
 ## Run it

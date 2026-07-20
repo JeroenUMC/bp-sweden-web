@@ -128,6 +128,8 @@ website:
           contents:
             - text: Support
               file: datasets/submission/support.qmd
+            - text: Add a landing page after submission
+              file: datasets/submission/add-landing-page.qmd
         - section: For contributors
           contents:
             - text: Page template & conventions

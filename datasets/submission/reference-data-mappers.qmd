@@ -50,9 +50,9 @@ export — `make check-mappers` prevents this by checking coverage upfront.
 **When to run it:** After `make setup-refdata`, after editing `mappers.xlsx`, and
 definitely before importing a real submission.
 
-**Overrides:** By default, `check-mappers` uses `METADATA=./data/metadata/metadata.xlsx`
-and `MAPPERS=./data/mappers/mappers.xlsx`. To check different files, pass them on
-the command line:
+**Overrides:** By default, `check-mappers` uses `mappers.xlsx` from `$PIPELINE_REFDATA_DIR`
+(or `tests/data/refdata/` if the env var is not set) and `tests/data/metadata/metadata.xlsx`
+for the metadata. To check different files, pass them on the command line:
 
 ```bash
 MAPPERS=./path/to/custom-mappers.xlsx METADATA=./path/to/custom-metadata.xlsx make check-mappers

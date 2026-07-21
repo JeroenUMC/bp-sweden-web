@@ -30,6 +30,37 @@ keys and codes in it are test data. Replace them with your site's own
 short codes before running a real submission.
 
 
+## Verify coverage
+
+After authoring or provisioning `mappers.xlsx`, run `make check-mappers` to catch
+every unmapped coded value up front — before submission. The checker lists each
+coded value your data contains that no mapping key will resolve, grouped by mapper.
+
+```bash
+make check-mappers
+```
+
+If any unmapped values are found, the command exits with a non-zero exit code and
+names each one by mapper. This lets you fix mapping coverage immediately, rather
+than discovering invalid items later in the curation UI. As described above, an
+unmatched value leaves the attribute equal to `None`, the slidetap validator marks
+it as `invalid`, and the item becomes **invalid** in the curation UI, blocking
+export — `make check-mappers` prevents this by checking coverage upfront.
+
+**When to run it:** After `make setup-refdata`, after editing `mappers.xlsx`, and
+definitely before importing a real submission.
+
+**Overrides:** By default, `check-mappers` uses `METADATA=./data/metadata/metadata.xlsx`
+and `MAPPERS=./data/mappers/mappers.xlsx`. To check different files, pass them on
+the command line:
+
+```bash
+MAPPERS=./path/to/custom-mappers.xlsx METADATA=./path/to/custom-metadata.xlsx make check-mappers
+```
+
+This is useful when testing mapper changes or validating mappers for a specific submission before import.
+
+
 ## Workbook structure
 
 The workbook has one required **master sheet** (`mappers`) and one **per-mapper

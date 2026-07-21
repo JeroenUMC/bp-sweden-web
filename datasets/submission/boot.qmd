@@ -24,10 +24,19 @@ make doctor
 ```
 
 `doctor` is a read-only check that confirms your `.env`,
-required settings, the rotated config salt, your reference data
+required settings, the rotated config salt, your reference data files
 (`model.json` + `mappers.xlsx`), the TLS certificate and key, your credentials
 file, the data mounts, and the required tools (Docker, `gh` login, OpenSSL,
 `make`).
+
+::: {.callout-note}
+## Verify reference data contents: `make check-mappers`
+`doctor` only checks that the reference data **files exist**, not that their
+**contents are valid**. To verify your `mappers.xlsx` covers all the coded
+values in your data, run [`make check-mappers`](reference-data-mappers.qmd#verify-coverage)
+after editing the mappers file. This catches unmapped values up front, before
+they become invalid items in the curation UI.
+:::
 
 A healthy setup ends with `doctor: OK`:
 

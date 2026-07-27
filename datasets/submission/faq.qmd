@@ -289,3 +289,12 @@ from the beginning. See [J. Upload to BigPicture](upload.qmd).
 Install `tmux` on the machine running the command, or use plain
 `make upload` instead — `tmux` is only needed for uploads run over an SSH
 connection that might drop. See [J. Upload to BigPicture](upload.qmd).
+
+## After submission
+
+### I submitted without a landing page — how do I add one now?
+
+`landing_page.xml` is optional at submission time, so a missing one doesn't
+block upload — you don't need to resubmit the dataset to add it. See
+[Add a landing page after submission](add-landing-page.qmd) for the current
+process.

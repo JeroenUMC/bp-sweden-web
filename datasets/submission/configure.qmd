@@ -186,7 +186,7 @@ bind-mount parser does not accept Windows backslashes. Write `C:/bp-data`, not
 | `PIPELINE_CREDENTIALS_FILE` | `./credentials.json` | Path to the hashed credentials file (generated in step E) |
 | `PIPELINE_CONFIG_FILE` | `./config.yaml` | Path to the app config file — set up in the next step |
 | `XLSX_MAPPER_FILE` | `/refdata/mappers.xlsx` | Container path to the mapper workbook — change only if you relocate it inside the container |
-| `BIGPICTURE_MODEL_PATH` | `/refdata/model.json` | Container path to the BigPicture schema — change only if you relocate it inside the container |
+| `BIGPICTURE_MODEL_PATH` | `/refdata/model.json` | Container path to `model.json` (the attribute/observation model) — change only if you relocate it inside the container |
 
 ### Leave as-is
 

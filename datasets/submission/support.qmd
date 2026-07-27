@@ -4,6 +4,10 @@ title: Support
 
 If you get stuck while following the manual, here is where to turn.
 
+Looking for a quick answer instead of contacting someone? Check the
+[FAQ](faq.qmd) first — it collects the recurring questions and errors from
+across the manual.
+
 ## Get help
 
 - **Submission pipeline, server, or data-archive issues:** [bp-ops](mailto:{{< var email.helpdesk >}}) — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.

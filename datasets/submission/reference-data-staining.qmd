@@ -103,7 +103,7 @@ Valid values for the controlled fields in staining mapper rows.
 | Value | Use for |
 |---|---|
 | `chemical` | Chemical compounds (including counterstains) |
-| `immunogenic` | Antibody-based stains (IHC, IF) |
+| `immunostaining` | Antibody-based stains (IHC, IF); legacy `immunogenic` still accepted |
 | `in_situ_hybridisation` or `ish` | In-situ hybridisation (ISH / CISH) |
 
 Values are matched case-insensitively.

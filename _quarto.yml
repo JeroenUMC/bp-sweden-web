@@ -126,6 +126,8 @@ website:
               file: datasets/submission/direct-upload/upload.qmd
         - section: Help
           contents:
+            - text: FAQ
+              file: datasets/submission/faq.qmd
             - text: Support
               file: datasets/submission/support.qmd
             - text: Add a landing page after submission

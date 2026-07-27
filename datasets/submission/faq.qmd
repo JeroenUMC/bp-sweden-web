@@ -1,0 +1,274 @@
+---
+title: FAQ
+subtitle: Common questions and errors across the submission journey
+---
+
+Answers to the questions and error messages that come up most often while
+working through the [bp-submission-pipeline manual](index.qmd). Each entry
+links back to the step it's drawn from, so you can jump to the full context.
+
+Can't find what you're looking for, or need to reach a person? See
+[Support](support.qmd).
+
+## B. GitHub access
+
+### The browser doesn't open when I run `gh auth login` — what do I do?
+
+`gh` also prints a one-time code and a URL in the terminal. Open
+`https://github.com/login/device` manually, enter the code, and complete the
+sign-in there. See [B. GitHub access](github-access.qmd).
+
+## C. install package
+
+### `make pull` fails with "lacks the read:packages scope" — what's wrong?
+
+Your GitHub token doesn't have the scope Docker needs to pull private images
+yet. Run `gh auth refresh -s read:packages`, then try again. See
+[B. GitHub access](github-access.qmd) and [C. install package](install-package.qmd).
+
+### Cloning fails with "repository not found" or "access denied" — why?
+
+Your GitHub account hasn't been granted access to the private repository yet.
+Request access via [Support](support.qmd) before retrying. See
+[C. install package](install-package.qmd).
+
+### `make pull` fails with "no such file or directory" on `/var/run/docker.sock` — why?
+
+The Docker daemon isn't running. Start Docker Desktop (Windows/macOS) or run
+`systemctl start docker` (Linux), then run `make pull` again. See
+[C. install package](install-package.qmd).
+
+### The submodule folders are empty after cloning — why?
+
+The repository was cloned without `--recurse-submodules`. Delete the cloned
+folder and re-run the full clone command. See
+[C. install package](install-package.qmd).
+
+## D. Configure
+
+### `make dirs` fails with "Permission denied" — why?
+
+`PIPELINE_ROOT` points at a mount owned by root. Transfer ownership with
+`sudo chown -R 1000:1000 <mount>`, then re-run `make dirs` as a regular user —
+never with `sudo`. See [D. Configure](configure.qmd).
+
+### `make doctor` reports the salt is unchanged — why?
+
+The `salt` value in `config.yaml` still matches the shipped example. Open the
+file, replace it with your own secret (≥ 32 characters), and re-run
+`make doctor`. See [D. Configure](configure.qmd).
+
+### I get an auth error after changing the salt — why?
+
+The salt was changed *after* `make gen-credentials` already hashed a
+password with the old one, invalidating it. Rotate the salt once, then
+re-run `make gen-credentials` with the current salt. See
+[D. Configure](configure.qmd) and [F. TLS + credentials](tls-credentials.qmd).
+
+### `make` commands fail on Windows — why?
+
+They must be run in **Git Bash**, not PowerShell or cmd.exe. Also confirm
+`.env` was saved with LF (Unix) line endings, not CRLF. See
+[D. Configure](configure.qmd).
+
+## E1. model.json
+
+### `make doctor` (or setup) reports "model.json missing" — what do I do?
+
+Run `make setup-refdata` again and confirm `model.json` appears in
+`PIPELINE_REFDATA_DIR`. See [E1. model.json](reference-data-model.qmd).
+
+### I see "Warning: model.json not found in bigpicture-slidetap/tests/test_data" — why?
+
+The pipeline's Git submodules weren't initialised. Run
+`git submodule update --init --recursive`, then retry `make setup-refdata`.
+See [E1. model.json](reference-data-model.qmd).
+
+## E2. mappers.xlsx
+
+### An operator's input ends up as an empty attribute after export — why?
+
+No mapping key matched it. Check the relevant sheet in `mappers.xlsx` for
+regex anchoring, typos, or a case mismatch. The operator's original input
+isn't lost — fix the mapping row, re-upload `mappers.xlsx`, and re-trigger
+mapping from the curation UI; no workbook re-submission is needed. See
+[E2. mappers.xlsx](reference-data-mappers.qmd).
+
+### A mapper seems to be silently missing from the running pipeline — why?
+
+Check the pipeline logs for a `logging.warning` or `logging.exception` line
+at startup. Common causes: a wrong `Sheet` name in the master sheet, an
+invalid UUID in the `UID` column, or an unknown `Type` value. See
+[E2. mappers.xlsx](reference-data-mappers.qmd).
+
+### `make setup-refdata` warns "mappers.xlsx not found in ..." — what do I do?
+
+Same cause as the `model.json` version of this warning: the pipeline's Git
+submodules weren't initialised. Run `git submodule update --init --recursive`,
+then retry `make setup-refdata`. See
+[E2. mappers.xlsx](reference-data-mappers.qmd).
+
+## F. TLS + credentials
+
+### `make doctor` says the certificate or key is missing — what do I do?
+
+Re-run `make ssl`, then check that `PIPELINE_SSL_DIR`, `PIPELINE_SSL_CERT`,
+and `PIPELINE_SSL_KEY` in `.env` match the files it created. See
+[F. TLS + credentials](tls-credentials.qmd).
+
+### `make doctor` says the credentials file is missing — what do I do?
+
+Re-run `make gen-credentials`. It writes to the repo root by default — make
+sure `PIPELINE_CREDENTIALS_FILE` in `.env` points at that file. See
+[F. TLS + credentials](tls-credentials.qmd).
+
+### I can't log in even though the certificate and credentials files exist — why?
+
+The password was almost certainly hashed with a different salt than the app
+is currently using. Set the salt in `config.yaml` first, then re-run
+`make gen-credentials` so the hash matches. See
+[F. TLS + credentials](tls-credentials.qmd) and [D. Configure](configure.qmd).
+
+## G. Preflight + boot
+
+### `make doctor` says a cert, key, or credentials file is missing — what do I do?
+
+You skipped or mis-set [F. TLS + credentials](tls-credentials.qmd). Re-run
+`make ssl` and `make gen-credentials`. See
+[G. Preflight + boot](boot.qmd).
+
+### `make doctor` says the config still matches the example / the salt is not rotated — what do I do?
+
+Rotate the salt in [D. Configure](configure.qmd), then re-run
+`make gen-credentials` so your login still matches. See
+[G. Preflight + boot](boot.qmd).
+
+### `make doctor` says a host path is missing or not owned by UID 1000 — what do I do?
+
+Create the local data tree with `make dirs` (single-host setups), or fix the
+mount ownership — see [D. Configure](configure.qmd). See also
+[G. Preflight + boot](boot.qmd).
+
+### `make doctor` says `gh` is not logged in — what do I do?
+
+Re-run the sign-in from [B. GitHub access](github-access.qmd). See
+[G. Preflight + boot](boot.qmd).
+
+### The browser can't reach the UI after `make up` — why?
+
+Give it a few seconds and refresh — first boot can take up to a minute. If it
+still fails, check `make logs` for a service that failed to start, and
+confirm nothing else is using the port in `PIPELINE_PORT`. See
+[G. Preflight + boot](boot.qmd).
+
+## H. Run a submission test
+
+### Parse produces no items after I upload the workbook — why?
+
+The workbook's format doesn't match what the pipeline expects. Check you're
+uploading the correct `.xlsx` and that its sheet layout matches the import
+schema. See [H. Run a submission test](run-submission.qmd).
+
+### Images stay "failed" even after I click Retry — why?
+
+Check `make logs` for the image worker's output. Common causes: the slide
+file isn't reachable at the path referenced in the workbook, or DICOM
+conversion failed on that specific file format. See
+[H. Run a submission test](run-submission.qmd).
+
+### The Post-process Start button is greyed out — why?
+
+One or more items are still invalid. Return to **Curate**, fix the mapping
+for the flagged items in `mappers.xlsx`, and remap. See
+[H. Run a submission test](run-submission.qmd) and
+[E2. mappers.xlsx](reference-data-mappers.qmd).
+
+### The Submit button is greyed out on the Export page — why?
+
+The project hasn't reached **Completed** status yet. Confirm the batch was
+completed and check the batch status chip in the Batch sidebar. See
+[H. Run a submission test](run-submission.qmd).
+
+### `make export-check` reports "FAIL outbox not found" — why?
+
+The `PIPELINE_STORAGE` path in `.env` doesn't exist or isn't mounted
+correctly. See [D. Configure](configure.qmd) and
+[H. Run a submission test](run-submission.qmd).
+
+### `make export-check` reports "FAIL no project directories" — why?
+
+The export didn't finish writing. Check `make logs` and confirm the project
+status shows **Export Complete** in the UI. See
+[H. Run a submission test](run-submission.qmd).
+
+## I. Validate the bundle
+
+### `validate-upload` fails with "dataset directory not found" — why?
+
+The path passed to `DATASET=` doesn't exist. Double-check the path and make
+sure the export step finished successfully. See
+[I. Validate the bundle](validate.qmd).
+
+### `validate-upload` fails with "missing required folder" — why?
+
+The export didn't create the expected bundle structure. Re-export from the
+UI; if the folder is still missing, check `make logs` for export worker
+errors. See [I. Validate the bundle](validate.qmd).
+
+### `validate-upload` fails with a schema validation error — what does that mean?
+
+A metadata XML file doesn't conform to the BigPicture XSD schema — usually a
+mismatch between your `model.json` or `mappers.xlsx` and the current
+metaflex schema. Check the named file and element, or pinpoint it by hand
+with `xmllint` — see [Validate metadata](direct-upload/validate-metadata.qmd).
+See also [I. Validate the bundle](validate.qmd).
+
+## J. Upload to BigPicture
+
+### `make upload` fails with "TARGET is required" — what do I do?
+
+`make upload` never guesses the destination. Re-run with `TARGET=staging`
+(the A–J manual) or `TARGET=production`. See
+[J. Upload to BigPicture](upload.qmd).
+
+### `make upload` fails with "Invalid TARGET '<x>'" — why?
+
+The `TARGET` value is mistyped. Use exactly `staging` or `production`. See
+[J. Upload to BigPicture](upload.qmd).
+
+### I get "Missing creds file" for `s3cmd-inbox.conf` or `crypt4gh_bp_key.pub` — why?
+
+One of the two NBIS-provided files is absent from the credentials directory
+for the `TARGET` you chose — `certs/staging` for `TARGET=staging`,
+`certs/production` for `TARGET=production`. Place the missing file there and
+retry. See [J. Upload to BigPicture](upload.qmd).
+
+### `make upload` fails with "DATASET not set" — what do I do?
+
+Re-run the command with `DATASET=<project_dir>`, the project directory name
+from your `make export-check` output. See
+[J. Upload to BigPicture](upload.qmd).
+
+### `make upload` fails with "Dataset dir not found" — why?
+
+The project directory name doesn't match what's under `PIPELINE_OUTBOX_DIR`.
+Confirm the exact name from the `make export-check` output in
+[H. Run a submission test](run-submission.qmd). See also
+[J. Upload to BigPicture](upload.qmd).
+
+### I get a connection or authentication error during upload — why?
+
+Your `s3cmd-inbox.conf` may be expired or misconfigured. Contact
+[Support](support.qmd) for an updated file. See
+[J. Upload to BigPicture](upload.qmd).
+
+### My upload stalls partway and doesn't resume — what do I do?
+
+Delete `upload.db` from your `PIPELINE_SUBMITTER_STATE` directory and retry
+from the beginning. See [J. Upload to BigPicture](upload.qmd).
+
+### `make upload-persistent` fails with "tmux not found" — what do I do?
+
+Install `tmux` on the machine running the command, or use plain
+`make upload` instead — `tmux` is only needed for uploads run over an SSH
+connection that might drop. See [J. Upload to BigPicture](upload.qmd).

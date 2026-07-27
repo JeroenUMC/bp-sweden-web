@@ -126,14 +126,15 @@ website:
               file: datasets/submission/direct-upload/upload.qmd
         - section: Help
           contents:
-            - text: FAQ
-              file: datasets/submission/faq.qmd
+            - section: FAQ
+              href: datasets/submission/faq.qmd
+              contents:
+                - text: Add a landing page after submission
+                  file: datasets/submission/add-landing-page.qmd
             - text: Support
               file: datasets/submission/support.qmd
             - text: Community
               file: datasets/submission/community.qmd
-            - text: Add a landing page after submission
-              file: datasets/submission/add-landing-page.qmd
         - section: For contributors
           contents:
             - text: Page template & conventions

@@ -189,6 +189,21 @@ The project hasn't reached **Completed** status yet. Confirm the batch was
 completed and check the batch status chip in the Batch sidebar. See
 [H. Run a submission test](run-submission.qmd).
 
+### Export never reaches "Export Complete" and reverts to "Completed" with no error — why?
+
+An observation is missing a required coded attribute (e.g. `diagnose`) that
+has no `"optional": true` flag in `model.json`. Check `make logs` for a
+`ValueError` naming the missing attribute's tag — export stops at the first
+one it hits, so fixing one observation can just surface the next. A green
+status in Curate doesn't rule this out either: if `mappers.xlsx` was edited
+and remapped after the item was last validated, its cached validity can go
+stale. Fix by supplying the missing value (re-check the mapping and remap, or
+the source workbook data), or by marking the attribute optional in
+`model.json` and restarting the stack — only for attributes your site added,
+never for BigPicture's MSMDAD attributes. See
+[H. Run a submission test](run-submission.qmd) and
+[E1. model.json](reference-data-model.qmd).
+
 ### `make export-check` reports "FAIL outbox not found" — why?
 
 The `PIPELINE_STORAGE` path in `.env` doesn't exist or isn't mounted
@@ -198,7 +213,9 @@ correctly. See [D. Configure](configure.qmd) and
 ### `make export-check` reports "FAIL no project directories" — why?
 
 The export didn't finish writing. Check `make logs` and confirm the project
-status shows **Export Complete** in the UI. See
+status shows **Export Complete** in the UI — if it shows **Completed**
+instead, see the entry above on a missing required attribute, which also
+prevents the bundle from being written. See
 [H. Run a submission test](run-submission.qmd).
 
 ## I. Validate the bundle
@@ -272,3 +289,12 @@ from the beginning. See [J. Upload to BigPicture](upload.qmd).
 Install `tmux` on the machine running the command, or use plain
 `make upload` instead — `tmux` is only needed for uploads run over an SSH
 connection that might drop. See [J. Upload to BigPicture](upload.qmd).
+
+## After submission
+
+### I submitted without a landing page — how do I add one now?
+
+`landing_page.xml` is optional at submission time, so a missing one doesn't
+block upload — you don't need to resubmit the dataset to add it. See
+[Add a landing page after submission](add-landing-page.qmd) for the current
+process.

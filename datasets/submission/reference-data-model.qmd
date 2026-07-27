@@ -76,6 +76,13 @@ credentials that have not been created yet. Run the full `make doctor` check
 at [G. Preflight + boot](boot.qmd) once all prerequisites are in place.
 :::
 
+::: {.callout-note}
+## Already have the stack running? This needs a restart to take effect
+Editing `model.json` in `PIPELINE_REFDATA_DIR` isn't picked up until the
+stack restarts — see [When do I need to
+restart?](boot.qmd#when-do-i-need-to-restart) for the command and why.
+:::
+
 ## If something goes wrong
 
 **`FAIL: model.json missing from ...`** — run `make setup-refdata` again and

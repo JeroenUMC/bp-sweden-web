@@ -1,0 +1,54 @@
+---
+title: Community
+---
+
+Beyond the manual and [Support](support.qmd), there are a few ways to connect
+with other operators and the WP2 team, and to contribute back to the project.
+
+## NBIS Slack
+
+WP2 — the team that operates the servers hosting the BigPicture datasets you
+submit to — offers help on the [`nbisweden.slack.com`](https://nbisweden.slack.com) Slack workspace, in
+addition to the [Support](support.qmd) channels.
+
+::: {.callout-important}
+## Precondition: access must be requested
+
+The workspace is not open sign-up. Request an invite via
+[bp-ops](mailto:{{< var email.helpdesk >}}) — the same contact used in
+[Support](support.qmd).
+:::
+
+## Reporting issues
+
+Filing an issue is itself a form of community participation — it surfaces a
+problem for other operators before they hit it, and it's how the pipeline and
+this manual improve. If you hit a bug, a confusing step, or a gap in the
+documentation:
+
+- **Pipeline behaviour** (the `bp-submission-pipeline` stack, its Make
+  targets, or one of its bundled components): open an issue on
+  [imi-bigpicture/bp-submission-pipeline](https://github.com/imi-bigpicture/bp-submission-pipeline/issues).
+- **This manual** (missing steps, unclear instructions, broken links): open an
+  issue on [NBISweden/bp-sweden-web](https://github.com/NBISweden/bp-sweden-web/issues).
+
+Include what you were trying to do, the exact command or page, and what you
+expected versus what happened — the same detail [Support](support.qmd) asks
+for when you reach out directly.
+
+## mappers.xlsx sharing
+
+Every site currently authors its own [`mappers.xlsx`](reference-data-mappers.qmd)
+from scratch, even though many sites map the same local short codes (common
+stains, specimen types, preparation methods) to the same BigPicture coded
+attributes.
+
+::: {.callout-note}
+## Not yet available
+
+Cross-site sharing of `mappers.xlsx` mappings doesn't exist yet. It's tracked
+upstream as bp-submission-pipeline milestone
+[**mappers.xlsx community sharing**](https://github.com/imi-bigpicture/bp-submission-pipeline/milestone/10)
+— this section documents the intent, not a working feature. Once it ships,
+this page will link to the how-to.
+:::

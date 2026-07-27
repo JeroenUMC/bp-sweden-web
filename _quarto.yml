@@ -130,6 +130,8 @@ website:
               file: datasets/submission/faq.qmd
             - text: Support
               file: datasets/submission/support.qmd
+            - text: Community
+              file: datasets/submission/community.qmd
             - text: Add a landing page after submission
               file: datasets/submission/add-landing-page.qmd
         - section: For contributors

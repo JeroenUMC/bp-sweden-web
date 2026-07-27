@@ -16,6 +16,13 @@ curation UI.
 
 Creating and maintaining `mappers.xlsx` is the site's responsibility, as many sites use different local codes.
 
+::: {.callout-note}
+## Already have the stack running? This needs a restart to take effect
+Editing `mappers.xlsx` in `PIPELINE_REFDATA_DIR` isn't picked up until the
+stack restarts — see [When do I need to
+restart?](boot.qmd#when-do-i-need-to-restart) for the command and why.
+:::
+
 ## Place the template
 
 Run `make setup-refdata` to copy the starter template into your refdata

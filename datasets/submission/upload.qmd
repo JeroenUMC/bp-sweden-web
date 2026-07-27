@@ -37,6 +37,13 @@ Contact NBIS if you do not have these files. Do **not** commit them to version
 control — they are already covered by the `.gitignore`.
 :::
 
+::: {.callout-note}
+## No restart needed if NBIS sends you replacement files
+Unlike the rest of the pipeline's config, a replacement `s3cmd-inbox.conf` or
+`crypt4gh_bp_key.pub` takes effect on your very next `make upload` — see [When
+do I need to restart?](boot.qmd#when-do-i-need-to-restart) for why.
+:::
+
 ## 1. Dry run
 
 Run a dry run first. It validates your credentials, bundle path, and encryption

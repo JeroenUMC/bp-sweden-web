@@ -243,6 +243,13 @@ grep salt config.yaml
 The output should show your string, not `change-this-salt-to-something-secret-in-production!!`.
 :::
 
+::: {.callout-note}
+## Already have the stack running? Both files need a restart to take effect
+If you edit `.env` or `config.yaml` after `make up`, the running containers
+don't see the change on their own — see [When do I need to
+restart?](boot.qmd#when-do-i-need-to-restart) for which command to run and why.
+:::
+
 ## If something goes wrong
 
 - **`make dirs` fails with `Permission denied`** — your `PIPELINE_ROOT` is on a

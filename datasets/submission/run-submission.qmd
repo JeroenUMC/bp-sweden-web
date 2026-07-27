@@ -215,6 +215,20 @@ representative images and avoid frames that carry sensitive information.
 - **Submit button is greyed out on the Export page.** The project is not yet in
   Completed status. Confirm the batch was completed (step 8) and check the batch
   status chip in the Batch sidebar.
+- **Export never reaches "Export Complete" — the project status just reverts to
+  "Completed" with no visible error.** An observation in the project is missing
+  a required coded attribute (e.g. `diagnose`). Check `make logs` for a
+  traceback ending in something like `ValueError: Missing required code
+  attribute with tag diagnose` (or `Missing required attribute ...` / `is not
+  optional but got None` for other attribute kinds) — the export worker caught
+  the error, cleaned up the partial bundle, and reverted the project status
+  without surfacing a message in the UI. The root cause is that attribute's
+  required/optional flag in `model.json`: attributes are required unless
+  marked `"optional": true`. Fix by either supplying the missing value for
+  that observation before re-exporting, or marking the attribute optional in
+  `model.json` — see [E1. model.json](reference-data-model.qmd#required-vs-optional-attributes).
+  Editing `model.json` needs a stack restart — see [When do I need to
+  restart?](boot.qmd#when-do-i-need-to-restart).
 - **`export-check` reports `FAIL outbox not found`.** The `PIPELINE_STORAGE`
   path in `.env` does not exist or is not mounted correctly — see
   [D. Configure](configure.qmd).

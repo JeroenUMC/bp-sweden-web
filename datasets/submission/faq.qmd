@@ -189,6 +189,18 @@ The project hasn't reached **Completed** status yet. Confirm the batch was
 completed and check the batch status chip in the Batch sidebar. See
 [H. Run a submission test](run-submission.qmd).
 
+### Export never reaches "Export Complete" and reverts to "Completed" with no error — why?
+
+An observation is missing a required coded attribute (e.g. `diagnose`). The
+export worker caught the failure, cleaned up the partial bundle, and reverted
+the project status without showing anything in the UI — check `make logs` for
+a `ValueError` naming the missing attribute's tag. The cause is that
+attribute's required/optional flag in `model.json`: attributes are required
+unless marked `"optional": true`. Fix by supplying the missing observation
+data, or by marking the attribute optional in `model.json` and restarting the
+stack. See [H. Run a submission test](run-submission.qmd) and
+[E1. model.json](reference-data-model.qmd).
+
 ### `make export-check` reports "FAIL outbox not found" — why?
 
 The `PIPELINE_STORAGE` path in `.env` doesn't exist or isn't mounted

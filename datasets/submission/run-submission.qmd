@@ -216,17 +216,17 @@ representative images and avoid frames that carry sensitive information.
   Completed status. Confirm the batch was completed (step 8) and check the batch
   status chip in the Batch sidebar.
 - **Export never reaches "Export Complete" — the project status just reverts to
-  "Completed" with no visible error.** An observation in the project is missing
-  a required coded attribute (e.g. `diagnose`). Check `make logs` for a
-  traceback ending in something like `ValueError: Missing required code
-  attribute with tag diagnose` (or `Missing required attribute ...` / `is not
-  optional but got None` for other attribute kinds) — the export worker caught
-  the error, cleaned up the partial bundle, and reverted the project status
-  without surfacing a message in the UI. The root cause is that attribute's
-  required/optional flag in `model.json`: attributes are required unless
-  marked `"optional": true`. Fix by either supplying the missing value for
-  that observation before re-exporting, or marking the attribute optional in
-  `model.json` — see [E1. model.json](reference-data-model.qmd#required-vs-optional-attributes).
+  "Completed" with no visible error.** An observation is missing a required
+  coded attribute (e.g. `diagnose`) that has no `"optional": true` flag in
+  `model.json`. Check `make logs` for a `ValueError` naming the missing
+  attribute's tag — export aborts at the *first* one it hits, so fixing one
+  observation can just surface the next; expect a few rounds if several are
+  affected. A green status in Curate doesn't rule this out: if you edited
+  `mappers.xlsx` and remapped after the item was last validated, its cached
+  validity can go stale, so treat a successful export as the real check. Fix
+  by supplying the missing value (re-check the mapping, remap, or the source
+  workbook data) before re-exporting, or by marking the attribute optional in
+  `model.json` — see [E1. model.json](reference-data-model.qmd#required-and-optional-attributes).
   Editing `model.json` needs a stack restart — see [When do I need to
   restart?](boot.qmd#when-do-i-need-to-restart).
 - **`export-check` reports `FAIL outbox not found`.** The `PIPELINE_STORAGE`
@@ -234,4 +234,6 @@ representative images and avoid frames that carry sensitive information.
   [D. Configure](configure.qmd).
 - **`export-check` reports `FAIL no project directories`.** The export did not
   finish writing. Check `make logs` and confirm the project status shows
-  **Export Complete** in the UI.
+  **Export Complete** in the UI — if it instead shows **Completed**, see the
+  missing-required-attribute entry above; that failure also prevents the
+  bundle from being written.

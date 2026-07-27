@@ -83,7 +83,7 @@ stack restarts — see [When do I need to
 restart?](boot.qmd#when-do-i-need-to-restart) for the command and why.
 :::
 
-## Required vs. optional attributes
+## Required and optional attributes
 
 Every attribute definition in `model.json` — inside an observation's
 `statement.attributes`, or an entity's `additional_attributes` — is
@@ -92,22 +92,32 @@ attribute has a value; an observation missing one fails the export (see
 [If something goes wrong](run-submission.qmd#if-something-goes-wrong) in
 H. Run a submission test).
 
-To make an attribute optional, add `"optional": true` to its object in
-`model.json`:
+To make an attribute optional, add `"optional": true` to its **existing**
+object in `model.json` — this is the only line you add, everything else in
+the object stays as-is:
 
 ```json
 {
   "attribute_type": "code",
-  "display_name": "Diagnose",
-  "name": "observation-statement-diagnose",
   "tag": "diagnose",
-  "uid": "ec4eae14-9847-4fcb-82c5-3035503a5044",
   "optional": true
 }
 ```
 
 This is an edit to the reference data file itself, so it needs the same
 restart as any other `model.json` change — see the callout above.
+
+::: {.callout-warning}
+## Only mark attributes your site added
+
+**MSMDAD** attributes are ingested automatically and are not declared in
+`model.json` (see the callout at the top of this page) — never add one there
+by hand, including to flip its `optional` flag. Doing so creates a duplicate
+attribute definition, which causes bugs downstream. Only edit attributes your
+site added itself. If you're not sure whether the attribute named in the
+error is part of the MSMDAD floor or your own extension, ask
+[Support](support.qmd) before changing `model.json`.
+:::
 
 ## If something goes wrong
 
@@ -125,9 +135,9 @@ then retry `make setup-refdata`.
 
 **Export reverts to "Completed" with no error, and an observation is missing
 a coded attribute (e.g. `diagnose`)** — that attribute has no `"optional":
-true` flag in `model.json`, so it is required by default (see [Required vs.
-optional attributes](#required-vs-optional-attributes) above). Either supply
+true` flag in `model.json`, so it is required by default (see [Required and
+optional attributes](#required-and-optional-attributes) above). Either supply
 the missing value for that observation before re-exporting, or mark the
-attribute optional in `model.json` and restart the stack. Full symptom and
-where to find the underlying error: [H. Run a submission
-test](run-submission.qmd#if-something-goes-wrong).
+attribute optional in `model.json` and restart the stack. Full symptom,
+including why Curate can miss this, and where to find the underlying error:
+[H. Run a submission test](run-submission.qmd#if-something-goes-wrong).

@@ -8,7 +8,7 @@ with other operators and the WP2 team, and to contribute back to the project.
 ## NBIS Slack
 
 WP2 — the team that operates the servers hosting the BigPicture datasets you
-submit to — offers help on the `nbissweden.slack.com` Slack workspace, in
+submit to — offers help on the [`nbisweden.slack.com`](https://nbisweden.slack.com) Slack workspace, in
 addition to the [Support](support.qmd) channels.
 
 ::: {.callout-important}

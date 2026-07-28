@@ -1,0 +1,103 @@
+---
+title: Prepare for production
+---
+
+Once you have successfully uploaded a **staging** test dataset, you need to switch
+some wiring for your first **production** submission. This page is the checklist
+for that switch.
+
+## First production setup (one-time)
+
+Do these once, the first time you point this instance at production.
+
+### Must do
+
+- [ ] **Obtain and place the production BigPicture credentials.** NBIS provides
+  `s3cmd-inbox.conf` (S3 inbox config) and `crypt4gh_bp_key.pub` (encryption key).
+  Put them in your **production** credentials directory
+  (`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION`, default `certs/production`) — kept
+  separate from staging so the two instances never share credentials. See the credentials precondition in
+  [J. Upload to BigPicture](upload.qmd) and [F. TLS + credentials](tls-credentials.qmd)
+  for the how-to.
+- [ ] **Set real secrets.** If you used throwaway values for the test, set a real
+  `SLIDETAP_SECRET_KEY` and a real `config.yaml` salt now. The salt must be **set
+  once and never changed** — if you replace a test throwaway, regenerate
+  credentials (`make gen-credentials`) afterwards, because changing the salt
+  invalidates every stored password. (`PIPELINE_DB_PASSWORD` does
+  not need to change on a single-host deployment.) See [D. Configure](configure.qmd).
+- [ ] **Provision real reference data.** Replace the test fixtures (copied by
+  `make setup-refdata`) with your own `model.json` and `mappers.xlsx`.
+  These will likely be the same for all your datasets, though they may vary if you
+  wish. See [E. Reference data](reference-data.qmd).
+- [ ] **Set up production storage and mounts.** Relocate `PIPELINE_IMAGE_ROOT`
+  (images live here: large, read-only) and `PIPELINE_STORAGE` (converted slidetap
+  output: large and reasonably fast) to real absolute paths. Budget roughly **1×
+  the raw WSI** for the source and about the same again for the converted output.
+  Never `sudo make dirs`, or the folders end up owned by root and the pipeline (which
+  runs as UID 1000, not you) silently cannot write to them. The full mechanics:
+  placement by performance and sensitivity, NFS/CIFS mount options, disk budgeting are in the *Network shares & storage* and *Large datasets* sections of
+  [Best Practices](best-practices.qmd), with the relocation steps in
+  [D. Configure](configure.qmd).
+- [ ] **Re-run `make doctor` until it passes.** It re-checks secrets, host paths,
+  and UID-1000 ownership for your production configuration before you boot. See
+  [G. Preflight + boot](boot.qmd).
+
+### Recommended
+
+- [ ] **Use a TLS certificate your operators trust.** The test run serves the UI
+  over `localhost` with a self-signed certificate from `make ssl`. If you open the
+  UI only on the same machine, that is fine, keep it and click through the
+  one-time browser warning. If **other machines** open the UI, set
+  `PIPELINE_SERVERNAME` to the real hostname or IP they use (the certificate must
+  match that name), and — where your organisation runs its own certificate
+  authority (CA) — use a certificate it issues so operator browsers trust it
+  without warnings. On a closed LAN a self-signed certificate is still acceptable;
+  each operator just accepts the warning once. See
+  [F. TLS + credentials](tls-credentials.qmd) and [D. Configure](configure.qmd).
+- [ ] **Pin the image tag.** The pipeline downloads its software as *(Docker) images*, each
+  with a label. `PIPELINE_IMAGE_TAG=latest` means "always take the newest build",
+  which can change between runs and shift behaviour mid-submission. To lock it,
+  open `.env`, change `latest` to a fixed version code (it looks like
+  `sha-1a2b3c4`, obtained from the maintainers or release notes), and restart the
+  stack. If you are unsure which version to pin, leaving `latest` is acceptable.
+
+## Before every production run (per-run)
+
+Do these for each real dataset you submit.
+
+- [ ] **Point at the real dataset and its workbook.** Place this submission's real
+  WSI's in `PIPELINE_IMAGE_ROOT` and prepare the operator metadata workbook for this
+  batch, with each `Image path` cell pointing at the right slide. See
+  [G. Preflight + boot](boot.qmd) and [H. Run a submission](run-submission.qmd).
+- [ ] **Create the Project, Dataset, and Batch** in the slidetap UI. Set the
+  Metadata standard to the current version — the field defaults to the oldest
+  version, which fails validation. See [H. Run a submission](run-submission.qmd).
+- [ ] **Check mapper coverage for this dataset.** Run `make check-mappers
+  METADATA=<this dataset's workbook>` — a new dataset can surface coded values
+  your `mappers.xlsx` does not yet cover. Add any missing rows (and restart)
+  before proceeding. See [G. Preflight + boot](boot.qmd).
+- [ ] **Validate the bundle** after slidetap ingestion. Run `make validate-upload
+  DATASET=<DATASET_alias>` after export. See [I. Validate the bundle](validate.qmd).
+- [ ] **Populate the landing page and thumbnails.** SlideTAP does not fill these in
+  for you.
+- [ ] **Upload to production.** Dry-run first, then `make upload
+  DATASET=<project_dir> TARGET=production`. Both `DATASET` and `TARGET` are
+  required. Uploading from a remote server over SSH? Use `make upload-persistent`
+  instead, so a dropped connection does not kill the transfer. See
+  [J. Upload to BigPicture](upload.qmd).
+- [ ] **Notify NBIS.** Email [{{< var email.helpdesk >}}](mailto:{{< var email.helpdesk >}})
+  with subject `submission - DATASET_{IDENTIFIER}`, giving the uploader and dataset
+  names. See [J. Upload to BigPicture](upload.qmd).
+
+## If something goes wrong
+
+- **Windows absolute paths fail the container** — when you relocate a category to
+  an absolute path, use forward slashes (`C:/bp-data`, not `C:\bp-data`). See
+  [D. Configure](configure.qmd).
+- **`make doctor` fails after relocating storage** — usually the mount is owned by
+  `root`, not UID 1000. Fix ownership of the mount, then re-create the directories;
+  never `sudo make dirs`. See the *Network shares & storage* section of
+  [Best Practices](best-practices.qmd).
+- **Upload rejected or credential errors on production** — confirm the production
+  `s3cmd-inbox.conf` and `crypt4gh_bp_key.pub` are in `certs/production` and that
+  you passed `TARGET=production`. See [J. Upload to BigPicture](upload.qmd).

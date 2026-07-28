@@ -20,21 +20,41 @@ submission.
 ::: {.callout-important}
 ## Precondition: NBIS receiver credentials
 
-NBIS provides two files before you can upload. Because the A–J manual is a
-**staging** test, place both in your staging credentials directory
-(`PIPELINE_SUBMITTER_CREDS_DIR_STAGING`, default `certs/staging`) — a subfolder
-of the `certs/` directory you set up in [F. TLS + credentials](tls-credentials.qmd).
-For a real **production** submission the equivalent files go in
-`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` (default `certs/production`) instead, so
-the two instances never share credentials:
+You need two files before you can upload:
 
 | File | Purpose |
 |---|---|
 | `s3cmd-inbox.conf` | S3 connection configuration for the NBIS inbox |
 | `crypt4gh_bp_key.pub` | NBIS receiver public key for encryption |
 
-Contact NBIS if you do not have these files. Do **not** commit them to version
-control — they are already covered by the `.gitignore`.
+**`s3cmd-inbox.conf`** — log in at the BigPicture portal and click **Download
+credentials to upload to the Inbox**. Use
+[`staging-login.bp.nbis.se`](https://staging-login.bp.nbis.se/) for the manual;
+[`login.bp.nbis.se`](https://login.bp.nbis.se/) for a real **production** submission.
+
+**`crypt4gh_bp_key.pub`** — download the NBIS receiver public key:
+
+::: {.panel-tabset}
+## Windows
+```powershell
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+## macOS
+```bash
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+## Linux
+```bash
+curl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub
+```
+:::
+
+Place both in the credentials directory for your target — `certs/staging`
+(`PIPELINE_SUBMITTER_CREDS_DIR_STAGING`) for the manual, `certs/production`
+(`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION`) for production — under the `certs/`
+directory from [F. TLS + credentials](tls-credentials.qmd), so the two instances
+never share credentials. Do **not** commit them to version control; they are
+already covered by the `.gitignore`.
 :::
 
 ::: {.callout-note}

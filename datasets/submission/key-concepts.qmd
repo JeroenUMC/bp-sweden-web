@@ -2,66 +2,241 @@
 title: Key concepts
 ---
 
-A handful of words appear throughout this manual. This page defines each one in
-plain language, in the order you meet it, so the steps make sense when you
-reach them.
+A handful of words recur throughout this manual. The terms are listed **alphabetically**, so skim the names
+and expand any you don't recognise. Nothing here needs to be read end to end;
+keep it open and look terms up while following this guide.
 
-## model.json
+<details id="batch">
+<summary>**Batch**</summary>
 
-A file that describes the structure of a BigPicture-compatible dataset: what
-types of data it can contain (specimens, observations, images) and how they
-relate to each other. For most sites the provided default works unchanged.
-
-→ You supply this file at [**E. Reference data**](reference-data.qmd).
-
-## Mapper workbook (`mappers.xlsx`)
-
-A spreadsheet you fill in for your site that translates your institution's
-labels, codes, and field names into the vocabulary BigPicture expects. Each
-site has its own mapper workbook.
-
-→ You prepare and provide this at [**E. Reference data**](reference-data.qmd).
-
-## Metadata workbook
-
-The Excel file you create for each submission. It contains the contextual
-metadata for your dataset: specimens, observations, whole-slide images, and
-their relationships. This is your data — the pipeline ingests it and uses it
-to build the submission.
-
-→ You upload this in [**H. Run a submission**](run-submission.qmd).
-
-## Project
-
-A container you create in the SlideTap UI that holds everything for one upload
-attempt — its dataset definition and one or more batches. Think of a project as
-"one dataset going through the pipeline."
-
-→ You create a project in [**H. Run a submission**](run-submission.qmd).
-
-## Dataset
-
-The named entity within your project that becomes the dataset record in
-BigPicture. This is where you define secondary information: the policy, the
-metadata standard version, the type of dataset, and so on. The dataset's
-identifier (short name) becomes the folder name of your SlideTap outbox.
-
-→ You configure the dataset in [**H. Run a submission**](run-submission.qmd).
-
-## Batch
-
-A processing run within a project where you ingest your metadata workbook and
-curate the records through SlideTap. A project can contain multiple batches —
-for example if your metadata arrives in parts — though a single batch is
-usually enough.
+A processing run within a [project](#project) where you ingest your
+[metadata workbook](#metadata-workbook) and curate the records through SlideTap.
+A project can contain multiple batches — for example if your metadata arrives in
+parts — though a single batch is usually enough.
 
 → You create and complete a batch in [**H. Run a submission**](run-submission.qmd).
+</details>
 
-## SlideTap outbox
+<details id="bundle">
+<summary>**Bundle**</summary>
+
+The `DATASET_<alias>` folder that is the pipeline's finished product — the thing
+you validate and upload. It contains `METADATA/` and `IMAGES/`, plus
+`LANDING_PAGE/`, `ANNOTATIONS/`, and `PRIVATE/` where used. SlideTap writes it to
+the [SlideTap outbox](#slidetap-outbox); from there you validate it and submit it
+to BigPicture.
+
+→ You validate the bundle at [**I. Validate**](validate.qmd) and upload it at
+[**J. Upload to BigPicture**](upload.qmd).
+</details>
+
+<details id="coded-attribute">
+<summary>**Coded attribute**</summary>
+
+A metadata field whose value is a standardised code (usually
+[SNOMED CT](#snomed-ct)) rather than free text — a specimen type or a staining,
+for example. Your site's local short codes are translated into coded attributes
+by the [mapper workbook](#mapper-workbook). An unmapped value leaves the
+attribute empty and makes the item [invalid](#invalid-item).
+</details>
+
+<details id="curation-ui">
+<summary>**Curation UI**</summary>
+
+The SlideTap web interface where you review and fix your metadata before
+submission — mapping values, catching [invalid items](#invalid-item), and
+correcting them in the browser. The bp-submission-pipeline path and the Direct
+components path both run it; only the Direct upload (sda-cli) path skips it.
+</details>
+
+<details id="dataset">
+<summary>**Dataset**</summary>
+
+The named entity within your [project](#project) that becomes the dataset record
+in BigPicture. This is where you define secondary information: the policy, the
+metadata standard version, the type of dataset, and so on. The dataset's
+identifier (short name / alias) becomes the folder name of your
+[bundle](#bundle) and [outbox](#slidetap-outbox).
+
+→ You configure the dataset in [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="dicomize">
+<summary>**DICOMize (pre- and post-process)**</summary>
+
+Converting whole-slide images into the DICOM format BigPicture requires. In the
+curation UI this is the **Pre-process** step (download and DICOMize the slides)
+followed by **Post-process** (finalise them into the export). Most of a real
+submission's time is spent here.
+
+→ Steps 5–6 of [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="encryption-upload-tools">
+<summary>**Encryption & upload tools (crypt4gh, sda-cli, bp-submitter)**</summary>
+
+The tools that encrypt the [bundle](#bundle) and send it to BigPicture's inbox.
+`crypt4gh` is the encryption format (encrypted files end in `.c4gh`);
+`bp-submitter` (used by the pipeline's `make upload`) and `sda-cli` (the manual
+Direct upload path) are two alternative uploaders for the same job.
+
+→ [**J. Upload to BigPicture**](upload.qmd).
+</details>
+
+<details id="invalid-item">
+<summary>**Invalid item**</summary>
+
+A record whose attribute a [mapper](#mapper-workbook) could not resolve — the
+value stays `None`, the SlideTap validator flags it, and it blocks export until
+fixed. The operator's original input isn't lost: add the missing mapping row,
+re-upload `mappers.xlsx`, and re-map from the [curation UI](#curation-ui).
+Whole-slide images always show invalid until [pre-processing](#dicomize).
+
+→ Step 4 of [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="landing-page">
+<summary>**Landing page**</summary>
+
+The `LANDING_PAGE/` folder and its thumbnails, which appear **publicly** in
+BigPicture's Discovery browser. SlideTap does not populate it — you choose
+representative, non-sensitive images by hand. `landing_page.xml` is optional at
+submission time and can be added later.
+
+→ Step 10 of [**H. Run a submission**](run-submission.qmd), and
+[**Add a landing page after submission**](add-landing-page.qmd).
+</details>
+
+<details id="mapper-group">
+<summary>**Mapper group**</summary>
+
+The named set of mappings a [project](#project) uses, keyed by your institution's
+short name (`XLSX_MAPPER_GROUP_NAME`, e.g. `karolinska`). You select it in
+Project Settings so the project resolves values against your
+[mapper workbook](#mapper-workbook).
+
+→ Step 2 of [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="mapper-workbook">
+<summary>**Mapper workbook (`mappers.xlsx`)**</summary>
+
+A spreadsheet you fill in for your site that translates your institution's local
+short codes (staining names, tissue types, preparation methods, …) into the
+[coded attributes](#coded-attribute) BigPicture expects. Each site maintains its
+own mapper workbook.
+
+→ You prepare and provide this at [**E. Reference data**](reference-data.qmd).
+</details>
+
+<details id="metadata-workbook">
+<summary>**Metadata workbook**</summary>
+
+The Excel file you create for each submission. It contains the contextual
+metadata for your dataset — specimens, observations, whole-slide images, and
+their relationships. This is your data: the pipeline ingests it and uses it to
+build the submission. (Distinct from the [mapper workbook](#mapper-workbook),
+which is reference data you set up once.)
+
+→ You upload this in [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="metaflex">
+<summary>**MetaFlex**</summary>
+
+BigPicture's metadata schema — the set of XSD files your exported metadata XML is
+validated against. A [bundle](#bundle) whose XML doesn't conform fails
+validation. The metadata standard version you pick in the UI (for example
+`2.0.0`) selects which MetaFlex schema applies.
+
+→ [**I. Validate**](validate.qmd), and
+[**Validate metadata**](direct-upload/validate-metadata.qmd) on the Direct upload
+path.
+</details>
+
+<details id="model-json">
+<summary>**model.json**</summary>
+
+A file that describes the structure of a BigPicture-compatible dataset: what
+types of data it can contain (specimens, observations, images), how they relate,
+and your site's attribute extensions. For most sites the provided default works
+unchanged.
+
+→ You supply this file at [**E. Reference data**](reference-data.qmd).
+</details>
+
+<details id="msmdad">
+<summary>**MSMDAD**</summary>
+
+BigPicture's **mandatory minimum attribute set** — the floor of attributes every
+submission must carry. You get it automatically (even an empty `{}`
+[model.json](#model-json) still yields the full floor); `model.json` only *adds*
+site-specific attributes on top. An observation missing a required MSMDAD
+attribute fails export.
+</details>
+
+<details id="project">
+<summary>**Project**</summary>
+
+A container you create in the [curation UI](#curation-ui) that holds everything
+for one upload attempt — its [dataset](#dataset) definition and one or more
+[batches](#batch). Think of a project as "one dataset going through the
+pipeline."
+
+→ You create a project in [**H. Run a submission**](run-submission.qmd).
+</details>
+
+<details id="reference-data">
+<summary>**Reference data**</summary>
+
+The two files the [curation UI](#curation-ui) reads to understand your site:
+[model.json](#model-json) (the attribute and observation model) and
+[mappers.xlsx](#mapper-workbook) (local codes → coded attributes). You set them
+up once, not per submission.
+
+→ [**E. Reference data**](reference-data.qmd).
+</details>
+
+<details id="slidetap-outbox">
+<summary>**SlideTap outbox**</summary>
 
 The folder SlideTap writes when a batch finishes its export, named
-`DATASET_<your dataset identifier>`. This folder is the direct output of the
-pipeline: you validate it, fix any errors, and then upload it to BigPicture.
+`DATASET_<your dataset identifier>`. This is the pipeline's direct output — the
+[bundle](#bundle) you then validate and upload.
 
 → You validate the outbox at [**I. Validate**](validate.qmd) and upload it at
 [**J. Upload to BigPicture**](upload.qmd).
+</details>
+
+<details id="snomed-ct">
+<summary>**SNOMED CT**</summary>
+
+The international clinical terminology whose Concept IDs BigPicture uses for
+[coded attributes](#coded-attribute) such as staining procedures and specimen
+types. You look codes up in the SNOMED CT Browser and record them in your
+[mapper workbook](#mapper-workbook).
+
+→ [**Staining mapping**](reference-data-staining.qmd).
+</details>
+
+<details id="staging-vs-production">
+<summary>**Staging vs production**</summary>
+
+BigPicture runs two upload targets. **Staging** is the test environment the A–J
+manual uploads to (`staging-login.bp.nbis.se`, no Terms-of-Use form).
+**Production** is the real one (`login.bp.nbis.se`, signed ToU required), with
+its own separate credentials. `make upload` requires you to name the `TARGET`.
+
+→ [**J. Upload to BigPicture**](upload.qmd), and
+[**Prepare for production**](prepare-for-production.qmd).
+</details>
+
+<details id="wsi">
+<summary>**WSI (whole-slide image)**</summary>
+
+A digitised microscopy slide — the image data at the heart of a submission. WSIs
+run to gigabytes each and are [DICOMized](#dicomize) during pre-processing; a
+real dataset can be terabytes of them.
+
+→ [**Best Practices**](best-practices.qmd) for handling large datasets.
+</details>

@@ -64,8 +64,9 @@ integration work**.
 ## New here? Learn the vocabulary first
 
 Whichever path you take, a handful of words recur — *model*, *mappers*,
-*metadata*, *bundle*. [**Key concepts**](key-concepts.qmd) explains them in a few
-minutes and is worth reading before you start.
+*metadata*, *bundle*. [**Key concepts**](key-concepts.qmd) is an alphabetical
+glossary — skim it before you start, and keep it open to look up any term you
+hit along the way.
 
 ## How to read the pipeline manual (A–J)
 

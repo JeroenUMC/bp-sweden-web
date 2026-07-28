@@ -125,16 +125,16 @@ column that controls which columns are required:
 | Stain Type | Required columns |
 |---|---|
 | `chemical` | `Code`, `Scheme`, `Meaning` |
-| `immunostaining` (legacy `immunogenic`) | `Compound`, `Target`, `Reporter Type`, `Reporter Color`, `Reporter` |
-| `in_situ_hybridisation` (or `ish`) | `Compound`, `Target`, `Reporter Type`, `Reporter Color`, `Reporter` |
+| `immunostaining` (legacy `immunogenic`) | `Compound`, `Target`, `Reporter Type`, `Reporter Color` |
+| `in_situ_hybridisation` (or `ish`) | `Compound`, `Target`, `Reporter Type`, `Reporter Color` |
 
 **Example** (`Staining` sheet — an HE stain as a procedure, and a two-component IHC panel):
 
-| Mapping Key | Type | Stain Type | Compound | Target | Reporter Type | Reporter Color | Reporter | Code | Scheme | Meaning |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `^HE[0-9]*` | procedure | | | | | | | 104210008 | SNOMED | HE - Hematoxylin and eosin stain method (procedure) |
-| `CKAE` | list | chemical | | | | | | 12710003 | SCT | hematoxylin stain |
-| `CKAE` | list | immunostaining | ANTIBODY | CB, TP, Cytokeratin AE1/AE3 | CHROMOGEN | BROWN | DAB | | | |
+| Mapping Key | Type | Stain Type | Compound | Target | Reporter Type | Reporter Color | Code | Scheme | Meaning |
+|---|---|---|---|---|---|---|---|---|---|
+| `^HE[0-9]*` | procedure | | | | | | 104210008 | SNOMED | HE - Hematoxylin and eosin stain method (procedure) |
+| `CKAE` | list | chemical | | | | | 12710003 | SCT | hematoxylin stain |
+| `CKAE` | list | immunostaining | ANTIBODY | CB, TP, Cytokeratin AE1/AE3 | CHROMOGEN | BROWN | | | |
 
 ## Common pitfalls
 

@@ -1,0 +1,27 @@
+---
+title: Support
+---
+
+If you get stuck while following the manual, here is where to turn.
+
+Looking for a quick answer instead of contacting someone? Check the
+[FAQ](faq.qmd) first — it collects the recurring questions and errors from
+across the manual.
+
+## Get help
+
+- **Submission pipeline, server, or data-archive issues:** [bp-ops](mailto:{{< var email.helpdesk >}}) — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.
+- **General and technical support:** [servicedesk](mailto:{{< var email.servicedesk >}}).
+
+## When you ask, include
+
+To get a useful answer quickly, tell us:
+
+- Which **manual step** you were on — the letter and name, e.g. *F. TLS + credentials* — and the exact command you ran.
+- The **output you got** versus what the *Verify* box said to expect.
+- Your **operating system** (Windows / macOS / Linux).
+
+## Out of scope
+
+Support covers the submission pipeline itself. Custom data transformations and
+your own infrastructure setup are outside what the helpdesk can troubleshoot.

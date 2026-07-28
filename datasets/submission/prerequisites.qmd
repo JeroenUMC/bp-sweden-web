@@ -1,0 +1,282 @@
+---
+title: A. Prerequisites
+---
+
+Before you can run the submission pipeline your machine needs six tools:
+**Docker + Compose v2**, **Git**, the **GitHub CLI (`gh`)**, **make**,
+**OpenSSL**, and **Python 3.12+**. Each section below gives the install command
+for your OS and a verify step to confirm it worked.
+
+::: {.callout-important}
+You also need to have been **granted access** to the private BigPicture repos and
+images first — see the [overview](index.qmd) and [GitHub access](github-access.qmd).
+:::
+
+::: {.callout-note}
+## Linux: Ubuntu/Debian assumed
+All Linux commands on this page use `apt`. On other distributions substitute
+your package manager — `dnf` (Fedora/RHEL), `pacman` (Arch), `apk` (Alpine),
+or `zypper` (openSUSE) — and adjust package names as needed.
+:::
+
+## Docker + Compose v2
+
+::: {.panel-tabset}
+## Windows
+
+Install **Docker Desktop** (includes Compose v2) with the package manager:
+
+```powershell
+winget install --id Docker.DockerDesktop -e
+```
+
+Then launch **Docker Desktop** once so the engine starts.
+
+## macOS
+
+Install **Docker Desktop** (includes Compose v2) with Homebrew:
+
+```bash
+brew install --cask docker
+```
+
+Then launch **Docker Desktop** once so the engine starts.
+
+## Linux
+
+Install **Docker Engine** and the **Compose v2 plugin** using these commands:
+
+```bash
+apt update
+apt install -y curl
+curl -fsSL https://get.docker.com | sh
+apt install -y docker-compose-plugin
+```
+
+Add your user to the `docker` group so you can run Docker without `sudo`:
+
+```bash
+usermod -aG docker $USER
+```
+
+Log out and back in for the group change to take effect.
+:::
+
+::: {.callout-tip}
+## Verify
+```bash
+docker --version
+docker compose version
+```
+
+:::
+
+## Git
+
+::: {.panel-tabset}
+## Windows
+
+```powershell
+winget install --id Git.Git -e
+```
+
+Restart any open terminals after installing.
+
+## macOS
+
+```bash
+brew install git
+```
+
+## Linux
+
+```bash
+apt install -y git
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+git --version
+```
+
+:::
+
+## GitHub CLI (`gh`)
+
+::: {.panel-tabset}
+## Windows
+
+```powershell
+winget install --id GitHub.cli -e
+```
+
+## macOS
+
+```bash
+brew install gh
+```
+
+## Linux
+
+```bash
+apt install gh
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+gh --version
+```
+:::
+
+## make
+
+On **Windows**, `make` is bundled with Git for Windows — no separate install.
+You only need to add Git's tool folder to your system PATH once.
+
+::: {.panel-tabset}
+## Windows
+
+Git for Windows ships `make` in `C:\Program Files\Git\usr\bin`. Add that folder
+to your system PATH:
+
+1. Press the **Windows key**, type **environment variables**, and open
+   **"Edit the system environment variables"**.
+2. Click **Environment Variables…**
+3. Under **System variables**, select **Path** and click **Edit…**
+4. Click **New** and paste:
+   ```
+   C:\Program Files\Git\usr\bin
+   ```
+5. Click **OK** three times, then restart any open terminals.
+
+::: {.callout-note}
+If you installed Git to a custom location, replace `C:\Program Files\Git` with
+your actual install path. The `openssl` command in the next section lives in the
+same folder, so this one PATH change covers both.
+:::
+
+## macOS
+
+Install GNU make via Homebrew and make it the default `make`:
+
+```bash
+brew install make
+echo 'export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+If you use Bash instead of Zsh, replace `~/.zshrc` with `~/.bash_profile`.
+
+## Linux
+
+```bash
+apt install -y make
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+make --version
+```
+
+:::
+
+## OpenSSL
+
+On **Windows**, OpenSSL ships in the same Git folder you already added to PATH
+in the make step — no extra install needed.
+
+On **macOS**, the system `openssl` command is actually LibreSSL. The pipeline
+needs real OpenSSL, so we install it via Homebrew.
+
+::: {.panel-tabset}
+## Windows
+
+No additional install needed. Open a new terminal and confirm it is available:
+
+```powershell
+openssl version
+```
+
+## macOS
+
+```bash
+brew install openssl
+echo 'export PATH="$(brew --prefix)/opt/openssl@3/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+If you use Bash instead of Zsh, replace `~/.zshrc` with `~/.bash_profile`.
+
+## Linux
+
+```bash
+apt install -y openssl
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+openssl version
+```
+
+:::
+
+## Python
+
+The pipeline requires **Python 3.12 or later**.
+
+::: {.panel-tabset}
+## Windows
+
+```powershell
+winget install --id Python.Python.3.12 -e
+```
+
+Restart any open terminals after installing.
+
+## macOS
+
+```bash
+brew install python@3.12
+```
+
+## Linux
+
+On **Ubuntu 24.04 and later**, Python 3.12 is in the default repositories:
+
+```bash
+apt install -y python3.12
+```
+
+On **Ubuntu 22.04**, install it via the deadsnakes PPA:
+
+```bash
+add-apt-repository ppa:deadsnakes/ppa
+apt update
+apt install -y python3.12
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+python3.12 --version
+```
+
+On Windows, use `python --version` instead.
+
+:::
+
+Once every tool reports a version, continue to [B. GitHub access](github-access.qmd).

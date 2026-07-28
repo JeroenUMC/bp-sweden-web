@@ -1,0 +1,140 @@
+---
+title: Prerequisites
+---
+
+You **don't** need the `bp-submission-pipeline` to submit to BigPicture. If you
+are comfortable on the command line, you can prepare and upload a dataset
+yourself with the `sda-cli` direct path described in this section. Some of these
+tools are also used inside the `bp-submission-pipeline`, so this path stays close
+to what happens under the hood there.
+
+::: {.callout-note}
+This section assumes a more technical, command-line-comfortable reader than the
+[Implementation (A–J)](../prerequisites.qmd) operator manual. If you'd rather run
+an automated, guided flow, use that manual instead.
+:::
+
+This page installs the three tools the direct path needs. Use **at least** the
+minimum version listed — older versions are missing commands this guide relies
+on.
+
+| Tool | Minimum version | Purpose |
+|------|-----------------|---------|
+| [`sda-cli`](https://github.com/NBISweden/sda-cli/releases/tag/v0.2.1) | v0.2.1 | Encrypt files and upload them to your BigPicture inbox |
+| [`s3cmd`](https://github.com/s3tools/s3cmd/releases/tag/v2.2.0) | v2.2.0 | S3 transport used with the inbox configuration file |
+| [`bigpicture-metadata-interface`](https://github.com/imi-bigpicture/bigpicture-metadata-interface/releases/tag/v2.0.2) | v2.0.2 | Generate and manage the dataset metadata XML *(private repository)* |
+
+## sda-cli
+
+Download the release that matches your operating system from the
+[`sda-cli` releases page](https://github.com/NBISweden/sda-cli/releases/latest),
+then extract the binary. The executable ends up in the same directory as the
+downloaded archive.
+
+::: {.panel-tabset}
+## Windows
+
+Download the `..._Windows_x86_64.zip` asset, then extract it:
+
+```powershell
+tar -xvzf sda-cli_vX_Windows_x86_64.zip
+```
+
+## macOS
+
+Download the `..._Darwin_x86_64.tar.gz` asset, then extract it:
+
+```bash
+tar -xvzf sda-cli_vX_Darwin_x86_64.tar.gz
+```
+
+## Linux
+
+Download the `..._Linux_x86_64.tar.gz` asset, then extract it:
+
+```bash
+tar -xvzf sda-cli_vX_Linux_x86_64.tar.gz
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+Run the binary's built-in help to confirm it executes:
+
+::: {.panel-tabset}
+## Windows
+```powershell
+sda-cli help
+```
+## macOS
+```bash
+./sda-cli help
+```
+## Linux
+```bash
+./sda-cli help
+```
+:::
+
+You should see the usage text listing the `encrypt` and `upload` commands. Check
+that you downloaded **v0.2.1 or later** from the releases page.
+:::
+
+::: {.callout-note}
+Full `sda-cli` user documentation lives in its
+[GitHub repository](https://github.com/NBISweden/sda-cli). This guide includes
+everything needed to encrypt and upload to BigPicture.
+:::
+
+## s3cmd
+
+::: {.panel-tabset}
+## Windows
+
+Install with `pip` (Python required):
+
+```powershell
+pip install "s3cmd>=2.2.0"
+```
+
+## macOS
+
+```bash
+brew install s3cmd
+```
+
+## Linux
+
+```bash
+sudo apt-get install -y s3cmd
+```
+:::
+
+::: {.callout-tip}
+## Verify
+
+```bash
+s3cmd --version
+```
+
+Expected output (your patch version may differ):
+
+```
+s3cmd version 2.2.0
+```
+:::
+
+## bigpicture-metadata-interface
+
+This tool is distributed through a **private** Git repository, so you must have
+been granted access before you can install it. Once you have access, install
+**v2.0.2 or later** following the instructions in the repository's own README.
+
+::: {.callout-important}
+If you cannot reach the repository, you do not yet have access. Request it the
+same way you request access to the other private BigPicture resources — see
+[Support](../support.qmd).
+:::
+
+Once all three tools report a version, continue to [Prepare data](prepare-data.qmd).

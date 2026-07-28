@@ -1,0 +1,80 @@
+---
+title: B. GitHub access
+---
+
+Sign in with the GitHub CLI (`gh`) so your machine can reach the **private**
+BigPicture repositories and container images (GHCR).
+
+::: {.callout-important}
+## Precondition: access must already be granted
+
+This step authenticates the GitHub account that has already been given access
+to the private BigPicture repositories and container images. If your account
+has not been granted access yet, the commands below will succeed but you will
+still be refused when cloning the code in the next step.
+
+Request access first via the [servicedesk](mailto:{{< var email.servicedesk >}}).
+:::
+
+## Steps
+
+Run the three commands below **in order**:
+
+**1. Sign in to GitHub**
+
+```bash
+gh auth login
+```
+
+You will be asked three questions — answer as shown:
+
+```
+? What account do you want to log into? **GitHub.com**
+? What is your preferred protocol for Git operations on this host? **HTTPS**
+? Authenticate Git with your GitHub credentials? (Y/n) **Y**
+? How would you like to authenticate GitHub CLI? **Login with a web browser**
+```
+
+A browser window then opens. Follow the prompts to complete the sign-in.
+
+**2. Wire `gh` into Git**
+
+```bash
+gh auth setup-git
+```
+
+Configures Git to use `gh` as its credential helper, so `git clone` and
+`git pull` authenticate automatically without a password prompt.
+
+**3. Add the package-read scope**
+
+```bash
+gh auth refresh -s read:packages
+```
+
+Extends your token with the `read:packages` scope so Docker can pull private
+container images from GitHub Container Registry (GHCR).
+
+::: {.callout-tip}
+## Verify
+```bash
+gh auth status
+```
+
+Expected output:
+
+```
+github.com
+  ✓ Logged in to github.com as <your-username>
+  ...
+```
+:::
+
+## If something goes wrong
+
+**Browser does not open during `gh auth login`**
+
+A one-time code and a URL are printed in the terminal. Open
+`https://github.com/login/device` manually, enter the code, and complete the
+sign-in there.
+

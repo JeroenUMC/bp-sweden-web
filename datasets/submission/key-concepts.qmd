@@ -1,0 +1,67 @@
+---
+title: Key concepts
+---
+
+A handful of words appear throughout this manual. This page defines each one in
+plain language, in the order you meet it, so the steps make sense when you
+reach them.
+
+## model.json
+
+A file that describes the structure of a BigPicture-compatible dataset: what
+types of data it can contain (specimens, observations, images) and how they
+relate to each other. For most sites the provided default works unchanged.
+
+→ You supply this file at [**E. Reference data**](reference-data.qmd).
+
+## Mapper workbook (`mappers.xlsx`)
+
+A spreadsheet you fill in for your site that translates your institution's
+labels, codes, and field names into the vocabulary BigPicture expects. Each
+site has its own mapper workbook.
+
+→ You prepare and provide this at [**E. Reference data**](reference-data.qmd).
+
+## Metadata workbook
+
+The Excel file you create for each submission. It contains the contextual
+metadata for your dataset: specimens, observations, whole-slide images, and
+their relationships. This is your data — the pipeline ingests it and uses it
+to build the submission.
+
+→ You upload this in [**H. Run a submission**](run-submission.qmd).
+
+## Project
+
+A container you create in the SlideTap UI that holds everything for one upload
+attempt — its dataset definition and one or more batches. Think of a project as
+"one dataset going through the pipeline."
+
+→ You create a project in [**H. Run a submission**](run-submission.qmd).
+
+## Dataset
+
+The named entity within your project that becomes the dataset record in
+BigPicture. This is where you define secondary information: the policy, the
+metadata standard version, the type of dataset, and so on. The dataset's
+identifier (short name) becomes the folder name of your SlideTap outbox.
+
+→ You configure the dataset in [**H. Run a submission**](run-submission.qmd).
+
+## Batch
+
+A processing run within a project where you ingest your metadata workbook and
+curate the records through SlideTap. A project can contain multiple batches —
+for example if your metadata arrives in parts — though a single batch is
+usually enough.
+
+→ You create and complete a batch in [**H. Run a submission**](run-submission.qmd).
+
+## SlideTap outbox
+
+The folder SlideTap writes when a batch finishes its export, named
+`DATASET_<your dataset identifier>`. This folder is the direct output of the
+pipeline: you validate it, fix any errors, and then upload it to BigPicture.
+
+→ You validate the outbox at [**I. Validate**](validate.qmd) and upload it at
+[**J. Upload to BigPicture**](upload.qmd).

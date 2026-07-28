@@ -1,0 +1,123 @@
+---
+title: Testing the pipeline
+subtitle: For contributors changing the bp-submission-pipeline
+---
+
+This page is about testing the **`bp-submission-pipeline`** itself — not this
+documentation site. If you're editing manual pages, see
+[Page template & conventions](page-template.qmd) instead.
+
+The pipeline ships two developer test targets. Run them before opening a PR to
+catch breakage early:
+
+| Target | Cost | Run it when |
+|--------|------|-------------|
+| `make test-unit` | Fast, no Docker (~2 sec) | **Every** change, always before a PR |
+| `make smoke` | Heavy, boots the full Docker stack | You've touched pipeline **behavior** (API client, submitter, export, compose/env wiring) |
+
+## `make test-unit`
+
+**What it covers.** Unit and contract tests — the seams between the pipeline and
+its submodules (env vars, directory layout, the XLSX/mapper contracts, the API
+client, the submitter argv, credential generation). It runs `pytest tests/unit/`
+and needs **no Docker** and no running stack.
+
+**When to run.** On every change, and always before opening a PR. It's cheap, so
+there's no reason to skip it.
+
+**Prerequisites.** A Python with `pytest` importable. The target invokes
+`python3 -m pytest`, so you don't need a `pytest` shim on your `PATH` — but you
+do need `pytest` installed in that interpreter (`python3 -m pip install pytest`).
+If `make` can't find `python3` on your machine, run the underlying command
+directly instead:
+
+```bash
+PYTHONPATH=bigpicture-metadata-interface:bp-submitter python -m pytest tests/unit/ -v
+```
+
+**What a pass looks like.** A green pytest summary (your counts and timing will
+differ):
+
+```
+tests/unit/test_env_contract.py::test_required_vars_present PASSED
+tests/unit/test_xlsx_contract.py::test_columns_match_model PASSED
+...
+============================ 211 passed in 2.13s ============================
+```
+
+**What a failure looks like.** pytest names the failing test and the assertion;
+the run ends with a red summary:
+
+```
+tests/unit/test_xlsx_contract.py::test_columns_match_model FAILED
+...
+E   AssertionError: column 'specimen_type' missing from model.json
+======================= 1 failed, 210 passed in 2.1s =======================
+```
+
+Fix the contract that broke (or update the test if the contract changed
+deliberately) and re-run until green.
+
+## `make smoke`
+
+**What it checks.** The full end-to-end path against a metadata XLSX: it
+generates test credentials, boots the minimal stack (`pipeline-db`,
+`slidetap-app`, `slidetap-task`), waits for the API to become healthy, then
+drives a complete submission via the REST API — create project, upload the XLSX,
+image pre- and post-processing, complete the batch, export the bundle, verify the
+outbox, and finally run `bp-submitter --dry-run` over the exported dataset. If
+all of that succeeds, the submit→export→upload contract is intact.
+
+**When to run.** When your change touches pipeline behavior — the API client,
+the submitter, export logic, or the Docker Compose / `.env` wiring. It's slow
+(image processing does real DICOM conversion and can take minutes per slide), so
+it's not worth running for pure docs or typo changes.
+
+**Prerequisites.** Unlike `test-unit`, smoke needs a working environment: a
+configured `.env`, Docker running, and credentials in place. If you haven't set
+that up, follow [D. Configure](../configure.qmd) and
+[G. Preflight + boot](../boot.qmd) first.
+
+By default smoke uses the bundled fixture `tests/data/metadata/metadata.xlsx`.
+To run against your own metadata, pass `XLSX`:
+
+```bash
+make smoke XLSX=path/to/your/metadata.xlsx
+```
+
+**What a pass looks like.** Progress is logged stage by stage, ending with
+`Smoke finished`:
+
+```
+API healthy
+Logging in as admin...
+Creating project...
+Waiting for metadata import to complete (METADATA_SEARCH_COMPLETE)...
+  status=3
+Metadata import complete
+...
+Export ready
+Running bp-submitter --dry-run on project smoke-project-...
+Smoke finished
+```
+
+**What a failure looks like.** The run aborts at the stage that broke. The two
+most common early failures:
+
+```
+Error: .env not found. Copy .env.example to .env and update values.
+```
+
+```
+Missing XLSX: tests/data/metadata/metadata.xlsx
+```
+
+(both exit with code 2 before anything boots), and — once the stack is starting —
+the API health timeout:
+
+```
+Error: API did not become healthy within 60 seconds
+```
+
+which usually means a container failed to start; check `docker compose logs` for
+the offending service.

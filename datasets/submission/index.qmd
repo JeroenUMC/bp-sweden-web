@@ -3,60 +3,77 @@ title: Submit data to BigPicture
 subtitle: An operator's manual — from a bare machine to a validated upload
 ---
 
-This is a **step-by-step manual** for submitting a dataset to BigPicture. It is
-written for a **technically proficient user who is not a software developer**:
-someone comfortable installing software and running commands in a terminal, but
-who is **not** expected to know Python, Docker internals, or the command line in
-depth.
+There is **more than one way** to submit a dataset to BigPicture. This manual
+covers **three paths**, from a fully-orchestrated pipeline to a hands-on
+command-line upload. **Choose the one that fits your context** — you don't have
+to use the `bp-submission-pipeline`, and it isn't the only supported route.
 
-Follow it **top to bottom**. Every step tells you exactly what to paste and what
-you should see back, and the **« Prev / Next »** buttons at the bottom of each
-page walk you through the ten submission steps (A–J), in order, from a bare
-machine to a validated upload. You never have to guess what to do next.
+All three paths end at the same place: a validated dataset uploaded to
+BigPicture. They differ in **how much is wired up for you** and **how much
+control you keep**.
 
 ::: {.callout-important}
 ## Before you start: you need access
 
-This manual assumes you have **already been granted access** to the private
-BigPicture repositories and container images used by the submission pipeline. If
-you have not, the very first steps will fail when you try to download the code.
-
-Request access **before** you begin — see [Prerequisites](prerequisites.qmd) and
-[GitHub access](github-access.qmd).
+Every path assumes you have **already been granted access** to the private
+BigPicture repositories and container images. If you have not, the first steps
+will fail when you try to download the code. Request access **before** you begin —
+see [Prerequisites](prerequisites.qmd) and [GitHub access](github-access.qmd).
 :::
 
-## The journey at a glance
+## Choose your path
 
-You will move through ten steps, **A** to **J**. Each builds on the one before,
-so do them in order the first time.
+Two questions decide which path is yours.
 
-| | Step | What you'll do |
-|---|---|---|
-| | [**Key concepts**](key-concepts.qmd) | The handful of words you need: *model*, *mappers*, *metadata*, *bundle*. |
-| **A** | [Prerequisites](prerequisites.qmd) | Install the tools (Docker, Git, `gh`, `make`, OpenSSL, Python) and verify each. |
-| **B** | [GitHub access](github-access.qmd) | Sign in with `gh` so you can reach the private repos and images. |
-| **C** | [install package](install-package.qmd) | Clone the pipeline (with submodules) and pull the images. |
-| **D** | [Configure](configure.qmd) | Set up `.env`, mount your data, and set the config salt. |
-| **E** | [Reference data](reference-data.qmd) | Provide the `model.json` and `mappers.xlsx` for your site. |
-| **F** | [TLS + credentials](tls-credentials.qmd) | Generate certificates and login credentials. |
-| **G** | [Preflight + boot](boot.qmd) | Run the doctor check, start the stack, open the UI. |
-| **H** | [Run a submission](run-submission.qmd) | Log in, create a project/batch, upload your workbook, curate, export. |
-| **I** | [Validate the bundle](validate.qmd) | Check the export and learn how to read the errors. |
-| **J** | [Upload to BigPicture](upload.qmd) | Push the validated bundle with `bp-submitter`. |
+### 1. Do you need the curation UI?
 
-::: {.callout-tip}
-## Prefer the command line? There's a direct alternative
+The curation UI (`bigpicture-slidetap`) lets you **review and fix your metadata
+interactively** before submission — mapping values, catching invalid items, and
+correcting them in a browser.
 
-You don't have to run the `bp-submission-pipeline` at all. If you're comfortable
-on the command line, the [**Direct upload (sda-cli)**](direct-upload/prerequisites.qmd)
-section walks you through preparing, validating, and uploading a dataset
-yourself with `sda-cli` — a leaner path that some uploaders use directly (often
-with another tool in between). It assumes a more technical reader than the A–J
-manual below.
-:::
+- **No — I'll prepare metadata by hand.** Take the leanest route:
+  [**Direct upload (sda-cli)**](direct-upload/prerequisites.qmd). No stack to run;
+  you hand-prepare and validate the dataset, then encrypt and upload it with
+  `sda-cli`. The most command-line-heavy path, with the fewest moving parts.
+- **Yes — I want to curate metadata in the UI.** You'll be running Slidetap, so
+  answer question 2.
 
-## How to read this manual
-- **Step by step.** A-G are required for setting up your data pipeline, H-J are for submitting a test set.
+### 2. Wired for you, or run it yourself?
+
+Both of these give you the full curation UI — they differ only in **who does the
+integration work**.
+
+- **Wire it for me.** Use the [**bp-submission-pipeline**](prerequisites.qmd) — the
+  step-by-step operator manual, written for a technically proficient user who is
+  **not** a software developer. Make targets and a Docker Compose stack do the
+  wiring; you move through **ten steps, A to J**, each telling you exactly what to
+  paste and what to expect. This is the most guided, least-setup path. Start at
+  [**A. Prerequisites**](prerequisites.qmd).
+- **I'll run it myself.** Take [**Direct components**](direct-components/index.qmd):
+  run the individual BigPicture submodules directly, without the pipeline's
+  orchestration. You keep the curation UI but own the wiring — the most flexible
+  path, and the most setup.
+
+
+| Path | Curation UI | Who does the wiring | In short |
+|------|-------------|---------------------|----------|
+| [**bp-submission-pipeline**](prerequisites.qmd) | Yes — guided | The pipeline (Make + Compose) | Most guided, least setup; a tested, pinned, step-by-step flow. |
+| [**Direct components**](direct-components/index.qmd) | Yes — self-run | You | Most flexible; you run the four submodules and own the integration. |
+| [**Direct upload (sda-cli)**](direct-upload/prerequisites.qmd) | No — manual metadata | You (leanest stack) | Fewest moving parts; hand-prep the dataset and upload with `sda-cli`. |
+
+## New here? Learn the vocabulary first
+
+Whichever path you take, a handful of words recur — *model*, *mappers*,
+*metadata*, *bundle*. [**Key concepts**](key-concepts.qmd) explains them in a few
+minutes and is worth reading before you start.
+
+## How to read the pipeline manual (A–J)
+
+If you take the pipeline path:
+
+- **Step by step.** A–G set up your data pipeline; H–J submit a test set. The
+  **« Prev / Next »** buttons at the bottom of each page walk you through them in
+  order, so you never have to guess what to do next.
 - **Verify as you go.** Most steps end with a *Verify* box: paste the command,
   compare against the expected output, and only move on once it matches.
 

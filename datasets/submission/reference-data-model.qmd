@@ -3,20 +3,25 @@ title: "E1. model.json"
 ---
 
 Place the provided default `model.json` in `PIPELINE_REFDATA_DIR` so the
-pipeline has a working attribute and observation model from day one.
+pipeline has a working attribute and observation model from day one. Once
+that's working, swap in a site-specific `model.json` (see the callout below)
+whenever you're ready.
 
-::: {.callout-warning}
-## Work in progress
-
-Full instructions for building a site-specific `model.json` are coming once
-the generator lands. The future workflow: visit the
-[bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/),
-select the attributes your site needs, export the selection, and run
-`make gen-model`.
+::: {.callout-note}
+## Building a site-specific model.json
 
 **MSMDAD** is BigPicture's mandatory minimum attribute set. **MetaFlex** covers
-optional extensions. The bpmetrics-config browser lets you browse and select
-from both.
+optional extensions. To build a `model.json` tailored to your site, browse and
+select from both in the
+[bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/), then
+use its **"Current Selection"** panel to **"Also export as model.json
+(SlideTap)"**. This produces a SlideTap-ready `model.json` directly — place
+the downloaded file in `PIPELINE_REFDATA_DIR` in place of the default, and
+restart the stack (see the callout below) to pick it up.
+
+Only want the MSMDAD floor, with no site-specific attributes at all? Put
+`{}` in `model.json`. MSMDAD attributes aren't sourced from `model.json`, so `{}` still
+gives you the full mandatory attribute set with nothing extra declared.
 :::
 
 ## Place the default file
@@ -76,6 +81,50 @@ credentials that have not been created yet. Run the full `make doctor` check
 at [G. Preflight + boot](boot.qmd) once all prerequisites are in place.
 :::
 
+::: {.callout-note}
+## Already have the stack running? This needs a restart to take effect
+Editing `model.json` in `PIPELINE_REFDATA_DIR` isn't picked up until the
+stack restarts — see [When do I need to
+restart?](boot.qmd#when-do-i-need-to-restart) for the command and why.
+:::
+
+## Required and optional attributes
+
+Every attribute definition in `model.json` — inside an observation's
+`statement.attributes`, or an entity's `additional_attributes` — is
+**required by default**. At export, SlideTap checks that every required
+attribute has a value; an observation missing one fails the export (see
+[If something goes wrong](run-submission.qmd#if-something-goes-wrong) in
+H. Run a submission test).
+
+To make an attribute optional, add `"optional": true` to its **existing**
+object in `model.json` — this is the only line you add, everything else in
+the object stays as-is:
+
+```json
+{
+  "attribute_type": "code",
+  "tag": "diagnose",
+  "optional": true
+}
+```
+
+This is an edit to the reference data file itself, so it needs the same
+restart as any other `model.json` change — see the callout above.
+
+::: {.callout-note}
+## Editing an MSMDAD attribute's optional flag
+
+The bpmetrics-config export declares **MSMDAD** attributes in `model.json`
+alongside your site's own extensions, and SlideTap dedupes any collision with
+an entity's fixed attribute on ingest. Still, don't hand-edit an MSMDAD
+attribute's entry directly: re-select it in the bpmetrics-config browser and
+re-export instead, so the whole file keeps coming from one source and stays
+in sync with your selection. If you're not sure whether the attribute named
+in an error is part of the MSMDAD floor or your own extension, ask
+[Support](support.qmd) before changing `model.json`.
+:::
+
 ## If something goes wrong
 
 **`FAIL: model.json missing from ...`** — run `make setup-refdata` again and
@@ -89,3 +138,12 @@ git submodule update --init --recursive
 ```
 
 then retry `make setup-refdata`.
+
+**Export reverts to "Completed" with no error, and an observation is missing
+a coded attribute (e.g. `diagnose`)** — that attribute has no `"optional":
+true` flag in `model.json`, so it is required by default (see [Required and
+optional attributes](#required-and-optional-attributes) above). Either supply
+the missing value for that observation before re-exporting, or mark the
+attribute optional in `model.json` and restart the stack. Full symptom,
+including why Curate can miss this, and where to find the underlying error:
+[H. Run a submission test](run-submission.qmd#if-something-goes-wrong).

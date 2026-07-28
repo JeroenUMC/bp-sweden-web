@@ -24,10 +24,19 @@ make doctor
 ```
 
 `doctor` is a read-only check that confirms your `.env`,
-required settings, the rotated config salt, your reference data
+required settings, the rotated config salt, your reference data files
 (`model.json` + `mappers.xlsx`), the TLS certificate and key, your credentials
 file, the data mounts, and the required tools (Docker, `gh` login, OpenSSL,
 `make`).
+
+::: {.callout-note}
+## Verify reference data contents: `make check-mappers`
+`doctor` only checks that the reference data **files exist**, not that their
+**contents are valid**. To verify your `mappers.xlsx` covers all the coded
+values in your data, run [`make check-mappers`](reference-data-mappers.qmd#verify-coverage)
+after editing the mappers file. This catches unmapped values up front, before
+they become invalid items in the curation UI.
+:::
 
 A healthy setup ends with `doctor: OK`:
 
@@ -134,6 +143,40 @@ submission](run-submission.qmd).
   misbehaves. Tail one service with `make logs s=slidetap-app`.
 - **`make down`** — stop and remove the containers. Your data is preserved; run
   `make up` again to restart.
+
+## When do I need to restart?
+
+Once the stack is running, editing a file on disk doesn't always take effect
+immediately — it depends on **when** the containers read it.
+
+| File | Needs a restart? | Why |
+|---|---|---|
+| [`mappers.xlsx`](reference-data-mappers.qmd) | Yes — `make down` then `make up` | `slidetap-app`/`slidetap-task` parse it once when they start. The bind-mounted file changes on disk immediately, but the running process keeps what it already parsed |
+| [`model.json`](reference-data-model.qmd) | Yes — `make down` then `make up` | Same as `mappers.xlsx` — parsed once at startup |
+| [`config.yaml`](configure.qmd) | Yes — `make down` then `make up` | Parsed once at startup, same as the reference data files |
+| [`.env`](configure.qmd) | Yes — but just re-running `make up` is enough, see below | Baked into each container's environment and bind-mount paths when Compose creates it |
+| [`credentials.json`](tls-credentials.qmd) | Yes — `make down` then `make up` | Password hashes load into memory once, when `slidetap-app` starts |
+| TLS certificate/key (from [F. TLS + credentials](tls-credentials.qmd)) | Yes — `make down` then `make up` | `slidetap-web` (nginx) reads the certificate and key once, when it starts |
+| NBIS receiver credentials (from [J. Upload](upload.qmd)) | **No — picked up live** | `make upload`/`make upload-dry-run` create a fresh, one-off container for every run, so they always read whatever is on disk at that moment |
+
+::: {.callout-tip}
+## `.env` shortcut: you can skip `make down`
+For `.env` changes specifically, re-running `make up` on its own is enough —
+Compose detects that the resolved container configuration changed and
+recreates just the affected containers. For the other rows above marked
+"Yes", only the file's *content* changed, not the container configuration, so
+a plain `make up` sees nothing to do — you need the full `make down` +
+`make up` cycle to force those containers to start fresh and re-read the
+file.
+:::
+
+::: {.callout-note}
+## None of these need `make rebuild`
+`make rebuild` force-rebuilds the **container images** from source — for when
+the application code itself changes, not when you edit your own config or
+reference data. Editing any file in the table above never needs a rebuild, at
+most a restart.
+:::
 
 ## If something goes wrong
 

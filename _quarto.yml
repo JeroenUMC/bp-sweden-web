@@ -108,6 +108,8 @@ website:
               file: datasets/submission/validate.qmd
             - text: J. Upload to BigPicture
               file: datasets/submission/upload.qmd
+            - text: Prepare for production
+              file: datasets/submission/prepare-for-production.qmd
             - text: Best Practices
               file: datasets/submission/best-practices.qmd
         - section: Direct components

@@ -3,7 +3,9 @@ title: "E1. model.json"
 ---
 
 Place the provided default `model.json` in `PIPELINE_REFDATA_DIR` so the
-pipeline has a working attribute and observation model from day one.
+pipeline has a working attribute and observation model from day one. Once
+that's working, swap in a site-specific `model.json` (see the callout below)
+whenever you're ready.
 
 ::: {.callout-note}
 ## Building a site-specific model.json
@@ -14,7 +16,7 @@ select from both in the
 [bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/), then
 use its **"Current Selection"** panel to **"Also export as model.json
 (SlideTap)"**. This produces a SlideTap-ready `model.json` directly — place
-the downloaded file in `PIPELINE_REFDATA_DIR`, replacing the default, and
+the downloaded file in `PIPELINE_REFDATA_DIR` in place of the default, and
 restart the stack (see the callout below) to pick it up.
 :::
 
@@ -110,13 +112,13 @@ restart as any other `model.json` change — see the callout above.
 ## Editing an MSMDAD attribute's optional flag
 
 The bpmetrics-config export declares **MSMDAD** attributes in `model.json`
-alongside your site's own extensions — SlideTap dedupes any collision with an
-entity's fixed attribute on ingest, so this is safe. If you need to flip an
-MSMDAD attribute's `optional` flag, re-select it in the bpmetrics-config
-browser and re-export rather than hand-editing the existing entry, so the
-definition stays consistent with the rest of the file. If you're not sure
-whether the attribute named in an error is part of the MSMDAD floor or your
-own extension, ask [Support](support.qmd) before changing `model.json`.
+alongside your site's own extensions, and SlideTap dedupes any collision with
+an entity's fixed attribute on ingest. Still, don't hand-edit an MSMDAD
+attribute's entry directly: re-select it in the bpmetrics-config browser and
+re-export instead, so the whole file keeps coming from one source and stays
+in sync with your selection. If you're not sure whether the attribute named
+in an error is part of the MSMDAD floor or your own extension, ask
+[Support](support.qmd) before changing `model.json`.
 :::
 
 ## If something goes wrong

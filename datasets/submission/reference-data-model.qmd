@@ -3,20 +3,25 @@ title: "E1. model.json"
 ---
 
 Place the provided default `model.json` in `PIPELINE_REFDATA_DIR` so the
-pipeline has a working attribute and observation model from day one.
+pipeline has a working attribute and observation model from day one. Once
+that's working, swap in a site-specific `model.json` (see the callout below)
+whenever you're ready.
 
-::: {.callout-warning}
-## Work in progress
-
-Full instructions for building a site-specific `model.json` are coming once
-the generator lands. The future workflow: visit the
-[bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/),
-select the attributes your site needs, export the selection, and run
-`make gen-model`.
+::: {.callout-note}
+## Building a site-specific model.json
 
 **MSMDAD** is BigPicture's mandatory minimum attribute set. **MetaFlex** covers
-optional extensions. The bpmetrics-config browser lets you browse and select
-from both.
+optional extensions. To build a `model.json` tailored to your site, browse and
+select from both in the
+[bpmetrics-config browser](https://bpmetrics-config.tools.balsever.se/), then
+use its **"Current Selection"** panel to **"Also export as model.json
+(SlideTap)"**. This produces a SlideTap-ready `model.json` directly — place
+the downloaded file in `PIPELINE_REFDATA_DIR` in place of the default, and
+restart the stack (see the callout below) to pick it up.
+
+Only want the MSMDAD floor, with no site-specific attributes at all? Put
+`{}` in `model.json`. MSMDAD attributes aren't sourced from `model.json`, so `{}` still
+gives you the full mandatory attribute set with nothing extra declared.
 :::
 
 ## Place the default file
@@ -107,15 +112,16 @@ the object stays as-is:
 This is an edit to the reference data file itself, so it needs the same
 restart as any other `model.json` change — see the callout above.
 
-::: {.callout-warning}
-## Only mark attributes your site added
+::: {.callout-note}
+## Editing an MSMDAD attribute's optional flag
 
-**MSMDAD** attributes are ingested automatically and are not declared in
-`model.json` (see the callout at the top of this page) — never add one there
-by hand, including to flip its `optional` flag. Doing so creates a duplicate
-attribute definition, which causes bugs downstream. Only edit attributes your
-site added itself. If you're not sure whether the attribute named in the
-error is part of the MSMDAD floor or your own extension, ask
+The bpmetrics-config export declares **MSMDAD** attributes in `model.json`
+alongside your site's own extensions, and SlideTap dedupes any collision with
+an entity's fixed attribute on ingest. Still, don't hand-edit an MSMDAD
+attribute's entry directly: re-select it in the bpmetrics-config browser and
+re-export instead, so the whole file keeps coming from one source and stays
+in sync with your selection. If you're not sure whether the attribute named
+in an error is part of the MSMDAD floor or your own extension, ask
 [Support](support.qmd) before changing `model.json`.
 :::
 

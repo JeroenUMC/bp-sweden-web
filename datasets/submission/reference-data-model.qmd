@@ -18,6 +18,10 @@ use its **"Current Selection"** panel to **"Also export as model.json
 (SlideTap)"**. This produces a SlideTap-ready `model.json` directly — place
 the downloaded file in `PIPELINE_REFDATA_DIR` in place of the default, and
 restart the stack (see the callout below) to pick it up.
+
+Only want the MSMDAD floor, with no site-specific attributes at all? Put
+`{}` in `model.json`. MSMDAD attributes aren't sourced from `model.json`, so `{}` still
+gives you the full mandatory attribute set with nothing extra declared.
 :::
 
 ## Place the default file

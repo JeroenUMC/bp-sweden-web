@@ -147,6 +147,14 @@ and `PIPELINE_SSL_KEY` in `.env` match the files it created. See
 </details>
 
 <details>
+<summary>`make doctor` rejects `PIPELINE_SSL_CERT`/`PIPELINE_SSL_KEY` as "not a path", or `make ssl` fails with a doubled path like `./data/certs/./data/certs/`</summary>
+
+One of the two variables holds a path instead of a bare filename. Set it back
+to a filename, e.g. `server.crt` — see
+[F. TLS + credentials](tls-credentials.qmd#if-something-goes-wrong) for why.
+</details>
+
+<details>
 <summary>`make doctor` says the credentials file is missing</summary>
 
 Re-run `make gen-credentials`. It writes to the repo root by default — make

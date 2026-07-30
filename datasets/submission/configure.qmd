@@ -175,14 +175,39 @@ bind-mount parser does not accept Windows backslashes. Write `C:/bp-data`, not
 `C:\bp-data` or `.\bp-data`.
 :::
 
+### Host paths vs container paths
+
+Two different things get called a "path" in `.env`, and mixing them up fails
+**silently**, not with an error:
+
+- **Host paths** point at a location on *your* machine — everything in the
+  table above, plus `PIPELINE_CONFIG_FILE` and `PIPELINE_CREDENTIALS_FILE`
+  below. Docker uses these as a bind-mount source without checking whether the
+  location makes sense: give it `/refdata/mappers.xlsx` (a container path) and
+  Docker just creates an empty directory with that literal name on your host
+  and mounts it. `make dirs` and `make doctor` still pass — it exists and is
+  owned correctly, it's just the wrong thing.
+- **Container paths** point at a location *inside* the container, past where a
+  host path was already mounted — `XLSX_MAPPER_FILE` and `BIGPICTURE_MODEL_PATH`
+  below are both under `/refdata`, where `PIPELINE_REFDATA_DIR` (a host path)
+  gets mounted. A host-style value here (e.g. `./data/refdata/mappers.xlsx`)
+  means nothing to the container, since `./data` doesn't exist inside it.
+
+Rule of thumb: a default that looks like `./data/...` (or derives from
+`PIPELINE_ROOT`) is a host path you can relocate; a default like
+`/refdata/...` with no host counterpart is a container path you leave alone.
+`PIPELINE_SSL_CERT` / `PIPELINE_SSL_KEY` below are neither — bare filenames
+resolved against the host path `PIPELINE_SSL_DIR`. See [F. TLS +
+credentials](tls-credentials.qmd) for what breaks if you give them a path.
+
 ### May change
 
 | Variable | Default | When to change |
 |---|---|---|
 | `PIPELINE_SERVERNAME` | `localhost` | Set to your host's DNS name or IP if other machines need to reach it |
 | `PIPELINE_PORT` | `443` | Change if port 443 is already in use on the host |
-| `PIPELINE_SSL_CERT` | `server.crt` | TLS certificate filename (inside `PIPELINE_SSL_DIR`) |
-| `PIPELINE_SSL_KEY` | `server.key` | TLS private key filename (inside `PIPELINE_SSL_DIR`) |
+| `PIPELINE_SSL_CERT` | `server.crt` | TLS certificate — filename only, not a path (resolved against `PIPELINE_SSL_DIR`) |
+| `PIPELINE_SSL_KEY` | `server.key` | TLS private key — filename only, not a path (resolved against `PIPELINE_SSL_DIR`) |
 | `PIPELINE_CREDENTIALS_FILE` | `./credentials.json` | Path to the hashed credentials file (generated in step E) |
 | `PIPELINE_CONFIG_FILE` | `./config.yaml` | Path to the app config file — set up in the next step |
 | `XLSX_MAPPER_FILE` | `/refdata/mappers.xlsx` | Container path to the mapper workbook — change only if you relocate it inside the container |
@@ -261,6 +286,9 @@ restart?](boot.qmd#when-do-i-need-to-restart) for which command to run and why.
 - **Auth error after changing the salt** — you changed the salt after running
   `make gen-credentials`. The credentials file was hashed with the old salt and
   is now invalid. Re-run `make gen-credentials` with the current salt.
+- **`make doctor` rejects `PIPELINE_SSL_CERT` or `PIPELINE_SSL_KEY`** — one of
+  them holds a path instead of a bare filename. See [F. TLS +
+  credentials](tls-credentials.qmd#if-something-goes-wrong) for the fix.
 - **`make` commands fail on Windows** — ensure you are running in **Git Bash**,
   not PowerShell or cmd.exe. Also confirm `.env` uses LF line endings (see
   *Fill in `.env`* above).

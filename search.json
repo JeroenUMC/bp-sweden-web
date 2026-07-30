@@ -961,22 +961,11 @@
     ]
   },
   {
-    "objectID": "datasets/submission/direct-upload/upload.html#sign-and-send-the-terms-of-use-form",
-    "href": "datasets/submission/direct-upload/upload.html#sign-and-send-the-terms-of-use-form",
-    "title": "Upload (sda-cli)",
-    "section": "1. Sign and send the Terms of Use form",
-    "text": "1. Sign and send the Terms of Use form\nSign the Terms of Use form (internal) and submit it to submit@bigpicture.eu.",
-    "crumbs": [
-      "Direct upload (sda-cli)",
-      "Upload (sda-cli)"
-    ]
-  },
-  {
     "objectID": "datasets/submission/direct-upload/upload.html#download-the-encryption-key",
     "href": "datasets/submission/direct-upload/upload.html#download-the-encryption-key",
     "title": "Upload (sda-cli)",
-    "section": "2. Download the encryption key",
-    "text": "2. Download the encryption key\nFor BigPicture to read your files, they must be encrypted with the correct public key. Download it:\n\nWindowsmacOSLinux\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls crypt4gh_bp_key.pub\nThe file should be present in your working directory.",
+    "section": "1. Download the encryption key",
+    "text": "1. Download the encryption key\nFor BigPicture to read your files, they must be encrypted with the correct public key. Download it:\n\nWindowsmacOSLinux\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\ncurl -OL https://raw.githubusercontent.com/NBISweden/EGA-SE-user-docs/main/crypt4gh_bp_key.pub\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nls crypt4gh_bp_key.pub\nThe file should be present in your working directory.",
     "crumbs": [
       "Direct upload (sda-cli)",
       "Upload (sda-cli)"
@@ -986,8 +975,8 @@
     "objectID": "datasets/submission/direct-upload/upload.html#encrypt-the-files",
     "href": "datasets/submission/direct-upload/upload.html#encrypt-the-files",
     "title": "Upload (sda-cli)",
-    "section": "3. Encrypt the files",
-    "text": "3. Encrypt the files\nWith the public key in place, encrypt your submission files. sda-cli creates its own encryption key automatically.\n\nWindowsmacOSLinux\n\n\nsda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n\nThe tool also writes four checksum files — save these, you need them during submission:\nchecksum_encrypted.md5\nchecksum_encrypted.sha256\nchecksum_unencrypted.md5\nchecksum_unencrypted.sha256\n\n\n\n\n\n\nVerify\n\n\n\nEach input file should now have an encrypted .c4gh counterpart, and the four checksum files should exist:\nls *.c4gh checksum_*.md5 checksum_*.sha256",
+    "section": "2. Encrypt the files",
+    "text": "2. Encrypt the files\nWith the public key in place, encrypt your submission files. sda-cli creates its own encryption key automatically.\n\nWindowsmacOSLinux\n\n\nsda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n./sda-cli encrypt --key crypt4gh_bp_key.pub &lt;file_1_to_encrypt&gt; &lt;file_2_to_encrypt&gt; ...\n\n\n\nThe tool also writes four checksum files — save these, you need them during submission:\nchecksum_encrypted.md5\nchecksum_encrypted.sha256\nchecksum_unencrypted.md5\nchecksum_unencrypted.sha256\n\n\n\n\n\n\nVerify\n\n\n\nEach input file should now have an encrypted .c4gh counterpart, and the four checksum files should exist:\nls *.c4gh checksum_*.md5 checksum_*.sha256",
     "crumbs": [
       "Direct upload (sda-cli)",
       "Upload (sda-cli)"
@@ -997,8 +986,8 @@
     "objectID": "datasets/submission/direct-upload/upload.html#download-your-configuration-file-and-upload",
     "href": "datasets/submission/direct-upload/upload.html#download-your-configuration-file-and-upload",
     "title": "Upload (sda-cli)",
-    "section": "4. Download your configuration file and upload",
-    "text": "4. Download your configuration file and upload\n\nLog in at the BigPicture login portal and follow the prompts to authenticate. Click Download credentials to upload to the Inbox to get your s3cmd-inbox.conf file. (For a test upload, use the staging service instead.)\nUpload your encrypted files. By default the local folder structure is not preserved — all files land in the root of your inbox. Use --target-directory &lt;path&gt; to place them in a specific remote folder.\nTo upload files individually:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n\nTo upload an entire directory — often more efficient — use the recursive -r flag, which preserves your local folder structure on the remote server:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nsda-cli reports each file as it finishes uploading. For the full set of commands and flags — which may change between versions — consult the tool’s built-in help, the most reliable reference:\n\nWindowsmacOSLinux\n\n\nsda-cli help\n\n\n./sda-cli help\n\n\n./sda-cli help",
+    "section": "3. Download your configuration file and upload",
+    "text": "3. Download your configuration file and upload\n\nLog in at the BigPicture login portal and follow the prompts to authenticate. Click Download credentials to upload to the Inbox to get your s3cmd-inbox.conf file. (For a test upload, use the staging service instead.)\nUpload your encrypted files. By default the local folder structure is not preserved — all files land in the root of your inbox. Use --target-directory &lt;path&gt; to place them in a specific remote folder.\nTo upload files individually:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n./sda-cli --config &lt;configuration_file&gt; upload &lt;encrypted_file_1&gt; &lt;encrypted_file_2&gt; ...\n\n\n\nTo upload an entire directory — often more efficient — use the recursive -r flag, which preserves your local folder structure on the remote server:\n\nWindowsmacOSLinux\n\n\nsda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n./sda-cli --config &lt;configuration_file&gt; upload -r &lt;folder_to_upload&gt;\n\n\n\n\n\n\n\n\n\n\nVerify\n\n\n\nsda-cli reports each file as it finishes uploading. For the full set of commands and flags — which may change between versions — consult the tool’s built-in help, the most reliable reference:\n\nWindowsmacOSLinux\n\n\nsda-cli help\n\n\n./sda-cli help\n\n\n./sda-cli help",
     "crumbs": [
       "Direct upload (sda-cli)",
       "Upload (sda-cli)"
@@ -1008,8 +997,8 @@
     "objectID": "datasets/submission/direct-upload/upload.html#notify-us",
     "href": "datasets/submission/direct-upload/upload.html#notify-us",
     "title": "Upload (sda-cli)",
-    "section": "5. Notify us",
-    "text": "5. Notify us\nWhen the upload is complete, email the helpdesk so we know to process it. Use this subject line:\nsubmission - DATASET_{IDENTIFIER}\nAnd include in the body:\n\nthe name of the uploader, and\nthe name of the dataset.",
+    "section": "4. Notify us",
+    "text": "4. Notify us\nWhen the upload is complete, email the helpdesk so we know to process it. Use this subject line:\nsubmission - DATASET_{IDENTIFIER}\nAnd include in the body:\n\nthe name of the uploader, and\nthe name of the dataset.",
     "crumbs": [
       "Direct upload (sda-cli)",
       "Upload (sda-cli)"

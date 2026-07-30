@@ -485,11 +485,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#test-submission-recommended" id="toc-test-submission-recommended" class="nav-link active" data-scroll-target="#test-submission-recommended">0. Test submission (recommended)</a></li>
-  <li><a href="#sign-and-send-the-terms-of-use-form" id="toc-sign-and-send-the-terms-of-use-form" class="nav-link" data-scroll-target="#sign-and-send-the-terms-of-use-form">1. Sign and send the Terms of Use form</a></li>
-  <li><a href="#download-the-encryption-key" id="toc-download-the-encryption-key" class="nav-link" data-scroll-target="#download-the-encryption-key">2. Download the encryption key</a></li>
-  <li><a href="#encrypt-the-files" id="toc-encrypt-the-files" class="nav-link" data-scroll-target="#encrypt-the-files">3. Encrypt the files</a></li>
-  <li><a href="#download-your-configuration-file-and-upload" id="toc-download-your-configuration-file-and-upload" class="nav-link" data-scroll-target="#download-your-configuration-file-and-upload">4. Download your configuration file and upload</a></li>
-  <li><a href="#notify-us" id="toc-notify-us" class="nav-link" data-scroll-target="#notify-us">5. Notify us</a></li>
+  <li><a href="#download-the-encryption-key" id="toc-download-the-encryption-key" class="nav-link" data-scroll-target="#download-the-encryption-key">1. Download the encryption key</a></li>
+  <li><a href="#encrypt-the-files" id="toc-encrypt-the-files" class="nav-link" data-scroll-target="#encrypt-the-files">2. Encrypt the files</a></li>
+  <li><a href="#download-your-configuration-file-and-upload" id="toc-download-your-configuration-file-and-upload" class="nav-link" data-scroll-target="#download-your-configuration-file-and-upload">3. Download your configuration file and upload</a></li>
+  <li><a href="#notify-us" id="toc-notify-us" class="nav-link" data-scroll-target="#notify-us">4. Notify us</a></li>
   </ul>
 </nav>
     </div>
@@ -534,12 +533,8 @@ Note
 <p>We strongly recommend a small test upload to the <strong>staging</strong> environment first, so you don’t have to re-upload terabytes if something is wrong. Upload two images with metadata generated per <a href="../../../datasets/submission/direct-upload/prepare-data.html">Prepare data</a> — include all XML files, the <code>PRIVATE</code> folder (always required), and the <code>LANDING_PAGE</code> folder (if you want a landing page).</p>
 <p>Follow the same steps below, but log in at the <a href="https://staging-login.bp.nbis.se/">staging service</a> instead of production.</p>
 </section>
-<section id="sign-and-send-the-terms-of-use-form" class="level2">
-<h2 class="anchored" data-anchor-id="sign-and-send-the-terms-of-use-form">1. Sign and send the Terms of Use form</h2>
-<p>Sign the <a href="https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&amp;file=BigPicture%20ToU%20v2.6.docx&amp;action=default&amp;mobileredirect=true">Terms of Use form</a> <em>(internal)</em> and submit it to <a href="mailto:submit@bigpicture.eu">submit@bigpicture.eu</a>.</p>
-</section>
 <section id="download-the-encryption-key" class="level2">
-<h2 class="anchored" data-anchor-id="download-the-encryption-key">2. Download the encryption key</h2>
+<h2 class="anchored" data-anchor-id="download-the-encryption-key">1. Download the encryption key</h2>
 <p>For BigPicture to read your files, they must be encrypted with the correct <strong>public key</strong>. Download it:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
@@ -571,7 +566,7 @@ Verify
 </div>
 </section>
 <section id="encrypt-the-files" class="level2">
-<h2 class="anchored" data-anchor-id="encrypt-the-files">3. Encrypt the files</h2>
+<h2 class="anchored" data-anchor-id="encrypt-the-files">2. Encrypt the files</h2>
 <p>With the public key in place, encrypt your submission files. <code>sda-cli</code> creates its own encryption key automatically.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Linux</a></li></ul>
@@ -608,7 +603,7 @@ Verify
 </div>
 </section>
 <section id="download-your-configuration-file-and-upload" class="level2">
-<h2 class="anchored" data-anchor-id="download-your-configuration-file-and-upload">4. Download your configuration file and upload</h2>
+<h2 class="anchored" data-anchor-id="download-your-configuration-file-and-upload">3. Download your configuration file and upload</h2>
 <ol type="1">
 <li><p>Log in at the <a href="https://login.bp.nbis.se/">BigPicture login portal</a> and follow the prompts to authenticate. Click <strong>Download credentials to upload to the Inbox</strong> to get your <code>s3cmd-inbox.conf</code> file. <em>(For a test upload, use the <a href="https://staging-login.bp.nbis.se/">staging service</a> instead.)</em></p></li>
 <li><p>Upload your encrypted files. By default the local folder structure is <strong>not</strong> preserved — all files land in the root of your inbox. Use <code>--target-directory &lt;path&gt;</code> to place them in a specific remote folder.</p>
@@ -672,7 +667,7 @@ Verify
 </div>
 </section>
 <section id="notify-us" class="level2">
-<h2 class="anchored" data-anchor-id="notify-us">5. Notify us</h2>
+<h2 class="anchored" data-anchor-id="notify-us">4. Notify us</h2>
 <p>When the upload is complete, <a href="mailto:bp-ops@nbis.se">email the helpdesk</a> so we know to process it. Use this subject line:</p>
 <pre><code>submission - DATASET_{IDENTIFIER}</code></pre>
 <p>And include in the body:</p>

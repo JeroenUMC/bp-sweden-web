@@ -598,6 +598,12 @@ Re-run <code>make ssl</code>, then check that <code>PIPELINE_SSL_DIR</code>, <co
 </details>
 <details>
 <summary>
+<code>make doctor</code> rejects <code>PIPELINE_SSL_CERT</code>/<code>PIPELINE_SSL_KEY</code> as “not a path”, or <code>make ssl</code> fails with a doubled path like <code>./data/certs/./data/certs/</code>
+</summary>
+One of the two variables holds a path instead of a bare filename. Set it back to a filename, e.g.&nbsp;<code>server.crt</code> — see <a href="../../datasets/submission/tls-credentials.html#if-something-goes-wrong">F. TLS + credentials</a> for why.
+</details>
+<details>
+<summary>
 <code>make doctor</code> says the credentials file is missing
 </summary>
 Re-run <code>make gen-credentials</code>. It writes to the repo root by default — make sure <code>PIPELINE_CREDENTIALS_FILE</code> in <code>.env</code> points at that file. See <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a>.

@@ -23,13 +23,7 @@ folder (if you want a landing page).
 Follow the same steps below, but log in at the
 [staging service](https://staging-login.bp.nbis.se/) instead of production.
 
-## 1. Sign and send the Terms of Use form
-
-Sign the
-[Terms of Use form](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&file=BigPicture%20ToU%20v2.6.docx&action=default&mobileredirect=true)
-*(internal)* and submit it to [submit@bigpicture.eu](mailto:submit@bigpicture.eu).
-
-## 2. Download the encryption key
+## 1. Download the encryption key
 
 For BigPicture to read your files, they must be encrypted with the correct
 **public key**. Download it:
@@ -59,7 +53,7 @@ ls crypt4gh_bp_key.pub
 The file should be present in your working directory.
 :::
 
-## 3. Encrypt the files
+## 2. Encrypt the files
 
 With the public key in place, encrypt your submission files. `sda-cli` creates
 its own encryption key automatically.
@@ -100,7 +94,7 @@ ls *.c4gh checksum_*.md5 checksum_*.sha256
 ```
 :::
 
-## 4. Download your configuration file and upload
+## 3. Download your configuration file and upload
 
 1.  Log in at the [BigPicture login portal](https://login.bp.nbis.se/) and
     follow the prompts to authenticate. Click **Download credentials to upload
@@ -170,7 +164,7 @@ sda-cli help
 :::
 :::
 
-## 5. Notify us
+## 4. Notify us
 
 When the upload is complete, [email the helpdesk](mailto:{{< var email.helpdesk >}})
 so we know to process it. Use this subject line:

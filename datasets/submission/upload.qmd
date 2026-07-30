@@ -10,11 +10,7 @@ Encrypt and submit your validated bundle to the NBIS **staging** inbox with
 
 The A–J manual is a test submission, so this step uploads to BigPicture's
 **staging** environment — the `s3cmd-inbox.conf` NBIS provides for the manual
-points there. The signed
-[Terms of Use form](https://bigpictureeu.sharepoint.com/:w:/r/sites/wp1/_layouts/15/Doc.aspx?sourcedoc=%7B5914340E-2976-4454-BD7A-1DE64825EDC5%7D&file=BigPicture%20ToU%20v2.6.docx&action=default&mobileredirect=true)
-*(internal)* is **not** needed for a staging test — you only sign and send it to
-[submit@bigpicture.eu](mailto:submit@bigpicture.eu) before a **production**
-submission.
+points there.
 :::
 
 ::: {.callout-important}

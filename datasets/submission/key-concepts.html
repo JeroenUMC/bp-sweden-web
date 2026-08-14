@@ -571,7 +571,7 @@ The SlideTap web interface where you review and fix your metadata before submiss
 <summary>
 <strong>MSMDAD</strong>
 </summary>
-BigPicture’s <strong>mandatory minimum attribute set</strong> — the floor of attributes every submission must carry. You get it automatically (even an empty <code>{}</code> <a href="#model-json">model.json</a> still yields the full floor); <code>model.json</code> only <em>adds</em> site-specific attributes on top. An observation missing a required MSMDAD attribute fails export.
+BigPicture’s <strong>mandatory minimum attribute set</strong> — the floor of attributes every submission must carry. You get the <em>entity</em> floor (case, specimen, block, slide, image, …) automatically, even from an empty <code>{}</code> <a href="#model-json">model.json</a>. There is <strong>no equivalent built-in floor for observations</strong>: any MSMDAD attribute that lives inside an observation — a diagnosis code is the normal case — must still be declared in <code>model.json</code> by hand, or its mapper fails silently at boot and every item using it comes up unmapped. An observation missing a required MSMDAD attribute fails export. See <a href="../../datasets/submission/reference-data-model.html">E1. model.json</a> for the full picture.
 </details>
 <details id="project">
 <summary>

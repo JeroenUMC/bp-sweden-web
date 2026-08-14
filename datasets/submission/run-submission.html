@@ -548,15 +548,33 @@ Requires: stack running (step G)
 <section id="create-a-project" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-project">2. Create a project</h2>
 <p>On the Projects list, click <strong>New project</strong>. The UI creates the project and opens its <strong>Settings</strong> page immediately. A <strong>Default</strong> batch is created automatically — you do not need to create one manually.</p>
-<p>Fill in the three sections, then click <strong>UPDATE</strong> at the bottom.</p>
-<p><strong>General</strong></p>
-<p>Set <strong>Project Name</strong> to something recognisable (e.g.&nbsp;<code>test-submission</code>).</p>
-<p><strong>Mapper groups</strong></p>
-<p>This connects the project to the <code>mappers.xlsx</code> mappings you placed in <a href="../../datasets/submission/reference-data.html">E. Reference data</a>.</p>
-<p><strong>Attributes</strong></p>
-<p>The required fields (marked <code>*</code>) will already be filled in with test values. You can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.</p>
-<p><strong>Dataset</strong></p>
-<p>Expand the <strong>Dataset</strong> section and change the <strong>Metadata standard</strong> field from its default (<code>0.1.2</code>) to <code>2.0.0</code>. The metaflex XSD validation in <a href="../../datasets/submission/validate.html">I. Validate the bundle</a> requires a <code>2.0.x</code> value — submissions with the default <code>0.1.2</code> fail schema validation.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Two separate pages, two separate UPDATE buttons
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Settings</strong> and <strong>Dataset</strong> are two different pages in the Project sidebar, each with its own <strong>UPDATE</strong> button. Filling in a field and clicking UPDATE on one page does <strong>not</strong> save anything on the other — do both parts below, in either order, and click UPDATE at the bottom of each page separately.</p>
+</div>
+</div>
+<p><strong>On the Settings page</strong></p>
+<ul>
+<li><strong>General</strong> — set <strong>Project Name</strong> to something recognisable (e.g. <code>test-submission</code>).</li>
+<li><strong>Mapper groups</strong> — this connects the project to the <code>mappers.xlsx</code> mappings you placed in <a href="../../datasets/submission/reference-data.html">E. Reference data</a>.</li>
+<li><strong>Attributes</strong> — the required fields (marked <code>*</code>) will already be filled in with test values. You can leave optional fields (Keywords, Geographical areas, Year of submission, etc.) blank for a test run.</li>
+</ul>
+<p>Click <strong>UPDATE</strong> at the bottom of the Settings page.</p>
+<p><strong>On the Dataset page</strong></p>
+<p>Click <strong>Dataset</strong> in the Project sidebar (a separate page from Settings), and set two fields:</p>
+<ul>
+<li><strong>Dataset Name</strong> — a name for this dataset, distinct from the Project Name above. The <strong>Project</strong> and its <strong>Dataset</strong> are separate records that both start out called “New project”; renaming the project on the Settings page does <em>not</em> rename the dataset. Leave Dataset Name unset and every submission from this site exports under the same placeholder-derived bundle name, colliding with the last one. This field is what the export bundle directory and the identifier NBIS is notified about are derived from — see <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a> for the exact command syntax once you reach that step — so give it something that will still identify this submission uniquely later.</li>
+<li><strong>Metadata standard</strong> — change it from its default (<code>0.1.2</code>) to <code>2.0.0</code>. The metaflex XSD validation in <a href="../../datasets/submission/validate.html">I. Validate the bundle</a> requires a <code>2.0.x</code> value — submissions with the default <code>0.1.2</code> fail schema validation.</li>
+</ul>
+<p>Click <strong>UPDATE</strong> at the bottom of the Dataset page.</p>
 <!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
 <!-- TODO: See <TODO: LINK> for an in depth overview of Dataset, and its attibutes. -->
 </section>
@@ -581,6 +599,21 @@ Requires: stack running (step G)
 </ol>
 <p>For a test run with the provided example workbook, items should already be valid if your <code>mappers.xlsx</code> covers the test values and the correct mapper group is selected in Project Settings.</p>
 <p><strong>Note:</strong> WSI will always be invalid at this stage, they can become valid after Pre-process. <!-- TODO: screenshot — Curate tab showing an invalid item with attribute highlighted --></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Green in Curate is not proof the submission will export
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>valid</strong> (green) item means a mapper resolved a value — not that the value was actually saved. For an attribute nested inside another attribute (a diagnosis or other pathology code inside an observation is the normal case), <strong>Remap</strong> can compute the right value, mark the item valid, and still never write that value to the database. Curate cannot show you this; the item looks identical to one that is genuinely fine.</p>
+<p>If <strong>Remap</strong> doesn’t clear an invalid item after you’ve fixed its mapping row, stop remapping it — that is the signature of a nested attribute, and remapping again will keep reporting success without fixing anything. Delete the batch and re-parse the workbook instead (upload it again at step 3). See <a href="#if-something-goes-wrong">If something goes wrong</a> below.</p>
+<p>The only check that confirms the submission is actually intact is a completed <strong>Export</strong> (step 9): the project status reads <strong>Export Complete</strong>, <code>METADATA/</code> inside the bundle holds XML files, and <code>IMAGES/</code> holds <code>.dcm</code> files — see the Verify callout under step 9 for exactly where to look and a caveat about <code>make export-check</code>. Treat every green status before that as provisional — worth knowing now, before the image conversion in the next two steps, rather than after.</p>
+</div>
+</div>
 </section>
 <section id="pre-process-images" class="level2">
 <h2 class="anchored" data-anchor-id="pre-process-images">5. Pre-process images</h2>
@@ -620,6 +653,19 @@ Important
 <h2 class="anchored" data-anchor-id="export-the-bundle">9. Export the bundle</h2>
 <p>Click <strong>Export</strong> in the Project sidebar (under <strong>Project</strong>, not <strong>Batch</strong>). Click the <strong>Submit</strong> button.</p>
 <p>The project status changes to <strong>Exporting</strong>, then <strong>Export Complete</strong>. The pipeline writes the export bundle to the outbox (<code>$PIPELINE_STORAGE/storage</code>).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>make export-check</code> currently reports FAIL on a good bundle
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>make export-check</code> looks for <code>METADATA/</code> and <code>IMAGES/</code> directly inside the project folder, but the pipeline actually writes them one level deeper, inside a <code>DATASET_&lt;alias&gt;</code> subfolder. This is a known defect in the check itself, not a sign your export failed. Until it’s fixed, a <code>FAIL</code> from <code>make export-check</code> is inconclusive — verify the bundle by hand instead, as below.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -630,7 +676,7 @@ Verify
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Run the following from the pipeline root directory to confirm the bundle was written correctly:</p>
+<p>You can still run <code>make export-check</code> as a quick first look:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
 <div class="tab-content">
@@ -646,16 +692,13 @@ Verify
 </div>
 </div>
 </div>
-<p>Expected output (project name and UID will differ):</p>
-<pre><code>Checking /data/storage ...
-
-Project: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af
-  OK    METADATA/ — 1 xml file(s)
-  OK    IMAGES/ — 42 dcm file(s)
-  PASS
-
-export-check PASSED</code></pre>
-<p><code>export-check PASSED</code> confirms the bundle has metadata XML and DICOM image files and is ready for <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.</p>
+<p>But because of the defect above, confirm the bundle by hand: find the project’s folder under <code>$PIPELINE_STORAGE/storage</code> (named &lt;project name&gt;.&lt;project uid&gt;), then check inside its <code>DATASET_&lt;alias&gt;</code> subfolder:</p>
+<ul>
+<li><code>METADATA/</code> should contain the required XML files (at minimum: <code>dataset.xml</code>, <code>image.xml</code>, <code>observation.xml</code>, <code>policy.xml</code>, <code>sample.xml</code>, <code>staining.xml</code>). Depending on your dataset, <code>observer.xml</code> and <code>annotation.xml</code> may also be present.</li>
+<li><code>IMAGES/</code> should contain <code>.dcm</code> files.</li>
+<li><code>LANDING_PAGE/</code> and <code>PRIVATE/</code> should also exist (a missing <code>landing_page.xml</code> is allowed; see <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>).</li>
+</ul>
+<p>The bundle is good when the project status reads <strong>Export Complete</strong> <em>and</em> both folders above are populated — not when <code>make export-check</code> says so, while this defect is open. Once confirmed, it is ready for <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.</p>
 </div>
 </div>
 </section>
@@ -683,7 +726,7 @@ Warning
 <li><strong>Images stay failed after retry.</strong> Run <code>make logs</code> and check the image worker output. Common causes: slide files are not reachable at the path referenced in the workbook, or DICOM conversion failed on a specific file format.</li>
 <li><strong>Post-process Start button is greyed out.</strong> One or more items are still invalid. Return to <strong>Curate</strong>, identify the invalid items, fix the mapping in <code>mappers.xlsx</code>, and remap.</li>
 <li><strong>Submit button is greyed out on the Export page.</strong> The project is not yet in Completed status. Confirm the batch was completed (step 8) and check the batch status chip in the Batch sidebar.</li>
-<li><strong>Export never reaches “Export Complete” — the project status just reverts to “Completed” with no visible error.</strong> An observation is missing a required coded attribute (e.g.&nbsp;<code>diagnose</code>) that has no <code>"optional": true</code> flag in <code>model.json</code>. Check <code>make logs</code> for a <code>ValueError</code> naming the missing attribute’s tag — export aborts at the <em>first</em> one it hits, so fixing one observation can just surface the next; expect a few rounds if several are affected. A green status in Curate doesn’t rule this out: if you edited <code>mappers.xlsx</code> and remapped after the item was last validated, its cached validity can go stale, so treat a successful export as the real check. Fix by supplying the missing value (re-check the mapping, remap, or the source workbook data) before re-exporting, or by marking the attribute optional in <code>model.json</code> — see <a href="../../datasets/submission/reference-data-model.html#required-and-optional-attributes">E1. model.json</a>. Editing <code>model.json</code> needs a stack restart — see <a href="../../datasets/submission/boot.html#when-do-i-need-to-restart">When do I need to restart?</a>.</li>
+<li><strong>Export never reaches “Export Complete” — the project status just reverts to “Completed” with no visible error.</strong> An observation is missing a required coded attribute (e.g.&nbsp;<code>diagnose</code>) that has no <code>"optional": true</code> flag in <code>model.json</code>. Check <code>make logs</code> for a <code>ValueError</code> naming the missing attribute’s tag — export aborts at the <em>first</em> one it hits, so fixing one observation can just surface the next; expect a few rounds if several are affected. A green status in Curate doesn’t rule this out — see the warning under step 4 (Curate) above. Specifically: if the missing attribute is nested inside another attribute (an observation’s coded value, e.g. <code>diagnose</code>, is the normal case), <strong>Remap will not fix it</strong>, even though it reports success — delete the batch and re-upload the workbook to re-parse it (step 3) instead. For a plain, non-nested attribute, re-checking the mapping in <code>mappers.xlsx</code> and remapping does work. Either way, you can also mark the attribute optional in <code>model.json</code> instead of supplying a value — see <a href="../../datasets/submission/reference-data-model.html#required-and-optional-attributes">E1. model.json</a>. Editing <code>model.json</code> needs a stack restart — see <a href="../../datasets/submission/boot.html#when-do-i-need-to-restart">When do I need to restart?</a>.</li>
 <li><strong><code>export-check</code> reports <code>FAIL outbox not found</code>.</strong> The <code>PIPELINE_STORAGE</code> path in <code>.env</code> does not exist or is not mounted correctly — see <a href="../../datasets/submission/configure.html">D. Configure</a>.</li>
 <li><strong><code>export-check</code> reports <code>FAIL no project directories</code>.</strong> The export did not finish writing. Check <code>make logs</code> and confirm the project status shows <strong>Export Complete</strong> in the UI — if it instead shows <strong>Completed</strong>, see the missing-required-attribute entry above; that failure also prevents the bundle from being written.</li>
 </ul>

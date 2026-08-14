@@ -524,7 +524,20 @@ Building a site-specific model.json
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>MSMDAD</strong> is BigPicture’s mandatory minimum attribute set. <strong>MetaFlex</strong> covers optional extensions. To build a <code>model.json</code> tailored to your site, browse and select from both in the <a href="https://bpmetrics-config.tools.balsever.se/">bpmetrics-config browser</a>, then use its <strong>“Current Selection”</strong> panel to <strong>“Also export as model.json (SlideTap)”</strong>. This produces a SlideTap-ready <code>model.json</code> directly — place the downloaded file in <code>PIPELINE_REFDATA_DIR</code> in place of the default, and restart the stack (see the callout below) to pick it up.</p>
-<p>Only want the MSMDAD floor, with no site-specific attributes at all? Put <code>{}</code> in <code>model.json</code>. MSMDAD attributes aren’t sourced from <code>model.json</code>, so <code>{}</code> still gives you the full mandatory attribute set with nothing extra declared.</p>
+<p>Only want the MSMDAD floor for <strong>entity</strong> attributes (case, specimen, block, slide, image, …), with none of your own on top? Put <code>{}</code> in <code>model.json</code>. Those entity attributes are compiled into the pipeline itself, so <code>{}</code> declares nothing extra and still gives you that floor.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>{}</code> declares no observation models — check your mappers first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Unlike entities, SlideTap has <strong>no built-in floor for observations</strong>: an empty <code>model.json</code> declares zero observation models, full stop. If any mapper in your <code>mappers.xlsx</code> maps into an observation — a diagnosis or other pathology code is the normal case, and it counts even though the code itself is part of MSMDAD — that observation must still be declared by hand in <code>model.json</code>, or mapper injection for it fails silently at boot and every item using it comes up unmapped, with no error visible in the UI. The provided default <code>model.json</code> above already declares a working <code>diagnose</code> observation as an example. Unless you are certain none of your mappers touch an observation, start from that file rather than <code>{}</code>.</p>
 </div>
 </div>
 <section id="place-the-default-file" class="level2">

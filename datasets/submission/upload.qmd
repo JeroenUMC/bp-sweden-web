@@ -69,21 +69,37 @@ readiness without transferring any data.
 ## Windows
 In **Git Bash**, run:
 ```bash
-make upload-dry-run DATASET=<project_dir>
+make upload-dry-run DATASET=<project_dir>/DATASET_<alias>
 ```
 ## macOS
 ```bash
-make upload-dry-run DATASET=<project_dir>
+make upload-dry-run DATASET=<project_dir>/DATASET_<alias>
 ```
 ## Linux
 ```bash
-make upload-dry-run DATASET=<project_dir>
+make upload-dry-run DATASET=<project_dir>/DATASET_<alias>
 ```
 :::
 
-Replace `<project_dir>` with the project directory name — it is the value after
-`Project:` in the `make export-check` output from [H. Run a submission](run-submission.qmd),
-for example `DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+`DATASET=` here is the bundle's path **relative to the outbox root**
+(`$PIPELINE_OUTBOX_DIR`), with two segments:
+
+- `<project_dir>` — the project directory name, the value after `Project:` in
+  the `make export-check` output from [H. Run a submission](run-submission.qmd),
+  for example `test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+- `DATASET_<alias>` — the bundle subfolder one level inside it (named after the
+  **Dataset Name** you set in step H), for example `DATASET_test-submission`.
+
+So for that example, the full value is
+`DATASET=test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af/DATASET_test-submission`.
+
+::: {.callout-note}
+## Different from the `validate-upload` value
+
+This is a **different value** from the one `make validate-upload` takes — that
+target wants the full path to the `DATASET_<alias>` folder itself, not a path
+relative to the outbox. See [I. Validate the bundle](validate.qmd).
+:::
 
 `make upload-dry-run` defaults to **staging**. To dry-run against production
 credentials instead, add `TARGET=production`.
@@ -94,7 +110,7 @@ credentials instead, add `TARGET=production`.
 A passing dry run starts with:
 
 ```
-Dry-run upload of '<project_dir>' to staging (zero bytes) ...
+Dry-run upload of '<project_dir>/DATASET_<alias>' to staging (zero bytes) ...
 ```
 
 and exits 0 with no `ERROR` lines. Fix any reported errors before uploading.
@@ -110,23 +126,25 @@ staging test, so use `TARGET=staging`:
 ## Windows
 In **Git Bash**, run:
 ```bash
-make upload DATASET=<project_dir> TARGET=staging
+make upload DATASET=<project_dir>/DATASET_<alias> TARGET=staging
 ```
 ## macOS
 ```bash
-make upload DATASET=<project_dir> TARGET=staging
+make upload DATASET=<project_dir>/DATASET_<alias> TARGET=staging
 ```
 ## Linux
 ```bash
-make upload DATASET=<project_dir> TARGET=staging
+make upload DATASET=<project_dir>/DATASET_<alias> TARGET=staging
 ```
 :::
+
+Use the same `<project_dir>/DATASET_<alias>` value as the dry run above.
 
 For a real submission, use `TARGET=production` instead — it reads the separate
 `PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` credentials:
 
 ```bash
-make upload DATASET=<project_dir> TARGET=production
+make upload DATASET=<project_dir>/DATASET_<alias> TARGET=production
 ```
 
 ::: {.callout-warning}
@@ -139,12 +157,12 @@ If NBIS has explicitly told you that more threads are allowed for your site,
 you can override:
 
 ```bash
-make upload DATASET=<project_dir> TARGET=staging THREADS=4
+make upload DATASET=<project_dir>/DATASET_<alias> TARGET=staging THREADS=4
 ```
 :::
 
 ## Notify NBIS
-Once your submission is completed, notify NBIS by [sending an email](mailto:{{< var email.helpdesk >}}). The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af`.
+Once your submission is completed, notify NBIS by [sending an email](mailto:{{< var email.helpdesk >}}). The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission`.
 
 The email should contain:
 
@@ -156,7 +174,8 @@ The email should contain:
 `bp-submitter` tracks progress in a local SQLite database at
 `${PIPELINE_SUBMITTER_STATE}/upload.db` (default:
 `$PIPELINE_ROOT/submitter-state/upload.db`). If an upload is interrupted,
-re-run the same `make upload DATASET=<project_dir> TARGET=<staging|production>`
+re-run the same
+`make upload DATASET=<project_dir>/DATASET_<alias> TARGET=<staging|production>`
 command — it resumes from where it left off.
 
 To start over (for example, after replacing a corrected bundle), delete
@@ -174,7 +193,7 @@ and manually re-issue the command.
 your connection drops. It takes the same arguments as `make upload`:
 
 ```bash
-make upload-persistent DATASET=<project_dir> TARGET=staging
+make upload-persistent DATASET=<project_dir>/DATASET_<alias> TARGET=staging
 ```
 
 The first run starts the upload and attaches you to it live — it looks
@@ -212,10 +231,12 @@ silently running unwrapped.
   credentials directory for the `TARGET` you chose (`certs/staging` for
   `TARGET=staging`, `certs/production` for `TARGET=production`). Place the missing
   file in that directory and retry.
-- **`DATASET not set`** — re-run with `DATASET=<project_dir>`.
-- **`Dataset dir not found`** — the project directory name does not match what
-  is under `PIPELINE_OUTBOX_DIR`. Confirm the name from `make export-check`
-  output (step H).
+- **`DATASET not set`** — re-run with `DATASET=<project_dir>/DATASET_<alias>`
+  (see step 1 above for how to build this value).
+- **`Dataset dir not found`** — the `<project_dir>/DATASET_<alias>` value
+  doesn't match what's under `PIPELINE_OUTBOX_DIR`. Confirm `<project_dir>`
+  from the `make export-check` output (step H), then check the `DATASET_<alias>`
+  subfolder actually exists inside it.
 - **Connection or authentication errors** — your `s3cmd-inbox.conf` may be
   expired or misconfigured. Contact NBIS for an updated file.
 - **Upload stalls and does not resume** — delete `upload.db` from

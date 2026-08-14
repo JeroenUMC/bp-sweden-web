@@ -359,17 +359,18 @@ retry. See [J. Upload to BigPicture](upload.qmd).
 <details>
 <summary>`make upload` fails with "DATASET not set"</summary>
 
-Re-run the command with `DATASET=<project_dir>`, the project directory name
-from your `make export-check` output. See
-[J. Upload to BigPicture](upload.qmd).
+Re-run the command with `DATASET=<project_dir>/DATASET_<alias>` — the bundle's
+path relative to the outbox root, not just the project directory name from
+your `make export-check` output. See [J. Upload to BigPicture](upload.qmd).
 </details>
 
 <details>
 <summary>`make upload` fails with "Dataset dir not found"</summary>
 
-The project directory name doesn't match what's under `PIPELINE_OUTBOX_DIR`.
-Confirm the exact name from the `make export-check` output in
-[H. Run a submission test](run-submission.qmd). See also
+The `<project_dir>/DATASET_<alias>` value doesn't match what's under
+`PIPELINE_OUTBOX_DIR`. Confirm `<project_dir>` from the `make export-check`
+output in [H. Run a submission test](run-submission.qmd), then check the
+`DATASET_<alias>` subfolder actually exists inside it. See also
 [J. Upload to BigPicture](upload.qmd).
 </details>
 

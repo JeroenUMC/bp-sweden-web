@@ -30,12 +30,21 @@ file, the data mounts, and the required tools (Docker, `gh` login, OpenSSL,
 `make`).
 
 ::: {.callout-note}
-## Verify reference data contents: `make check-mappers`
+## Verify reference data contents: `make check-mappers METADATA=...`
 `doctor` only checks that the reference data **files exist**, not that their
 **contents are valid**. To verify your `mappers.xlsx` covers all the coded
-values in your data, run [`make check-mappers`](reference-data-mappers.qmd#verify-coverage)
-after editing the mappers file. This catches unmapped values up front, before
-they become invalid items in the curation UI.
+values **in your data**, run [`make check-mappers`](reference-data-mappers.qmd#verify-coverage)
+with `METADATA=` pointing at your metadata workbook, after editing the mappers
+file:
+
+```bash
+make check-mappers METADATA=./path/to/your-metadata.xlsx
+```
+
+Without `METADATA=`, the command checks a bundled test fixture
+(`tests/data/metadata/metadata.xlsx`), not your data — a clean result then means
+nothing about your submission. Run it with your own workbook to catch unmapped
+values up front, before they become invalid items in the curation UI.
 :::
 
 A healthy setup ends with `doctor: OK`:

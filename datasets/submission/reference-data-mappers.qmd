@@ -39,34 +39,39 @@ short codes before running a real submission.
 
 ## Verify coverage
 
-After authoring or provisioning `mappers.xlsx`, run `make check-mappers` to catch
-every unmapped coded value up front — before submission. The checker lists each
-coded value your data contains that no mapping key will resolve, grouped by mapper.
+After authoring or provisioning `mappers.xlsx`, run `make check-mappers` with
+`METADATA=` pointing at **your own metadata workbook** to catch every unmapped
+coded value up front — before submission. The checker lists each coded value
+your data contains that no mapping key will resolve, grouped by mapper.
 
 ```bash
-make check-mappers
+make check-mappers METADATA=./path/to/your-metadata.xlsx
 ```
+
+Without `METADATA=`, the command checks a bundled test fixture
+(`tests/data/metadata/metadata.xlsx`), not your data. A clean result in that case
+means nothing about your submission — it never looked at your workbook.
 
 If any unmapped values are found, the command exits with a non-zero exit code and
 names each one by mapper. This lets you fix mapping coverage immediately, rather
 than discovering invalid items later in the curation UI. As described above, an
 unmatched value leaves the attribute equal to `None`, the slidetap validator marks
 it as `invalid`, and the item becomes **invalid** in the curation UI, blocking
-export — `make check-mappers` prevents this by checking coverage upfront.
+export — `make check-mappers METADATA=...` prevents this by checking coverage
+upfront against your real data.
 
 **When to run it:** After `make setup-refdata`, after editing `mappers.xlsx`, and
-definitely before importing a real submission.
+definitely before importing a real submission — see [Before every production
+run](prepare-for-production.qmd#before-every-production-run-per-run).
 
-**Overrides:** By default, `check-mappers` uses `mappers.xlsx` from `$PIPELINE_REFDATA_DIR`
-(or `tests/data/refdata/` if the env var is not set) and `tests/data/metadata/metadata.xlsx`
-for the metadata. To check different files, pass them on the command line:
+**Overrides:** By default, `check-mappers` uses `mappers.xlsx` from
+`$PIPELINE_REFDATA_DIR` (or `tests/data/refdata/` if the env var is not set). To
+check a different mappers file, pass `MAPPERS=` alongside `METADATA=` on the
+command line:
 
 ```bash
-MAPPERS=./path/to/custom-mappers.xlsx METADATA=./path/to/custom-metadata.xlsx make check-mappers
+MAPPERS=./path/to/custom-mappers.xlsx METADATA=./path/to/your-metadata.xlsx make check-mappers
 ```
-
-This is useful when testing mapper changes or validating mappers for a specific submission before import.
-
 
 ## Workbook structure
 

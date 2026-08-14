@@ -230,10 +230,11 @@ project's folder under `$PIPELINE_STORAGE/storage` (named
 `<project name>.<project uid>`), then check inside its `DATASET_<alias>`
 subfolder:
 
-- `METADATA/` should contain XML files — a complete bundle has **six**:
-  `dataset.xml`, `image.xml`, `observation.xml`, `policy.xml`, `sample.xml`,
-  `staining.xml`.
+- `METADATA/` should contain the required XML files (at minimum: `dataset.xml`,
+  `image.xml`, `observation.xml`, `policy.xml`, `sample.xml`, `staining.xml`).
+  Depending on your dataset, `observer.xml` and `annotation.xml` may also be present.
 - `IMAGES/` should contain `.dcm` files.
+- `LANDING_PAGE/` and `PRIVATE/` should also exist (a missing `landing_page.xml` is allowed; see [I. Validate the bundle](validate.qmd)).
 
 The bundle is good when the project status reads **Export Complete** *and*
 both folders above are populated — not when `make export-check` says so,

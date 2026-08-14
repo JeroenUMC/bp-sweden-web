@@ -742,13 +742,13 @@ One of the two NBIS-provided files is absent from the credentials directory for 
 <summary>
 <code>make upload</code> fails with “DATASET not set”
 </summary>
-Re-run the command with <code>DATASET=&lt;project_dir&gt;</code>, the project directory name from your <code>make export-check</code> output. See <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.
+Re-run the command with <code>DATASET=&lt;project_dir&gt;/DATASET_&lt;alias&gt;</code> — the bundle’s path relative to the outbox root, not just the project directory name from your <code>make export-check</code> output. See <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.
 </details>
 <details>
 <summary>
 <code>make upload</code> fails with “Dataset dir not found”
 </summary>
-The project directory name doesn’t match what’s under <code>PIPELINE_OUTBOX_DIR</code>. Confirm the exact name from the <code>make export-check</code> output in <a href="../../datasets/submission/run-submission.html">H. Run a submission test</a>. See also <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.
+The <code>&lt;project_dir&gt;/DATASET_&lt;alias&gt;</code> value doesn’t match what’s under <code>PIPELINE_OUTBOX_DIR</code>. Confirm <code>&lt;project_dir&gt;</code> from the <code>make export-check</code> output in <a href="../../datasets/submission/run-submission.html">H. Run a submission test</a>, then check the <code>DATASET_&lt;alias&gt;</code> subfolder actually exists inside it. See also <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.
 </details>
 <details>
 <summary>

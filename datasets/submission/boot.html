@@ -553,11 +553,13 @@ Windows: use Git Bash
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Verify reference data contents: <code>make check-mappers</code>
+Verify reference data contents: <code>make check-mappers METADATA=...</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>doctor</code> only checks that the reference data <strong>files exist</strong>, not that their <strong>contents are valid</strong>. To verify your <code>mappers.xlsx</code> covers all the coded values in your data, run <a href="../../datasets/submission/reference-data-mappers.html#verify-coverage"><code>make check-mappers</code></a> after editing the mappers file. This catches unmapped values up front, before they become invalid items in the curation UI.</p>
+<p><code>doctor</code> only checks that the reference data <strong>files exist</strong>, not that their <strong>contents are valid</strong>. To verify your <code>mappers.xlsx</code> covers all the coded values <strong>in your data</strong>, run <a href="../../datasets/submission/reference-data-mappers.html#verify-coverage"><code>make check-mappers</code></a> with <code>METADATA=</code> pointing at your metadata workbook, after editing the mappers file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> check-mappers METADATA=./path/to/your-metadata.xlsx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Without <code>METADATA=</code>, the command checks a bundled test fixture (<code>tests/data/metadata/metadata.xlsx</code>), not your data — a clean result then means nothing about your submission. Run it with your own workbook to catch unmapped values up front, before they become invalid items in the curation UI.</p>
 </div>
 </div>
 <p>A healthy setup ends with <code>doctor: OK</code>:</p>
@@ -580,7 +582,7 @@ Fix every <code>FAIL</code> before continuing
 </section>
 <section id="start-the-stack" class="level2">
 <h2 class="anchored" data-anchor-id="start-the-stack">2. Start the stack</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This starts all the pipeline services (database, web app, and workers) using the images you pulled in <a href="../../datasets/submission/install-package.html">C. install package</a>. <strong>First boot can take up to a minute</strong> while the database initialises and the app reports healthy — the command waits for that, then prints the UI address:</p>
 <pre><code>[+] Running 5/5
  ✔ Container bp-submission-pipeline-pipeline-db-1       Healthy

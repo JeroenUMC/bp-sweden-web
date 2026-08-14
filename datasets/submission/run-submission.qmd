@@ -227,7 +227,7 @@ make export-check
 
 But because of the defect above, confirm the bundle by hand: find the
 project's folder under `$PIPELINE_STORAGE/storage` (named
-`<project name>.<project uid>`), then check inside its `DATASET_<alias>`
+&lt;project name&gt;.&lt;project uid&gt;), then check inside its `DATASET_<alias>`
 subfolder:
 
 - `METADATA/` should contain the required XML files (at minimum: `dataset.xml`,

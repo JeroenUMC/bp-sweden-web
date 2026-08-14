@@ -19,9 +19,25 @@ use its **"Current Selection"** panel to **"Also export as model.json
 the downloaded file in `PIPELINE_REFDATA_DIR` in place of the default, and
 restart the stack (see the callout below) to pick it up.
 
-Only want the MSMDAD floor, with no site-specific attributes at all? Put
-`{}` in `model.json`. MSMDAD attributes aren't sourced from `model.json`, so `{}` still
-gives you the full mandatory attribute set with nothing extra declared.
+Only want the MSMDAD floor for **entity** attributes (case, specimen, block,
+slide, image, …), with none of your own on top? Put `{}` in `model.json`.
+Those entity attributes are compiled into the pipeline itself, so `{}`
+declares nothing extra and still gives you that floor.
+:::
+
+::: {.callout-warning}
+## `{}` declares no observation models — check your mappers first
+
+Unlike entities, SlideTap has **no built-in floor for observations**: an
+empty `model.json` declares zero observation models, full stop. If any
+mapper in your `mappers.xlsx` maps into an observation — a diagnosis or
+other pathology code is the normal case, and it counts even though the code
+itself is part of MSMDAD — that observation must still be declared by hand
+in `model.json`, or mapper injection for it fails silently at boot and every
+item using it comes up unmapped, with no error visible in the UI. The
+provided default `model.json` above already declares a working `diagnose`
+observation as an example. Unless you are certain none of your mappers
+touch an observation, start from that file rather than `{}`.
 :::
 
 ## Place the default file

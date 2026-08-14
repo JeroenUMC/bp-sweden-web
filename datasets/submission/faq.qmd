@@ -255,14 +255,32 @@ completed and check the batch status chip in the Batch sidebar. See
 An observation is missing a required coded attribute (e.g. `diagnose`) that
 has no `"optional": true` flag in `model.json`. Check `make logs` for a
 `ValueError` naming the missing attribute's tag — export stops at the first
-one it hits, so fixing one observation can just surface the next. A green
-status in Curate doesn't rule this out either: if `mappers.xlsx` was edited
-and remapped after the item was last validated, its cached validity can go
-stale. Fix by supplying the missing value (re-check the mapping and remap, or
-the source workbook data), or by marking the attribute optional in
-`model.json` and restarting the stack — only for attributes your site added,
-never for BigPicture's MSMDAD attributes. See
-[H. Run a submission test](run-submission.qmd) and
+one it hits, so fixing one observation can just surface the next.
+
+**A green status in Curate does not rule this out, and it is not simply
+"stale."** For an attribute nested inside another attribute — a diagnosis or
+other pathology code inside an observation is the normal case — **Remap**
+recomputes the correct value and marks the item valid, but never writes that
+value back to the database: the validity flag and the mapping's hit count
+both update, the value itself does not. The item is wrong from the moment
+you click Remap, and Remap will keep reporting success no matter how many
+times you run it.
+
+**Do not remap a nested attribute. Clear the affected mappers and re-parse
+instead** — delete the batch (or start a fresh project) and re-upload the
+workbook. Re-parsing maps the value *before* the item is created, which is
+the code path that persists it correctly; remap only runs *after* the item
+already exists, which is the path that drops it.
+
+For a plain (non-nested) attribute, re-checking the mapping in
+`mappers.xlsx` and remapping does work — this failure is specific to
+attributes nested inside another attribute.
+
+Alternatively, fix by supplying the missing value from the source workbook
+data, or by marking the attribute optional in `model.json` and restarting
+the stack — only for attributes your site added, never for BigPicture's
+MSMDAD attributes, and note this loses the value rather than recovering it.
+See [H. Run a submission test](run-submission.qmd) and
 [E1. model.json](reference-data-model.qmd).
 </details>
 

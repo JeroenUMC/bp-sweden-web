@@ -169,10 +169,14 @@ unchanged.
 <summary>**MSMDAD**</summary>
 
 BigPicture's **mandatory minimum attribute set** — the floor of attributes every
-submission must carry. You get it automatically (even an empty `{}`
-[model.json](#model-json) still yields the full floor); `model.json` only *adds*
-site-specific attributes on top. An observation missing a required MSMDAD
-attribute fails export.
+submission must carry. You get the *entity* floor (case, specimen, block,
+slide, image, …) automatically, even from an empty `{}`
+[model.json](#model-json). There is **no equivalent built-in floor for
+observations**: any MSMDAD attribute that lives inside an observation — a
+diagnosis code is the normal case — must still be declared in `model.json`
+by hand, or its mapper fails silently at boot and every item using it comes
+up unmapped. An observation missing a required MSMDAD attribute fails
+export. See [E1. model.json](reference-data-model.qmd) for the full picture.
 </details>
 
 <details id="project">

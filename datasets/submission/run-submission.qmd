@@ -33,29 +33,48 @@ On the Projects list, click **New project**. The UI creates the project and
 opens its **Settings** page immediately. A **Default** batch is created
 automatically — you do not need to create one manually.
 
-Fill in the three sections, then click **UPDATE** at the bottom.
+::: {.callout-important}
+## Two separate pages, two separate UPDATE buttons
 
-**General**
+**Settings** and **Dataset** are two different pages in the Project sidebar,
+each with its own **UPDATE** button. Filling in a field and clicking UPDATE
+on one page does **not** save anything on the other — do both parts below,
+in either order, and click UPDATE at the bottom of each page separately.
+:::
 
-Set **Project Name** to something recognisable (e.g. `test-submission`).
+**On the Settings page**
 
-**Mapper groups**
+- **General** — set **Project Name** to something recognisable (e.g.
+  `test-submission`).
+- **Mapper groups** — this connects the project to the `mappers.xlsx`
+  mappings you placed in [E. Reference data](reference-data.qmd).
+- **Attributes** — the required fields (marked `*`) will already be filled
+  in with test values. You can leave optional fields (Keywords, Geographical
+  areas, Year of submission, etc.) blank for a test run.
 
-This connects the project to the `mappers.xlsx` mappings you placed in
-[E. Reference data](reference-data.qmd).
+Click **UPDATE** at the bottom of the Settings page.
 
-**Attributes**
+**On the Dataset page**
 
-The required fields (marked `*`) will already be filled in with test values.
-You can leave optional fields (Keywords, Geographical areas, Year of submission,
-etc.) blank for a test run.
+Click **Dataset** in the Project sidebar (a separate page from Settings),
+and set two fields:
 
-**Dataset**
+- **Dataset Name** — a name for this dataset, distinct from the Project Name
+  above. The **Project** and its **Dataset** are separate records that both
+  start out called "New project"; renaming the project on the Settings page
+  does *not* rename the dataset. Leave Dataset Name unset and every
+  submission from this site exports under the same placeholder-derived
+  bundle name, colliding with the last one. This field is what the export
+  bundle directory and the identifier NBIS is notified about are derived
+  from — see [J. Upload to BigPicture](upload.qmd) for the exact command
+  syntax once you reach that step — so give it something that will still
+  identify this submission uniquely later.
+- **Metadata standard** — change it from its default (`0.1.2`) to `2.0.0`.
+  The metaflex XSD validation in [I. Validate the bundle](validate.qmd)
+  requires a `2.0.x` value — submissions with the default `0.1.2` fail
+  schema validation.
 
-Expand the **Dataset** section and change the **Metadata standard** field from
-its default (`0.1.2`) to `2.0.0`. The metaflex XSD validation in
-[I. Validate the bundle](validate.qmd) requires a `2.0.x` value — submissions
-with the default `0.1.2` fail schema validation.
+Click **UPDATE** at the bottom of the Dataset page.
 
 
 <!-- TODO: See <TODO: LINK> for an in depth overview of these attributes. -->
@@ -99,6 +118,31 @@ is selected in Project Settings.
 
 **Note:** WSI will always be invalid at this stage, they can become valid after Pre-process.
 <!-- TODO: screenshot — Curate tab showing an invalid item with attribute highlighted -->
+
+::: {.callout-warning}
+## Green in Curate is not proof the submission will export
+
+A **valid** (green) item means a mapper resolved a value — not that the
+value was actually saved. For an attribute nested inside another attribute
+(a diagnosis or other pathology code inside an observation is the normal
+case), **Remap** can compute the right value, mark the item valid, and still
+never write that value to the database. Curate cannot show you this; the
+item looks identical to one that is genuinely fine.
+
+If **Remap** doesn't clear an invalid item after you've fixed its mapping
+row, stop remapping it — that is the signature of a nested attribute, and
+remapping again will keep reporting success without fixing anything. Delete
+the batch and re-parse the workbook instead (upload it again at step 3).
+See [If something goes wrong](#if-something-goes-wrong) below.
+
+The only check that confirms the submission is actually intact is a
+completed **Export** (step 9): the project status reads **Export Complete**,
+`METADATA/` inside the bundle holds XML files, and `IMAGES/` holds `.dcm`
+files — see the Verify callout under step 9 for exactly where to look and a
+caveat about `make export-check`. Treat every green status before that as
+provisional — worth knowing now, before the image conversion in the next two
+steps, rather than after.
+:::
 
 ## 5. Pre-process images
 
@@ -149,11 +193,21 @@ Click the **Submit** button.
 The project status changes to **Exporting**, then **Export Complete**. The
 pipeline writes the export bundle to the outbox (`$PIPELINE_STORAGE/storage`).
 
+::: {.callout-warning}
+## `make export-check` currently reports FAIL on a good bundle
+
+`make export-check` looks for `METADATA/` and `IMAGES/` directly inside the
+project folder, but the pipeline actually writes them one level deeper,
+inside a `DATASET_<alias>` subfolder. This is a known defect in the check
+itself, not a sign your export failed. Until it's fixed, a `FAIL` from
+`make export-check` is inconclusive — verify the bundle by hand instead, as
+below.
+:::
+
 ::: {.callout-tip}
 ## Verify
 
-Run the following from the pipeline root directory to confirm the bundle was
-written correctly:
+You can still run `make export-check` as a quick first look:
 
 ::: {.panel-tabset}
 ## Windows
@@ -171,21 +225,20 @@ make export-check
 ```
 :::
 
-Expected output (project name and UID will differ):
+But because of the defect above, confirm the bundle by hand: find the
+project's folder under `$PIPELINE_STORAGE/storage` (named
+`<project name>.<project uid>`), then check inside its `DATASET_<alias>`
+subfolder:
 
-```
-Checking /data/storage ...
+- `METADATA/` should contain XML files — a complete bundle has **six**:
+  `dataset.xml`, `image.xml`, `observation.xml`, `policy.xml`, `sample.xml`,
+  `staining.xml`.
+- `IMAGES/` should contain `.dcm` files.
 
-Project: test-submission.10494c10-0d6b-4103-89e0-4909ad6e23af
-  OK    METADATA/ — 1 xml file(s)
-  OK    IMAGES/ — 42 dcm file(s)
-  PASS
-
-export-check PASSED
-```
-
-`export-check PASSED` confirms the bundle has metadata XML and DICOM image
-files and is ready for [I. Validate the bundle](validate.qmd).
+The bundle is good when the project status reads **Export Complete** *and*
+both folders above are populated — not when `make export-check` says so,
+while this defect is open. Once confirmed, it is ready for
+[I. Validate the bundle](validate.qmd).
 :::
 
 ## 10. Prepare the landing page thumbnails
@@ -221,12 +274,15 @@ representative images and avoid frames that carry sensitive information.
   `model.json`. Check `make logs` for a `ValueError` naming the missing
   attribute's tag — export aborts at the *first* one it hits, so fixing one
   observation can just surface the next; expect a few rounds if several are
-  affected. A green status in Curate doesn't rule this out: if you edited
-  `mappers.xlsx` and remapped after the item was last validated, its cached
-  validity can go stale, so treat a successful export as the real check. Fix
-  by supplying the missing value (re-check the mapping, remap, or the source
-  workbook data) before re-exporting, or by marking the attribute optional in
-  `model.json` — see [E1. model.json](reference-data-model.qmd#required-and-optional-attributes).
+  affected. A green status in Curate doesn't rule this out — see the warning
+  under step 4 (Curate) above. Specifically: if the missing attribute is
+  nested inside another attribute (an observation's coded value, e.g.
+  `diagnose`, is the normal case), **Remap will not fix it**, even though it
+  reports success — delete the batch and re-upload the workbook to re-parse
+  it (step 3) instead. For a plain, non-nested attribute, re-checking the
+  mapping in `mappers.xlsx` and remapping does work. Either way, you can also
+  mark the attribute optional in `model.json` instead of supplying a value —
+  see [E1. model.json](reference-data-model.qmd#required-and-optional-attributes).
   Editing `model.json` needs a stack restart — see [When do I need to
   restart?](boot.qmd#when-do-i-need-to-restart).
 - **`export-check` reports `FAIL outbox not found`.** The `PIPELINE_STORAGE`

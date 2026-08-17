@@ -184,9 +184,17 @@ To start over (for example, after replacing a corrected bundle), delete
 ## Persistent uploads (surviving a dropped connection)
 
 If you're running the upload from a remote server over SSH rather than your
-own machine, a dropped connection kills `make upload` mid-transfer. Progress
-isn't lost — resume still works as above — but you'd have to notice the drop
-and manually re-issue the command.
+own machine, a dropped connection kills your *view* of `make upload` — but
+not the upload itself. The transfer runs inside a Docker container that
+keeps going in the background even after the client attached to it dies, so
+the upload usually finishes on its own. What you lose is the live terminal:
+there's no supported way to reattach to a plain `make upload`, so you're
+stuck manually hunting for the orphaned container (`docker ps`) to check on
+it or see when it's done.
+
+Because of that, don't assume a dropped `make upload` failed — check
+`docker ps` for a still-running `bp-submitter` container before re-issuing
+the command, to avoid racing a duplicate upload against the original.
 
 `make upload-persistent` runs the same upload inside a
 [tmux](https://github.com/tmux/tmux) session that keeps running even after

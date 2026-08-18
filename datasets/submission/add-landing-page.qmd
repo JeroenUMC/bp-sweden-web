@@ -27,17 +27,130 @@ that process hasn't been documented yet. For those, contact
 
 ## Do it
 
-1. **Prepare the landing page.** Build a valid `landing_page.xml` (and any
-   `LANDING_PAGE/THUMBNAILS/` files it references) for the already-submitted
-   dataset, following the same structure described in
-   [Prepare data](direct-upload/prepare-data.qmd). Validate it before sending
-   anything — see [Validate metadata](direct-upload/validate-metadata.qmd).
+1. **Prepare the landing page.** Don't write `landing_page.xml` by hand, and
+   don't copy another dataset's. The metadata interface ships
+   `LandingPagePreparer`, which derives the title, description, all six counts,
+   the dataset size, stainings, image resolutions and the whole policy block
+   from the metadata you already submitted — so the landing page cannot drift
+   from the dataset it describes. Put the thumbnails in
+   `LANDING_PAGE/THUMBNAILS/` under the original bundle, then run:
+
+   ```python
+   from pathlib import Path
+
+   from bigpicture_metadata_interface.dataset_structure import (
+       DatasetFileStructure,
+       DatasetFolderStructure,
+   )
+   from bigpicture_metadata_interface.landing_page import LandingPagePreparer
+   from bigpicture_metadata_interface.model.common.file import File
+   from bigpicture_metadata_interface.xml import (
+       XMLSerialize,
+       XmlDeserialize,
+       XmlValidation,
+   )
+
+   DATASET_ROOT = Path("/path/to/DATASET_<alias>")
+
+   thumbnails = DatasetFolderStructure.LANDING_PAGE_SAMPLE_IMAGES.value
+   sample_images = [
+       File(
+           filename=(thumbnails / path.name).as_posix(),
+           filetype=path.suffix.lstrip("."),
+           checksum="",
+           unencrypted_checksum="",
+       )
+       for path in sorted((DATASET_ROOT / thumbnails).glob("*.jpg"))
+   ]
+
+   # parse_xml_files() returns only the dataset, but prepare() also needs the
+   # biological beings, so go one level down to the method that returns both.
+   referenced = XmlDeserialize._load_referenced_datasets(
+       DATASET_ROOT, None, False, XmlValidation.LAX
+   )
+   dataset, references = XmlDeserialize._parse_xml_files(
+       DATASET_ROOT, referenced, False, XmlValidation.LAX
+   )
+
+   dataset.landing_page = LandingPagePreparer.prepare(
+       DATASET_ROOT,
+       dataset,
+       list(references.biological_beings.values()),
+       sample_images=sample_images,
+       # Not derivable from the bundle — supply your own:
+       header="<short header>",
+       keywords=["<keyword>"],
+       center_name="<your centre's legal name>",
+       year_of_submission=2026,
+   )
+
+   streams = XMLSerialize.to_streams(dataset, DATASET_ROOT, XmlValidation.LAX)
+   target = DatasetFileStructure.LANDING_PAGE.value.create(DATASET_ROOT)
+   target.write_bytes(streams[DatasetFileStructure.LANDING_PAGE].getvalue())
+   ```
+
+   Then validate the bundle — `make validate-upload DATASET=<dataset_dir>`
+   ([I. Validate the bundle](validate.qmd)) — and check that its
+   `landing_page.xml absent (optional; see #69)` warning is gone. See also
+   [Validate metadata](direct-upload/validate-metadata.qmd).
+
+   ::: {.callout-warning}
+   ## Thumbnails must be `.jpg` or `.png`
+
+   Both the XSD's `filetype` enum and the interface's own suffix check accept
+   only those two. A `.jpeg` file is **rejected**, even though it is the same
+   format — rename it to `.jpg` before you reference it.
+
+   At most 5 sample images are allowed.
+   :::
+
+   ::: {.callout-note}
+   ## Empty checksums in your file are expected
+
+   Each `SAMPLE_IMAGE_FILE` carries an encrypted and an unencrypted SHA256, and
+   neither exists until the file is crypt4gh-encrypted during the upload. The
+   file you author therefore has `checksum=""` — the submitter fills both in
+   before it serializes and uploads the XML. This is also why you cannot
+   produce a complete `landing_page.xml` offline.
+   :::
 
 2. **Upload it to the original dataset's folder.** Do **not** create a new
    submission. WP2 asked that this go directly into the same dataset folder
    you originally submitted to, rather than as a fresh bundle — contact
    [Support](support.qmd) first if you're unsure of the exact inbox path for
    an already-submitted dataset.
+
+   In practice you re-run the normal upload against the *same* bundle, now with
+   `LANDING_PAGE/` populated:
+
+   ```bash
+   make upload DATASET=<project_dir>/DATASET_<alias> TARGET=<staging|production>
+   ```
+
+   The already-submitted files are not re-sent: every image resolves to
+   `EXISTING` from `upload.db`, and each metadata XML that is already in the
+   inbox is refused because overwriting is disabled. Only the new thumbnails
+   and `landing_page.xml` are uploaded.
+
+   ::: {.callout-important}
+   ## The run ends in an error — that one is expected
+
+   The upload finishes with:
+
+   ```
+   ERROR:root:Failed to submit some metadata.
+   ```
+
+   That is the already-submitted XMLs being **correctly refused**, not a
+   failure. Confirm with the listing in
+   [3. Confirm it finalized](upload.qmd#confirm-it-finalized): the existing
+   `METADATA/` and `PRIVATE/` objects keep their original byte sizes, and
+   `LANDING_PAGE/` is new.
+
+   **Do not** add `--allow-overwrite` to silence it. That flag would re-upload
+   and replace the metadata of a dataset that has already been submitted, which
+   is exactly what this whole procedure exists to avoid.
+   :::
 
 3. **Notify NBIS by email.** Send an email to the
    [helpdesk](mailto:{{< var email.helpdesk >}}) so they know a landing page
@@ -52,7 +165,16 @@ that process hasn't been documented yet. For those, contact
 ::: {.callout-tip}
 ## Verify
 
-There's no local check for this — the file lives on NBIS's side once
+Two separate things, only one of which you can check yourself.
+
+**Did the files arrive?** You can confirm this. List the dataset's inbox prefix
+with the command in
+[3. Confirm it finalized](upload.qmd#confirm-it-finalized) and look for
+`LANDING_PAGE/landing_page.xml.c4gh` plus one `LANDING_PAGE/THUMBNAILS/*.c4gh`
+per sample image. While you're there, check the existing `METADATA/` objects
+still have the sizes they had before — that proves nothing was overwritten.
+
+**Was it processed?** You cannot check this; the file lives on NBIS's side once
 uploaded. Once WP2 confirms it's been processed, the dataset's entry in the
 [BigPicture browser](https://datasets.bp.nbis.se/index.html) should show the
 landing page.

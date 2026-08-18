@@ -161,6 +161,58 @@ make upload DATASET=<project_dir>/DATASET_<alias> TARGET=staging THREADS=4
 ```
 :::
 
+## 3. Confirm it finalized {#confirm-it-finalized}
+
+A finished `make upload` is not the same as a finalized submission. The
+submitter uploads all image files first and only then serializes and uploads
+the metadata XMLs; if that last phase fails, every image is still in the inbox
+and the run looks superficially complete.
+
+::: {.callout-important}
+## `upload.db` cannot tell you whether it finalized
+
+The resume database records **data files only** — the metadata phase writes no
+rows. A run that shipped all images and then died on metadata validation is
+byte-for-byte identical in `upload.db` to a fully finalized one: same row
+count, same checksums. Do not use it as evidence.
+
+`make upload` also writes no log file, and the container is removed on exit, so
+once your terminal scrollback is gone there is no local record either way.
+:::
+
+The only reliable check is to list what actually arrived in the inbox. From
+your `bp-submission-pipeline` checkout, with `DATASET_<alias>` substituted:
+
+```bash
+set -a && . ./.env && set +a
+PIPELINE_SUBMITTER_CREDS_DIR="$PIPELINE_SUBMITTER_CREDS_DIR_STAGING" \
+docker compose -f docker-compose.yml -f docker-compose.build.yml run --rm --no-deps \
+  --entrypoint python bp-submitter -c '
+from bigpicture_metadata_interface.sda.destination.s3 import S3Destination
+ALIAS = "DATASET_<alias>"
+with S3Destination("/creds/s3cmd-inbox.conf") as destination:
+    prefix = f"{destination.bucket}/{destination.bucket}/{ALIAS}"
+    for key in sorted(destination._fs.find(prefix)):
+        print(key[len(prefix) + 1:])
+'
+```
+
+Swap `PIPELINE_SUBMITTER_CREDS_DIR_STAGING` for
+`PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION` to check a production submission.
+This only lists objects — it uploads and changes nothing.
+
+::: {.callout-tip}
+## Verify
+
+Every `METADATA/*.xml.c4gh` present means the metadata phase completed, which
+is what finalization means. If you see `IMAGES/` but no `METADATA/`, the run
+stopped after the image phase and the submission is **not** finalized — fix
+what the metadata phase rejected and re-run `make upload`.
+
+Also check that no object is 124 bytes or smaller. That is the size of an empty
+crypt4gh header, i.e. a file that encrypted to nothing.
+:::
+
 ## Notify NBIS
 Once your submission is completed, notify NBIS by [sending an email](mailto:{{< var email.helpdesk >}}). The subject of the email should be in the format of: `submission - DATASET_{IDENTIFIER}`, for example `submission - DATASET_test-submission`.
 

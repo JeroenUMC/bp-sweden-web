@@ -330,6 +330,21 @@ with `xmllint` — see [Validate metadata](direct-upload/validate-metadata.qmd).
 See also [I. Validate the bundle](validate.qmd).
 </details>
 
+<details>
+<summary>`staining.xml` has a separate, near-identical `STAINING` entry for every slide, even when they're all the same stain</summary>
+
+This is expected, not a mapping bug. In the BigPicture metadata standard, a
+Slide's `STAINING_INFORMATION_REF` points to exactly one Staining Entity —
+there's no mechanism for multiple slides to share one. So a dataset where
+every slide is plain H&E still gets one `STAINING` block per slide, each with
+its own generated alias, all carrying identical content (same
+`staining_method`, same SNOMED code). Check `sample.xml` — each `SLIDE`
+element's `STAINING_INFORMATION_REF` resolves to a different
+`STAINING_PROCEDURE_*` alias in `staining.xml`, one per slide. See
+[Staining mapping](reference-data-staining.qmd) and
+[I. Validate the bundle](validate.qmd).
+</details>
+
 ## J. Upload to BigPicture
 
 <details>

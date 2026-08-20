@@ -484,7 +484,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#do-it" id="toc-do-it" class="nav-link active" data-scroll-target="#do-it">Do it</a></li>
+  <li><a href="#prepare-the-landing-page" id="toc-prepare-the-landing-page" class="nav-link active" data-scroll-target="#prepare-the-landing-page">Prepare the landing page</a></li>
+  <li><a href="#which-path-to-follow" id="toc-which-path-to-follow" class="nav-link" data-scroll-target="#which-path-to-follow">Which path to follow</a></li>
+  <li><a href="#upload-via-bp-submission-pipeline" id="toc-upload-via-bp-submission-pipeline" class="nav-link" data-scroll-target="#upload-via-bp-submission-pipeline">Upload via bp-submission-pipeline</a></li>
+  <li><a href="#upload-manually-no-upload.db" id="toc-upload-manually-no-upload.db" class="nav-link" data-scroll-target="#upload-manually-no-upload.db">Upload manually (no upload.db)</a></li>
+  <li><a href="#after-uploading" id="toc-after-uploading" class="nav-link" data-scroll-target="#after-uploading">After uploading</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -511,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>landing_page.xml</code> is optional at submission time — <a href="../../datasets/submission/validate.html">I. Validate the bundle</a> only warns if it’s missing, it doesn’t fail the gate. If you submitted without one and want to add it retroactively, you don’t need to resubmit the dataset.</p>
+<p><code>landing_page.xml</code> is optional at submission time. If you submitted without one and want to add it retroactively, you don’t need to resubmit the dataset.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -538,10 +542,9 @@ Scope
 <p>This page covers adding a missing landing page. It does not cover other post-submission fixes (for example, replacing a corrupted/bit-lost file) — that process hasn’t been documented yet. For those, contact <a href="../../datasets/submission/support.html">Support</a> directly.</p>
 </div>
 </div>
-<section id="do-it" class="level2">
-<h2 class="anchored" data-anchor-id="do-it">Do it</h2>
-<ol type="1">
-<li><p><strong>Prepare the landing page.</strong> Don’t write <code>landing_page.xml</code> by hand, and don’t copy another dataset’s. The metadata interface ships <code>LandingPagePreparer</code>, which derives the title, description, all six counts, the dataset size, stainings, image resolutions and the whole policy block from the metadata you already submitted — so the landing page cannot drift from the dataset it describes. Put the thumbnails in <code>LANDING_PAGE/THUMBNAILS/</code> under the original bundle, then run:</p>
+<section id="prepare-the-landing-page" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-landing-page">Prepare the landing page</h2>
+<p>Either write <code>landing_page.xml</code> by hand, or use the bigpicture_metadata_interface. The metadata interface ships <code>LandingPagePreparer</code>, which derives the title, description, all six counts, the dataset size, stainings, image resolutions and the whole policy block from the metadata you already submitted — so the landing page cannot drift from the dataset it describes. Put the thumbnails in <code>LANDING_PAGE/THUMBNAILS/</code> under the original bundle, then run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bigpicture_metadata_interface.dataset_structure <span class="im">import</span> (</span>
@@ -593,7 +596,7 @@ Scope
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>streams <span class="op">=</span> XMLSerialize.to_streams(dataset, DATASET_ROOT, XmlValidation.LAX)</span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> DatasetFileStructure.LANDING_PAGE.value.create(DATASET_ROOT)</span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>target.write_bytes(streams[DatasetFileStructure.LANDING_PAGE].getvalue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then validate the bundle — <code>make validate-upload DATASET=&lt;dataset_dir&gt;</code> (<a href="../../datasets/submission/validate.html">I. Validate the bundle</a>) — and check that its <code>landing_page.xml absent (optional; see #69)</code> warning is gone. See also <a href="../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a>.</p>
+<p>Then validate the bundle — <code>make validate-upload DATASET=&lt;dataset_dir&gt;</code> (if using bp-submission-pipeline, <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>) — and check that its <code>landing_page.xml absent (optional; see #69)</code> warning is gone. For a direct upload, see <a href="../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -620,11 +623,34 @@ Empty checksums in your file are expected
 <div class="callout-body-container callout-body">
 <p>Each <code>SAMPLE_IMAGE_FILE</code> carries an encrypted and an unencrypted SHA256, and neither exists until the file is crypt4gh-encrypted during the upload. The file you author therefore has <code>checksum=""</code> — the submitter fills both in before it serializes and uploads the XML. This is also why you cannot produce a complete <code>landing_page.xml</code> offline.</p>
 </div>
-</div></li>
-<li><p><strong>Upload it to the original dataset’s folder.</strong> Do <strong>not</strong> create a new submission. WP2 asked that this go directly into the same dataset folder you originally submitted to, rather than as a fresh bundle — contact <a href="../../datasets/submission/support.html">Support</a> first if you’re unsure of the exact inbox path for an already-submitted dataset.</p>
+</div>
+</section>
+<section id="which-path-to-follow" class="level2">
+<h2 class="anchored" data-anchor-id="which-path-to-follow">Which path to follow</h2>
+<ul>
+<li><strong><code>upload.db</code> is intact</strong> (the dataset was uploaded via <code>bp-submission-pipeline</code> and the database file has not been lost) → follow <a href="#upload-via-bp-submission-pipeline">Upload via bp-submission-pipeline</a>.</li>
+<li><strong><code>upload.db</code> is absent</strong> (uploaded by other tooling, or the file has been lost) → follow <a href="#upload-manually-no-uploaddb">Upload manually (no upload.db)</a>.</li>
+</ul>
+</section>
+<section id="upload-via-bp-submission-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="upload-via-bp-submission-pipeline">Upload via bp-submission-pipeline</h2>
+<p>Do <strong>not</strong> create a new submission. WP2 asked that this go directly into the same dataset folder you originally submitted to, rather than as a fresh bundle — contact <a href="../../datasets/submission/support.html">Support</a> first if you’re unsure of the exact inbox path for an already-submitted dataset.</p>
 <p>In practice you re-run the normal upload against the <em>same</em> bundle, now with <code>LANDING_PAGE/</code> populated:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload DATASET=<span class="op">&lt;</span>project_dir<span class="op">&gt;</span>/DATASET_<span class="op">&lt;</span>alias<span class="op">&gt;</span> TARGET=<span class="op">&lt;</span>staging<span class="kw">|</span><span class="ex">production</span><span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The already-submitted files are not re-sent: every image resolves to <code>EXISTING</code> from <code>upload.db</code>, and each metadata XML that is already in the inbox is refused because overwriting is disabled. Only the new thumbnails and <code>landing_page.xml</code> are uploaded.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+This requires upload.db to be populated from the original upload
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The skip logic that prevents re-sending existing files relies entirely on <code>upload.db</code>. If the dataset was uploaded by other tooling — or if <code>upload.db</code> has been lost — the submitter will abort on the first file it finds already present in the inbox. In that case, see <a href="#upload-manually-no-uploaddb">Upload manually (no upload.db)</a> below.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -640,14 +666,95 @@ The run ends in an error — that one is expected
 <p>That is the already-submitted XMLs being <strong>correctly refused</strong>, not a failure. Confirm with the listing in <a href="../../datasets/submission/upload.html#confirm-it-finalized">3. Confirm it finalized</a>: the existing <code>METADATA/</code> and <code>PRIVATE/</code> objects keep their original byte sizes, and <code>LANDING_PAGE/</code> is new.</p>
 <p><strong>Do not</strong> add <code>--allow-overwrite</code> to silence it. That flag would re-upload and replace the metadata of a dataset that has already been submitted, which is exactly what this whole procedure exists to avoid.</p>
 </div>
-</div></li>
-<li><p><strong>Notify NBIS by email.</strong> Send an email to the <a href="mailto:bp-ops@nbis.se">helpdesk</a> so they know a landing page was added to an existing dataset. WP2 asked for this step specifically — there’s no separate submission for the file to ride along with, so the email is what gets it picked up. Include:</p>
+</div>
+</section>
+<section id="upload-manually-no-upload.db" class="level2">
+<h2 class="anchored" data-anchor-id="upload-manually-no-upload.db">Upload manually (no upload.db)</h2>
+<p>If the dataset was uploaded by other tooling, or <code>upload.db</code> has been lost, <code>make upload</code> will abort on the first file it finds already present in the inbox. In that case, encrypt and upload the landing-page files manually.</p>
+<p>You need:</p>
 <ul>
-<li>the dataset’s identifier (<code>DATASET_&lt;alias&gt;</code>),</li>
-<li>that this is a <strong>landing-page addition to an already-submitted dataset</strong>, not a new submission,</li>
-<li>the uploader’s name.</li>
-</ul></li>
-</ol>
+<li><code>data/certs/&lt;target&gt;/crypt4gh_bp_key.pub</code> — the BigPicture public key</li>
+<li><code>data/certs/&lt;target&gt;/s3cmd-inbox.conf</code> — real credentials from the BigPicture self-service portal</li>
+<li><code>crypt4gh</code> — installed at <code>/home/cpg-datateam/.local/bin/crypt4gh</code></li>
+<li>Python with <code>s3fs</code> — already a dependency of <code>bigpicture-metadata-interface</code></li>
+</ul>
+<p><strong>1. Prepare and stage the files locally.</strong></p>
+<p>Copy <code>landing_page.xml</code> and your chosen thumbnails to a local staging directory. Do not work directly on the NAS mount.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Thumbnail constraints apply here too
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The same rules as <a href="#prepare-the-landing-page">step 1 above</a> apply: <code>.jpg</code> or <code>.png</code> only (<code>.jpeg</code> is rejected), at most 5 images. Rename any <code>.jpeg</code> files to <code>.jpg</code> before staging.</p>
+</div>
+</div>
+<p><strong>2. Check that <code>landing_page.xml</code> references the thumbnails.</strong></p>
+<p>If the XML was prepared without passing sample images to <code>LandingPagePreparer</code>, it will have no <code>SAMPLE_IMAGE_FILES</code> element. The thumbnails will not be linked to the landing page even if they arrive in the inbox. Add the block manually just before <code>&lt;/LANDING_PAGE&gt;</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">SAMPLE_IMAGE_FILES</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">SAMPLE_IMAGE_FILE</span><span class="ot"> filename=</span><span class="st">"LANDING_PAGE/THUMBNAILS/image_1.jpg"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">        filetype=</span><span class="st">"jpg"</span><span class="ot"> checksum_method=</span><span class="st">"SHA256"</span><span class="ot"> checksum=</span><span class="st">""</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ot">        unencrypted_checksum=</span><span class="st">""</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- one entry per thumbnail --&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">SAMPLE_IMAGE_FILES</span>&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Empty checksums are correct here — see the note in step 1.</p>
+<p><strong>3. Encrypt all files.</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">PUBKEY</span><span class="op">=</span>data/certs/<span class="op">&lt;</span>target<span class="op">&gt;</span>/crypt4gh_bp_key.pub</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> /path/to/staged/LANDING_PAGE/landing_page.xml <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          /path/to/staged/LANDING_PAGE/THUMBNAILS/<span class="pp">*</span>.jpg<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">crypt4gh</span> encrypt <span class="at">--recipient_pk</span> <span class="st">"</span><span class="va">$PUBKEY</span><span class="st">"</span> <span class="op">&lt;</span> <span class="st">"</span><span class="va">$f</span><span class="st">"</span> <span class="op">&gt;</span> <span class="st">"</span><span class="va">${f}</span><span class="st">.c4gh"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>4. Upload via Python (<code>s3fs</code>).</strong></p>
+<p><code>s3cmd</code> is not installed on this VM. Use <code>s3fs</code> directly — it is already a dependency of <code>bigpicture-metadata-interface</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> configparser, s3fs</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> configparser.ConfigParser()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>cfg.read(<span class="st">"data/certs/&lt;target&gt;/s3cmd-inbox.conf"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> cfg[<span class="st">"default"</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> s3fs.S3FileSystem(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span>s[<span class="st">"access_key"</span>],</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    secret<span class="op">=</span>s[<span class="st">"secret_key"</span>],</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    token<span class="op">=</span>s[<span class="st">"access_token"</span>],</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    client_kwargs<span class="op">=</span>{<span class="st">"endpoint_url"</span>: <span class="ss">f"https://</span><span class="sc">{</span>s[<span class="st">'host_base'</span>]<span class="sc">}</span><span class="ss">"</span>},</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    use_ssl<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>bucket <span class="op">=</span> s[<span class="st">"access_key"</span>]  <span class="co"># access_key doubles as the bucket name</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>bucket<span class="sc">}</span><span class="ss">/DATASET_&lt;alias&gt;/LANDING_PAGE"</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"/path/to/staged/LANDING_PAGE/landing_page.xml.c4gh"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>     <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">/landing_page.xml.c4gh"</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"/path/to/staged/LANDING_PAGE/THUMBNAILS/image_1.jpg.c4gh"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>     <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">/THUMBNAILS/image_1.jpg.c4gh"</span>),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># one entry per thumbnail</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> local, remote <span class="kw">in</span> files:</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(local, <span class="st">"rb"</span>) <span class="im">as</span> src, fs.<span class="bu">open</span>(remote, <span class="st">"wb"</span>) <span class="im">as</span> dst:</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        dst.write(src.read())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The inbox path follows the same pattern as a normal upload: <code>DATASET_&lt;alias&gt;/LANDING_PAGE/…</code>. If you are unsure of the exact prefix, ask <a href="../../datasets/submission/support.html">Support</a> — the inbox does not support listing, so you cannot look it up yourself.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+No local confirmation is possible
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The inbox does not support listing or stat operations. A write that completes without error is the only signal available. Ask WP2 to confirm receipt if you need certainty before closing the task.</p>
+</div>
+</div>
+</section>
+<section id="after-uploading" class="level2">
+<h2 class="anchored" data-anchor-id="after-uploading">After uploading</h2>
+<p>Send an email to the <a href="mailto:bp-ops@nbis.se">helpdesk</a> so they know a landing page was added to an existing dataset. WP2 asked for this step specifically — there’s no separate submission for the file to ride along with, so the email is what gets it picked up. Include: - the dataset’s identifier (<code>DATASET_&lt;alias&gt;</code>), - that this is a <strong>landing-page addition to an already-submitted dataset</strong>, not a new submission, - the uploader’s name.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -659,7 +766,8 @@ Verify
 </div>
 <div class="callout-body-container callout-body">
 <p>Two separate things, only one of which you can check yourself.</p>
-<p><strong>Did the files arrive?</strong> You can confirm this. List the dataset’s inbox prefix with the command in <a href="../../datasets/submission/upload.html#confirm-it-finalized">3. Confirm it finalized</a> and look for <code>LANDING_PAGE/landing_page.xml.c4gh</code> plus one <code>LANDING_PAGE/THUMBNAILS/*.c4gh</code> per sample image. While you’re there, check the existing <code>METADATA/</code> objects still have the sizes they had before — that proves nothing was overwritten.</p>
+<p><strong>Did the files arrive?</strong> You can attempt this if the dataset was uploaded via <code>bp-submission-pipeline</code>. List the dataset’s inbox prefix with the command in <a href="../../datasets/submission/upload.html#confirm-it-finalized">3. Confirm it finalized</a> and look for <code>LANDING_PAGE/landing_page.xml.c4gh</code> plus one <code>LANDING_PAGE/THUMBNAILS/*.c4gh</code> per sample image. While you’re there, check the existing <code>METADATA/</code> objects still have the sizes they had before — that proves nothing was overwritten.</p>
+<p>If the dataset was uploaded by other tooling, the inbox does not support listing and local confirmation is not possible — ask WP2 to confirm receipt.</p>
 <p><strong>Was it processed?</strong> You cannot check this; the file lives on NBIS’s side once uploaded. Once WP2 confirms it’s been processed, the dataset’s entry in the <a href="https://datasets.bp.nbis.se/index.html">BigPicture browser</a> should show the landing page.</p>
 </div>
 </div>

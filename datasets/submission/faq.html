@@ -717,6 +717,12 @@ The export didn’t create the expected bundle structure. Re-export from the UI;
 </summary>
 A metadata XML file doesn’t conform to the BigPicture XSD schema — usually a mismatch between your <code>model.json</code> or <code>mappers.xlsx</code> and the current metaflex schema. Check the named file and element, or pinpoint it by hand with <code>xmllint</code> — see <a href="../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a>. See also <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.
 </details>
+<details>
+<summary>
+<code>staining.xml</code> has a separate, near-identical <code>STAINING</code> entry for every slide, even when they’re all the same stain
+</summary>
+This is expected, not a mapping bug. In the BigPicture metadata standard, a Slide’s <code>STAINING_INFORMATION_REF</code> points to exactly one Staining Entity — there’s no mechanism for multiple slides to share one. So a dataset where every slide is plain H&amp;E still gets one <code>STAINING</code> block per slide, each with its own generated alias, all carrying identical content (same <code>staining_method</code>, same SNOMED code). Check <code>sample.xml</code> — each <code>SLIDE</code> element’s <code>STAINING_INFORMATION_REF</code> resolves to a different <code>STAINING_PROCEDURE_*</code> alias in <code>staining.xml</code>, one per slide. See <a href="../../datasets/submission/reference-data-staining.html">Staining mapping</a> and <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.
+</details>
 </section>
 <section id="j.-upload-to-bigpicture" class="level2">
 <h2 class="anchored" data-anchor-id="j.-upload-to-bigpicture">J. Upload to BigPicture</h2>

@@ -85,7 +85,7 @@ website:
               file: datasets/submission/prerequisites.qmd
             - text: B. GitHub access
               file: datasets/submission/github-access.qmd
-            - text: C. install package
+            - text: C. Install package
               file: datasets/submission/install-package.qmd
             - text: D. Configure
               file: datasets/submission/configure.qmd

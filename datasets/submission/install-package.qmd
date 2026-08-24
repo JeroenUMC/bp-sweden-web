@@ -1,5 +1,5 @@
 ---
-title: C. install package
+title: C. Install package
 ---
 
 Clone the submission pipeline repository and pull the prebuilt container images

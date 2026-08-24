@@ -18,31 +18,31 @@ Can't find what you're looking for, or need to reach a person? See
 `https://github.com/login/device` manually, enter the code, and complete the
 sign-in there. See [B. GitHub access](github-access.qmd).
 
-## C. install package
+## C. Install package
 
 ### `make pull` fails with "lacks the read:packages scope" — what's wrong?
 
 Your GitHub token doesn't have the scope Docker needs to pull private images
 yet. Run `gh auth refresh -s read:packages`, then try again. See
-[B. GitHub access](github-access.qmd) and [C. install package](install-package.qmd).
+[B. GitHub access](github-access.qmd) and [C. Install package](install-package.qmd).
 
 ### Cloning fails with "repository not found" or "access denied" — why?
 
 Your GitHub account hasn't been granted access to the private repository yet.
 Request access via [Support](support.qmd) before retrying. See
-[C. install package](install-package.qmd).
+[C. Install package](install-package.qmd).
 
 ### `make pull` fails with "no such file or directory" on `/var/run/docker.sock` — why?
 
 The Docker daemon isn't running. Start Docker Desktop (Windows/macOS) or run
 `systemctl start docker` (Linux), then run `make pull` again. See
-[C. install package](install-package.qmd).
+[C. Install package](install-package.qmd).
 
 ### The submodule folders are empty after cloning — why?
 
 The repository was cloned without `--recurse-submodules`. Delete the cloned
 folder and re-run the full clone command. See
-[C. install package](install-package.qmd).
+[C. Install package](install-package.qmd).
 
 ## D. Configure
 

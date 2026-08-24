@@ -37,7 +37,7 @@ downloaded archive.
 Download the `..._Windows_x86_64.zip` asset, then extract it:
 
 ```powershell
-tar -xvzf sda-cli_vX_Windows_x86_64.zip
+Expand-Archive sda-cli_vX_Windows_x86_64.zip -DestinationPath .
 ```
 
 ## macOS

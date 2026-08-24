@@ -61,7 +61,7 @@ make up
 ```
 
 This starts all the pipeline services (database, web app, and workers) using the
-images you pulled in [C. install package](install-package.qmd). **First boot can
+images you pulled in [C. Install package](install-package.qmd). **First boot can
 take up to a minute** while the database initialises and the app reports healthy —
 the command waits for that, then prints the UI address:
 

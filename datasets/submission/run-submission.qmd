@@ -107,7 +107,7 @@ Click **Pre-process** in the Batch sidebar. Click the **Pre-process** button.
 The batch status changes to **Image Pre-processing** while the pipeline
 downloads and DICOMizes the slide images. The table updates live — wait until
 the status reaches **Image Pre-processing Complete**. 
-Alternatively, watch in the Pre-process view to see all WSI's get status **Pre-Processed**.
+Alternatively, watch in the Pre-process view to see all WSIs get status **Pre-Processed**.
 
 If any image shows a failed status, click **Retry** next to it or select
 multiple rows and use the bulk retry action.

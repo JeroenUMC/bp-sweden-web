@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - F. TLS + credentials</title>
+<title>Bigpicture - Prepare for production</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,61 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/boot.html" rel="next">
-<link href="../../datasets/submission/reference-data-staining.html" rel="prev">
-<link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../datasets/submission/direct-components/index.html" rel="next">
+<link href="../../../datasets/submission/bp-submission-pipeline/upload.html" rel="prev">
+<link href="../../../favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,8 +79,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -124,7 +90,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -141,11 +107,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Demo Search</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/download/downloading-data.html">
+    <a class="dropdown-item" href="../../../datasets/download/downloading-data.html">
  <span class="dropdown-text">Download</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/submission/index.html">
+    <a class="dropdown-item" href="../../../datasets/submission/index.html">
  <span class="dropdown-text">Submission</span></a>
   </li>  
     </ul>
@@ -156,19 +122,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-algorithms">    
         <li>
-    <a class="dropdown-item" href="../../algorithms/browse/index.html">
+    <a class="dropdown-item" href="../../../algorithms/browse/index.html">
  <span class="dropdown-text">Browse</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/try/index.html">
+    <a class="dropdown-item" href="../../../algorithms/try/index.html">
  <span class="dropdown-text">Try</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/benchmark/index.html">
+    <a class="dropdown-item" href="../../../algorithms/benchmark/index.html">
  <span class="dropdown-text">Benchmark</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/submit/index.html">
+    <a class="dropdown-item" href="../../../algorithms/submit/index.html">
  <span class="dropdown-text">Submit</span></a>
   </li>  
     </ul>
@@ -179,11 +145,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-compute">    
         <li>
-    <a class="dropdown-item" href="../../compute/analysis/index.html">
+    <a class="dropdown-item" href="../../../compute/analysis/index.html">
  <span class="dropdown-text">Analysis</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../compute/ai-training/index.html">
+    <a class="dropdown-item" href="../../../compute/ai-training/index.html">
  <span class="dropdown-text">AI Training</span></a>
   </li>  
     </ul>
@@ -198,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-metrics">    
         <li>
-    <a class="dropdown-item" href="../../metrics/index.html">
+    <a class="dropdown-item" href="../../../metrics/index.html">
  <span class="dropdown-text">Dashboard</span></a>
   </li>  
         <li>
@@ -218,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html">Prepare for production</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -241,13 +207,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Key concepts</span></a>
   </div>
 </li>
@@ -264,31 +230,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A. Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/github-access.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../datasets/submission/bp-submission-pipeline/github-access.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">B. GitHub access</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/install-package.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">C. install package</span></a>
+  <a href="../../../datasets/submission/bp-submission-pipeline/install-package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C. Install package</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/configure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/configure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">D. Configure</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">E. Reference data</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -297,19 +269,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">model.json</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">mappers.xlsx</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-staining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Staining mapping</span></a>
   </div>
 </li>
@@ -317,44 +289,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../datasets/submission/bp-submission-pipeline/tls-credentials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">F. TLS + credentials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/boot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/boot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">G. Preflight + boot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/run-submission.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">H. Run a submission</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/validate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/validate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">I. Validate the bundle</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">J. Upload to BigPicture</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prepare-for-production.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Prepare for production</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Best Practices</span></a>
   </div>
 </li>
       </ul>
@@ -370,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -387,25 +353,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Validate metadata</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Upload (sda-cli)</span></a>
   </div>
 </li>
@@ -422,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">FAQ</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -431,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add a landing page after submission</span></a>
   </div>
 </li>
@@ -439,37 +405,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Support</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Community</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
- <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Page template &amp; conventions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Testing the pipeline</span></a>
   </div>
 </li>
       </ul>
@@ -484,8 +427,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#generate-the-tls-certificate" id="toc-generate-the-tls-certificate" class="nav-link active" data-scroll-target="#generate-the-tls-certificate">1. Generate the TLS certificate</a></li>
-  <li><a href="#create-your-login" id="toc-create-your-login" class="nav-link" data-scroll-target="#create-your-login">2. Create your login</a></li>
+  <li><a href="#first-production-setup-one-time" id="toc-first-production-setup-one-time" class="nav-link active" data-scroll-target="#first-production-setup-one-time">First production setup (one-time)</a>
+  <ul class="collapse">
+  <li><a href="#must-do" id="toc-must-do" class="nav-link" data-scroll-target="#must-do">Must do</a></li>
+  <li><a href="#recommended" id="toc-recommended" class="nav-link" data-scroll-target="#recommended">Recommended</a></li>
+  </ul></li>
+  <li><a href="#before-every-production-run-per-run" id="toc-before-every-production-run-per-run" class="nav-link" data-scroll-target="#before-every-production-run-per-run">Before every production run (per-run)</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -493,9 +440,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html">Prepare for production</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">F. TLS + credentials</h1>
+<h1 class="title">Prepare for production</h1>
 </div>
 
 
@@ -512,114 +459,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The web UI is served over HTTPS and asks you to sign in. This step creates the two things that makes possible: a <strong>TLS certificate</strong> so the browser can open a secure connection, and a <strong>login account</strong> so you can authenticate.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Requires: Configure (step D)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both commands read settings from the <code>.env</code> and <code>config.yaml</code> you set up in <a href="../../datasets/submission/configure.html">D. Configure</a> — the certificate paths, the server name, and the password salt. Complete step D first.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Windows: use Git Bash
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All <code>make</code> commands must be run in <strong>Git Bash</strong>, not PowerShell or cmd.exe.</p>
-</div>
-</div>
-<section id="generate-the-tls-certificate" class="level2">
-<h2 class="anchored" data-anchor-id="generate-the-tls-certificate">1. Generate the TLS certificate</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ssl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This creates a self-signed certificate and private key and writes them into your certificates directory (<code>PIPELINE_SSL_DIR</code>, default <code>./data/certs</code>):</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>File</th>
-<th><code>.env</code> variable</th>
-<th>Default name</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Certificate</td>
-<td><code>PIPELINE_SSL_CERT</code></td>
-<td><code>server.crt</code></td>
-</tr>
-<tr class="even">
-<td>Private key</td>
-<td><code>PIPELINE_SSL_KEY</code></td>
-<td><code>server.key</code></td>
-</tr>
-</tbody>
-</table>
-<p>The certificate is issued for the host name in <code>PIPELINE_SERVERNAME</code> (default <code>localhost</code>) and is valid for one year.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<code>PIPELINE_SSL_CERT</code> / <code>PIPELINE_SSL_KEY</code> are filenames, never paths
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both variables are resolved against <code>PIPELINE_SSL_DIR</code> at every point of use — by <code>make ssl</code>, by <code>make doctor</code>, and by the running web service, which reads them as filenames inside its <code>/certs</code> mount. A value containing <code>/</code> — for example <code>PIPELINE_SSL_CERT=${PIPELINE_SSL_DIR}/server.crt</code> — doesn’t just fail <code>make doctor</code>, it breaks certificate generation and the running site too, since the value gets joined onto <code>PIPELINE_SSL_DIR</code> a second time. Keep both values as bare filenames, e.g.&nbsp;<code>server.crt</code>. (These two are the exception — see <a href="../../datasets/submission/configure.html#host-paths-vs-container-paths">host paths vs container paths</a> in D. Configure for how every other <code>PIPELINE_*</code> path variable behaves.)</p>
-</div>
-</div>
+<p>Once you have successfully uploaded a <strong>staging</strong> test dataset, you need to switch some wiring for your first <strong>production</strong> submission. This page is the checklist for that switch.</p>
+<section id="first-production-setup-one-time" class="level2">
+<h2 class="anchored" data-anchor-id="first-production-setup-one-time">First production setup (one-time)</h2>
+<p>Do these once, the first time you point this instance at production.</p>
+<section id="must-do" class="level3">
+<h3 class="anchored" data-anchor-id="must-do">Must do</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Obtain and place the production BigPicture credentials.</strong> NBIS provides <code>s3cmd-inbox.conf</code> (S3 inbox config) and <code>crypt4gh_bp_key.pub</code> (encryption key). Put them in your <strong>production</strong> credentials directory (<code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code>, default <code>certs/production</code>) — kept separate from staging so the two instances never share credentials. See the credentials precondition in <a href="../../../datasets/submission/bp-submission-pipeline/upload.html">J. Upload to BigPicture</a> and <a href="../../../datasets/submission/bp-submission-pipeline/tls-credentials.html">F. TLS + credentials</a> for the how-to.</label></li>
+<li><label><input type="checkbox"><strong>Set real secrets.</strong> If you used throwaway values for the test, set a real <code>SLIDETAP_SECRET_KEY</code> and a real <code>config.yaml</code> salt now. The salt must be <strong>set once and never changed</strong> — if you replace a test throwaway, regenerate credentials (<code>make gen-credentials</code>) afterwards, because changing the salt invalidates every stored password. (<code>PIPELINE_DB_PASSWORD</code> does not need to change on a single-host deployment.) See <a href="../../../datasets/submission/bp-submission-pipeline/configure.html">D. Configure</a>.</label></li>
+<li><label><input type="checkbox"><strong>Provision real reference data.</strong> Replace the test fixtures (copied by <code>make setup-refdata</code>) with your own <code>model.json</code> and <code>mappers.xlsx</code>. These will likely be the same for all your datasets, though they may vary if you wish. See <a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html">E. Reference data</a>.</label></li>
+<li><label><input type="checkbox"><strong>Set up production storage and mounts.</strong> Relocate <code>PIPELINE_IMAGE_ROOT</code> (images live here: large, read-only) and <code>PIPELINE_STORAGE</code> (converted slidetap output: large and reasonably fast) to real absolute paths. Budget roughly <strong>1× the raw WSI</strong> for the source and about the same again for the converted output. Never <code>sudo make dirs</code>, or the folders end up owned by root and the pipeline (which runs as UID 1000, not you) silently cannot write to them. The full mechanics: placement by performance and sensitivity, NFS/CIFS mount options, disk budgeting are in the <em>Network shares &amp; storage</em> and <em>Large datasets</em> sections of <a href="../../../datasets/submission/bp-submission-pipeline/best-practices.html">Best Practices</a>, with the relocation steps in <a href="../../../datasets/submission/bp-submission-pipeline/configure.html">D. Configure</a>.</label></li>
+<li><label><input type="checkbox"><strong>Re-run <code>make doctor</code> until it passes.</strong> It re-checks secrets, host paths, and UID-1000 ownership for your production configuration before you boot. See <a href="../../../datasets/submission/bp-submission-pipeline/boot.html">G. Preflight + boot</a>.</label></li>
+</ul>
 </section>
-<section id="create-your-login" class="level2">
-<h2 class="anchored" data-anchor-id="create-your-login">2. Create your login</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> gen-credentials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This prompts for a password and creates the account <strong><code>admin</code></strong>. It writes a hashed credentials file to <code>credentials.json</code> in the repository root (the path in <code>PIPELINE_CREDENTIALS_FILE</code>, default <code>./credentials.json</code>) — your password is never stored in plain text.</p>
-<p>To set the password without an interactive prompt (for example in a script), pass <code>PASSWORD=</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> gen-credentials PASSWORD=your-password-here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-The salt must already be set — and never change afterwards
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>make gen-credentials</code> mixes your password with the <code>salt</code> from <code>config.yaml</code> before hashing. If you change that salt <strong>after</strong> generating credentials, every stored password becomes invalid and you’ll be locked out. Rotate the salt once in <a href="../../datasets/submission/configure.html">D. Configure</a>, then leave it alone.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Already have the stack running? Both files need a restart to take effect
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Re-running <code>make ssl</code> or <code>make gen-credentials</code> after <code>make up</code> isn’t picked up on its own — see <a href="../../datasets/submission/boot.html#when-do-i-need-to-restart">When do I need to restart?</a> for the command and why.</p>
-</div>
-</div>
+<section id="recommended" class="level3">
+<h3 class="anchored" data-anchor-id="recommended">Recommended</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Use a TLS certificate your operators trust.</strong> The test run serves the UI over <code>localhost</code> with a self-signed certificate from <code>make ssl</code>. If you open the UI only on the same machine, that is fine, keep it and click through the one-time browser warning. If <strong>other machines</strong> open the UI, set <code>PIPELINE_SERVERNAME</code> to the real hostname or IP they use (the certificate must match that name), and — where your organisation runs its own certificate authority (CA) — use a certificate it issues so operator browsers trust it without warnings. On a closed LAN a self-signed certificate is still acceptable; each operator just accepts the warning once. See <a href="../../../datasets/submission/bp-submission-pipeline/tls-credentials.html">F. TLS + credentials</a> and <a href="../../../datasets/submission/bp-submission-pipeline/configure.html">D. Configure</a>.</label></li>
+<li><label><input type="checkbox"><strong>Pin the image tag.</strong> The pipeline downloads its software as <em>(Docker) images</em>, each with a label. <code>PIPELINE_IMAGE_TAG=latest</code> means “always take the newest build”, which can change between runs and shift behaviour mid-submission. To lock it, open <code>.env</code>, change <code>latest</code> to a fixed version code (it looks like <code>sha-1a2b3c4</code>, obtained from the maintainers or release notes), and restart the stack. If you are unsure which version to pin, leaving <code>latest</code> is acceptable.</label></li>
+</ul>
+</section>
+</section>
+<section id="before-every-production-run-per-run" class="level2">
+<h2 class="anchored" data-anchor-id="before-every-production-run-per-run">Before every production run (per-run)</h2>
+<p>Do these for each real dataset you submit.</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Point at the real dataset and its workbook.</strong> Place this submission’s real WSIs in <code>PIPELINE_IMAGE_ROOT</code> and prepare the operator metadata workbook for this batch, with each <code>Image path</code> cell pointing at the right slide. See <a href="../../../datasets/submission/bp-submission-pipeline/boot.html">G. Preflight + boot</a> and <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html">H. Run a submission</a>.</label></li>
+<li><label><input type="checkbox"><strong>Create the Project, Dataset, and Batch</strong> in the slidetap UI. Set the Metadata standard to the current version — the field defaults to the oldest version, which fails validation. See <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html">H. Run a submission</a>.</label></li>
+<li><label><input type="checkbox"><strong>Check mapper coverage for this dataset.</strong> Run <code>make check-mappers   METADATA=&lt;this dataset's workbook&gt;</code> — a new dataset can surface coded values your <code>mappers.xlsx</code> does not yet cover. Add any missing rows (and restart) before proceeding. See <a href="../../../datasets/submission/bp-submission-pipeline/boot.html">G. Preflight + boot</a>.</label></li>
+<li><label><input type="checkbox"><strong>Validate the bundle</strong> after slidetap ingestion. Run <code>make validate-upload   DATASET=&lt;path-to-DATASET_alias&gt;</code>, the full path to the <code>DATASET_&lt;alias&gt;</code> bundle directory, after export. See <a href="../../../datasets/submission/bp-submission-pipeline/validate.html">I. Validate the bundle</a>.</label></li>
+<li><label><input type="checkbox"><strong>Populate the landing page and thumbnails.</strong> SlideTAP does not fill these in for you.</label></li>
+<li><label><input type="checkbox"><strong>Upload to production.</strong> Dry-run first, then <code>make upload   DATASET=&lt;project_dir&gt;/DATASET_&lt;alias&gt; TARGET=production</code> — a path relative to the outbox root, distinct from the full path <code>validate-upload</code> above takes. Both <code>DATASET</code> and <code>TARGET</code> are required. Uploading from a remote server over SSH? Use <code>make upload-persistent</code> instead, so a dropped connection does not kill the transfer. See <a href="../../../datasets/submission/bp-submission-pipeline/upload.html">J. Upload to BigPicture</a>.</label></li>
+<li><label><input type="checkbox"><strong>Notify NBIS.</strong> Email <a href="mailto:bp-ops@nbis.se">bp-ops@nbis.se</a> with subject <code>submission - DATASET_{IDENTIFIER}</code>, giving the uploader and dataset names. See <a href="../../../datasets/submission/bp-submission-pipeline/upload.html">J. Upload to BigPicture</a>.</label></li>
+</ul>
 </section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
 <ul>
-<li><strong><code>doctor</code> says the cert or key is missing.</strong> Re-run <code>make ssl</code> and check that <code>PIPELINE_SSL_DIR</code>, <code>PIPELINE_SSL_CERT</code>, and <code>PIPELINE_SSL_KEY</code> in <code>.env</code> match the files that were created.</li>
-<li><strong><code>make ssl</code> fails, or a path shows up doubled, e.g. <code>./data/certs/./data/certs/</code>.</strong> <code>PIPELINE_SSL_CERT</code> or <code>PIPELINE_SSL_KEY</code> holds a path instead of a bare filename — see the callout above. Fix it to a filename (e.g.&nbsp;<code>server.crt</code>) and re-run <code>make ssl</code>.</li>
-<li><strong><code>doctor</code> rejects <code>PIPELINE_SSL_CERT</code> or <code>PIPELINE_SSL_KEY</code> outright.</strong> It fails with a message like <code>PIPELINE_SSL_CERT must be a filename only, not a   path</code>. Same fix as above — and don’t skip <code>doctor</code> before <code>make up</code> even if <code>make ssl</code> succeeded, since the same value breaks the running web service too, just later.</li>
-<li><strong><code>doctor</code> says the credentials file is missing.</strong> Re-run <code>make gen-credentials</code>. The file is written to the repo root by default; make sure <code>PIPELINE_CREDENTIALS_FILE</code> in <code>.env</code> points at it.</li>
-<li><strong>You can’t log in even though the files exist.</strong> The password was almost certainly hashed with a different salt than the app is using. Set the salt in <code>config.yaml</code> first, then re-run <code>make gen-credentials</code> so the hash matches.</li>
+<li><strong>Windows absolute paths fail the container</strong> — when you relocate a category to an absolute path, use forward slashes (<code>C:/bp-data</code>, not <code>C:\bp-data</code>). See <a href="../../../datasets/submission/bp-submission-pipeline/configure.html">D. Configure</a>.</li>
+<li><strong><code>make doctor</code> fails after relocating storage</strong> — usually the mount is owned by <code>root</code>, not UID 1000. Fix ownership of the mount, then re-create the directories; never <code>sudo make dirs</code>. See the <em>Network shares &amp; storage</em> section of <a href="../../../datasets/submission/bp-submission-pipeline/best-practices.html">Best Practices</a>.</li>
+<li><strong>Upload rejected or credential errors on production</strong> — confirm the production <code>s3cmd-inbox.conf</code> and <code>crypt4gh_bp_key.pub</code> are in <code>certs/production</code> and that you passed <code>TARGET=production</code>. See <a href="../../../datasets/submission/bp-submission-pipeline/upload.html">J. Upload to BigPicture</a>.</li>
 </ul>
 
 
@@ -1015,13 +895,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../datasets/submission/reference-data-staining.html" class="pagination-link" aria-label="Staining mapping">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Staining mapping</span>
+      <a href="../../../datasets/submission/bp-submission-pipeline/upload.html" class="pagination-link" aria-label="J. Upload to BigPicture">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">J. Upload to BigPicture</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/boot.html" class="pagination-link" aria-label="G. Preflight + boot">
-        <span class="nav-page-text">G. Preflight + boot</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../datasets/submission/direct-components/index.html" class="pagination-link" aria-label="Overview">
+        <span class="nav-page-text">Overview</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

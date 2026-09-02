@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - Community</title>
+<title>Bigpicture</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/support.html" rel="prev">
-<link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,15 +104,15 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -89,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -106,11 +139,11 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Demo Search</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/download/downloading-data.html">
+    <a class="dropdown-item" href="./datasets/download/downloading-data.html">
  <span class="dropdown-text">Download</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/submission/index.html">
+    <a class="dropdown-item" href="./datasets/submission/index.html">
  <span class="dropdown-text">Submission</span></a>
   </li>  
     </ul>
@@ -121,19 +154,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-algorithms">    
         <li>
-    <a class="dropdown-item" href="../../algorithms/browse/index.html">
+    <a class="dropdown-item" href="./algorithms/browse/index.html">
  <span class="dropdown-text">Browse</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/try/index.html">
+    <a class="dropdown-item" href="./algorithms/try/index.html">
  <span class="dropdown-text">Try</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/benchmark/index.html">
+    <a class="dropdown-item" href="./algorithms/benchmark/index.html">
  <span class="dropdown-text">Benchmark</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/submit/index.html">
+    <a class="dropdown-item" href="./algorithms/submit/index.html">
  <span class="dropdown-text">Submit</span></a>
   </li>  
     </ul>
@@ -144,11 +177,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-compute">    
         <li>
-    <a class="dropdown-item" href="../../compute/analysis/index.html">
+    <a class="dropdown-item" href="./compute/analysis/index.html">
  <span class="dropdown-text">Analysis</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../compute/ai-training/index.html">
+    <a class="dropdown-item" href="./compute/ai-training/index.html">
  <span class="dropdown-text">AI Training</span></a>
   </li>  
     </ul>
@@ -163,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-metrics">    
         <li>
-    <a class="dropdown-item" href="../../metrics/index.html">
+    <a class="dropdown-item" href="./metrics/index.html">
  <span class="dropdown-text">Dashboard</span></a>
   </li>  
         <li>
@@ -178,322 +211,154 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/faq.html">Help</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/community.html">Community</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
- <span class="menu-text">Start here</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Key concepts</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
- <span class="menu-text">bp-submission-pipeline</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/prerequisites.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">A. Prerequisites</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Best Practices</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/github-access.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">B. GitHub access</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/install-package.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">C. Install package</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/configure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">D. Configure</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/bp-submission-pipeline/reference-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">E. Reference data</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/reference-data-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">model.json</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mappers.xlsx</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Staining mapping</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/tls-credentials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">F. TLS + credentials</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/boot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">G. Preflight + boot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/run-submission.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">H. Run a submission</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I. Validate the bundle</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/upload.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">J. Upload to BigPicture</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/bp-submission-pipeline/prepare-for-production.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prepare for production</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Direct components</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
- <span class="menu-text">Direct upload (sda-cli)</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prerequisites</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prepare data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Validate metadata</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Upload (sda-cli)</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
- <span class="menu-text">Help</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">FAQ</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Add a landing page after submission</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Support</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/community.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Community</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#nbis-slack" id="toc-nbis-slack" class="nav-link active" data-scroll-target="#nbis-slack">NBIS Slack</a></li>
-  <li><a href="#reporting-issues" id="toc-reporting-issues" class="nav-link" data-scroll-target="#reporting-issues">Reporting issues</a></li>
-  <li><a href="#mappers.xlsx-sharing" id="toc-mappers.xlsx-sharing" class="nav-link" data-scroll-target="#mappers.xlsx-sharing">mappers.xlsx sharing</a></li>
+  <li><a href="#contributing" id="toc-contributing" class="nav-link active" data-scroll-target="#contributing">Contributing</a>
+  <ul class="collapse">
+  <li><a href="#submission-manual-page-conventions" id="toc-submission-manual-page-conventions" class="nav-link" data-scroll-target="#submission-manual-page-conventions">Submission manual page conventions</a>
+  <ul class="collapse">
+  <li><a href="#the-os-tabset" id="toc-the-os-tabset" class="nav-link" data-scroll-target="#the-os-tabset">1. The OS tabset</a></li>
+  <li><a href="#the-verify-step" id="toc-the-verify-step" class="nav-link" data-scroll-target="#the-verify-step">2. The verify step</a></li>
+  <li><a href="#page-skeleton" id="toc-page-skeleton" class="nav-link" data-scroll-target="#page-skeleton">3. Page skeleton</a></li>
+  </ul></li>
+  <li><a href="#contact-addresses" id="toc-contact-addresses" class="nav-link" data-scroll-target="#contact-addresses">Contact addresses</a></li>
+  <li><a href="#testing-the-pipeline-itself" id="toc-testing-the-pipeline-itself" class="nav-link" data-scroll-target="#testing-the-pipeline-itself">Testing the pipeline itself</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/faq.html">Help</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/community.html">Community</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Community</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Beyond the manual and <a href="../../datasets/submission/support.html">Support</a>, there are a few ways to connect with other operators and the WP2 team, and to contribute back to the project.</p>
-<section id="nbis-slack" class="level2">
-<h2 class="anchored" data-anchor-id="nbis-slack">NBIS Slack</h2>
-<p>WP2 — the team that operates the servers hosting the BigPicture datasets you submit to — offers help on the <a href="https://nbisweden.slack.com"><code>nbisweden.slack.com</code></a> Slack workspace, in addition to the <a href="../../datasets/submission/support.html">Support</a> channels.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Precondition: access must be requested
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The workspace is not open sign-up. Request an invite via <a href="mailto:bp-ops@nbis.se">bp-ops</a> — the same contact used in <a href="../../datasets/submission/support.html">Support</a>.</p>
-</div>
-</div>
+<section id="contributing" class="level1">
+<h1>Contributing</h1>
+<p>Thanks for improving the BigPicture Sweden website. This file covers the conventions used when writing pages for the <strong>submission manual</strong> under <code>datasets/submission/</code>. For how to build and preview the site, see <a href="README.md">README.md</a>.</p>
+<section id="submission-manual-page-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="submission-manual-page-conventions">Submission manual page conventions</h2>
+<p>Every page in the manual is <strong>fill-in-the-blanks</strong>. Two conventions make that possible — the <strong>OS tabset</strong> and the <strong>verify step</strong>.</p>
+<section id="the-os-tabset" class="level3">
+<h3 class="anchored" data-anchor-id="the-os-tabset">1. The OS tabset</h3>
+<p>Where a command or instruction differs by operating system, wrap it in a <code>panel-tabset</code> with <strong>Windows / macOS / Linux</strong> tabs, <strong>in that order</strong>. The reader picks their tab once and ignores the rest.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Open **PowerShell** and run:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">winget install --id Git.Git -e</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## macOS</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In **Terminal**, run:</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linux</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> git</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Rules</strong></p>
+<ul>
+<li>Always include all three tabs, in the order Windows, macOS, Linux — even if a command is identical, so the reader’s chosen tab is always present.</li>
+<li>Keep commands copy-pasteable: one tool per code block, no shell prompts (<code>$</code>, <code>&gt;</code>) inside the block.</li>
+<li><strong>Linux is the reference path.</strong> Write and validate the Linux tab first; the others mirror its shape.</li>
+</ul>
 </section>
-<section id="reporting-issues" class="level2">
-<h2 class="anchored" data-anchor-id="reporting-issues">Reporting issues</h2>
-<p>Filing an issue is itself a form of community participation — it surfaces a problem for other operators before they hit it, and it’s how the pipeline and this manual improve. The trackers to use, and what belongs on each, are listed under <a href="../../datasets/submission/support.html#reporting-issues">Reporting issues</a> in Support.</p>
+<section id="the-verify-step" class="level3">
+<h3 class="anchored" data-anchor-id="the-verify-step">2. The verify step</h3>
+<p>After an install or a state-changing command, give the reader a way to confirm it worked before moving on. Use a <strong><code>callout-tip</code> titled “Verify”</strong> with the <em>paste-this / expect-this</em> pattern.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Paste this:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>Expected output (your version may differ):</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="in">git version 2.40.0</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Rules</strong></p>
+<ul>
+<li>Show the <strong>exact command</strong> to paste and a representative <strong>expected output</strong>.</li>
+<li>If the output varies (versions, paths, dates), say so — “your version may differ” — so the reader knows what to ignore.</li>
+<li>One verify step per meaningful action; don’t make the reader run five things before they can check anything.</li>
+</ul>
 </section>
-<section id="mappers.xlsx-sharing" class="level2">
-<h2 class="anchored" data-anchor-id="mappers.xlsx-sharing">mappers.xlsx sharing</h2>
-<p>Every site currently authors its own <a href="../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html"><code>mappers.xlsx</code></a> from scratch, even though many sites map the same local short codes (common stains, specimen types, preparation methods) to the same BigPicture coded attributes.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Not yet available
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Cross-site sharing of <code>mappers.xlsx</code> mappings doesn’t exist yet. It’s tracked upstream as bp-submission-pipeline milestone <a href="https://github.com/imi-bigpicture/bp-submission-pipeline/milestone/10"><strong>mappers.xlsx community sharing</strong></a> — this section documents the intent, not a working feature. Once it ships, this page will link to the how-to.</p>
-</div>
-</div>
+<section id="page-skeleton" class="level3">
+<h3 class="anchored" data-anchor-id="page-skeleton">3. Page skeleton</h3>
+<p>Start every operator page from this shape:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &lt;Step letter&gt;. &lt;Short imperative title&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>One or two sentences: what this step accomplishes and why.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>&lt;OS tabset with the commands&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verify</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>&lt;paste-this / expect-this&gt;</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## If something goes wrong</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>&lt;the one or two most common failures and their fixes&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <strong>« Prev / Next »</strong> navigation is automatic — it comes from the sidebar order in <code>_quarto.yml</code>, so you never hand-write next-step links.</p>
+</section>
+</section>
+<section id="contact-addresses" class="level2">
+<h2 class="anchored" data-anchor-id="contact-addresses">Contact addresses</h2>
+<p>Email addresses are defined once in <code>_variables.yml</code> and referenced as Quarto variables, never typed inline. Two exist, and they mean different things:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Address</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>email.bpops</code></td>
+<td><code>bp-ops@nbis.se</code></td>
+<td>Server, inbox, and data-archive operations (the WP2 team)</td>
+</tr>
+<tr class="even">
+<td><code>email.helpdesk</code></td>
+<td><code>servicedesk@bigpicture.eu</code></td>
+<td>General and technical support, and access requests</td>
+</tr>
+</tbody>
+</table>
+<p>Write them as <code>[bp-ops](mailto:bp-ops@nbis.se)</code>, and make the link text match the variable’s meaning — a link labelled “helpdesk” pointing at <code>email.bpops</code> is how these get mixed up. Do <strong>not</strong> put personal or institutional individual addresses on a rendered page.</p>
+</section>
+<section id="testing-the-pipeline-itself" class="level2">
+<h2 class="anchored" data-anchor-id="testing-the-pipeline-itself">Testing the pipeline itself</h2>
+<p>Testing the <code>bp-submission-pipeline</code> software (its <code>make test-unit</code> and <code>make smoke</code> targets) is documented with that software, in the <a href="https://github.com/imi-bigpicture/bp-submission-pipeline">imi-bigpicture/bp-submission-pipeline</a> repository — not here.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -884,15 +749,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../datasets/submission/support.html" class="pagination-link" aria-label="Support">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Support</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

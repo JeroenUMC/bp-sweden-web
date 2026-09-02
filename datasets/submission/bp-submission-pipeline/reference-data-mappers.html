@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - Staining mapping</title>
+<title>Bigpicture - E2. mappers.xlsx</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/tls-credentials.html" rel="next">
-<link href="../../datasets/submission/reference-data-mappers.html" rel="prev">
-<link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" rel="next">
+<link href="../../../datasets/submission/bp-submission-pipeline/reference-data-model.html" rel="prev">
+<link href="../../../favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -79,8 +113,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -90,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -107,11 +141,11 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Demo Search</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/download/downloading-data.html">
+    <a class="dropdown-item" href="../../../datasets/download/downloading-data.html">
  <span class="dropdown-text">Download</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/submission/index.html">
+    <a class="dropdown-item" href="../../../datasets/submission/index.html">
  <span class="dropdown-text">Submission</span></a>
   </li>  
     </ul>
@@ -122,19 +156,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-algorithms">    
         <li>
-    <a class="dropdown-item" href="../../algorithms/browse/index.html">
+    <a class="dropdown-item" href="../../../algorithms/browse/index.html">
  <span class="dropdown-text">Browse</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/try/index.html">
+    <a class="dropdown-item" href="../../../algorithms/try/index.html">
  <span class="dropdown-text">Try</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/benchmark/index.html">
+    <a class="dropdown-item" href="../../../algorithms/benchmark/index.html">
  <span class="dropdown-text">Benchmark</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/submit/index.html">
+    <a class="dropdown-item" href="../../../algorithms/submit/index.html">
  <span class="dropdown-text">Submit</span></a>
   </li>  
     </ul>
@@ -145,11 +179,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-compute">    
         <li>
-    <a class="dropdown-item" href="../../compute/analysis/index.html">
+    <a class="dropdown-item" href="../../../compute/analysis/index.html">
  <span class="dropdown-text">Analysis</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../compute/ai-training/index.html">
+    <a class="dropdown-item" href="../../../compute/ai-training/index.html">
  <span class="dropdown-text">AI Training</span></a>
   </li>  
     </ul>
@@ -164,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-metrics">    
         <li>
-    <a class="dropdown-item" href="../../metrics/index.html">
+    <a class="dropdown-item" href="../../../metrics/index.html">
  <span class="dropdown-text">Dashboard</span></a>
   </li>  
         <li>
@@ -184,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data-staining.html">Staining mapping</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html">mappers.xlsx</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -207,13 +241,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Key concepts</span></a>
   </div>
 </li>
@@ -230,31 +264,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A. Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/github-access.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../datasets/submission/bp-submission-pipeline/github-access.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">B. GitHub access</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/install-package.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">C. install package</span></a>
+  <a href="../../../datasets/submission/bp-submission-pipeline/install-package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C. Install package</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/configure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/configure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">D. Configure</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">E. Reference data</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -263,19 +303,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">model.json</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">mappers.xlsx</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-staining.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Staining mapping</span></a>
   </div>
 </li>
@@ -283,44 +323,38 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/tls-credentials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">F. TLS + credentials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/boot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/boot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">G. Preflight + boot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/run-submission.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">H. Run a submission</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/validate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/validate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">I. Validate the bundle</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">J. Upload to BigPicture</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prepare-for-production.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare for production</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Best Practices</span></a>
   </div>
 </li>
       </ul>
@@ -336,7 +370,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -353,25 +387,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Validate metadata</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Upload (sda-cli)</span></a>
   </div>
 </li>
@@ -388,7 +422,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">FAQ</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -397,7 +431,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add a landing page after submission</span></a>
   </div>
 </li>
@@ -405,37 +439,14 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Support</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Community</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
- <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Page template &amp; conventions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Testing the pipeline</span></a>
   </div>
 </li>
       </ul>
@@ -450,34 +461,33 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#choosing-a-mapping-mode" id="toc-choosing-a-mapping-mode" class="nav-link active" data-scroll-target="#choosing-a-mapping-mode">Choosing a mapping mode</a></li>
-  <li><a href="#chemical-stains" id="toc-chemical-stains" class="nav-link" data-scroll-target="#chemical-stains">Chemical stains</a>
+  <li><a href="#place-the-template" id="toc-place-the-template" class="nav-link active" data-scroll-target="#place-the-template">Place the template</a></li>
+  <li><a href="#verify-coverage" id="toc-verify-coverage" class="nav-link" data-scroll-target="#verify-coverage">Verify coverage</a></li>
+  <li><a href="#workbook-structure" id="toc-workbook-structure" class="nav-link" data-scroll-target="#workbook-structure">Workbook structure</a>
   <ul class="collapse">
-  <li><a href="#common-snomed-ct-codes" id="toc-common-snomed-ct-codes" class="nav-link" data-scroll-target="#common-snomed-ct-codes">Common SNOMED CT codes</a></li>
-  <li><a href="#finding-a-missing-code" id="toc-finding-a-missing-code" class="nav-link" data-scroll-target="#finding-a-missing-code">Finding a missing code</a></li>
+  <li><a href="#master-sheet-mappers" id="toc-master-sheet-mappers" class="nav-link" data-scroll-target="#master-sheet-mappers">Master sheet (<code>mappers</code>)</a></li>
+  <li><a href="#code-mapper-sheet" id="toc-code-mapper-sheet" class="nav-link" data-scroll-target="#code-mapper-sheet">Code mapper sheet</a></li>
+  <li><a href="#enum-mapper-sheet" id="toc-enum-mapper-sheet" class="nav-link" data-scroll-target="#enum-mapper-sheet">Enum mapper sheet</a></li>
+  <li><a href="#boolean-mapper-sheet" id="toc-boolean-mapper-sheet" class="nav-link" data-scroll-target="#boolean-mapper-sheet">Boolean mapper sheet</a></li>
+  <li><a href="#staining-mapper-sheet" id="toc-staining-mapper-sheet" class="nav-link" data-scroll-target="#staining-mapper-sheet">Staining mapper sheet</a></li>
   </ul></li>
-  <li><a href="#targeted-stains-ihc-ish-if" id="toc-targeted-stains-ihc-ish-if" class="nav-link" data-scroll-target="#targeted-stains-ihc-ish-if">Targeted stains (IHC, ISH, IF)</a>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls">Common pitfalls</a>
   <ul class="collapse">
-  <li><a href="#counterstain-rule" id="toc-counterstain-rule" class="nav-link" data-scroll-target="#counterstain-rule">Counterstain rule</a></li>
-  <li><a href="#antibody-naming" id="toc-antibody-naming" class="nav-link" data-scroll-target="#antibody-naming">Antibody naming</a></li>
+  <li><a href="#mapping-keys-are-regexes-and-re.match-not-re.fullmatch" id="toc-mapping-keys-are-regexes-and-re.match-not-re.fullmatch" class="nav-link" data-scroll-target="#mapping-keys-are-regexes-and-re.match-not-re.fullmatch">Mapping keys are regexes — and <code>re.match</code>, not <code>re.fullmatch</code></a></li>
+  <li><a href="#first-matching-row-wins-silently" id="toc-first-matching-row-wins-silently" class="nav-link" data-scroll-target="#first-matching-row-wins-silently">First matching row wins — silently</a></li>
+  <li><a href="#sheet-names-in-the-sheet-column-are-case-sensitive" id="toc-sheet-names-in-the-sheet-column-are-case-sensitive" class="nav-link" data-scroll-target="#sheet-names-in-the-sheet-column-are-case-sensitive">Sheet names in the <code>Sheet</code> column are case-sensitive</a></li>
+  <li><a href="#per-mapper-sheet-column-headers-are-case-sensitive" id="toc-per-mapper-sheet-column-headers-are-case-sensitive" class="nav-link" data-scroll-target="#per-mapper-sheet-column-headers-are-case-sensitive">Per-mapper sheet column headers are case-sensitive</a></li>
   </ul></li>
-  <li><a href="#controlled-vocabulary" id="toc-controlled-vocabulary" class="nav-link" data-scroll-target="#controlled-vocabulary">Controlled vocabulary</a>
-  <ul class="collapse">
-  <li><a href="#stain-type-list-rows-only" id="toc-stain-type-list-rows-only" class="nav-link" data-scroll-target="#stain-type-list-rows-only"><code>Stain Type</code> (list rows only)</a></li>
-  <li><a href="#compound-list-rows-only" id="toc-compound-list-rows-only" class="nav-link" data-scroll-target="#compound-list-rows-only"><code>Compound</code> (list rows only)</a></li>
-  <li><a href="#reporter-type" id="toc-reporter-type" class="nav-link" data-scroll-target="#reporter-type"><code>Reporter Type</code></a></li>
-  <li><a href="#reporter-color" id="toc-reporter-color" class="nav-link" data-scroll-target="#reporter-color"><code>Reporter Color</code></a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/reference-data-staining.html">Staining mapping</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html">E. Reference data</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html">mappers.xlsx</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Staining mapping</h1>
+<h1 class="title">E2. mappers.xlsx</h1>
 </div>
 
 
@@ -494,10 +504,44 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Two mapping modes exist for staining in <code>mappers.xlsx</code>. Which one to use depends on the staining type.</p>
-<p>→ For the mapper row structure and column layout, see <a href="../../datasets/submission/reference-data-mappers.html"><strong>mappers.xlsx</strong></a>.</p>
-<section id="choosing-a-mapping-mode" class="level2">
-<h2 class="anchored" data-anchor-id="choosing-a-mapping-mode">Choosing a mapping mode</h2>
+<p><code>mappers.xlsx</code> translates your site’s local short codes (staining names, tissue types, preparation methods, etc.) into the BigPicture coded attributes the pipeline exports. Every short code an operator types in a submission workbook must have a matching row here — an unmatched value leaves the attribute equal to <code>None</code>, the slidetap validator marks it as <code>invalid</code>, and the item becomes <strong>invalid</strong> in the curation UI, blocking export.</p>
+<p>The operator’s original input is not lost: it is stored internally and the item does not need to be re-submitted. To recover, add the missing mapping row to <code>mappers.xlsx</code>, upload the updated file, and re-trigger mapping from the curation UI.</p>
+<p>Creating and maintaining <code>mappers.xlsx</code> is the site’s responsibility, as many sites use different local codes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Already have the stack running? This needs a restart to take effect
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Editing <code>mappers.xlsx</code> in <code>PIPELINE_REFDATA_DIR</code> isn’t picked up until the stack restarts — see <a href="../../../datasets/submission/bp-submission-pipeline/boot.html#when-do-i-need-to-restart">When do I need to restart?</a> for the command and why.</p>
+</div>
+</div>
+<section id="place-the-template" class="level2">
+<h2 class="anchored" data-anchor-id="place-the-template">Place the template</h2>
+<p>Run <code>make setup-refdata</code> to copy the starter template into your refdata directory:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> setup-refdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The template has the correct sheet structure and column layout. The mapping keys and codes in it are test data. Replace them with your site’s own short codes before running a real submission.</p>
+</section>
+<section id="verify-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="verify-coverage">Verify coverage</h2>
+<p>After authoring or provisioning <code>mappers.xlsx</code>, run <code>make check-mappers</code> with <code>METADATA=</code> pointing at <strong>your own metadata workbook</strong> to catch every unmapped coded value up front — before submission. The checker lists each coded value your data contains that no mapping key will resolve, grouped by mapper.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> check-mappers METADATA=./path/to/your-metadata.xlsx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Without <code>METADATA=</code>, the command checks a bundled test fixture (<code>tests/data/metadata/metadata.xlsx</code>), not your data. A clean result in that case means nothing about your submission — it never looked at your workbook.</p>
+<p>If any unmapped values are found, the command exits with a non-zero exit code and names each one by mapper. This lets you fix mapping coverage immediately, rather than discovering invalid items later in the curation UI. As described above, an unmatched value leaves the attribute equal to <code>None</code>, the slidetap validator marks it as <code>invalid</code>, and the item becomes <strong>invalid</strong> in the curation UI, blocking export — <code>make check-mappers METADATA=...</code> prevents this by checking coverage upfront against your real data.</p>
+<p><strong>When to run it:</strong> After <code>make setup-refdata</code>, after editing <code>mappers.xlsx</code>, and definitely before importing a real submission — see <a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html#before-every-production-run-per-run">Before every production run</a>.</p>
+<p><strong>Overrides:</strong> By default, <code>check-mappers</code> uses <code>mappers.xlsx</code> from <code>$PIPELINE_REFDATA_DIR</code> (or <code>tests/data/refdata/</code> if the env var is not set). To check a different mappers file, pass <code>MAPPERS=</code> alongside <code>METADATA=</code> on the command line:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">MAPPERS</span><span class="op">=</span>./path/to/custom-mappers.xlsx <span class="va">METADATA</span><span class="op">=</span>./path/to/your-metadata.xlsx <span class="fu">make</span> check-mappers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="workbook-structure" class="level2">
+<h2 class="anchored" data-anchor-id="workbook-structure">Workbook structure</h2>
+<p>The workbook has one required <strong>master sheet</strong> (<code>mappers</code>) and one <strong>per-mapper sheet</strong> for each attribute mapping.</p>
+<section id="master-sheet-mappers" class="level3">
+<h3 class="anchored" data-anchor-id="master-sheet-mappers">Master sheet (<code>mappers</code>)</h3>
+<p>The <code>mappers</code> sheet is an index — one row per attribute you want to map. The sheet name is case-insensitive; all other sheet names referenced from it are case-sensitive.</p>
 <table class="table">
 <colgroup>
 <col style="width: 33%">
@@ -506,121 +550,85 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Staining type</th>
-<th>Mapper row <code>Type</code></th>
-<th>Notes</th>
+<th>Column</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Standalone chemical stain</td>
-<td><code>procedure</code></td>
-<td>Entire stain mapped as one entity</td>
+<td><code>Name</code></td>
+<td>yes</td>
+<td>Display name for this mapper</td>
 </tr>
 <tr class="even">
-<td>IHC antibody stain</td>
-<td><code>list</code></td>
-<td>Each component mapped separately</td>
+<td><code>UID</code></td>
+<td>yes</td>
+<td>UUID — must be a valid UUID or the row is skipped</td>
 </tr>
 <tr class="odd">
-<td>In-situ hybridisation (ISH; CISH = chromogenic ISH)</td>
-<td><code>list</code></td>
-<td>Each component mapped separately</td>
+<td><code>Type</code></td>
+<td>yes</td>
+<td>One of <code>staining</code>, <code>code</code>, <code>enum</code>, <code>boolean</code> (case-insensitive)</td>
 </tr>
 <tr class="even">
-<td>Immunofluorescence (IF)</td>
-<td><code>list</code></td>
-<td>Each component mapped separately</td>
+<td><code>Attribute</code></td>
+<td>yes (except staining)</td>
+<td>BigPicture attribute name this mapper populates</td>
+</tr>
+<tr class="odd">
+<td><code>Root Attribute</code></td>
+<td>no</td>
+<td>Present in the template; not used by the pipeline — leave as-is</td>
+</tr>
+<tr class="even">
+<td><code>Sheet</code></td>
+<td>yes</td>
+<td>Name of the sheet containing the mapping rows — <strong>case-sensitive</strong></td>
 </tr>
 </tbody>
 </table>
-<p>When a chemical stain is used as a <strong>counterstain within an IHC panel</strong>, it must follow the <code>list</code> mode — not <code>procedure</code> — so it can be listed alongside the antibody components.</p>
+<p>A row with a missing required field, invalid UUID, or unknown type is logged and skipped. The rest of the workbook still loads.</p>
 </section>
-<section id="chemical-stains" class="level2">
-<h2 class="anchored" data-anchor-id="chemical-stains">Chemical stains</h2>
-<p>Use <code>Type: procedure</code>. Map the entire staining procedure to its SNOMED CT Concept ID (International Edition).</p>
-<section id="common-snomed-ct-codes" class="level3">
-<h3 class="anchored" data-anchor-id="common-snomed-ct-codes">Common SNOMED CT codes</h3>
+<section id="code-mapper-sheet" class="level3">
+<h3 class="anchored" data-anchor-id="code-mapper-sheet">Code mapper sheet</h3>
+<p>Maps a short-code regex to a single SNOMED (or other scheme) coded value.</p>
 <table class="table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Stain</th>
-<th>Concept ID</th>
-<th>Fully Specified Name (FSN)</th>
+<th>Column</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Hematoxylin &amp; Eosin (H&amp;E)</td>
-<td>104210008</td>
-<td>Hematoxylin and eosin stain method (procedure)</td>
+<td><code>Mapping Key</code></td>
+<td>yes</td>
+<td>Regex matched against the operator’s input</td>
 </tr>
 <tr class="even">
-<td>Alcian blue / PAS</td>
-<td>117224009</td>
-<td>Alcian blue with Periodic acid Schiff stain method (procedure)</td>
+<td><code>Code</code></td>
+<td>yes</td>
+<td>Numeric or string code (e.g.&nbsp;<code>86273004</code>)</td>
 </tr>
 <tr class="odd">
-<td>Congo red</td>
-<td>117055006</td>
-<td>Congo red stain method (procedure)</td>
+<td><code>Scheme</code></td>
+<td>yes</td>
+<td>Code system (e.g.&nbsp;<code>SNOMED</code>)</td>
 </tr>
 <tr class="even">
-<td>Giemsa</td>
-<td>104208006</td>
-<td>Giemsa stain method (procedure)</td>
-</tr>
-<tr class="odd">
-<td>Gomori</td>
-<td>117236003</td>
-<td>Gomori stain method (procedure)</td>
-</tr>
-<tr class="even">
-<td>Masson trichrome</td>
-<td>117018006</td>
-<td>Masson trichrome stain method (procedure)</td>
-</tr>
-<tr class="odd">
-<td>Periodic acid Schiff (PAS)</td>
-<td>104216002</td>
-<td>Periodic acid Schiff stain method (procedure)</td>
+<td><code>Meaning</code></td>
+<td>yes</td>
+<td>Human-readable label for the code</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="finding-a-missing-code" class="level3">
-<h3 class="anchored" data-anchor-id="finding-a-missing-code">Finding a missing code</h3>
-<p>Use the <a href="https://browser.ihtsdotools.org/">SNOMED CT Browser</a> (International Edition). Search for the staining method name, select the result with semantic type <strong>procedure</strong>, and copy the <strong>Concept ID</strong>. Use only <strong>Active</strong> concepts.</p>
-<p>If no SNOMED CT code exists for a staining method, do <strong>not</strong> leave the field empty. Provide a consistent free-text string as the value instead — the same consistency rule that applies to IHC antibody names (see <a href="#antibody-naming">Antibody naming</a>): choose one string for the method and reuse it across every dataset your site submits. Reach <a href="../../datasets/submission/support.html">support</a> if you are unsure whether a code exists.</p>
-</section>
-</section>
-<section id="targeted-stains-ihc-ish-if" class="level2">
-<h2 class="anchored" data-anchor-id="targeted-stains-ihc-ish-if">Targeted stains (IHC, ISH, IF)</h2>
-<p>Use <code>Type: list</code>. Each individual staining component — each antibody or probe, and the counterstain — must be a separate row that shares the same <code>Mapping Key</code>.</p>
-<p>There are no SNOMED CT codes for IHC antibodies. Use a consistent free-text string for the <code>Target</code> field (see <a href="#antibody-naming">Antibody naming</a> below).</p>
-<section id="counterstain-rule" class="level3">
-<h3 class="anchored" data-anchor-id="counterstain-rule">Counterstain rule</h3>
-<p>Every targeted staining must include its counterstain as an additional <code>list</code> row with <code>Stain Type: chemical</code>, mapped to that counterstain’s SNOMED CT substance code.</p>
-<p>The counterstain is usually <strong>hematoxylin</strong> in IHC — but it can be a different counterstain in some cases, and in ISH / CISH it is not necessarily hematoxylin. Map whichever counterstain was actually used. The hematoxylin case (the most common) looks like this:</p>
+<p><strong>Example</strong> (<code>SpecimenType</code> sheet):</p>
 <table class="table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Mapping Key</th>
-<th>Type</th>
-<th>Stain Type</th>
 <th>Code</th>
 <th>Scheme</th>
 <th>Meaning</th>
@@ -628,51 +636,150 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><em>(any IHC key)</em></td>
-<td><code>list</code></td>
-<td><code>chemical</code></td>
-<td>12710003</td>
-<td>SNOMED CT</td>
-<td>Hematoxylin stain (substance)</td>
+<td><code>.*prostate.*</code></td>
+<td>T-77100</td>
+<td>SNOMED</td>
+<td>Prostate</td>
+</tr>
+<tr class="even">
+<td><code>.*kidney.*</code></td>
+<td>T-71000</td>
+<td>SNOMED</td>
+<td>Kidney</td>
 </tr>
 </tbody>
 </table>
-<p>Omitting the counterstain does not block export, but leaves the staining record incomplete in BigPicture.</p>
 </section>
-<section id="antibody-naming" class="level3">
-<h3 class="anchored" data-anchor-id="antibody-naming">Antibody naming</h3>
-<p>Use a short string that pathologists and researchers would recognise from routine practice. Apply the same string consistently across all datasets your site submits — inconsistent naming for the same antibody across datasets reduces searchability in the BigPicture Discovery service.</p>
-<p>The same consistency rule applies to ISH / CISH probe strings: use a single, consistent value for a given probe across all datasets your site submits.</p>
+<section id="enum-mapper-sheet" class="level3">
+<h3 class="anchored" data-anchor-id="enum-mapper-sheet">Enum mapper sheet</h3>
+<p>Maps a short-code regex to a fixed string value from an enumeration.</p>
 <table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Preferred</th>
-<th>Avoid</th>
+<th>Column</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>CD3</code></td>
-<td><code>CD3 antibody</code>, <code>Anti-CD3</code></td>
+<td><code>Mapping Key</code></td>
+<td>yes</td>
+<td>Regex matched against the operator’s input</td>
 </tr>
 <tr class="even">
-<td><code>PD-L1</code></td>
-<td><code>Programmed Death Ligand 1</code>, <code>Anti-PD-L1</code></td>
-</tr>
-<tr class="odd">
-<td><code>PD-L1 (SP142)</code></td>
-<td><code>Anti-PD-L1 (SP142)</code>, <code>SP142</code> alone</td>
+<td><code>Value</code></td>
+<td>yes</td>
+<td>Must be a valid value for the target attribute’s enum type</td>
 </tr>
 </tbody>
 </table>
-<p>A recognised clone designation is acceptable when used consistently.</p>
+<p><strong>Example</strong> (<code>Sex</code> sheet):</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Mapping Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.*female.*</code></td>
+<td>Female</td>
+</tr>
+<tr class="even">
+<td><code>.*male.*</code></td>
+<td>Male</td>
+</tr>
+</tbody>
+</table>
 </section>
+<section id="boolean-mapper-sheet" class="level3">
+<h3 class="anchored" data-anchor-id="boolean-mapper-sheet">Boolean mapper sheet</h3>
+<p>Maps a short-code regex to <code>true</code> or <code>false</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Mapping Key</code></td>
+<td>yes</td>
+<td>Regex matched against the operator’s input</td>
+</tr>
+<tr class="even">
+<td><code>Value</code></td>
+<td>yes</td>
+<td>Truthy: <code>true</code>, <code>1</code>, <code>yes</code> (case-insensitive). Everything else → <code>False</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong> (<code>HasOverview</code> sheet):</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Mapping Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.*overview.*</code></td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td><code>.*no_overview.*</code></td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="controlled-vocabulary" class="level2">
-<h2 class="anchored" data-anchor-id="controlled-vocabulary">Controlled vocabulary</h2>
-<p>Valid values for the controlled fields in staining mapper rows.</p>
-<section id="stain-type-list-rows-only" class="level3">
-<h3 class="anchored" data-anchor-id="stain-type-list-rows-only"><code>Stain Type</code> (list rows only)</h3>
+<section id="staining-mapper-sheet" class="level3">
+<h3 class="anchored" data-anchor-id="staining-mapper-sheet">Staining mapper sheet</h3>
+<p>→ For guidance on which mapping mode, SNOMED CT codes, and naming conventions to use for each staining type, see <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html"><strong>Staining mapping</strong></a>.</p>
+<p>Staining is the most complex type: one staining can consist of multiple components (a chemical stain, one or more antibodies, etc.), so mapping keys map to <strong>groups of rows</strong>.</p>
+<p>Rows within a group share the same <code>Mapping Key</code>. Each row has a <code>Type</code> column that controls which columns are required:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>Type</code></th>
+<th>Meaning</th>
+<th>Required columns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>procedure</code></td>
+<td>A named staining procedure</td>
+<td><code>Code</code>, <code>Scheme</code>, <code>Meaning</code></td>
+</tr>
+<tr class="even">
+<td><code>list</code></td>
+<td>One component of a multi-part staining</td>
+<td><code>Stain Type</code> + component columns (see below)</td>
+</tr>
+</tbody>
+</table>
+<p><code>Stain Type</code> values for <code>list</code> rows:</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%">
@@ -680,115 +787,128 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Value</th>
-<th>Use for</th>
+<th>Stain Type</th>
+<th>Required columns</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>chemical</code></td>
-<td>Chemical compounds (including counterstains)</td>
+<td><code>Code</code>, <code>Scheme</code>, <code>Meaning</code></td>
 </tr>
 <tr class="even">
 <td><code>immunostaining</code></td>
-<td>Antibody-based stains (IHC, IF); legacy <code>immunogenic</code> still accepted</td>
+<td><code>Compound</code>, <code>Target</code>, <code>Reporter Type</code>, <code>Reporter Color</code>, <code>Reporter</code></td>
 </tr>
 <tr class="odd">
-<td><code>in_situ_hybridisation</code> or <code>ish</code></td>
-<td>In-situ hybridisation (ISH / CISH)</td>
+<td><code>in_situ_hybridisation</code> (or <code>ish</code>)</td>
+<td><code>Compound</code>, <code>Target</code>, <code>Reporter Type</code>, <code>Reporter Color</code>, <code>Reporter</code></td>
 </tr>
 </tbody>
 </table>
-<p>Values are matched case-insensitively.</p>
-</section>
-<section id="compound-list-rows-only" class="level3">
-<h3 class="anchored" data-anchor-id="compound-list-rows-only"><code>Compound</code> (list rows only)</h3>
+<p><strong>Example</strong> (<code>Staining</code> sheet — an HE stain as a procedure, and a two-component IHC panel):</p>
 <table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Value</th>
-<th>Use for</th>
+<th>Mapping Key</th>
+<th>Type</th>
+<th>Stain Type</th>
+<th>Compound</th>
+<th>Target</th>
+<th>Reporter Type</th>
+<th>Reporter Color</th>
+<th>Reporter</th>
+<th>Code</th>
+<th>Scheme</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>ANTIBODY</code></td>
-<td>IHC or IF antibody</td>
+<td><code>^HE[0-9]*</code></td>
+<td>procedure</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>104210008</td>
+<td>SNOMED</td>
+<td>HE - Hematoxylin and eosin stain method (procedure)</td>
 </tr>
 <tr class="even">
-<td><code>Double-stranded DNA</code></td>
-<td>ISH / CISH probe (dsDNA)</td>
+<td><code>CKAE</code></td>
+<td>list</td>
+<td>chemical</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>12710003</td>
+<td>SCT</td>
+<td>hematoxylin stain</td>
 </tr>
 <tr class="odd">
-<td><code>Single-stranded DNA</code></td>
-<td>ISH / CISH probe (ssDNA)</td>
-</tr>
-<tr class="even">
-<td><code>RNA</code></td>
-<td>RNA FISH probe</td>
-</tr>
-<tr class="odd">
-<td><code>Synthetic oligonucleotide</code></td>
-<td>Synthetic probe</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="reporter-type" class="level3">
-<h3 class="anchored" data-anchor-id="reporter-type"><code>Reporter Type</code></h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>chromogen</code></td>
-</tr>
-<tr class="even">
-<td><code>fluorochrome</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="reporter-color" class="level3">
-<h3 class="anchored" data-anchor-id="reporter-color"><code>Reporter Color</code></h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>brown</code></td>
-</tr>
-<tr class="even">
-<td><code>red</code></td>
-</tr>
-<tr class="odd">
-<td><code>black</code></td>
-</tr>
-<tr class="even">
-<td><code>teal</code></td>
-</tr>
-<tr class="odd">
-<td><code>purple</code></td>
-</tr>
-<tr class="even">
-<td><code>green</code></td>
-</tr>
-<tr class="odd">
-<td><code>yellow</code></td>
+<td><code>CKAE</code></td>
+<td>list</td>
+<td>immunostaining</td>
+<td>ANTIBODY</td>
+<td>CB, TP, Cytokeratin AE1/AE3</td>
+<td>CHROMOGEN</td>
+<td>BROWN</td>
+<td>DAB</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 </section>
 </section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>The staining domain guidance on this page — mapping-mode choice, the counterstain rule, and antibody/probe naming conventions — was contributed and reviewed by <strong>Yossra H. Selma Zidi-Mouaffak, Pathologist</strong></p>
+<section id="common-pitfalls" class="level2">
+<h2 class="anchored" data-anchor-id="common-pitfalls">Common pitfalls</h2>
+<section id="mapping-keys-are-regexes-and-re.match-not-re.fullmatch" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-keys-are-regexes-and-re.match-not-re.fullmatch">Mapping keys are regexes — and <code>re.match</code>, not <code>re.fullmatch</code></h3>
+<p>The pipeline matches keys using Python’s <code>re.match</code>, which anchors at the <strong>start</strong> of the string but not the end. A key like <code>.*male.*</code> will match <code>"female"</code> because <code>re.match</code> finds <code>.*</code> matching the empty string at position 0, then <code>male</code> within <code>female</code>. To match exactly, anchor both ends:</p>
+<pre><code>^male$
+^female$</code></pre>
+<p>Plain strings like <code>HE</code> are valid regexes (they match any string starting with <code>HE</code>), but special regex characters (<code>.</code>, <code>*</code>, <code>+</code>, <code>(</code>, <code>[</code>, <code>\</code>) in a cell are interpreted as regex syntax, which can cause unexpected non-matches.</p>
+</section>
+<section id="first-matching-row-wins-silently" class="level3">
+<h3 class="anchored" data-anchor-id="first-matching-row-wins-silently">First matching row wins — silently</h3>
+<p>When two mapping keys both match an operator’s input, the <strong>row that appears first in the sheet wins</strong>. There is no warning. Order your rows from most specific to least specific, or use anchors (<code>^...$</code>) to make matches unambiguous.</p>
+</section>
+<section id="sheet-names-in-the-sheet-column-are-case-sensitive" class="level3">
+<h3 class="anchored" data-anchor-id="sheet-names-in-the-sheet-column-are-case-sensitive">Sheet names in the <code>Sheet</code> column are case-sensitive</h3>
+<p>The master sheet name (<code>mappers</code>) is case-insensitive, but the sheet names you write in the <code>Sheet</code> column are matched exactly. <code>specimentype</code> will not find a sheet named <code>SpecimenType</code> — the mapper is silently skipped with a logged warning.</p>
+</section>
+<section id="per-mapper-sheet-column-headers-are-case-sensitive" class="level3">
+<h3 class="anchored" data-anchor-id="per-mapper-sheet-column-headers-are-case-sensitive">Per-mapper sheet column headers are case-sensitive</h3>
+<p><code>Mapping Key</code> works; <code>mapping key</code> does not — the column is read as empty strings and the mapper fails to load.</p>
+</section>
+</section>
+<section id="if-something-goes-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
+<p><strong>Operator input produces an empty attribute in the export</strong> — a mapping key did not match. Check the key in the relevant sheet (regex anchoring, typos, case of the input vs the key pattern). The operator’s original input is preserved — fix the mapping row, re-upload <code>mappers.xlsx</code>, and re-trigger mapping from the curation UI. No workbook re-submission is needed.</p>
+<p><strong>Mapper silently absent from the running pipeline</strong> — check the pipeline logs for <code>logging.warning</code> or <code>logging.exception</code> output at startup. Common causes: wrong <code>Sheet</code> name in the master sheet, invalid UUID in the <code>UID</code> column, or an unknown <code>Type</code> value.</p>
+<p><strong><code>make setup-refdata</code> warning: <code>mappers.xlsx not found in ...</code></strong> — the pipeline submodule was not initialised. Run:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>then retry <code>make setup-refdata</code>.</p>
 
 
 </section>
@@ -1183,13 +1303,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../datasets/submission/reference-data-mappers.html" class="pagination-link" aria-label="mappers.xlsx">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">mappers.xlsx</span>
+      <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-model.html" class="pagination-link" aria-label="model.json">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">model.json</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/tls-credentials.html" class="pagination-link" aria-label="F. TLS + credentials">
-        <span class="nav-page-text">F. TLS + credentials</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" class="pagination-link" aria-label="Staining mapping">
+        <span class="nav-page-text">Staining mapping</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

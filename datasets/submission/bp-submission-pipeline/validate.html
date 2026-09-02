@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bigpicture - Prepare for production</title>
+<title>Bigpicture - I. Validate the bundle</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../datasets/submission/best-practices.html" rel="next">
-<link href="../../datasets/submission/upload.html" rel="prev">
-<link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../datasets/submission/bp-submission-pipeline/upload.html" rel="next">
+<link href="../../../datasets/submission/bp-submission-pipeline/run-submission.html" rel="prev">
+<link href="../../../favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -79,8 +113,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/bp-logo-one-line.png" alt="BigPicture" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -90,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -107,11 +141,11 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Demo Search</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/download/downloading-data.html">
+    <a class="dropdown-item" href="../../../datasets/download/downloading-data.html">
  <span class="dropdown-text">Download</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../datasets/submission/index.html">
+    <a class="dropdown-item" href="../../../datasets/submission/index.html">
  <span class="dropdown-text">Submission</span></a>
   </li>  
     </ul>
@@ -122,19 +156,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-algorithms">    
         <li>
-    <a class="dropdown-item" href="../../algorithms/browse/index.html">
+    <a class="dropdown-item" href="../../../algorithms/browse/index.html">
  <span class="dropdown-text">Browse</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/try/index.html">
+    <a class="dropdown-item" href="../../../algorithms/try/index.html">
  <span class="dropdown-text">Try</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/benchmark/index.html">
+    <a class="dropdown-item" href="../../../algorithms/benchmark/index.html">
  <span class="dropdown-text">Benchmark</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../algorithms/submit/index.html">
+    <a class="dropdown-item" href="../../../algorithms/submit/index.html">
  <span class="dropdown-text">Submit</span></a>
   </li>  
     </ul>
@@ -145,11 +179,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-compute">    
         <li>
-    <a class="dropdown-item" href="../../compute/analysis/index.html">
+    <a class="dropdown-item" href="../../../compute/analysis/index.html">
  <span class="dropdown-text">Analysis</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../compute/ai-training/index.html">
+    <a class="dropdown-item" href="../../../compute/ai-training/index.html">
  <span class="dropdown-text">AI Training</span></a>
   </li>  
     </ul>
@@ -164,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-metrics">    
         <li>
-    <a class="dropdown-item" href="../../metrics/index.html">
+    <a class="dropdown-item" href="../../../metrics/index.html">
  <span class="dropdown-text">Dashboard</span></a>
   </li>  
         <li>
@@ -184,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/prepare-for-production.html">Prepare for production</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/validate.html">I. Validate the bundle</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -207,13 +241,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/key-concepts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Key concepts</span></a>
   </div>
 </li>
@@ -230,31 +264,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A. Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/github-access.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Best Practices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../datasets/submission/bp-submission-pipeline/github-access.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">B. GitHub access</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/install-package.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">C. install package</span></a>
+  <a href="../../../datasets/submission/bp-submission-pipeline/install-package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C. Install package</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/configure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/configure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">D. Configure</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/reference-data.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/bp-submission-pipeline/reference-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">E. Reference data</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -263,19 +303,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">model.json</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-mappers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">mappers.xlsx</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/reference-data-staining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/reference-data-staining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Staining mapping</span></a>
   </div>
 </li>
@@ -283,44 +323,38 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/tls-credentials.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/tls-credentials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">F. TLS + credentials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/boot.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/boot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">G. Preflight + boot</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/run-submission.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">H. Run a submission</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/validate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/validate.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">I. Validate the bundle</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/bp-submission-pipeline/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">J. Upload to BigPicture</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/prepare-for-production.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../datasets/submission/bp-submission-pipeline/prepare-for-production.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare for production</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Best Practices</span></a>
   </div>
 </li>
       </ul>
@@ -336,7 +370,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-components/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -353,25 +387,25 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prerequisites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prerequisites</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/prepare-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/validate-metadata.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Validate metadata</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/direct-upload/upload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Upload (sda-cli)</span></a>
   </div>
 </li>
@@ -388,7 +422,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
+            <a href="../../../datasets/submission/faq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">FAQ</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -397,7 +431,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/add-landing-page.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add a landing page after submission</span></a>
   </div>
 </li>
@@ -405,37 +439,14 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/support.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Support</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../datasets/submission/community.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Community</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
- <span class="menu-text">For contributors</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/page-template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Page template &amp; conventions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../datasets/submission/contributing/testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Testing the pipeline</span></a>
   </div>
 </li>
       </ul>
@@ -450,12 +461,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#first-production-setup-one-time" id="toc-first-production-setup-one-time" class="nav-link active" data-scroll-target="#first-production-setup-one-time">First production setup (one-time)</a>
+  <li><a href="#what-it-checks" id="toc-what-it-checks" class="nav-link active" data-scroll-target="#what-it-checks">What it checks</a></li>
+  <li><a href="#run-it" id="toc-run-it" class="nav-link" data-scroll-target="#run-it">Run it</a></li>
+  <li><a href="#how-to-read-a-failure" id="toc-how-to-read-a-failure" class="nav-link" data-scroll-target="#how-to-read-a-failure">How to read a failure</a></li>
+  <li><a href="#worked-examples" id="toc-worked-examples" class="nav-link" data-scroll-target="#worked-examples">Worked examples</a>
   <ul class="collapse">
-  <li><a href="#must-do" id="toc-must-do" class="nav-link" data-scroll-target="#must-do">Must do</a></li>
-  <li><a href="#recommended" id="toc-recommended" class="nav-link" data-scroll-target="#recommended">Recommended</a></li>
+  <li><a href="#example-1-wrong-bundle-root-name" id="toc-example-1-wrong-bundle-root-name" class="nav-link" data-scroll-target="#example-1-wrong-bundle-root-name">Example 1 — wrong bundle root name</a></li>
+  <li><a href="#example-2-missing-required-metadata-file" id="toc-example-2-missing-required-metadata-file" class="nav-link" data-scroll-target="#example-2-missing-required-metadata-file">Example 2 — missing required metadata file</a></li>
+  <li><a href="#example-3-orphan-file-in-images" id="toc-example-3-orphan-file-in-images" class="nav-link" data-scroll-target="#example-3-orphan-file-in-images">Example 3 — orphan file in IMAGES/</a></li>
   </ul></li>
-  <li><a href="#before-every-production-run-per-run" id="toc-before-every-production-run-per-run" class="nav-link" data-scroll-target="#before-every-production-run-per-run">Before every production run (per-run)</a></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -463,9 +477,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../datasets/submission/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../datasets/submission/prepare-for-production.html">Prepare for production</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/prerequisites.html">bp-submission-pipeline</a></li><li class="breadcrumb-item"><a href="../../../datasets/submission/bp-submission-pipeline/validate.html">I. Validate the bundle</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Prepare for production</h1>
+<h1 class="title">I. Validate the bundle</h1>
 </div>
 
 
@@ -482,47 +496,136 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Once you have successfully uploaded a <strong>staging</strong> test dataset, you need to switch some wiring for your first <strong>production</strong> submission. This page is the checklist for that switch.</p>
-<section id="first-production-setup-one-time" class="level2">
-<h2 class="anchored" data-anchor-id="first-production-setup-one-time">First production setup (one-time)</h2>
-<p>Do these once, the first time you point this instance at production.</p>
-<section id="must-do" class="level3">
-<h3 class="anchored" data-anchor-id="must-do">Must do</h3>
-<ul class="task-list">
-<li><label><input type="checkbox"><strong>Obtain and place the production BigPicture credentials.</strong> NBIS provides <code>s3cmd-inbox.conf</code> (S3 inbox config) and <code>crypt4gh_bp_key.pub</code> (encryption key). Put them in your <strong>production</strong> credentials directory (<code>PIPELINE_SUBMITTER_CREDS_DIR_PRODUCTION</code>, default <code>certs/production</code>) — kept separate from staging so the two instances never share credentials. See the credentials precondition in <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a> and <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a> for the how-to.</label></li>
-<li><label><input type="checkbox"><strong>Set real secrets.</strong> If you used throwaway values for the test, set a real <code>SLIDETAP_SECRET_KEY</code> and a real <code>config.yaml</code> salt now. The salt must be <strong>set once and never changed</strong> — if you replace a test throwaway, regenerate credentials (<code>make gen-credentials</code>) afterwards, because changing the salt invalidates every stored password. (<code>PIPELINE_DB_PASSWORD</code> does not need to change on a single-host deployment.) See <a href="../../datasets/submission/configure.html">D. Configure</a>.</label></li>
-<li><label><input type="checkbox"><strong>Provision real reference data.</strong> Replace the test fixtures (copied by <code>make setup-refdata</code>) with your own <code>model.json</code> and <code>mappers.xlsx</code>. These will likely be the same for all your datasets, though they may vary if you wish. See <a href="../../datasets/submission/reference-data.html">E. Reference data</a>.</label></li>
-<li><label><input type="checkbox"><strong>Set up production storage and mounts.</strong> Relocate <code>PIPELINE_IMAGE_ROOT</code> (images live here: large, read-only) and <code>PIPELINE_STORAGE</code> (converted slidetap output: large and reasonably fast) to real absolute paths. Budget roughly <strong>1× the raw WSI</strong> for the source and about the same again for the converted output. Never <code>sudo make dirs</code>, or the folders end up owned by root and the pipeline (which runs as UID 1000, not you) silently cannot write to them. The full mechanics: placement by performance and sensitivity, NFS/CIFS mount options, disk budgeting are in the <em>Network shares &amp; storage</em> and <em>Large datasets</em> sections of <a href="../../datasets/submission/best-practices.html">Best Practices</a>, with the relocation steps in <a href="../../datasets/submission/configure.html">D. Configure</a>.</label></li>
-<li><label><input type="checkbox"><strong>Re-run <code>make doctor</code> until it passes.</strong> It re-checks secrets, host paths, and UID-1000 ownership for your production configuration before you boot. See <a href="../../datasets/submission/boot.html">G. Preflight + boot</a>.</label></li>
-</ul>
+<p>Run <code>make validate-upload</code> on your exported bundle before uploading. The gate checks structure, schema, and file references in both directions — anything it catches here saves a rejection post upload. The gate runs on the <strong>unencrypted</strong> bundle; <code>bp-submitter</code> handles encryption and upload in stage J.</p>
+<section id="what-it-checks" class="level2">
+<h2 class="anchored" data-anchor-id="what-it-checks">What it checks</h2>
+<p>The gate runs five checks in order and stops at the first failure:</p>
+<table class="table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Check</th>
+<th>What it looks for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Structure</strong></td>
+<td>Root dir named <code>DATASET_&lt;alias&gt;</code>; required folders (<code>METADATA/</code>, <code>LANDING_PAGE/</code>, <code>PRIVATE/</code>) present; required metadata XML files present. The <code>LANDING_PAGE/</code> folder is required, but a missing <code>landing_page.xml</code> inside it is a <strong>WARN</strong>, not a FAIL</td>
+</tr>
+<tr class="even">
+<td><strong>XSD schema</strong> (<code>BPInterface.validate</code>)</td>
+<td>Metadata XML validates against the BigPicture metaflex XSD schemas; every image has an observation; image file forward-references are intact</td>
+</tr>
+<tr class="odd">
+<td><strong>Extended schema</strong></td>
+<td><code>staining.xml</code> and <code>landing_page.xml</code> validated against their XSDs separately (the underlying library skips them)</td>
+</tr>
+<tr class="even">
+<td><strong>Forward references</strong></td>
+<td>Every annotation and landing-page thumbnail file named in metadata actually exists on disk</td>
+</tr>
+<tr class="odd">
+<td><strong>Reverse references (orphans)</strong></td>
+<td>Every file in <code>IMAGES/</code>, <code>ANNOTATIONS/</code>, and <code>LANDING_PAGE/THUMBNAILS/</code> is referenced by at least one metadata entity</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Landing page is a warning, not a requirement
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>LANDING_PAGE/</code> folder is required, but <code>landing_page.xml</code> inside it is optional: if it is absent, the gate prints a <code>WARN</code> and still passes. If a <code>landing_page.xml</code> <strong>is</strong> present, it must still validate against its XSD or the gate FAILs. If you upload without one now and want to add it later, see <a href="../../../datasets/submission/add-landing-page.html">Add a landing page after submission</a>.</p>
+</div>
+</div>
 </section>
-<section id="recommended" class="level3">
-<h3 class="anchored" data-anchor-id="recommended">Recommended</h3>
-<ul class="task-list">
-<li><label><input type="checkbox"><strong>Use a TLS certificate your operators trust.</strong> The test run serves the UI over <code>localhost</code> with a self-signed certificate from <code>make ssl</code>. If you open the UI only on the same machine, that is fine, keep it and click through the one-time browser warning. If <strong>other machines</strong> open the UI, set <code>PIPELINE_SERVERNAME</code> to the real hostname or IP they use (the certificate must match that name), and — where your organisation runs its own certificate authority (CA) — use a certificate it issues so operator browsers trust it without warnings. On a closed LAN a self-signed certificate is still acceptable; each operator just accepts the warning once. See <a href="../../datasets/submission/tls-credentials.html">F. TLS + credentials</a> and <a href="../../datasets/submission/configure.html">D. Configure</a>.</label></li>
-<li><label><input type="checkbox"><strong>Pin the image tag.</strong> The pipeline downloads its software as <em>(Docker) images</em>, each with a label. <code>PIPELINE_IMAGE_TAG=latest</code> means “always take the newest build”, which can change between runs and shift behaviour mid-submission. To lock it, open <code>.env</code>, change <code>latest</code> to a fixed version code (it looks like <code>sha-1a2b3c4</code>, obtained from the maintainers or release notes), and restart the stack. If you are unsure which version to pin, leaving <code>latest</code> is acceptable.</label></li>
-</ul>
+<section id="run-it" class="level2">
+<h2 class="anchored" data-anchor-id="run-it">Run it</h2>
+<p>From the pipeline root directory:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In <strong>Git Bash</strong>, run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> validate-upload DATASET=<span class="op">&lt;</span>path-to-DATASET_alias<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Replace <code>&lt;path-to-DATASET_alias&gt;</code> with the full path to your <code>DATASET_&lt;alias&gt;</code> bundle directory.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Verify
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A passing run prints one line and exits 0:</p>
+<pre><code>validate-upload PASSED: /path/to/DATASET_&lt;alias&gt;</code></pre>
+<p>A run can print a <code>WARN</code> line and still pass. The most common one is the absent landing page:</p>
+<pre><code>WARN  landing_page.xml absent (optional; see #69)
+validate-upload PASSED: /path/to/DATASET_&lt;alias&gt;</code></pre>
+<p>A failing run names the offending file or rule:</p>
+<pre><code>FAIL  missing required folder: METADATA
+validate-upload FAILED: /path/to/DATASET_&lt;alias&gt; (1 structure problem(s))</code></pre>
+<p>Only a <code>validate-upload PASSED</code> line means you are clear to upload.</p>
+</div>
+</div>
 </section>
+<section id="how-to-read-a-failure" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-a-failure">How to read a failure</h2>
+<p>Every failure line starts with <code>FAIL</code> and names the <strong>file or rule</strong> that failed. The final line names the <strong>check category</strong> and the count.</p>
+<pre><code>FAIL  &lt;rule or file description&gt;
+validate-upload FAILED: &lt;bundle path&gt; (&lt;N&gt; &lt;category&gt;)</code></pre>
+<p><strong>Read the output text, not the exit code.</strong> When calling via <code>make validate-upload</code>, GNU make returns exit 2 on any recipe failure regardless of whether the underlying issue is a validation problem or a missing directory — the 1-vs-2 distinction from the script does not surface reliably. Instead, read the final output line: <code>validate-upload PASSED</code> means you are clear to upload; any <code>FAIL</code> line names the specific problem. Exit code <code>0</code> still means everything passed.</p>
 </section>
-<section id="before-every-production-run-per-run" class="level2">
-<h2 class="anchored" data-anchor-id="before-every-production-run-per-run">Before every production run (per-run)</h2>
-<p>Do these for each real dataset you submit.</p>
-<ul class="task-list">
-<li><label><input type="checkbox"><strong>Point at the real dataset and its workbook.</strong> Place this submission’s real WSI’s in <code>PIPELINE_IMAGE_ROOT</code> and prepare the operator metadata workbook for this batch, with each <code>Image path</code> cell pointing at the right slide. See <a href="../../datasets/submission/boot.html">G. Preflight + boot</a> and <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>.</label></li>
-<li><label><input type="checkbox"><strong>Create the Project, Dataset, and Batch</strong> in the slidetap UI. Set the Metadata standard to the current version — the field defaults to the oldest version, which fails validation. See <a href="../../datasets/submission/run-submission.html">H. Run a submission</a>.</label></li>
-<li><label><input type="checkbox"><strong>Check mapper coverage for this dataset.</strong> Run <code>make check-mappers   METADATA=&lt;this dataset's workbook&gt;</code> — a new dataset can surface coded values your <code>mappers.xlsx</code> does not yet cover. Add any missing rows (and restart) before proceeding. See <a href="../../datasets/submission/boot.html">G. Preflight + boot</a>.</label></li>
-<li><label><input type="checkbox"><strong>Validate the bundle</strong> after slidetap ingestion. Run <code>make validate-upload   DATASET=&lt;path-to-DATASET_alias&gt;</code>, the full path to the <code>DATASET_&lt;alias&gt;</code> bundle directory, after export. See <a href="../../datasets/submission/validate.html">I. Validate the bundle</a>.</label></li>
-<li><label><input type="checkbox"><strong>Populate the landing page and thumbnails.</strong> SlideTAP does not fill these in for you.</label></li>
-<li><label><input type="checkbox"><strong>Upload to production.</strong> Dry-run first, then <code>make upload   DATASET=&lt;project_dir&gt;/DATASET_&lt;alias&gt; TARGET=production</code> — a path relative to the outbox root, distinct from the full path <code>validate-upload</code> above takes. Both <code>DATASET</code> and <code>TARGET</code> are required. Uploading from a remote server over SSH? Use <code>make upload-persistent</code> instead, so a dropped connection does not kill the transfer. See <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.</label></li>
-<li><label><input type="checkbox"><strong>Notify NBIS.</strong> Email <a href="mailto:bp-ops@nbis.se">bp-ops@nbis.se</a> with subject <code>submission - DATASET_{IDENTIFIER}</code>, giving the uploader and dataset names. See <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.</label></li>
-</ul>
+<section id="worked-examples" class="level2">
+<h2 class="anchored" data-anchor-id="worked-examples">Worked examples</h2>
+<section id="example-1-wrong-bundle-root-name" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-wrong-bundle-root-name">Example 1 — wrong bundle root name</h3>
+<p>You pass a project export directory instead of the <code>DATASET_&lt;alias&gt;</code> folder inside it:</p>
+<pre><code>FAIL  dataset root must be named DATASET_&lt;alias&gt;, got 'my-project.abc123'
+validate-upload FAILED: /data/storage/my-project.abc123 (1 structure problem(s))</code></pre>
+<p><strong>Fix:</strong> Pass the <code>DATASET_&lt;alias&gt;</code> subdirectory, not its parent.</p>
+</section>
+<section id="example-2-missing-required-metadata-file" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-missing-required-metadata-file">Example 2 — missing required metadata file</h3>
+<p>A required XML file was not written by the export (e.g.&nbsp;the export failed partway through):</p>
+<pre><code>FAIL  missing required file: METADATA/dataset.xml
+validate-upload FAILED: /data/storage/DATASET_myslides (1 structure problem(s))</code></pre>
+<p><strong>Fix:</strong> Re-export the bundle from the slidetap UI (stage H, step 9). If the export appears to complete but the file is still missing, check <code>make logs</code> for errors in the export worker.</p>
+</section>
+<section id="example-3-orphan-file-in-images" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-orphan-file-in-images">Example 3 — orphan file in IMAGES/</h3>
+<p>A DICOM file is present on disk but not referenced by any metadata entity. This can happen if a slide was excluded after export:</p>
+<pre><code>FAIL  unreferenced file not in metadata: /data/storage/DATASET_myslides/IMAGES/slide_07.dcm
+validate-upload FAILED: /data/storage/DATASET_myslides (1 orphan file(s))</code></pre>
+<p><strong>Fix:</strong> Either add the file to the metadata (re-export with the slide included) or remove the stray file from the bundle. Do not upload a bundle with orphan files — the submitter will reject it.</p>
+</section>
 </section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
 <ul>
-<li><strong>Windows absolute paths fail the container</strong> — when you relocate a category to an absolute path, use forward slashes (<code>C:/bp-data</code>, not <code>C:\bp-data</code>). See <a href="../../datasets/submission/configure.html">D. Configure</a>.</li>
-<li><strong><code>make doctor</code> fails after relocating storage</strong> — usually the mount is owned by <code>root</code>, not UID 1000. Fix ownership of the mount, then re-create the directories; never <code>sudo make dirs</code>. See the <em>Network shares &amp; storage</em> section of <a href="../../datasets/submission/best-practices.html">Best Practices</a>.</li>
-<li><strong>Upload rejected or credential errors on production</strong> — confirm the production <code>s3cmd-inbox.conf</code> and <code>crypt4gh_bp_key.pub</code> are in <code>certs/production</code> and that you passed <code>TARGET=production</code>. See <a href="../../datasets/submission/upload.html">J. Upload to BigPicture</a>.</li>
+<li><strong><code>FAIL dataset directory not found</code></strong> — the path you passed to <code>DATASET=</code> does not exist. Double-check the path and ensure the export step completed successfully.</li>
+<li><strong><code>FAIL missing required folder</code></strong> — the export did not create the expected structure. Re-export from the UI; if the folder is still missing, check <code>make logs</code> for export worker errors.</li>
+<li><strong><code>FAIL schema validation: ...</code></strong> — a metadata XML file does not conform to the BigPicture XSD schema. This usually indicates a mismatch between your <code>model.json</code> or <code>mappers.xlsx</code> and the current metaflex schema. Check the named file and the specific schema error for the attribute or element that is out of place. To pinpoint the offending element by hand, validate the single file with <code>xmllint</code> against the metaflex XSDs — see <a href="../../../datasets/submission/direct-upload/validate-metadata.html">Validate metadata</a> in the Direct upload section.</li>
 </ul>
 
 
@@ -918,13 +1021,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../datasets/submission/upload.html" class="pagination-link" aria-label="J. Upload to BigPicture">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">J. Upload to BigPicture</span>
+      <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html" class="pagination-link" aria-label="H. Run a submission">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">H. Run a submission</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../datasets/submission/best-practices.html" class="pagination-link" aria-label="Best Practices">
-        <span class="nav-page-text">Best Practices</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../datasets/submission/bp-submission-pipeline/upload.html" class="pagination-link" aria-label="J. Upload to BigPicture">
+        <span class="nav-page-text">J. Upload to BigPicture</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

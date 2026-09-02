@@ -13,6 +13,6 @@ model and local code vocabulary.
 These two files are a **slidetap** concept, not a pipeline-only one — the same
 `model.json` and `mappers.xlsx` are needed wherever the curation UI runs. The
 placement steps on the pages below (`make setup-refdata`, `PIPELINE_REFDATA_DIR`)
-are pipeline-specific; on the [Direct components](direct-components/index.qmd)
+are pipeline-specific; on the [Direct components](../direct-components/index.qmd)
 path you supply the same two files wherever your slidetap deployment expects them.
 :::

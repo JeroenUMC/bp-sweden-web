@@ -27,7 +27,7 @@ The `LANDING_PAGE/` folder is required, but `landing_page.xml` inside it is
 optional: if it is absent, the gate prints a `WARN` and still passes. If a `landing_page.xml` **is** present, it must still validate
 against its XSD or the gate FAILs. If you upload without one now and want to
 add it later, see [Add a landing page after
-submission](add-landing-page.qmd).
+submission](../add-landing-page.qmd).
 :::
 
 ## Run it
@@ -153,5 +153,5 @@ with orphan files — the submitter will reject it.
   named file and the specific schema error for the attribute or element that
   is out of place. To pinpoint the offending element by hand, validate the
   single file with `xmllint` against the metaflex XSDs — see
-  [Validate metadata](direct-upload/validate-metadata.qmd) in the Direct upload
+  [Validate metadata](../direct-upload/validate-metadata.qmd) in the Direct upload
   section.

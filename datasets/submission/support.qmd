@@ -10,8 +10,21 @@ across the manual.
 
 ## Get help
 
-- **Submission pipeline, server, or data-archive issues:** [bp-ops](mailto:{{< var email.helpdesk >}}) — the WP2 team that operates the servers hosting the BigPicture datasets you submit to.
-- **General and technical support:** [servicedesk](mailto:{{< var email.servicedesk >}}).
+Pick the route that matches your problem — they reach different teams.
+
+- **`bp-submission-pipeline` — bugs, confusing steps, or unexpected behaviour:**
+  open an issue on
+  [imi-bigpicture/bp-submission-pipeline](https://github.com/imi-bigpicture/bp-submission-pipeline/issues).
+  This is the primary route: it reaches the people who maintain the pipeline, and
+  the answer stays visible to the next operator who hits the same thing. If you
+  cannot use GitHub, email the [servicedesk](mailto:{{< var email.helpdesk >}})
+  instead and it will be picked up from there.
+- **Server or data-archive issues** — the BigPicture inbox, the upload endpoints,
+  or the archive your datasets land in: email
+  [bp-ops](mailto:{{< var email.bpops >}}), the WP2 team that operates those
+  servers.
+- **General and technical support, and access requests:**
+  [servicedesk](mailto:{{< var email.helpdesk >}}).
 
 ## When you ask, include
 
@@ -21,7 +34,27 @@ To get a useful answer quickly, tell us:
 - The **output you got** versus what the *Verify* box said to expect.
 - Your **operating system** (Windows / macOS / Linux).
 
+## Reporting issues
+
+Filing an issue is itself a form of community participation — it surfaces a
+problem for other operators before they hit it, and it's how the pipeline and
+this manual improve. If you hit a bug, a confusing step, or a gap in the
+documentation, file it against the project that owns whatever broke:
+
+- **Pipeline behaviour** (the `bp-submission-pipeline` stack, its Make
+  targets, or one of its bundled components): open an issue on
+  [imi-bigpicture/bp-submission-pipeline](https://github.com/imi-bigpicture/bp-submission-pipeline/issues).
+- **`sda-cli`** (the upload client used by the direct path, and by the pipeline
+  under the hood): open an issue on
+  [NBISweden/sda-cli](https://github.com/NBISweden/sda-cli/issues).
+- **This manual** (missing steps, unclear instructions, broken links): open an
+  issue on [NBISweden/bp-sweden-web](https://github.com/NBISweden/bp-sweden-web/issues).
+
+Include what you were trying to do, the exact command or page, and what you
+expected versus what happened — the same detail listed under
+[When you ask, include](#when-you-ask-include) above.
+
 ## Out of scope
 
 Support covers the submission pipeline itself. Custom data transformations and
-your own infrastructure setup are outside what the helpdesk can troubleshoot.
+your own infrastructure setup are outside what these channels can troubleshoot.

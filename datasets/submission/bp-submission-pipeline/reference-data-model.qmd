@@ -138,7 +138,7 @@ attribute's entry directly: re-select it in the bpmetrics-config browser and
 re-export instead, so the whole file keeps coming from one source and stays
 in sync with your selection. If you're not sure whether the attribute named
 in an error is part of the MSMDAD floor or your own extension, ask
-[Support](support.qmd) before changing `model.json`.
+[Support](../support.qmd) before changing `model.json`.
 :::
 
 ## If something goes wrong

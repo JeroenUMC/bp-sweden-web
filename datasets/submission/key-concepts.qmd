@@ -14,7 +14,7 @@ A processing run within a [project](#project) where you ingest your
 A project can contain multiple batches — for example if your metadata arrives in
 parts — though a single batch is usually enough.
 
-→ You create and complete a batch in [**H. Run a submission**](run-submission.qmd).
+→ You create and complete a batch in [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="bundle">
@@ -26,8 +26,8 @@ you validate and upload. It contains `METADATA/` and `IMAGES/`, plus
 the [SlideTap outbox](#slidetap-outbox); from there you validate it and submit it
 to BigPicture.
 
-→ You validate the bundle at [**I. Validate**](validate.qmd) and upload it at
-[**J. Upload to BigPicture**](upload.qmd).
+→ You validate the bundle at [**I. Validate**](bp-submission-pipeline/validate.qmd) and upload it at
+[**J. Upload to BigPicture**](bp-submission-pipeline/upload.qmd).
 </details>
 
 <details id="coded-attribute">
@@ -58,7 +58,7 @@ metadata standard version, the type of dataset, and so on. The dataset's
 identifier (short name / alias) becomes the folder name of your
 [bundle](#bundle) and [outbox](#slidetap-outbox).
 
-→ You configure the dataset in [**H. Run a submission**](run-submission.qmd).
+→ You configure the dataset in [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="dicomize">
@@ -69,7 +69,7 @@ curation UI this is the **Pre-process** step (download and DICOMize the slides)
 followed by **Post-process** (finalise them into the export). Most of a real
 submission's time is spent here.
 
-→ Steps 5–6 of [**H. Run a submission**](run-submission.qmd).
+→ Steps 5–6 of [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="encryption-upload-tools">
@@ -80,7 +80,7 @@ The tools that encrypt the [bundle](#bundle) and send it to BigPicture's inbox.
 `bp-submitter` (used by the pipeline's `make upload`) and `sda-cli` (the manual
 Direct upload path) are two alternative uploaders for the same job.
 
-→ [**J. Upload to BigPicture**](upload.qmd).
+→ [**J. Upload to BigPicture**](bp-submission-pipeline/upload.qmd).
 </details>
 
 <details id="invalid-item">
@@ -92,7 +92,7 @@ fixed. The operator's original input isn't lost: add the missing mapping row,
 re-upload `mappers.xlsx`, and re-map from the [curation UI](#curation-ui).
 Whole-slide images always show invalid until [pre-processing](#dicomize).
 
-→ Step 4 of [**H. Run a submission**](run-submission.qmd).
+→ Step 4 of [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="landing-page">
@@ -103,7 +103,7 @@ BigPicture's Discovery browser. SlideTap does not populate it — you choose
 representative, non-sensitive images by hand. `landing_page.xml` is optional at
 submission time and can be added later.
 
-→ Step 10 of [**H. Run a submission**](run-submission.qmd), and
+→ Step 10 of [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd), and
 [**Add a landing page after submission**](add-landing-page.qmd).
 </details>
 
@@ -115,7 +115,7 @@ short name (`XLSX_MAPPER_GROUP_NAME`, e.g. `karolinska`). You select it in
 Project Settings so the project resolves values against your
 [mapper workbook](#mapper-workbook).
 
-→ Step 2 of [**H. Run a submission**](run-submission.qmd).
+→ Step 2 of [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="mapper-workbook">
@@ -126,7 +126,7 @@ short codes (staining names, tissue types, preparation methods, …) into the
 [coded attributes](#coded-attribute) BigPicture expects. Each site maintains its
 own mapper workbook.
 
-→ You prepare and provide this at [**E. Reference data**](reference-data.qmd).
+→ You prepare and provide this at [**E. Reference data**](bp-submission-pipeline/reference-data.qmd).
 </details>
 
 <details id="metadata-workbook">
@@ -138,7 +138,7 @@ their relationships. This is your data: the pipeline ingests it and uses it to
 build the submission. (Distinct from the [mapper workbook](#mapper-workbook),
 which is reference data you set up once.)
 
-→ You upload this in [**H. Run a submission**](run-submission.qmd).
+→ You upload this in [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="metaflex">
@@ -149,7 +149,7 @@ validated against. A [bundle](#bundle) whose XML doesn't conform fails
 validation. The metadata standard version you pick in the UI (for example
 `2.0.0`) selects which MetaFlex schema applies.
 
-→ [**I. Validate**](validate.qmd), and
+→ [**I. Validate**](bp-submission-pipeline/validate.qmd), and
 [**Validate metadata**](direct-upload/validate-metadata.qmd) on the Direct upload
 path.
 </details>
@@ -162,7 +162,7 @@ types of data it can contain (specimens, observations, images), how they relate,
 and your site's attribute extensions. For most sites the provided default works
 unchanged.
 
-→ You supply this file at [**E. Reference data**](reference-data.qmd).
+→ You supply this file at [**E. Reference data**](bp-submission-pipeline/reference-data.qmd).
 </details>
 
 <details id="msmdad">
@@ -176,7 +176,7 @@ observations**: any MSMDAD attribute that lives inside an observation — a
 diagnosis code is the normal case — must still be declared in `model.json`
 by hand, or its mapper fails silently at boot and every item using it comes
 up unmapped. An observation missing a required MSMDAD attribute fails
-export. See [E1. model.json](reference-data-model.qmd) for the full picture.
+export. See [E1. model.json](bp-submission-pipeline/reference-data-model.qmd) for the full picture.
 </details>
 
 <details id="project">
@@ -187,7 +187,7 @@ for one upload attempt — its [dataset](#dataset) definition and one or more
 [batches](#batch). Think of a project as "one dataset going through the
 pipeline."
 
-→ You create a project in [**H. Run a submission**](run-submission.qmd).
+→ You create a project in [**H. Run a submission**](bp-submission-pipeline/run-submission.qmd).
 </details>
 
 <details id="reference-data">
@@ -198,7 +198,7 @@ The two files the [curation UI](#curation-ui) reads to understand your site:
 [mappers.xlsx](#mapper-workbook) (local codes → coded attributes). You set them
 up once, not per submission.
 
-→ [**E. Reference data**](reference-data.qmd).
+→ [**E. Reference data**](bp-submission-pipeline/reference-data.qmd).
 </details>
 
 <details id="slidetap-outbox">
@@ -208,8 +208,8 @@ The folder SlideTap writes when a batch finishes its export, named
 `DATASET_<your dataset identifier>`. This is the pipeline's direct output — the
 [bundle](#bundle) you then validate and upload.
 
-→ You validate the outbox at [**I. Validate**](validate.qmd) and upload it at
-[**J. Upload to BigPicture**](upload.qmd).
+→ You validate the outbox at [**I. Validate**](bp-submission-pipeline/validate.qmd) and upload it at
+[**J. Upload to BigPicture**](bp-submission-pipeline/upload.qmd).
 </details>
 
 <details id="snomed-ct">
@@ -220,7 +220,7 @@ The international clinical terminology whose Concept IDs BigPicture uses for
 types. You look codes up in the SNOMED CT Browser and record them in your
 [mapper workbook](#mapper-workbook).
 
-→ [**Staining mapping**](reference-data-staining.qmd).
+→ [**Staining mapping**](bp-submission-pipeline/reference-data-staining.qmd).
 </details>
 
 <details id="staging-vs-production">
@@ -231,8 +231,8 @@ manual uploads to (`staging-login.bp.nbis.se`, no Terms-of-Use form).
 **Production** is the real one (`login.bp.nbis.se`, signed ToU required), with
 its own separate credentials. `make upload` requires you to name the `TARGET`.
 
-→ [**J. Upload to BigPicture**](upload.qmd), and
-[**Prepare for production**](prepare-for-production.qmd).
+→ [**J. Upload to BigPicture**](bp-submission-pipeline/upload.qmd), and
+[**Prepare for production**](bp-submission-pipeline/prepare-for-production.qmd).
 </details>
 
 <details id="wsi">
@@ -242,5 +242,5 @@ A digitised microscopy slide — the image data at the heart of a submission. WS
 run to gigabytes each and are [DICOMized](#dicomize) during pre-processing; a
 real dataset can be terabytes of them.
 
-→ [**Best Practices**](best-practices.qmd) for handling large datasets.
+→ [**Best Practices**](bp-submission-pipeline/best-practices.qmd) for handling large datasets.
 </details>

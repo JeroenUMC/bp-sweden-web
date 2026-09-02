@@ -18,7 +18,7 @@ control you keep**.
 Every path assumes you have **already been granted access** to the private
 BigPicture repositories and container images. If you have not, the first steps
 will fail when you try to download the code. Request access **before** you begin —
-see [Prerequisites](prerequisites.qmd) and [GitHub access](github-access.qmd).
+see [Prerequisites](bp-submission-pipeline/prerequisites.qmd) and [GitHub access](bp-submission-pipeline/github-access.qmd).
 :::
 
 ## Choose your path
@@ -43,12 +43,12 @@ correcting them in a browser.
 Both of these give you the full curation UI — they differ only in **who does the
 integration work**.
 
-- **Wire it for me.** Use the [**bp-submission-pipeline**](prerequisites.qmd) — the
+- **Wire it for me.** Use the [**bp-submission-pipeline**](bp-submission-pipeline/prerequisites.qmd) — the
   step-by-step operator manual, written for a technically proficient user who is
   **not** a software developer. Make targets and a Docker Compose stack do the
   wiring; you move through **ten steps, A to J**, each telling you exactly what to
   paste and what to expect. This is the most guided, least-setup path. Start at
-  [**A. Prerequisites**](prerequisites.qmd).
+  [**A. Prerequisites**](bp-submission-pipeline/prerequisites.qmd).
 - **I'll run it myself.** Take [**Direct components**](direct-components/index.qmd):
   run the individual BigPicture submodules directly, without the pipeline's
   orchestration. You keep the curation UI but own the wiring — the most flexible
@@ -57,7 +57,7 @@ integration work**.
 
 | Path | Curation UI | Who does the wiring | In short |
 |------|-------------|---------------------|----------|
-| [**bp-submission-pipeline**](prerequisites.qmd) | Yes — guided | The pipeline (Make + Compose) | Most guided, least setup; a tested, pinned, step-by-step flow. |
+| [**bp-submission-pipeline**](bp-submission-pipeline/prerequisites.qmd) | Yes — guided | The pipeline (Make + Compose) | Most guided, least setup; a tested, pinned, step-by-step flow. |
 | [**Direct components**](direct-components/index.qmd) | Yes — self-run | You | Most flexible; you run the four submodules and own the integration. |
 | [**Direct upload (sda-cli)**](direct-upload/prerequisites.qmd) | No — manual metadata | You (leanest stack) | Fewest moving parts; hand-prep the dataset and upload with `sda-cli`. |
 
@@ -80,5 +80,5 @@ If you take the pipeline path:
 
 ## Need help?
 
-- **Data submission:** [bp-ops](mailto:{{< var email.helpdesk >}})
-- **Support:** [servicedesk](mailto:{{< var email.servicedesk >}})
+- **Data submission:** [bp-ops](mailto:{{< var email.bpops >}})
+- **Support:** [servicedesk](mailto:{{< var email.helpdesk >}})

@@ -1,0 +1,333 @@
+/*
+ * PROTOTYPE — throwaway. Issue JeroenUMC/Nexus#110.
+ *
+ * Three bigpicture.eu-aligned restyles of this site, scoped under
+ * body[data-proto="a"|"b"|"c"] so all three compile into one render and
+ * prototype/switcher.html can flip between them live. `off` = today's site.
+ *
+ * Palette and type observed from the live bigpicture.eu theme stylesheet
+ * (css_9KdKRo...css) and from screenshots of the front page + About page.
+ *
+ * NOT how this would ship. Shipping the winner means setting $primary /
+ * $link-color / $font-family-base in a `scss:defaults` block, which is
+ * compile-time and therefore global — it cannot be scoped per-variant, which
+ * is exactly why this file overrides rendered properties instead. See
+ * prototype/README.md.
+ */
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------- palette --
+$bp-indigo:     #1c007b; // primary. headings, nav, links
+$bp-pink:       #ff447c; // accent. h3, buttons, active nav, bullets
+$bp-pink-deep:  #d8256b; // segmented rule only
+$bp-pink-dark:  #eb3068; // button hover (= 8% darker than $bp-pink)
+$bp-ink:        #1d1d1b; // body copy
+$bp-lav:        #f2f0f7; // pale wash panels
+$bp-lav-pink:   #fbf3f8; // secondary button fill
+$bp-teal:       #3fa0a2;
+$bp-yellow:     #fedf6d;
+
+$bp-sans: 'Lato', 'Helvetica Neue', Helvetica, sans-serif;
+$bp-serif: 'Yrsa', Georgia, 'Times New Roman', Times, serif; // accent only
+
+// ------------------------------------------------------- shared behaviour --
+
+// Palette swap: FEGA blue -> BigPicture indigo, hover -> pink.
+// Every variant gets this; a/b/c differ in how much further they go.
+@mixin bp-palette {
+  --bs-link-color: #{$bp-indigo};
+  --bs-link-hover-color: #{$bp-pink};
+  --bs-primary: #{$bp-indigo};
+
+  a,
+  main.content a {
+    color: $bp-indigo;
+
+    &:hover,
+    &:focus {
+      color: $bp-pink;
+    }
+  }
+
+  // Left sidebar (submission manual) active state
+  #quarto-sidebar {
+    .sidebar-item-text,
+    a {
+      color: $bp-indigo;
+    }
+
+    .sidebar-item-text.active,
+    a.active {
+      color: $bp-pink;
+    }
+  }
+
+  // Right-hand TOC
+  #TOC a.active,
+  nav[role="doc-toc"] a.active {
+    color: $bp-pink;
+    border-left-color: $bp-pink;
+  }
+
+  .callout-important {
+    border-left-color: $bp-pink;
+  }
+}
+
+// Typography + navbar chrome. Variants b and c.
+@mixin bp-type-and-chrome {
+  --bs-body-font-family: #{$bp-sans};
+  --bs-body-color: #{$bp-ink};
+
+  font-family: $bp-sans;
+  color: $bp-ink;
+
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: $bp-sans;
+  }
+
+  h1, .title { color: $bp-indigo; font-weight: 700; }
+  h2 { color: $bp-indigo; font-weight: 700; }
+  h3 { color: $bp-pink;   font-weight: 700; } // bigpicture.eu really does this
+  h4, h5, h6 { color: $bp-indigo; font-weight: 700; }
+
+  // Yrsa is an accent face on bigpicture.eu, not the body face.
+  .subtitle,
+  blockquote {
+    font-family: $bp-serif;
+  }
+
+  // Navbar: white, taller, uppercase letterspaced links, pink active.
+  // !important because Quarto emits `background: light` as a utility class.
+  .navbar {
+    background-color: #fff !important;
+    box-shadow: 0 10px 20px #00000008, 0 6px 6px #00000012;
+
+    .navbar-nav .nav-link {
+      color: $bp-indigo !important;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 500;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &.active {
+        color: $bp-pink !important;
+      }
+    }
+
+    .dropdown-menu {
+      border-radius: 0.625rem;
+      border-color: rgba(28, 0, 123, 0.2);
+
+      .dropdown-item {
+        color: $bp-indigo;
+
+        &:hover,
+        &:focus {
+          background-color: $bp-lav;
+          color: $bp-pink;
+        }
+      }
+    }
+  }
+
+  // Body links carry an underline on bigpicture.eu
+  main.content a:not(.btn):not(.nav-link) {
+    text-decoration: underline;
+  }
+
+  // Pink round bullets. Real site draws ::before circles; ::marker is the
+  // cheap approximation — see README, fidelity gap #2.
+  main.content ul > li::marker {
+    color: $bp-pink;
+  }
+
+  .btn-primary {
+    background-color: $bp-pink;
+    border-color: $bp-pink;
+    border-radius: 0.625rem;
+    font-weight: 700;
+    min-width: 9rem;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $bp-pink-dark;
+      border-color: $bp-pink-dark;
+    }
+  }
+}
+
+// ============================================================ VARIANT A ====
+// Palette only. Typography, chrome, spacing, furniture all left at Quarto
+// default. "What does the minimum viable alignment look like?"
+body[data-proto="a"] {
+  @include bp-palette;
+}
+
+// ============================================================ VARIANT B ====
+// Palette + typography + navigation chrome. Layout, sidebar, TOC, footer and
+// page density stay Quarto default. "Family resemblance."
+body[data-proto="b"] {
+  @include bp-palette;
+  @include bp-type-and-chrome;
+}
+
+// ============================================================ VARIANT C ====
+// Everything in B, plus page furniture: segmented rule, lavender panels,
+// restyled callouts / sidebar / TOC / footer / page-nav, generous rhythm.
+// "How close can this get before Quarto fights back?"
+body[data-proto="c"] {
+  @include bp-palette;
+  @include bp-type-and-chrome;
+
+  // -- generous vertical rhythm --
+  main.content {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+
+    h2 {
+      margin-top: 2.75rem;
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      font-size: 1.0625rem;
+      line-height: 1.75;
+    }
+  }
+
+  // -- the segmented colour rule under the page title --
+  header#title-block-header::after {
+    content: "";
+    display: block;
+    height: 4px;
+    margin-top: 1.5rem;
+    background: linear-gradient(
+      90deg,
+      $bp-indigo 0 22%,
+      $bp-pink 22% 55%,
+      $bp-pink-deep 55% 78%,
+      $bp-pink 78% 100%
+    );
+  }
+
+  .quarto-title .subtitle {
+    color: $bp-pink;
+    font-size: 1.6875rem;
+    line-height: 1.37;
+  }
+
+  // -- front-page hero as a rounded lavender panel (the "blob" language,
+  //    without masking the logo) --
+  main.content > .grid:first-of-type {
+    background: $bp-lav;
+    border-radius: 2.5rem;
+    padding: 2.5rem 3rem;
+    align-items: center;
+    margin-bottom: 3rem;
+
+    h3 {
+      color: $bp-indigo;
+      font-size: 2.25rem;
+      line-height: 1.1;
+      margin-top: 0;
+    }
+  }
+
+  // -- callouts: no left bar, lavender fill, 10px radius, pink title --
+  .callout {
+    border: 0;
+    border-radius: 0.625rem;
+    background-color: $bp-lav;
+    overflow: hidden;
+
+    &.callout-style-default > .callout-header {
+      background-color: transparent;
+      border-bottom: 0;
+    }
+
+    .callout-title-container,
+    .callout-title {
+      color: $bp-pink;
+      font-weight: 700;
+    }
+
+    .callout-icon::before {
+      // Quarto's icons are background-image SVGs baked at a fixed colour;
+      // they cannot be recoloured from CSS. See README, fidelity gap #1.
+      opacity: 0.85;
+    }
+  }
+
+  .callout-important {
+    background-color: $bp-lav-pink;
+  }
+
+  // -- left sidebar as a lavender panel with a pink active pill --
+  #quarto-sidebar {
+    background-color: $bp-lav;
+    border-radius: 1rem;
+    padding: 1rem 0.5rem;
+
+    .sidebar-item-text.active,
+    a.active {
+      background-color: rgba(255, 68, 124, 0.12);
+      border-radius: 0.5rem;
+      font-weight: 700;
+    }
+  }
+
+  // -- TOC label uppercase indigo --
+  #toc-title,
+  .sidebar-title {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $bp-indigo;
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  // -- prev/next as bordered cards --
+  .nav-page a {
+    border: 2px solid $bp-pink;
+    border-radius: 0.625rem;
+    padding: 0.625rem 1rem;
+    color: $bp-pink;
+    background-color: $bp-lav-pink;
+    text-decoration: none;
+    font-weight: 700;
+
+    &:hover {
+      background-color: $bp-pink;
+      color: #fff;
+    }
+  }
+
+  // -- indigo footer --
+  .nav-footer,
+  footer.footer {
+    background-color: $bp-indigo !important;
+    color: #fff;
+    border-top: 0 !important;
+
+    a {
+      color: #fff !important;
+      text-decoration: underline;
+
+      &:hover {
+        color: $bp-yellow !important;
+      }
+    }
+  }
+
+  // -- code blocks softened to match the 10px radius language --
+  div.sourceCode,
+  pre.sourceCode {
+    border-radius: 0.625rem;
+  }
+}

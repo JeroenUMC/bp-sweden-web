@@ -1,0 +1,129 @@
+<!--
+  PROTOTYPE — throwaway. Issue JeroenUMC/Nexus#110.
+  Floating variant switcher for prototype/brand-variants.scss.
+  Hidden unless served from localhost / 127.* / file:// — a stray merge
+  cannot show this bar on bp.nbis.se.
+-->
+<script>
+(function () {
+  var VARIANTS = [
+    { key: 'off', name: 'Current site (baseline)' },
+    { key: 'a',   name: 'Palette only' },
+    { key: 'b',   name: 'Palette + type + chrome' },
+    { key: 'c',   name: 'Full BigPicture furniture' }
+  ];
+  var KEYS = VARIANTS.map(function (v) { return v.key; });
+  var PARAM = 'variant';
+  var STORE = 'bp-proto-variant';
+
+  var host = location.hostname;
+  var isLocal = location.protocol === 'file:' ||
+                host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0';
+
+  // ---- resolve current variant: URL wins, then sessionStorage, then off ----
+  function read() {
+    var fromUrl = new URLSearchParams(location.search).get(PARAM);
+    if (fromUrl && KEYS.indexOf(fromUrl) !== -1) return fromUrl;
+    try {
+      var stored = sessionStorage.getItem(STORE);
+      if (stored && KEYS.indexOf(stored) !== -1) return stored;
+    } catch (e) { /* private mode */ }
+    return 'off';
+  }
+
+  var current = isLocal ? read() : 'off';
+
+  // Apply at parse time, before paint, so there is no flash of the baseline.
+  document.body.setAttribute('data-proto', current);
+  try { sessionStorage.setItem(STORE, current); } catch (e) {}
+
+  if (!isLocal) return;
+
+  // ---- the variants need Lato + Yrsa; inject rather than rely on
+  //      include-in-header, which index.qmd overrides at page level ----
+  [
+    'https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap',
+    'https://fonts.googleapis.com/css2?family=Yrsa:wght@400;600;700&display=swap'
+  ].forEach(function (href) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = href;
+    document.head.appendChild(l);
+  });
+
+  function go(key) {
+    var url = new URL(location.href);
+    url.searchParams.set(PARAM, key);
+    location.href = url.toString();
+  }
+
+  function cycle(step) {
+    var i = KEYS.indexOf(current);
+    go(KEYS[(i + step + KEYS.length) % KEYS.length]);
+  }
+
+  function ready(fn) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else { fn(); }
+  }
+
+  ready(function () {
+    // ---- keep the variant across in-site navigation ----
+    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var href = a.getAttribute('href');
+      if (!href || /^(#|mailto:|tel:|javascript:)/i.test(href)) return;
+      try {
+        var u = new URL(href, location.href);
+        if (u.protocol !== 'file:' && u.host !== location.host) return; // external
+        u.searchParams.set(PARAM, current);
+        a.setAttribute('href', u.toString());
+      } catch (e) { /* unparseable href, leave it */ }
+    });
+
+    // ---- the bar ----
+    var meta = VARIANTS[KEYS.indexOf(current)];
+    var bar = document.createElement('div');
+    bar.setAttribute('role', 'group');
+    bar.setAttribute('aria-label', 'Prototype variant switcher');
+    bar.style.cssText = [
+      'position:fixed', 'bottom:1.25rem', 'left:50%', 'transform:translateX(-50%)',
+      'z-index:2147483647', 'display:flex', 'align-items:center', 'gap:.25rem',
+      'padding:.35rem .5rem', 'border-radius:999px',
+      'background:#111', 'color:#fff', 'box-shadow:0 6px 24px rgba(0,0,0,.35)',
+      'font:600 13px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace',
+      'user-select:none'
+    ].join(';');
+
+    function arrow(label, step) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      b.setAttribute('aria-label', step < 0 ? 'Previous variant' : 'Next variant');
+      b.style.cssText = 'all:unset;cursor:pointer;padding:.25rem .6rem;border-radius:999px;color:#fff;';
+      b.addEventListener('mouseenter', function () { b.style.background = '#333'; });
+      b.addEventListener('mouseleave', function () { b.style.background = 'transparent'; });
+      b.addEventListener('click', function () { cycle(step); });
+      return b;
+    }
+
+    var label = document.createElement('span');
+    label.style.cssText = 'padding:0 .5rem;white-space:nowrap;';
+    label.textContent = 'PROTOTYPE  ' + current.toUpperCase() + ' — ' + meta.name;
+
+    bar.appendChild(arrow('←', -1));
+    bar.appendChild(label);
+    bar.appendChild(arrow('→', 1));
+    document.body.appendChild(bar);
+
+    // ---- arrow keys, except while typing ----
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var el = document.activeElement;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); cycle(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); cycle(1); }
+    });
+  });
+})();
+</script>

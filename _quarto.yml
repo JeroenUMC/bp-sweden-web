@@ -151,6 +151,10 @@ format:
     theme:
       - cosmo
       - custom.scss
+      # PROTOTYPE (issue #110) — delete these two lines and the
+      # include-after-body below to revert. See prototype/README.md.
+      - prototype/brand-variants.scss
+    include-after-body: prototype/switcher.html
     code-copy: true
     code-overflow: wrap
     toc: true

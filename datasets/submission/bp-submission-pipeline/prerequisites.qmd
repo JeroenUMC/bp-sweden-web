@@ -9,7 +9,7 @@ for your OS and a verify step to confirm it worked.
 
 ::: {.callout-important}
 You also need to have been **granted access** to the private BigPicture repos and
-images first — see the [overview](index.qmd) and [GitHub access](github-access.qmd).
+images first — see the [overview](../index.qmd) and [GitHub access](github-access.qmd).
 :::
 
 ::: {.callout-note}

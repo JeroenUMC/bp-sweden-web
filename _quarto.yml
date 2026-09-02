@@ -82,36 +82,36 @@ website:
         - section: "bp-submission-pipeline"
           contents:
             - text: A. Prerequisites
-              file: datasets/submission/prerequisites.qmd
+              file: datasets/submission/bp-submission-pipeline/prerequisites.qmd
+            - text: Best Practices
+              file: datasets/submission/bp-submission-pipeline/best-practices.qmd
             - text: B. GitHub access
-              file: datasets/submission/github-access.qmd
-            - text: C. install package
-              file: datasets/submission/install-package.qmd
+              file: datasets/submission/bp-submission-pipeline/github-access.qmd
+            - text: C. Install package
+              file: datasets/submission/bp-submission-pipeline/install-package.qmd
             - text: D. Configure
-              file: datasets/submission/configure.qmd
+              file: datasets/submission/bp-submission-pipeline/configure.qmd
             - section: E. Reference data
-              href: datasets/submission/reference-data.qmd
+              href: datasets/submission/bp-submission-pipeline/reference-data.qmd
               contents:
                 - text: "model.json"
-                  file: datasets/submission/reference-data-model.qmd
+                  file: datasets/submission/bp-submission-pipeline/reference-data-model.qmd
                 - text: "mappers.xlsx"
-                  file: datasets/submission/reference-data-mappers.qmd
+                  file: datasets/submission/bp-submission-pipeline/reference-data-mappers.qmd
                 - text: "Staining mapping"
-                  file: datasets/submission/reference-data-staining.qmd
+                  file: datasets/submission/bp-submission-pipeline/reference-data-staining.qmd
             - text: F. TLS + credentials
-              file: datasets/submission/tls-credentials.qmd
+              file: datasets/submission/bp-submission-pipeline/tls-credentials.qmd
             - text: G. Preflight + boot
-              file: datasets/submission/boot.qmd
+              file: datasets/submission/bp-submission-pipeline/boot.qmd
             - text: H. Run a submission
-              file: datasets/submission/run-submission.qmd
+              file: datasets/submission/bp-submission-pipeline/run-submission.qmd
             - text: I. Validate the bundle
-              file: datasets/submission/validate.qmd
+              file: datasets/submission/bp-submission-pipeline/validate.qmd
             - text: J. Upload to BigPicture
-              file: datasets/submission/upload.qmd
+              file: datasets/submission/bp-submission-pipeline/upload.qmd
             - text: Prepare for production
-              file: datasets/submission/prepare-for-production.qmd
-            - text: Best Practices
-              file: datasets/submission/best-practices.qmd
+              file: datasets/submission/bp-submission-pipeline/prepare-for-production.qmd
         - section: Direct components
           contents:
             - text: Overview
@@ -137,13 +137,7 @@ website:
               file: datasets/submission/support.qmd
             - text: Community
               file: datasets/submission/community.qmd
-        - section: For contributors
-          contents:
-            - text: Page template & conventions
-              file: datasets/submission/contributing/page-template.qmd
-            - text: Testing the pipeline
-              file: datasets/submission/contributing/testing.qmd
-    
+
     - id: access
       title: Access
       style: floating

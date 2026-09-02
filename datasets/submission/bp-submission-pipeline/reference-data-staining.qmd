@@ -47,7 +47,7 @@ If no SNOMED CT code exists for a staining method, do **not** leave the field
 empty. Provide a consistent free-text string as the value instead — the same
 consistency rule that applies to IHC antibody names (see
 [Antibody naming](#antibody-naming)): choose one string for the method and reuse
-it across every dataset your site submits. Reach [support](support.qmd) if you
+it across every dataset your site submits. Reach [support](../support.qmd) if you
 are unsure whether a code exists.
 
 ## Targeted stains (IHC, ISH, IF)

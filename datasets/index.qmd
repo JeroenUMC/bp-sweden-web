@@ -2,4 +2,4 @@
 title: Data access overview
 ---
 
-This page describes how you request access to datasets deposited in BigPicture. For any questions regarding data access, please [email us](mailto:{{< var email.helpdesk >}}).
+This page describes how you request access to datasets deposited in BigPicture. For any questions regarding data access, please [email us](mailto:{{< var email.bpops >}}).

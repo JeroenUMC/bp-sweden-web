@@ -13,7 +13,7 @@ to the private BigPicture repositories and container images. If your account
 has not been granted access yet, the commands below will succeed but you will
 still be refused when cloning the code in the next step.
 
-Request access first via the [servicedesk](mailto:{{< var email.servicedesk >}}).
+Request access first via the [servicedesk](mailto:{{< var email.helpdesk >}}).
 :::
 
 ## Steps

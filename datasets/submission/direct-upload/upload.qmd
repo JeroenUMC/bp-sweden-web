@@ -166,7 +166,7 @@ sda-cli help
 
 ## 4. Notify us
 
-When the upload is complete, [email the helpdesk](mailto:{{< var email.helpdesk >}})
+When the upload is complete, [email bp-ops](mailto:{{< var email.bpops >}})
 so we know to process it. Use this subject line:
 
 ```

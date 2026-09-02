@@ -88,7 +88,7 @@ Either write `landing_page.xml` by hand, or use the bigpicture_metadata_interfac
    ```
 
 Then validate the bundle — `make validate-upload DATASET=<dataset_dir>`
-(if using bp-submission-pipeline, [I. Validate the bundle](validate.qmd)) — and check that its
+(if using bp-submission-pipeline, [I. Validate the bundle](bp-submission-pipeline/validate.qmd)) — and check that its
 `landing_page.xml absent (optional; see #69)` warning is gone. For a direct upload, see
 [Validate metadata](direct-upload/validate-metadata.qmd).
 
@@ -157,7 +157,7 @@ ERROR:root:Failed to submit some metadata.
 
 That is the already-submitted XMLs being **correctly refused**, not a
 failure. Confirm with the listing in
-[3. Confirm it finalized](upload.qmd#confirm-it-finalized): the existing
+[3. Confirm it finalized](bp-submission-pipeline/upload.qmd#confirm-it-finalized): the existing
 `METADATA/` and `PRIVATE/` objects keep their original byte sizes, and
 `LANDING_PAGE/` is new.
 
@@ -223,8 +223,8 @@ done
 
 **4. Upload via Python (`s3fs`).**
 
-`s3cmd` is not installed on this VM. Use `s3fs` directly — it is already a
-dependency of `bigpicture-metadata-interface`:
+Use `s3fs` directly — it is already a dependency of
+`bigpicture-metadata-interface`, so there is nothing extra to install:
 
 ```python
 import configparser, s3fs
@@ -272,7 +272,7 @@ you need certainty before closing the task.
 ## After uploading
 
 Send an email to the
-[helpdesk](mailto:{{< var email.helpdesk >}}) so they know a landing page
+[bp-ops](mailto:{{< var email.bpops >}}) so they know a landing page
 was added to an existing dataset. WP2 asked for this step specifically —
 there's no separate submission for the file to ride along with, so the
 email is what gets it picked up. Include:
@@ -288,7 +288,7 @@ Two separate things, only one of which you can check yourself.
 
 **Did the files arrive?** You can attempt this if the dataset was uploaded via
 `bp-submission-pipeline`. List the dataset's inbox prefix with the command in
-[3. Confirm it finalized](upload.qmd#confirm-it-finalized) and look for
+[3. Confirm it finalized](bp-submission-pipeline/upload.qmd#confirm-it-finalized) and look for
 `LANDING_PAGE/landing_page.xml.c4gh` plus one `LANDING_PAGE/THUMBNAILS/*.c4gh`
 per sample image. While you're there, check the existing `METADATA/` objects
 still have the sizes they had before — that proves nothing was overwritten.

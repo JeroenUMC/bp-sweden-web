@@ -463,6 +463,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#place-the-default-file" id="toc-place-the-default-file" class="nav-link active" data-scroll-target="#place-the-default-file">Place the default file</a></li>
   <li><a href="#required-and-optional-attributes" id="toc-required-and-optional-attributes" class="nav-link" data-scroll-target="#required-and-optional-attributes">Required and optional attributes</a></li>
+  <li><a href="#sample-relations-and-cardinality" id="toc-sample-relations-and-cardinality" class="nav-link" data-scroll-target="#sample-relations-and-cardinality">Sample relations and cardinality</a>
+  <ul class="collapse">
+  <li><a href="#two-different-limits-the-standard-and-your-model" id="toc-two-different-limits-the-standard-and-your-model" class="nav-link" data-scroll-target="#two-different-limits-the-standard-and-your-model">Two different limits: the standard, and your model</a></li>
+  <li><a href="#what-the-standard-allows" id="toc-what-the-standard-allows" class="nav-link" data-scroll-target="#what-the-standard-allows">What the standard allows</a></li>
+  <li><a href="#what-slidetaps-built-in-model-enforces" id="toc-what-slidetaps-built-in-model-enforces" class="nav-link" data-scroll-target="#what-slidetaps-built-in-model-enforces">What SlideTap’s built-in model enforces</a></li>
+  <li><a href="#overriding-a-relation" id="toc-overriding-a-relation" class="nav-link" data-scroll-target="#overriding-a-relation">Overriding a relation</a></li>
+  </ul></li>
   <li><a href="#if-something-goes-wrong" id="toc-if-something-goes-wrong" class="nav-link" data-scroll-target="#if-something-goes-wrong">If something goes wrong</a></li>
   </ul>
 </nav>
@@ -596,11 +603,215 @@ Editing an MSMDAD attribute’s optional flag
 </div>
 </div>
 </section>
+<section id="sample-relations-and-cardinality" class="level2">
+<h2 class="anchored" data-anchor-id="sample-relations-and-cardinality">Sample relations and cardinality</h2>
+<p>Besides attributes and observations, <code>model.json</code> describes the <strong>sample chain</strong> — how a biological being, its cases, specimens, blocks and slides hang together, and how many of each are allowed at every link. Each link is a <em>relation</em>, and each relation carries two keys that set its <strong>cardinality</strong>: how many items the link permits on either side.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Constrains</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>parents</code></td>
+<td>How many parents a child may have</td>
+</tr>
+<tr class="even">
+<td><code>children</code></td>
+<td>How many children a parent may have</td>
+</tr>
+</tbody>
+</table>
+<p>So on the specimen → block relation, <code>parents</code> is how many specimens one block may come from, and <code>children</code> is how many blocks one specimen may yield.</p>
+<p>Both keys take one of four values, and these four are the whole set:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>one</code></td>
+<td>Exactly one — 1..1</td>
+</tr>
+<tr class="even">
+<td><code>zero_or_one</code></td>
+<td>At most one — 0..1</td>
+</tr>
+<tr class="odd">
+<td><code>one_or_more</code></td>
+<td>At least one — 1..*</td>
+</tr>
+<tr class="even">
+<td><code>zero_or_more</code></td>
+<td>Any number, none included — 0..*</td>
+</tr>
+</tbody>
+</table>
+<section id="two-different-limits-the-standard-and-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="two-different-limits-the-standard-and-your-model">Two different limits: the standard, and your model</h3>
+<p>Before the table, one distinction that decides how to read it. Cardinality is set in two independent places, and they do not agree:</p>
+<ul>
+<li><strong>The metadata standard</strong> — MSMDAD and the MetaFlex XSDs — is what your exported bundle is validated against at <a href="../../../datasets/submission/bp-submission-pipeline/validate.html">I. Validate</a>. It applies no matter what your <code>model.json</code> says, and you cannot loosen it.</li>
+<li><strong><code>model.json</code></strong> is what SlideTap enforces while you curate, before export. It can be <em>stricter</em> than the standard, and by default in two places it is.</li>
+</ul>
+<p>Where they differ, SlideTap will stop you building something the standard would in fact have accepted. That is worth knowing before you conclude your data does not fit BigPicture.</p>
+</section>
+<section id="what-the-standard-allows" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-standard-allows">What the standard allows</h3>
+<p>From the MetaFlex sample and image schemas:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Reference</th>
+<th>Link</th>
+<th>Allowed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>BIOLOGICAL_BEING_REF</code></td>
+<td>Case → Biological being</td>
+<td>exactly 1</td>
+</tr>
+<tr class="even">
+<td><code>EXTRACTED_FROM_REF</code></td>
+<td>Specimen → Biological being</td>
+<td>exactly 1</td>
+</tr>
+<tr class="odd">
+<td><code>PART_OF_CASE_REF</code></td>
+<td>Specimen → Case</td>
+<td>0 or 1</td>
+</tr>
+<tr class="even">
+<td><code>SAMPLED_FROM_REF</code></td>
+<td>Block → Specimens</td>
+<td><strong>1 or more</strong></td>
+</tr>
+<tr class="odd">
+<td><code>CREATED_FROM_REF</code></td>
+<td>Slide → Block</td>
+<td>exactly 1</td>
+</tr>
+<tr class="even">
+<td><code>IMAGE_OF</code></td>
+<td>WSI → Slides</td>
+<td><strong>1 or more</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The two bold rows are the ones that matter. A block may be sampled from <strong>several specimens</strong> — the schema calls <code>BlockType</code> “a part or a collection of parts of one or many Specimens” — and nothing in MSMDAD or the XSDs requires those specimens to come from the same biological being. There are no cross-entity key or assertion constraints in the schemas at all. <strong>So at the standard’s level, a block can carry more than one biological being.</strong> Likewise one image may be of several slides, as a macro image over a whole case is.</p>
+</section>
+<section id="what-slidetaps-built-in-model-enforces" class="level3">
+<h3 class="anchored" data-anchor-id="what-slidetaps-built-in-model-enforces">What SlideTap’s built-in model enforces</h3>
+<p>SlideTap’s own model is tighter. These are the cardinalities in force when you run with an empty <code>{}</code> <code>model.json</code>, or with no <code>model.json</code> at all:</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Relation</th>
+<th>Link</th>
+<th><code>parents</code></th>
+<th><code>children</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Specimens</td>
+<td>Biological being → Specimens</td>
+<td><code>one</code></td>
+<td><code>one_or_more</code></td>
+</tr>
+<tr class="even">
+<td>Cases</td>
+<td>Biological being → Cases</td>
+<td><code>one</code></td>
+<td><code>one_or_more</code></td>
+</tr>
+<tr class="odd">
+<td>Part of case</td>
+<td>Case → Specimens</td>
+<td><code>zero_or_one</code></td>
+<td><code>one_or_more</code></td>
+</tr>
+<tr class="even">
+<td>Sampling to block</td>
+<td>Specimen → Blocks</td>
+<td><code>one</code></td>
+<td><code>one_or_more</code></td>
+</tr>
+<tr class="odd">
+<td>Sampling to slide</td>
+<td>Block → Slides</td>
+<td><code>one</code></td>
+<td><code>one_or_more</code></td>
+</tr>
+<tr class="even">
+<td>BpImage of slide</td>
+<td>Slide → WSI</td>
+<td><code>samples</code>: <code>one</code></td>
+<td><code>images</code>: <code>one_or_more</code></td>
+</tr>
+</tbody>
+</table>
+<p>Read that as: every specimen, case, block and slide belongs to <strong>exactly one</strong> parent, and each parent must have <strong>at least one</strong> child. The one loosening is <em>Part of case</em> — a specimen need not belong to a case at all, but if it does, it belongs to just one.</p>
+<p>Note the two rows that are stricter than the standard: <em>Sampling to block</em> sets <code>parents</code> to <code>one</code>, so SlideTap will not let a block come from more than one specimen even though MetaFlex permits it; and <em>BpImage of slide</em> sets <code>samples</code> to <code>one</code> for the same reason. <strong>If your blocks really are sampled from several specimens, this is the relation to override</strong> — see below.</p>
+<p>The last row is a slide-to-image relation rather than a sample-to-sample one, so its two keys are named <code>samples</code> and <code>images</code> instead of <code>parents</code> and <code>children</code>. They mean the same thing in the same order.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The shipped <code>model.json</code> uses superseded keys, and they are ignored
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>model.json</code> that <code>make setup-refdata</code> copies out of the pipeline’s test data still spells cardinality with the old <code>min_parents</code> / <code>max_parents</code> / <code>min_children</code> / <code>max_children</code> keys. Those are <strong>no longer fields on the model</strong>, and SlideTap silently discards keys it does not recognise — no warning, no boot error.</p>
+<p>The practical effect: every sample relation in that file falls back to the field default, which is <code>zero_or_more</code> on <strong>both</strong> sides. A pipeline started from the shipped file enforces <strong>no cardinality constraints at all</strong> on the sample chain — not the <code>one</code> / <code>zero_or_one</code> values in the table above.</p>
+<p>Note that this only bites because the file <em>declares</em> the relations. An empty <code>{}</code> <code>model.json</code> leaves them out entirely and you get the built-in values in the table; the shipped file names them and so replaces the built-ins, and the values it means to set are the ones being dropped. The two starting points you’re offered therefore behave differently, and the more complete-looking one constrains less.</p>
+<p>None of this affects validation at <a href="../../../datasets/submission/bp-submission-pipeline/validate.html">I. Validate</a> — the standard’s limits still apply to the exported bundle either way. What you lose is SlideTap catching a shape problem during curation, while it is still cheap to fix.</p>
+</div>
+</div>
+</section>
+<section id="overriding-a-relation" class="level3">
+<h3 class="anchored" data-anchor-id="overriding-a-relation">Overriding a relation</h3>
+<p>Set <code>parents</code> or <code>children</code> on the relation you want to change. Everything else in the relation object stays as it is — you are adding two keys (and, if you’re starting from the shipped file, removing the four superseded ones from that relation).</p>
+<p>The likeliest real reason to do this is the mismatch noted above: your blocks are sampled from more than one specimen, which the standard allows but SlideTap’s built-in model does not. This relaxes <em>Sampling to block</em> to match what MetaFlex permits.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"specimen"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"uid"</span><span class="fu">:</span> <span class="st">"b1e71da2-c235-401f-ae6b-42e8b32fd5b9"</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"block"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"uid"</span><span class="fu">:</span> <span class="st">"2702fc6b-6ac5-4191-8230-82d976815ebb"</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Sampling to block"</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"parent_uid"</span><span class="fu">:</span> <span class="st">"b1e71da2-c235-401f-ae6b-42e8b32fd5b9"</span><span class="fu">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"child_uid"</span><span class="fu">:</span> <span class="st">"cf80a5f5-6ffe-44c4-bfc3-79c8861cf6e3"</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"parent_title"</span><span class="fu">:</span> <span class="st">"Specimen"</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"child_title"</span><span class="fu">:</span> <span class="st">"Blocks"</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"parents"</span><span class="fu">:</span> <span class="st">"one_or_more"</span><span class="fu">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"children"</span><span class="fu">:</span> <span class="st">"one_or_more"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Relations are grouped under the entity they describe, and the inner key names the entity at the other end — so <code>specimen.block</code> is the specimen-to-block link. Any relation can be overridden this way.</p>
+<p>Like every other <code>model.json</code> edit, this takes effect only after the stack restarts — see <a href="../../../datasets/submission/bp-submission-pipeline/boot.html#when-do-i-need-to-restart">When do I need to restart?</a>.</p>
+</section>
+</section>
 <section id="if-something-goes-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-goes-wrong">If something goes wrong</h2>
 <p><strong><code>FAIL: model.json missing from ...</code></strong> — run <code>make setup-refdata</code> again and confirm <code>model.json</code> appears in <code>PIPELINE_REFDATA_DIR</code>.</p>
 <p><strong><code>Warning: model.json not found in bigpicture-slidetap/tests/test_data</code></strong> — the pipeline submodule was not initialised. Run:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>then retry <code>make setup-refdata</code>.</p>
 <p><strong>Export reverts to “Completed” with no error, and an observation is missing a coded attribute (e.g.&nbsp;<code>diagnose</code>)</strong> — that attribute has no <code>"optional": true</code> flag in <code>model.json</code>, so it is required by default (see <a href="#required-and-optional-attributes">Required and optional attributes</a> above). Either supply the missing value for that observation before re-exporting, or mark the attribute optional in <code>model.json</code> and restart the stack. Full symptom, including why Curate can miss this, and where to find the underlying error: <a href="../../../datasets/submission/bp-submission-pipeline/run-submission.html#if-something-goes-wrong">H. Run a submission test</a>.</p>
 

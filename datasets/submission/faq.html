@@ -543,6 +543,15 @@ I see “Warning: model.json not found in bigpicture-slidetap/tests/test_data”
 </summary>
 The pipeline’s Git submodules weren’t initialised. Run <code>git submodule update --init --recursive</code>, then retry <code>make setup-refdata</code>. See <a href="../../datasets/submission/bp-submission-pipeline/reference-data-model.html">E1. model.json</a>.
 </details>
+<details>
+<summary>
+Can a block have more than one biological being?
+</summary>
+<p>It depends which limit you mean, and they disagree.</p>
+<p><strong>The metadata standard allows it.</strong> MetaFlex lets a block’s <code>SAMPLED_FROM</code> reference one <em>or more</em> specimens, and nothing requires those specimens to share a biological being. A bundle like that validates.</p>
+<p><strong>SlideTap’s built-in model does not.</strong> It sets <code>parents</code> to <code>one</code> on the specimen-to-block relation — <code>parents</code> being how many parents a child may have — so during curation a block traces back to exactly one specimen, and that specimen to exactly one biological being.</p>
+So if your blocks really do span specimens, the answer is to relax that relation in your own <code>model.json</code> rather than to reshape your data. Note also that the <code>model.json</code> copied by <code>make setup-refdata</code> uses superseded key names that SlideTap ignores, so relations in that file constrain nothing at all. See <a href="../../datasets/submission/bp-submission-pipeline/reference-data-model.html#sample-relations-and-cardinality">Sample relations and cardinality</a>.
+</details>
 </section>
 <section id="e2.-mappers.xlsx" class="level2">
 <h2 class="anchored" data-anchor-id="e2.-mappers.xlsx">E2. mappers.xlsx</h2>

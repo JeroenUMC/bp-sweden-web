@@ -541,7 +541,7 @@ The SlideTap web interface where you review and fix your metadata before submiss
 <summary>
 <strong>model.json</strong>
 </summary>
-<p>A file that describes the structure of a BigPicture-compatible dataset: what types of data it can contain (specimens, observations, images), how they relate, and your site’s attribute extensions. For most sites the provided default works unchanged.</p>
+<p>A file that describes the structure of a BigPicture-compatible dataset: what types of data it can contain (specimens, observations, images), how they relate (the <a href="#sample-hierarchy">sample hierarchy</a>), and your site’s attribute extensions. For most sites the provided default works unchanged.</p>
 → You supply this file at <a href="../../datasets/submission/bp-submission-pipeline/reference-data.html"><strong>E. Reference data</strong></a>.
 </details>
 <details id="msmdad">
@@ -563,6 +563,14 @@ BigPicture’s <strong>mandatory minimum attribute set</strong> — the floor of
 </summary>
 <p>The two files the <a href="#curation-ui">curation UI</a> reads to understand your site: <a href="#model-json">model.json</a> (the attribute and observation model) and <a href="#mapper-workbook">mappers.xlsx</a> (local codes → coded attributes). You set them up once, not per submission.</p>
 → <a href="../../datasets/submission/bp-submission-pipeline/reference-data.html"><strong>E. Reference data</strong></a>.
+</details>
+<details id="sample-hierarchy">
+<summary>
+<strong>Sample hierarchy</strong>
+</summary>
+<p>The parent-child chain your samples form: a <strong>biological being</strong> has cases and specimens, a specimen is cut into <strong>blocks</strong>, a block is cut into <strong>slides</strong>, and a slide is scanned into one or more <a href="#wsi">WSIs</a>. Each link is a <em>relation</em> in <a href="#model-json">model.json</a>, and each relation says how many items it allows on either side — its <strong>cardinality</strong>.</p>
+<p>Two limits apply, and they differ. The <strong>standard</strong> (<a href="#msmdad">MSMDAD</a> and <a href="#metaflex">MetaFlex</a>), which your bundle is validated against, lets a block be sampled from <em>several</em> specimens and does not require them to share a biological being. <strong>SlideTap’s built-in model</strong> is stricter and allows a block only one specimen — so a shape the standard accepts can still be blocked during curation. You can relax it in <code>model.json</code>.</p>
+→ <a href="../../datasets/submission/bp-submission-pipeline/reference-data-model.html#sample-relations-and-cardinality">Sample relations and cardinality</a> in E1, including a warning about the shipped <code>model.json</code>.
 </details>
 <details id="slidetap-outbox">
 <summary>

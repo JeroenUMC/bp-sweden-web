@@ -141,6 +141,162 @@ in an error is part of the MSMDAD floor or your own extension, ask
 [Support](../support.qmd) before changing `model.json`.
 :::
 
+## Sample relations and cardinality
+
+Besides attributes and observations, `model.json` describes the **sample
+chain** — how a biological being, its cases, specimens, blocks and slides hang
+together, and how many of each are allowed at every link. Each link is a
+*relation*, and each relation carries two keys that set its **cardinality**:
+how many items the link permits on either side.
+
+| Key | Constrains |
+|---|---|
+| `parents` | How many parents a child may have |
+| `children` | How many children a parent may have |
+
+So on the specimen → block relation, `parents` is how many specimens one block
+may come from, and `children` is how many blocks one specimen may yield.
+
+Both keys take one of four values, and these four are the whole set:
+
+| Value | Meaning |
+|---|---|
+| `one` | Exactly one — 1..1 |
+| `zero_or_one` | At most one — 0..1 |
+| `one_or_more` | At least one — 1..* |
+| `zero_or_more` | Any number, none included — 0..* |
+
+### Two different limits: the standard, and your model
+
+Before the table, one distinction that decides how to read it. Cardinality is
+set in two independent places, and they do not agree:
+
+- **The metadata standard** — MSMDAD and the MetaFlex XSDs — is what your
+  exported bundle is validated against at
+  [I. Validate](validate.qmd). It applies no matter what your `model.json`
+  says, and you cannot loosen it.
+- **`model.json`** is what SlideTap enforces while you curate, before export.
+  It can be *stricter* than the standard, and by default in two places it is.
+
+Where they differ, SlideTap will stop you building something the standard would
+in fact have accepted. That is worth knowing before you conclude your data
+does not fit BigPicture.
+
+### What the standard allows
+
+From the MetaFlex sample and image schemas:
+
+| Reference | Link | Allowed |
+|---|---|---|
+| `BIOLOGICAL_BEING_REF` | Case → Biological being | exactly 1 |
+| `EXTRACTED_FROM_REF` | Specimen → Biological being | exactly 1 |
+| `PART_OF_CASE_REF` | Specimen → Case | 0 or 1 |
+| `SAMPLED_FROM_REF` | Block → Specimens | **1 or more** |
+| `CREATED_FROM_REF` | Slide → Block | exactly 1 |
+| `IMAGE_OF` | WSI → Slides | **1 or more** |
+
+The two bold rows are the ones that matter. A block may be sampled from
+**several specimens** — the schema calls `BlockType` "a part or a collection of
+parts of one or many Specimens" — and nothing in MSMDAD or the XSDs requires
+those specimens to come from the same biological being. There are no
+cross-entity key or assertion constraints in the schemas at all. **So at the
+standard's level, a block can carry more than one biological being.** Likewise
+one image may be of several slides, as a macro image over a whole case is.
+
+### What SlideTap's built-in model enforces
+
+SlideTap's own model is tighter. These are the cardinalities in force when you
+run with an empty `{}` `model.json`, or with no `model.json` at all:
+
+| Relation | Link | `parents` | `children` |
+|---|---|---|---|
+| Specimens | Biological being → Specimens | `one` | `one_or_more` |
+| Cases | Biological being → Cases | `one` | `one_or_more` |
+| Part of case | Case → Specimens | `zero_or_one` | `one_or_more` |
+| Sampling to block | Specimen → Blocks | `one` | `one_or_more` |
+| Sampling to slide | Block → Slides | `one` | `one_or_more` |
+| BpImage of slide | Slide → WSI | `samples`: `one` | `images`: `one_or_more` |
+
+Read that as: every specimen, case, block and slide belongs to **exactly one**
+parent, and each parent must have **at least one** child. The one loosening is
+*Part of case* — a specimen need not belong to a case at all, but if it does,
+it belongs to just one.
+
+Note the two rows that are stricter than the standard: *Sampling to block* sets
+`parents` to `one`, so SlideTap will not let a block come from more than one
+specimen even though MetaFlex permits it; and *BpImage of slide* sets `samples`
+to `one` for the same reason. **If your blocks really are sampled from several
+specimens, this is the relation to override** — see below.
+
+The last row is a slide-to-image relation rather than a sample-to-sample one,
+so its two keys are named `samples` and `images` instead of `parents` and
+`children`. They mean the same thing in the same order.
+
+::: {.callout-warning}
+## The shipped `model.json` uses superseded keys, and they are ignored
+
+The `model.json` that `make setup-refdata` copies out of the pipeline's test
+data still spells cardinality with the old `min_parents` / `max_parents` /
+`min_children` / `max_children` keys. Those are **no longer fields on the
+model**, and SlideTap silently discards keys it does not recognise — no
+warning, no boot error.
+
+The practical effect: every sample relation in that file falls back to the
+field default, which is `zero_or_more` on **both** sides. A pipeline started
+from the shipped file enforces **no cardinality constraints at all** on the
+sample chain — not the `one` / `zero_or_one` values in the table above.
+
+Note that this only bites because the file *declares* the relations. An empty
+`{}` `model.json` leaves them out entirely and you get the built-in values in
+the table; the shipped file names them and so replaces the built-ins, and the
+values it means to set are the ones being dropped. The two starting points
+you're offered therefore behave differently, and the more complete-looking one
+constrains less.
+
+None of this affects validation at
+[I. Validate](validate.qmd) — the standard's limits still apply to the exported
+bundle either way. What you lose is SlideTap catching a shape problem during
+curation, while it is still cheap to fix.
+:::
+
+### Overriding a relation
+
+Set `parents` or `children` on the relation you want to change. Everything
+else in the relation object stays as it is — you are adding two keys (and, if
+you're starting from the shipped file, removing the four superseded ones from
+that relation).
+
+The likeliest real reason to do this is the mismatch noted above: your blocks
+are sampled from more than one specimen, which the standard allows but
+SlideTap's built-in model does not. This relaxes *Sampling to block* to match
+what MetaFlex permits.
+
+```json
+{
+  "specimen": {
+    "uid": "b1e71da2-c235-401f-ae6b-42e8b32fd5b9",
+    "block": {
+      "uid": "2702fc6b-6ac5-4191-8230-82d976815ebb",
+      "name": "Sampling to block",
+      "parent_uid": "b1e71da2-c235-401f-ae6b-42e8b32fd5b9",
+      "child_uid": "cf80a5f5-6ffe-44c4-bfc3-79c8861cf6e3",
+      "parent_title": "Specimen",
+      "child_title": "Blocks",
+      "parents": "one_or_more",
+      "children": "one_or_more"
+    }
+  }
+}
+```
+
+Relations are grouped under the entity they describe, and the inner key names
+the entity at the other end — so `specimen.block` is the specimen-to-block
+link. Any relation can be overridden this way.
+
+Like every other `model.json` edit, this takes effect only after the stack
+restarts — see [When do I need to
+restart?](boot.qmd#when-do-i-need-to-restart).
+
 ## If something goes wrong
 
 **`FAIL: model.json missing from ...`** — run `make setup-refdata` again and

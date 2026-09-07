@@ -106,6 +106,22 @@ The pipeline's Git submodules weren't initialised. Run
 See [E1. model.json](bp-submission-pipeline/reference-data-model.qmd).
 </details>
 
+<details>
+<summary>Can a block have more than one biological being?</summary>
+
+No — not under the default model. The specimen chain sets `parents` to `one`
+on each link, and `parents` is how many parents a child may have, so a block
+traces back to exactly one specimen and that specimen to exactly one
+biological being.
+
+Two caveats. You *can* change this: any relation's `parents` and `children`
+can be overridden in your own `model.json`. And the `model.json` that
+`make setup-refdata` copies still uses superseded key names that SlideTap
+ignores, so relations in that file enforce nothing at all. See
+[Sample relations and
+cardinality](bp-submission-pipeline/reference-data-model.qmd#sample-relations-and-cardinality).
+</details>
+
 ## E2. mappers.xlsx
 
 <details>

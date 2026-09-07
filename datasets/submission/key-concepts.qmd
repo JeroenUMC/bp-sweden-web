@@ -208,9 +208,14 @@ The parent-child chain your samples form: a **biological being** has cases and
 specimens, a specimen is cut into **blocks**, a block is cut into **slides**,
 and a slide is scanned into one or more [WSIs](#wsi). Each link is a *relation*
 in [model.json](#model-json), and each relation says how many items it allows
-on either side — its **cardinality**. By default every specimen, block and
-slide belongs to exactly one parent, so a block cannot carry more than one
-biological being.
+on either side — its **cardinality**.
+
+Two limits apply, and they differ. The **standard** ([MSMDAD](#msmdad) and
+[MetaFlex](#metaflex)), which your bundle is validated against, lets a block be
+sampled from *several* specimens and does not require them to share a
+biological being. **SlideTap's built-in model** is stricter and allows a block
+only one specimen — so a shape the standard accepts can still be blocked during
+curation. You can relax it in `model.json`.
 
 → [Sample relations and
 cardinality](bp-submission-pipeline/reference-data-model.qmd#sample-relations-and-cardinality)

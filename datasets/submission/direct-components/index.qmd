@@ -64,5 +64,4 @@ together for your environment.
 
 ## Need help?
 
-- **Data submission:** [bp-ops](mailto:{{< var email.bpops >}})
-- **Support:** [servicedesk](mailto:{{< var email.helpdesk >}})
+Email [servicedesk](mailto:{{< var email.helpdesk >}}).
